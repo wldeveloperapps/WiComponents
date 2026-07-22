@@ -1,11 +1,13 @@
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
 // @ts-check
-const eslint = require('@eslint/js');
-const { defineConfig } = require('eslint/config');
-const tseslint = require('typescript-eslint');
-const angular = require('angular-eslint');
-const eslintConfigPrettier = require('eslint-config-prettier');
+import eslint from '@eslint/js';
+import { defineConfig } from 'eslint/config';
+import eslintConfigPrettier from 'eslint-config-prettier';
+import storybook from 'eslint-plugin-storybook';
+import angular from 'angular-eslint';
+import tseslint from 'typescript-eslint';
 
-module.exports = defineConfig([
+export default defineConfig([
   {
     files: ['**/*.ts'],
     extends: [
@@ -20,7 +22,7 @@ module.exports = defineConfig([
         'error',
         {
           type: 'attribute',
-          prefix: 'lib',
+          prefix: 'wi',
           style: 'camelCase',
         },
       ],
@@ -28,10 +30,26 @@ module.exports = defineConfig([
         'error',
         {
           type: 'element',
-          prefix: 'lib',
+          prefix: 'wi',
           style: 'kebab-case',
         },
       ],
+    },
+  },
+  {
+    // Scaffold de Storybook (Example/*): no aplica el prefijo wi ni las reglas de API pública.
+    files: ['**/src/stories/**/*.ts'],
+    rules: {
+      '@angular-eslint/component-selector': [
+        'error',
+        {
+          type: 'element',
+          prefix: 'storybook',
+          style: 'kebab-case',
+        },
+      ],
+      '@angular-eslint/no-output-on-prefix': 'off',
+      '@angular-eslint/template/prefer-control-flow': 'off',
     },
   },
   {
@@ -40,4 +58,5 @@ module.exports = defineConfig([
     rules: {},
   },
   eslintConfigPrettier,
+  ...storybook.configs['flat/recommended'],
 ]);

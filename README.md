@@ -106,6 +106,7 @@ Un componente de `wiComponents` debe aportar al menos una de estas capacidades:
 - Angular Package Format
 - ng-packagr
 - npm
+- MCP (`@wiloc/ui-mcp`) para agentes en apps consumidoras
 
 ---
 
@@ -114,21 +115,18 @@ Un componente de `wiComponents` debe aportar al menos una de estas capacidades:
 ```text
 wi-components/
 ├── projects/
-│   └── wi-ui/
+│   └── components/          # librería publicable @wiloc/ui
 │       ├── src/
 │       │   ├── core/
-│       │   │   ├── tokens/
-│       │   │   ├── icons/
-│       │   │   ├── utilities/
-│       │   │   └── types/
 │       │   ├── button/
 │       │   ├── forms/
 │       │   ├── overlays/
-│       │   ├── navigation/
-│       │   ├── data-display/
-│       │   └── patterns/
+│       │   └── …
 │       ├── ng-package.json
 │       └── package.json
+│
+├── packages/
+│   └── wiloc-ui-mcp/        # servidor MCP @wiloc/ui-mcp (previsto)
 │
 ├── apps/
 │   ├── showcase/
@@ -136,11 +134,110 @@ wi-components/
 │
 ├── .storybook/
 ├── .cursor/
+│   ├── mcp.json             # MCPs de desarrollo de esta workspace
 │   └── rules/
 ├── angular.json
 ├── package.json
 └── README.md
 ```
+
+---
+
+## MCP (`@wiloc/ui-mcp`)
+
+Las aplicaciones Wiloc deben consumir `@wiloc/ui`, no Spartan. El servidor MCP de la librería existe para que Cursor (y otros agentes) conozcan el catálogo real, la API pública y los imports canónicos.
+
+### Por qué existe
+
+- Evitar que el agente use Spartan o rutas internas cuando ya hay un equivalente en `@wiloc/ui`.
+- Exponer un catálogo tipado (componentes, patterns, entry points).
+- Alinear snippets y docs con la versión publicada del paquete.
+- Complementar Storybook: Storybook documenta visualmente; el MCP documenta la API para agentes.
+
+### Estado
+
+```text
+Estado: previsto / en preparación
+Paquete previsto: @wiloc/ui-mcp
+Ubicación prevista: packages/wiloc-ui-mcp/
+```
+
+El contrato de tools y el proceso de registro ya están definidos. La implementación del servidor se completará cuando existan los primeros componentes públicos estables.
+
+### Tools previstas
+
+| Tool        | Descripción                                                  |
+| ----------- | ------------------------------------------------------------ |
+| `wi_list`   | Listar componentes, patterns y entry points                  |
+| `wi_search` | Búsqueda fuzzy en el catálogo y la documentación             |
+| `wi_view`   | Detalle de un componente: API, variantes, a11y, ejemplos     |
+| `wi_docs`   | Temas transversales: instalación, tokens, dark mode, SSR     |
+| `wi_usage`  | Snippet canónico de import y uso                             |
+| `wi_audit`  | Detectar imports de Spartan donde debería usarse `@wiloc/ui` |
+
+El MCP **no** debe exponer tipos de Spartan ni APIs internas no publicadas.
+
+### Relación con el desarrollo de componentes
+
+Cada componente público nuevo o modificado debe actualizar el **registry** del MCP con:
+
+- nombre y selector;
+- entry point (`@wiloc/ui/...`);
+- exports públicos;
+- inputs / outputs / variantes;
+- notas de teclado y accesibilidad;
+- ejemplo mínimo válido;
+- estado (`stable` | `experimental` | `deprecated`).
+
+En Cursor, la regla `.cursor/rules/wiloc-ui-mcp.mdc` obliga a incluir este paso al crear o cambiar componentes.
+
+### Cómo habilitarlo en una aplicación consumidora
+
+1. Tener instalada (o disponible vía `npx`) la versión de `@wiloc/ui-mcp` alineada con `@wiloc/ui`.
+2. Añadir el servidor en `.cursor/mcp.json` de la app:
+
+```json
+{
+  "mcpServers": {
+    "wiloc-ui": {
+      "command": "npx",
+      "args": ["-y", "@wiloc/ui-mcp"]
+    }
+  }
+}
+```
+
+Durante el desarrollo local del monorepo, puede apuntarse al binario del workspace:
+
+```json
+{
+  "mcpServers": {
+    "wiloc-ui": {
+      "command": "node",
+      "args": ["./packages/wiloc-ui-mcp/dist/index.js"]
+    }
+  }
+}
+```
+
+3. Reiniciar Cursor o recargar los MCP servers.
+4. Verificar que el agente usa `wi_list` / `wi_view` / `wi_usage` antes de inventar markup o imports.
+
+### Buenas prácticas en apps
+
+- Configurar `@wiloc/ui-mcp` en cada app Wiloc que consuma la librería.
+- No configurar el MCP de Spartan como fuente de UI en esas apps (o usarlo solo si se trabaja en la propia librería `wi-components`).
+- Mantener la versión del MCP alineada con la de `@wiloc/ui` instalada.
+- Preferir rules/skills de producto + MCP de catálogo: las rules enseñan criterios; el MCP aporta la verdad del API.
+
+### Checklist al publicar un componente
+
+- [ ] Componente exportado desde el entry point correcto.
+- [ ] Historias de Storybook.
+- [ ] Tests.
+- [ ] Entrada actualizada en el registry del MCP.
+- [ ] `wi_view` / `wi_usage` reflejan la API real.
+- [ ] Ninguna referencia a Spartan en la documentación del MCP.
 
 ---
 
@@ -722,9 +819,10 @@ Un componente solo debe incorporarse cuando:
 5. Incluye pruebas.
 6. Incluye historias de Storybook.
 7. Tiene documentación de uso.
-8. Ha sido probado desde el paquete npm.
-9. Cumple los requisitos de accesibilidad.
-10. No duplica innecesariamente otro componente.
+8. Está registrado en el MCP (`@wiloc/ui-mcp`).
+9. Ha sido probado desde el paquete npm.
+10. Cumple los requisitos de accesibilidad.
+11. No duplica innecesariamente otro componente.
 
 ---
 
@@ -741,6 +839,7 @@ Un componente solo debe incorporarse cuando:
 - [ ] Tiene pruebas unitarias.
 - [ ] Tiene pruebas de interacción cuando corresponde.
 - [ ] Tiene historias de Storybook.
+- [ ] Está actualizado en el registry del MCP.
 - [ ] No utiliza imports privados.
 - [ ] El build de la librería funciona.
 - [ ] Se ha probado mediante `npm pack`.
@@ -763,6 +862,7 @@ Un componente solo debe incorporarse cuando:
 - Configurar linting y tests.
 - Configurar aplicación showcase.
 - Configurar aplicación consumidora.
+- Definir contrato y registry del MCP (`@wiloc/ui-mcp`).
 - Configurar publicación prerelease.
 
 ### Etapa 2: prueba de concepto
@@ -784,6 +884,7 @@ Validar:
 - dark mode;
 - Storybook;
 - accesibilidad;
+- MCP usable desde una app consumidora;
 - actualización de Spartan.
 
 ### Etapa 3: componentes base

@@ -1,0 +1,118 @@
+# Inventario de cobertura `@wiloc/ui`
+
+Checklist de **demanda** extraído del uso real de PrimeNG en la app consumidora.
+
+- No es un plan de wrappers 1:1.
+- Los nombres objetivo son capacidades / componentes **Wi**, no selectores `p-*`.
+- Actualizar la columna **Estado** al implementar o descartar.
+
+**Estados:** `planned` | `in-progress` | `done` | `pattern` | `app-only` | `out-of-scope`
+
+**Cubos:**
+
+| Cubo         | Significado                                      |
+| ------------ | ------------------------------------------------ |
+| base         | Componente / API pública del design system       |
+| pattern      | Composición reutilizable en `@wiloc/ui/patterns` |
+| app-only     | Queda en la app (adapter, feature o migración)   |
+| out-of-scope | No se replica (acoplamiento Prime / no aporta)   |
+
+---
+
+## Forms
+
+| Capacidad Wi (objetivo) | Origen Prime (referencia) | Dominio    | Cubo    | Estado  | Notas                                                   |
+| ----------------------- | ------------------------- | ---------- | ------- | ------- | ------------------------------------------------------- |
+| Button                  | `button`                  | `button`   | base    | planned | severities → `variant`; outlined; icon-only             |
+| Text input              | `inputtext`               | `forms`    | base    | planned |                                                         |
+| Password                | `password`                | `forms`    | base    | planned | login / cambio contraseña                               |
+| Checkbox                | `checkbox`                | `forms`    | base    | planned | filtros y listas                                        |
+| Select                  | `select`                  | `forms`    | base    | planned | overlays, clear, templates item/selected                |
+| MultiSelect             | `multiselect`             | `forms`    | base    | planned | filtros multi-opción                                    |
+| DatePicker              | `datepicker`              | `forms`    | base    | planned | fecha/hora; locale inyectable (sin textos hardcodeados) |
+| Float label / Field     | `floatlabel`              | `forms`    | base    | planned | preferir field compuesto frente a API Prime             |
+| Input group             | `inputgroup` + addon      | `forms`    | base    | planned | composición, no entry point por addon                   |
+| Input with icon         | `iconfield` + `inputicon` | `forms`    | base    | planned | composición con icon registry                           |
+| Input OTP               | `inputotp`                | `forms`    | base    | planned | login                                                   |
+| Slider                  | `slider`                  | `forms`    | base    | planned | heatmap                                                 |
+| Toggle switch           | `toggleswitch`            | `forms`    | base    | planned |                                                         |
+| Listbox                 | `listbox`                 | `forms`    | base    | planned | virtual scroll si aplica                                |
+| Pick list               | `picklist`                | `patterns` | pattern | planned | asignación users/groups                                 |
+| File upload             | `fileupload`              | `patterns` | pattern | planned | subidas masivas / certificaciones                       |
+
+## Data display & layout
+
+| Capacidad Wi (objetivo) | Origen Prime (referencia) | Dominio                     | Cubo     | Estado   | Notas                                                           |
+| ----------------------- | ------------------------- | --------------------------- | -------- | -------- | --------------------------------------------------------------- |
+| Table                   | `table`                   | `data-display`              | base     | planned  | MVP: sort + page + slots; luego filters + column reorder        |
+| Card                    | `card`                    | `data-display`              | base     | planned  | contenedor dashboards                                           |
+| Chip / Tag              | `chip` / `tag`            | `data-display`              | base     | planned  | filtros y estados                                               |
+| Skeleton                | `skeleton`                | `data-display`              | base     | planned  |                                                                 |
+| Spinner                 | `progressspinner`         | `data-display`              | base     | planned  |                                                                 |
+| Image                   | `image`                   | —                           | app-only | app-only | valorar si hace falta wrapper; suele bastar `<img>` / asset app |
+| Virtual scroller        | `scroller`                | `data-display` / `patterns` | base     | planned  | listas grandes (alertas / histórico)                            |
+
+## Navigation
+
+| Capacidad Wi (objetivo) | Origen Prime (referencia) | Dominio                   | Cubo    | Estado  | Notas           |
+| ----------------------- | ------------------------- | ------------------------- | ------- | ------- | --------------- |
+| Tabs                    | `tabs`                    | `navigation`              | base    | planned |                 |
+| Stepper                 | `stepper`                 | `navigation` / `patterns` | pattern | planned | alta de usuario |
+| Breadcrumb              | `breadcrumb`              | `navigation`              | base    | planned |                 |
+| Divider                 | `divider`                 | `core` / layout           | base    | planned |                 |
+
+## Overlays & feedback
+
+| Capacidad Wi (objetivo) | Origen Prime (referencia)        | Dominio    | Cubo    | Estado  | Notas                                   |
+| ----------------------- | -------------------------------- | ---------- | ------- | ------- | --------------------------------------- |
+| Dialog                  | `dialog`                         | `overlays` | base    | planned | composición header/content/footer       |
+| Toast service           | `toast` + `MessageService`       | `overlays` | base    | planned | API propia `WiToast*` (no clonar Prime) |
+| Confirm dialog/popup    | `confirmdialog` / `confirmpopup` | `overlays` | base    | planned | API propia `WiConfirm*`                 |
+| Menu                    | `menu`                           | `overlays` | base    | planned | acciones contextuales                   |
+| Context menu            | `contextmenu`                    | `overlays` | base    | planned | p. ej. asset-table                      |
+| Popover                 | `popover`                        | `overlays` | base    | planned | menú de usuario                         |
+| Tooltip                 | `tooltip`                        | `overlays` | base    | planned |                                         |
+| Speed dial              | `speeddial`                      | `patterns` | pattern | planned | acciones por fila                       |
+
+## Infraestructura (no clonar)
+
+| Capacidad / tema      | Origen Prime (referencia)            | Cubo            | Estado       | Notas                                                                   |
+| --------------------- | ------------------------------------ | --------------- | ------------ | ----------------------------------------------------------------------- |
+| Tokens + dark mode    | `providePrimeNG`, Aura, `data-theme` | base            | planned      | Tokens `--wi-*`; app aplica `class="dark"` en `<html>`                  |
+| PassThrough `[pt]`    | PrimeNG PT                           | out-of-scope    | out-of-scope | Sustituir por composición + variantes + tokens                          |
+| Ripple                | `ripple`                             | out-of-scope    | out-of-scope | No requerido en el design system                                        |
+| Tipos/servicios Prime | `api` (`MenuItem`, etc.)             | out-of-scope    | out-of-scope | Tipos Wi propios; adapters solo en la app si hace falta                 |
+| Tailwind Prime plugin | `tailwindcss-primeui`                | out-of-scope    | out-of-scope | La lib no depende de clases `.p-*`                                      |
+| PrimeIcons            | `primeicons`                         | app-only → base | planned      | Abstracción `wi-icon` + registry; migración de iconos es trabajo aparte |
+
+---
+
+## Requisitos transversales (siempre)
+
+- Overlays: portal a body, focus trap, escape, dismiss, z-index; compatible con layouts con scroll/transform.
+- Forms: Reactive Forms / CVA cuando el control lo sea; labels y errores accesibles.
+- i18n: textos desde la app (p. ej. Transloco); la librería no hardcodea copy.
+- A11y: teclado y nombre accesible en cada control interactivo.
+- Rendimiento: virtual scroll y table lazy solo donde el inventario lo exige.
+- Empaquetado: secondary entry points por dominio; tree-shakeable.
+- Migración app: incremental; adapters en la **app**, no API Prime-like en la librería.
+
+---
+
+## Fases de construcción
+
+1. **Foundation** — tokens, button, input, card, tooltip, spinner/skeleton
+2. **Feedback** — toast + confirm
+3. **Overlays** — dialog, menu, popover
+4. **Forms alto impacto** — select, checkbox, datepicker
+5. **Table** — MVP → filters / column reorder
+6. **Especializados** — tabs, stepper, picklist, file upload, speed dial, scroller, context menu, resto forms
+
+---
+
+## Cómo mantener este documento
+
+1. Al cerrar un componente público: poner `done` y alinear nombre con selector/`@wiloc/ui/...`.
+2. Si algo no entra en la librería: `app-only` o `out-of-scope` con motivo breve.
+3. No añadir filas “por si acaso”; solo demanda real o decisión explícita de producto.
+4. La rule `.cursor/rules/coverage-inventory.mdc` debe seguir apuntando aquí.

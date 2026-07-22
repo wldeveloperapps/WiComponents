@@ -1,0 +1,83 @@
+---
+description: Convención de nombres en inglés y clases estructurales wi-* para componentes
+globs:
+  - "**/*.ts"
+  - "**/*.html"
+  - "**/*.scss"
+  - "**/*.css"
+alwaysApply: true
+---
+
+# Convención de nombres
+
+## Idioma
+
+- Identificadores de código siempre en **inglés**: clases, variables, inputs, outputs, tipos, archivos, selectores CSS.
+- El español solo en textos visibles al usuario, documentación narrativa y comentarios orientados a producto.
+
+## TypeScript y Angular
+
+| Qué | Convención | Ejemplo |
+|-----|------------|---------|
+| Clase de componente | `Wi` + PascalCase + `Component` | `WiButtonComponent` |
+| Selector | `wi-` + kebab-case | `wi-button` |
+| Archivo | `wi-{name}.component.ts` | `wi-button.component.ts` |
+| Tipos públicos | `Wi` + PascalCase | `WiButtonVariant`, `WiButtonSize` |
+| Inputs / signals | camelCase inglés | `loading`, `disabled`, `variant` |
+| Constantes de mapas | SCREAMING_SNAKE_CASE | `VARIANT_CLASSES` |
+
+Evitar:
+
+```ts
+export class BotonComponent {}
+readonly deshabilitado = input(false);
+selector: 'wi-boton'
+```
+
+Preferir:
+
+```ts
+export class WiButtonComponent {}
+readonly disabled = input(false);
+selector: 'wi-button'
+```
+
+## Clases estructurales CSS
+
+Cada componente público debe exponer una clase raíz en el `host` con el mismo nombre que el selector. Esa clase da contexto de estructura en el DOM; no sustituye tokens ni utilidades Tailwind.
+
+```ts
+@Component({
+  selector: 'wi-button',
+  host: {
+    class: 'wi-button',
+  },
+})
+export class WiButtonComponent {}
+```
+
+### BEM ligero con prefijo `wi-`
+
+| Pieza | Patrón | Ejemplo |
+|-------|--------|---------|
+| Root | `wi-{name}` | `wi-dialog` |
+| Elemento | `wi-{name}__{part}` | `wi-dialog__header` |
+| Modificador estructural | `wi-{name}--{modifier}` | `wi-dialog--fullscreen` |
+
+```html
+<header class="wi-dialog__header">...</header>
+<div class="wi-dialog__content">...</div>
+<footer class="wi-dialog__footer">...</footer>
+```
+
+### Variantes visuales
+
+- No usar BEM para color, tamaño o estado visual cuando existan inputs + mapas estáticos de clases Tailwind.
+- Preferir `variant`, `size`, `loading`, `disabled` y mapas como `VARIANT_CLASSES` / `SIZE_CLASSES`.
+- Reservar modificadores BEM (`--`) solo para estructura o layout que no se cubran con utilidades/tokens.
+
+### Prohibido
+
+- Clases estructurales en español (`wi-boton`, `wi-dialogo__cabecera`).
+- Generar clases Tailwind dinámicamente (`bg-${variant}-600`).
+- Usar la clase `wi-*` como único vehículo de estilos ad hoc en lugar de tokens semánticos.

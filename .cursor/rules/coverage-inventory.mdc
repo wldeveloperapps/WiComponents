@@ -1,0 +1,53 @@
+---
+description: Inventario de cobertura vs app PrimeNG — checklist de demanda, no wrappers 1:1
+globs:
+  - "projects/components/**"
+  - "docs/coverage-inventory.md"
+alwaysApply: true
+---
+
+# Inventario de cobertura
+
+Fuente de demanda: la app consumidora usa PrimeNG. El inventario vive en `docs/coverage-inventory.md`.
+
+## Rol
+
+- Es un **checklist de cobertura**: no olvidar capacidades al diseñar `@wiloc/ui`.
+- Orienta **dominios / entry points**, no una carpeta por cada `primeng/*`.
+- No es un backlog de wrappers ni una API Prime-like.
+
+## Al crear o priorizar componentes
+
+1. Consultar `docs/coverage-inventory.md`.
+2. Mapear: necesidad de producto → Spartan Brain (interno) → API pública `Wi*`.
+3. Decidir cubo: **base** | **pattern** | **app-only** | **out-of-scope**.
+4. Actualizar el estado en el inventario (`planned` → `in-progress` → `done`).
+5. Registrar la API pública en el MCP (`@wiloc/ui-mcp`).
+
+## Dominios previstos
+
+```text
+@wiloc/ui/core          → tokens, theming, iconos
+@wiloc/ui/button
+@wiloc/ui/forms
+@wiloc/ui/overlays
+@wiloc/ui/data-display
+@wiloc/ui/navigation
+@wiloc/ui/patterns
+```
+
+## Prohibido
+
+- Clonar `[pt]` (PassThrough), Ripple, clases `.p-*` o `providePrimeNG`.
+- Exponer tipos/servicios idénticos a Prime (`MessageService`, `MenuItem` de Prime, etc.).
+- Crear entry point por cada paquete `primeng/*` (p. ej. `inputgroupaddon` suelto).
+- Meter lógica de negocio, HTTP o i18n hardcodeada en la librería.
+
+## Orden de construcción (referencia)
+
+1. Foundation (tokens, button, input, card, spinner/skeleton, tooltip)
+2. Feedback (toast + confirm)
+3. Overlays (dialog, menu, popover)
+4. Forms de alto impacto (select, checkbox, datepicker)
+5. Table MVP → filtros/reorder después
+6. Especializados / patterns (file upload, picklist, stepper, speeddial, scroller)

@@ -782,12 +782,13 @@ Antes de escribir código, Cursor debe analizar:
 8. Cómo se probará.
 9. Qué historias requiere.
 10. Qué se exportará desde el entry point.
+11. Cómo se registrará en el MCP de `@wiloc/ui` (metadatos públicos para agentes).
 
 Cuando falte información, hacer supuestos mínimos y dejar claramente identificadas las decisiones pendientes.
 
 No generar diez componentes a la vez.
 
-Implementar primero el componente mínimo completo, incluyendo tests y Storybook.
+Implementar primero el componente mínimo completo, incluyendo tests, Storybook y actualización del registry MCP.
 
 ---
 
@@ -802,7 +803,8 @@ Implementar primero el componente mínimo completo, incluyendo tests y Storybook
 7. Añadir soporte de teclado y ARIA necesario.
 8. Crear historias.
 9. Crear tests.
-10. Verificar el paquete mediante `npm pack`.
+10. Actualizar el registry del MCP (`@wiloc/ui-mcp`) con la API pública.
+11. Verificar el paquete mediante `npm pack`.
 
 Cuando se adapte código de Spartan Helm:
 
@@ -940,6 +942,8 @@ Antes de entregar código, comprobar:
 * [ ] Incluye historias de Storybook.
 * [ ] Utiliza imports públicos.
 * [ ] Está exportado desde el entry point correcto.
+* [ ] Está registrado o actualizado en el MCP (`@wiloc/ui-mcp`).
+* [ ] El MCP documenta solo API pública (sin Spartan ni rutas internas).
 * [ ] No introduce breaking changes accidentales.
 * [ ] Funciona después de `npm pack`.
 
@@ -955,10 +959,11 @@ Cuando se solicite crear o modificar un componente:
 4. Incluir tests.
 5. Incluir Storybook.
 6. Actualizar exports.
-7. Evitar cambios no relacionados.
-8. Avisar de posibles breaking changes.
-9. Señalar cualquier supuesto.
-10. Mantener consistencia con los componentes existentes.
+7. Actualizar el registry del MCP.
+8. Evitar cambios no relacionados.
+9. Avisar de posibles breaking changes.
+10. Señalar cualquier supuesto.
+11. Mantener consistencia con los componentes existentes.
 
 No generar código de ejemplo incompleto con comentarios como:
 

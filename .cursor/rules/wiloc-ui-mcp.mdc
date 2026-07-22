@@ -1,0 +1,58 @@
+---
+description: Mantener el MCP de @wiloc/ui al crear o modificar componentes públicos
+globs:
+  - "projects/components/**/*.ts"
+  - "projects/components/**/*.html"
+  - "packages/wiloc-ui-mcp/**/*"
+alwaysApply: false
+---
+
+# MCP de @wiloc/ui
+
+Cada componente **público** debe quedar reflejado en el servidor MCP (`@wiloc/ui-mcp`) para que las apps consumidoras usen la API correcta vía agentes (Cursor), no Spartan ni rutas internas.
+
+## Obligatorio al crear o cambiar un componente público
+
+1. Añadir o actualizar la entrada en el **registry** del MCP (nombre, selector, entry point, API).
+2. Documentar solo la **API pública**: inputs, outputs, tipos exportados, variantes, ejemplo de uso.
+3. Incluir el import canónico (`@wiloc/ui/...`), nunca rutas `src/lib/...` ni paquetes Spartan.
+4. Si cambia un input/output/selector/entry point: actualizar registry y marcar breaking change si aplica.
+5. No dar por cerrado el componente sin actualizar el MCP (o dejar explícito que el registry queda pendiente).
+
+## Metadatos mínimos por componente
+
+```text
+name          # kebab-case: button
+selector      # wi-button
+entryPoint    # @wiloc/ui/button
+exports       # WiButtonComponent, WiButtonVariant, …
+inputs        # name, type, default, description
+outputs       # name, type, description
+variants      # si aplica
+keyboard      # teclas relevantes
+a11yNotes     # nombre accesible, ARIA, foco
+example       # snippet mínimo válido
+status        # stable | experimental | deprecated
+```
+
+## Tools del MCP (contrato)
+
+| Tool | Uso |
+|------|-----|
+| `wi_list` | Listar componentes / patterns / entry points |
+| `wi_search` | Búsqueda fuzzy |
+| `wi_view` | API + ejemplos + a11y de un componente |
+| `wi_docs` | Temas: instalación, tokens, dark mode, SSR |
+| `wi_usage` | Snippet canónico de import y template |
+| `wi_audit` | Detectar uso de Spartan donde debería usarse `@wiloc/ui` |
+
+## Prohibido en el MCP
+
+- Exponer tipos o APIs de Spartan.
+- Documentar implementaciones internas no exportadas.
+- Inventar variantes o inputs no existentes en el código.
+- Apuntar a Storybook o al monorepo como sustituto del registry tipado.
+
+## Apps consumidoras
+
+El MCP se configura en la app (`.cursor/mcp.json`), no dentro de `@wiloc/ui`. Ver sección **MCP** del README raíz.
