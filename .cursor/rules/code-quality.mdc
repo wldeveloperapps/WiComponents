@@ -1,0 +1,228 @@
+---
+description: Reglas de calidad, linting, formato y hooks Git para wiComponents
+globs:
+  - "**/*.ts"
+  - "**/*.html"
+  - "**/*.scss"
+  - "**/*.css"
+  - "**/*.json"
+  - "**/*.md"
+alwaysApply: true
+---
+
+# Calidad de código de wiComponents
+
+## Contexto del proyecto
+
+Este repositorio es una workspace de Angular 22 destinada al desarrollo de una librería de componentes publicable en npm.
+
+La librería se encuentra en:
+
+`projects/components`
+
+Las herramientas de desarrollo deben configurarse siempre en la raíz de la workspace, no dentro del `package.json` de la librería.
+
+Esto incluye:
+
+- ESLint
+- angular-eslint
+- Prettier
+- Husky
+- lint-staged
+- scripts de validación
+- configuración de CI
+
+## ESLint
+
+- ESLint se utiliza para detectar errores, código problemático y malas prácticas.
+- Mantener la configuración usando flat config en `eslint.config.js`.
+- Utilizar las reglas proporcionadas por `angular-eslint` para TypeScript y templates Angular.
+- No crear archivos `.eslintrc`, salvo que el proyecto ya dependa de ese formato.
+- No desactivar reglas de ESLint sin una justificación clara.
+- Evitar comentarios globales como `/* eslint-disable */`.
+- Cuando sea imprescindible desactivar una regla, hacerlo solo sobre la línea afectada y explicar el motivo.
+- No introducir variables, imports, parámetros o propiedades sin utilizar.
+- Evitar `any`.
+- Preferir `unknown` frente a `any`.
+- Utilizar comparaciones estrictas con `===` y `!==`.
+- No dejar `console.log`, `console.warn`, `console.error` o `debugger` en código que vaya a publicarse.
+
+Ejemplo permitido:
+
+```ts
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- La API externa no proporciona tipos.
+function normalizeResponse(value: any): unknown {
+  return value;
+}
+```
+
+Ejemplo no permitido:
+
+```ts
+/* eslint-disable */
+```
+
+## Prettier
+
+- Prettier es la única fuente de verdad para el formato del código.
+- Respetar la configuración existente en `.prettierrc`.
+- Ejecutar Prettier sobre TypeScript, HTML, SCSS, CSS, JSON y Markdown.
+- No duplicar en ESLint reglas que sean responsabilidad exclusiva de Prettier.
+- Mantener `eslint-config-prettier` para evitar conflictos entre ESLint y Prettier.
+- No modificar manualmente el formato del código para seguir preferencias distintas de Prettier.
+
+## Separación de responsabilidades
+
+Aplicar siempre esta separación:
+
+- ESLint: calidad de código y posibles errores.
+- Prettier: formato.
+- Husky: ejecución de hooks de Git.
+- lint-staged: validación de archivos preparados para commit.
+- CI: validación completa del repositorio.
+
+No utilizar ESLint como formateador general.
+
+No ejecutar tests completos ni builds completos en cada pre-commit, salvo petición expresa.
+
+## Husky
+
+- Husky debe estar instalado en el `package.json` de la raíz.
+- La carpeta `.husky` debe estar en la raíz del repositorio.
+- Mantener el script de instalación de Husky en el `package.json` raíz:
+
+```json
+{
+  "scripts": {
+    "prepare": "husky"
+  }
+}
+```
+
+- El hook `.husky/pre-commit` debe ser rápido.
+- El pre-commit debe ejecutar lint-staged.
+- No duplicar dentro del hook configuraciones que pertenezcan al `package.json`.
+
+Contenido esperado de `.husky/pre-commit`:
+
+```sh
+npx lint-staged
+```
+
+## lint-staged
+
+- lint-staged debe estar instalado como `devDependency` en la raíz.
+- Solo debe analizar archivos incluidos en el staging area.
+- Debe intentar corregir automáticamente formato y errores corregibles.
+- Si ESLint encuentra errores no corregibles, el commit debe cancelarse.
+- No añadir manualmente `git add` después de ejecutar lint-staged.
+
+Configuración recomendada en el `package.json` raíz:
+
+```json
+{
+  "lint-staged": {
+    "*.{ts,html}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{scss,css,json,md}": [
+      "prettier --write"
+    ]
+  }
+}
+```
+
+No ejecutar ESLint sobre SCSS, CSS, JSON o Markdown salvo que exista un plugin específico configurado para esos formatos.
+
+## Scripts de npm
+
+Mantener scripts claros y explícitos en el `package.json` raíz.
+
+Configuración recomendada:
+
+```json
+{
+  "scripts": {
+    "prepare": "husky",
+    "lint": "ng lint",
+    "lint:fix": "ng lint --fix",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "build:lib": "ng build components"
+  }
+}
+```
+
+Antes de añadir o modificar un script:
+
+- Revisar los scripts existentes.
+- Evitar scripts duplicados.
+- Utilizar el nombre real del proyecto definido en `angular.json`.
+- No asumir que la librería se llama `components` sin comprobarlo.
+
+## Cambios en configuración
+
+Cuando se solicite configurar ESLint, Prettier, Husky o lint-staged:
+
+Inspeccionar primero:
+
+- `package.json`
+- `eslint.config.js`
+- `.prettierrc`
+- `.prettierignore`
+- `.husky/pre-commit`
+- `angular.json`
+
+No sobrescribir configuraciones existentes sin analizarlas.
+
+Modificar únicamente lo necesario.
+
+No instalar paquetes duplicados.
+
+Comprobar compatibilidad entre las versiones de:
+
+- Angular
+- angular-eslint
+- ESLint
+- typescript-eslint
+- TypeScript
+
+Después de realizar cambios, ejecutar cuando corresponda:
+
+- `npm run lint`
+- `npm run format:check`
+- `npm run build:lib`
+
+## Responsabilidad de cada package.json
+
+El `package.json` de la raíz contiene:
+
+- herramientas de desarrollo;
+- scripts;
+- Husky;
+- lint-staged;
+- ESLint;
+- Prettier;
+- dependencias utilizadas para desarrollar y compilar la workspace.
+
+El `package.json` de `projects/components` contiene únicamente información relacionada con el paquete npm publicado:
+
+- nombre;
+- versión;
+- peerDependencies;
+- dependencias necesarias en runtime;
+- metadatos del paquete.
+
+No instalar Husky, ESLint, Prettier o lint-staged dentro de `projects/components/package.json`.
+
+## Comportamiento esperado del agente
+
+- No afirmar que una herramienta está configurada solo porque aparece instalada.
+- Distinguir siempre entre instalación y configuración.
+- Antes de crear `.husky`, comprobar que el repositorio Git está inicializado.
+- Antes de editar un hook, comprobar su contenido actual.
+- Antes de proponer comandos, comprobar el gestor de paquetes declarado por el proyecto.
+- En este repositorio utilizar npm, salvo indicación expresa.
+- No introducir configuraciones complejas sin necesidad.
+- Priorizar una configuración mínima, mantenible y compatible con Angular 22.

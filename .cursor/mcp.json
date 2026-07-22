@@ -1,0 +1,31 @@
+{
+  "mcpServers": {
+    "angular-cli": {
+      "command": "npx",
+      "args": ["-y", "@angular/cli", "mcp"]
+    },
+    "tailwindcss-server": {
+      "command": "npx",
+      "args": ["-y", "tailwindcss-mcp-server"]
+    },
+    "spartan-ng": {
+      "command": "npx",
+      "args": ["-y", "spartan-ng-mcp"]
+    },
+    "storybook-mcp": {
+      "command": "npx",
+      "args": ["-y", "@raksbisht/storybook-mcp"],
+      "env": {
+        "STORYBOOK_URL": "http://localhost:6006"
+      }
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"]
+    },
+    "test-watch": {
+      "command": "npx",
+      "args": ["-y", "test-warden"]
+    }
+  }
+}

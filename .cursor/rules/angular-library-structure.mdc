@@ -1,0 +1,23 @@
+---
+description: Estructura y responsabilidades de la workspace y la librería Angular
+globs:
+  - "package.json"
+  - "angular.json"
+  - "projects/components/**"
+alwaysApply: true
+---
+
+# Estructura de la librería Angular
+
+- Este repositorio contiene una workspace Angular y una librería publicable.
+- La librería se encuentra en `projects/components`.
+- El código fuente público debe exponerse mediante `projects/components/src/public-api.ts`.
+- La compilación debe realizarse con `ng build components`.
+- El resultado publicable se genera en `dist/components`.
+- No publicar la raíz de la workspace en npm.
+- No ejecutar `npm publish` desde la raíz.
+- Publicar únicamente el contenido generado dentro de `dist/components`.
+- Mantener Angular y Angular Common como `peerDependencies` del paquete publicado.
+- Mantener herramientas como ESLint, Prettier, Husky y ng-packagr como dependencias de desarrollo de la raíz.
+- No mover configuraciones generales dentro de la carpeta de la librería.
+- Antes de modificar nombres o rutas, consultar `angular.json` y `ng-package.json`.
