@@ -1,0 +1,73 @@
+---
+description: Sistema de iconos WiIcon — API, registro, Heroicons y migración desde PrimeIcons
+globs:
+  - "projects/components/icon/**"
+  - "projects/components/**/*.stories.ts"
+  - "docs/icons-prime-migration.md"
+  - "scripts/generate-heroicons.mjs"
+alwaysApply: true
+---
+
+# Iconos (`@wiloc/ui/icon`)
+
+Heroicons es el catálogo visual (SVG). `WiIcon` es el contrato Angular.
+
+Las apps **no** importan Heroicons ni wrappers Angular de terceros.
+Usan `@wiloc/ui/icon` y glifos de `@wiloc/ui/icon/heroicons`.
+
+## Obligatorio
+
+```ts
+import { provideWiIcons, WiIconComponent } from '@wiloc/ui/icon';
+import { trashOutline, homeOutline } from '@wiloc/ui/icon/heroicons';
+
+provideWiIcons({
+  home: { outline: homeOutline },
+  trash: { outline: trashOutline },
+});
+```
+
+```html
+<wi-icon name="home" />
+<wi-icon name="trash" class="text-destructive" />
+<wi-icon name="exclamation-triangle" label="Advertencia" />
+```
+
+- Registrar solo los iconos que la app importa (tree shaking).
+- Nombres en **kebab-case estilo Heroicons** (`x-mark`, `magnifying-glass`), nunca `pi-*`.
+- Mapa PrimeIcons → Wi: `docs/coverage-inventory.md` + `docs/icons-prime-migration.md`.
+- Ampliar catálogo oficial: lista en `scripts/generate-heroicons.mjs` + `npm run generate:icons`.
+
+## Prohibido
+
+- `import … from 'heroicons'` / `@heroicons/…` en apps o en API pública.
+- Usar `WI_HEROICONS_CURATED` en apps (solo Storybook / demos internas).
+- Nombres `pi-trash`, `papelera`, `x` (usar `trash`, `x-mark`).
+- Input `color`; el color va por `currentColor` / clases del host.
+- `[innerHTML]` o SVG string sin tipar como `WiIconGlyph`.
+
+## Accesibilidad
+
+- Sin `label` → decorativo (`aria-hidden="true"`).
+- Con `label` → `role="img"` + `aria-label`.
+- Botón solo-icono: el nombre accesible va en el **botón**, no solo en el icono.
+
+```html
+<button type="button" aria-label="Eliminar">
+  <wi-icon name="trash" />
+</button>
+```
+
+## Custom (app)
+
+Definir un `WiIconGlyph` en la app y registrarlo con `provideWiIcons`.
+No meter iconos de dominio/marca en `@wiloc/ui/icon/heroicons` salvo que sean oficiales del DS.
+
+## Entry points
+
+```text
+@wiloc/ui/icon              → WiIconComponent, provideWiIcons, tipos
+@wiloc/ui/icon/heroicons    → glifos generados (imports individuales)
+```
+
+Storybook: **Icon → WiIcon → Catalog** (inventario visual).

@@ -117,11 +117,8 @@ wi-components/
 ├── projects/
 │   └── components/          # librería publicable @wiloc/ui
 │       ├── src/
-│       │   ├── core/
-│       │   ├── button/
-│       │   ├── forms/
-│       │   ├── overlays/
-│       │   └── …
+│       ├── icon/            # secondary entry @wiloc/ui/icon
+│       │   └── heroicons/   # @wiloc/ui/icon/heroicons
 │       ├── ng-package.json
 │       └── package.json
 │
@@ -132,9 +129,11 @@ wi-components/
 │   ├── showcase/
 │   └── e2e-consumer/
 │
-├── .storybook/
+├── scripts/
+│   └── generate-heroicons.mjs
+├── THIRD_PARTY_NOTICES
 ├── .cursor/
-│   ├── mcp.json             # MCPs de desarrollo de esta workspace
+│   ├── mcp.json
 │   └── rules/
 ├── angular.json
 ├── package.json
@@ -241,6 +240,84 @@ Durante el desarrollo local del monorepo, puede apuntarse al binario del workspa
 
 ---
 
+## Iconos (MVP)
+
+**MVP** = lo mínimo usable en las apps: registrar iconos y pintarlos con
+`<wi-icon>`. Nada más.
+
+Heroicons es el catálogo visual (SVG). `WiIcon` es cómo lo usamos en Angular.
+Las apps no importan Heroicons; importan `@wiloc/ui/icon`.
+
+### Qué incluye este MVP
+
+- `<wi-icon name variant size label />`
+- `provideWiIcons` (solo los iconos que importes)
+- ~79 glifos Heroicons generados (`@wiloc/ui/icon/heroicons`) — Storybook **Icon → Catalog**
+- Iconos custom con la misma API
+- Warning en desarrollo si el nombre no está registrado
+- Licencia en `THIRD_PARTY_NOTICES`
+- Mapa PrimeIcons → Wi: [`docs/icons-prime-migration.md`](docs/icons-prime-migration.md)
+
+### Qué no es (aún)
+
+- Los ~miles de iconos de Heroicons (solo el subconjunto de la app)
+- Servicio de iconos, CDN o carga HTTP
+- Sustitutos custom para `pi-file-excel`, `pi-save`, `pi-spinner`, etc. (ver doc de migración)
+
+### Uso
+
+```ts
+import { provideWiIcons } from '@wiloc/ui/icon';
+import { homeOutline, trashOutline, trashSolid } from '@wiloc/ui/icon/heroicons';
+
+provideWiIcons({
+  home: { outline: homeOutline },
+  trash: { outline: trashOutline, solid: trashSolid },
+});
+```
+
+```html
+<wi-icon name="home" />
+<wi-icon name="trash" variant="solid" class="text-destructive" />
+<wi-icon name="exclamation-triangle" label="Advertencia" />
+```
+
+- Sin `label` → decorativo (`aria-hidden`).
+- Con `label` → `role="img"` + `aria-label`.
+- Color → `currentColor` (clases del host).
+- Variante pedida inexistente → usa la otra si hay; warning en desarrollo.
+
+### Custom
+
+```ts
+import type { WiIconGlyph } from '@wiloc/ui/icon';
+import { provideWiIcons } from '@wiloc/ui/icon';
+
+const workerIcon: WiIconGlyph = {
+  viewBox: '0 0 32 32',
+  nodes: [{ tag: 'path', attrs: { d: '…' } }],
+};
+
+provideWiIcons({
+  worker: { solid: workerIcon },
+});
+```
+
+```html
+<wi-icon name="worker" variant="solid" />
+```
+
+Ver también la rule `.cursor/rules/wi-icons.mdc` y Storybook **Custom Icon**.
+
+### Ampliar el catálogo oficial
+
+Añade el nombre en `scripts/generate-heroicons.mjs` y ejecuta
+`npm run generate:icons` (con `heroicons` instalado solo para generar).
+
+Licencia: `THIRD_PARTY_NOTICES` (repo y paquete publicado).
+
+---
+
 ## Capas de la librería
 
 ### Core
@@ -252,8 +329,9 @@ Elementos compartidos por toda la librería:
 - tipos;
 - utilidades;
 - directivas;
-- iconos;
 - helpers de accesibilidad.
+
+Iconos: entry point propio `@wiloc/ui/icon` (no viven solo en core).
 
 ### Primitives
 
@@ -913,8 +991,8 @@ Cuando se adapte código procedente de Spartan u otras librerías:
 
 - conservar los avisos de licencia aplicables;
 - documentar el origen;
-- incluir un archivo `THIRD_PARTY_NOTICES`;
-- revisar las licencias de iconos y assets;
+- incluir un archivo `THIRD_PARTY_NOTICES` (ya presente en la raíz);
+- revisar las licencias de iconos y assets (Heroicons: MIT; ver `THIRD_PARTY_NOTICES`);
 - no copiar código sin verificar previamente su licencia.
 
 ---

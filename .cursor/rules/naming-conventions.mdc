@@ -25,6 +25,7 @@ alwaysApply: true
 | Tipos públicos | `Wi` + PascalCase | `WiButtonVariant`, `WiButtonSize` |
 | Inputs / signals | camelCase inglés | `loading`, `disabled`, `variant` |
 | Constantes de mapas | SCREAMING_SNAKE_CASE | `VARIANT_CLASSES` |
+| Nombre de icono (`wi-icon`) | kebab-case estilo Heroicons | `x-mark`, `magnifying-glass` (no `pi-*`) |
 
 Evitar:
 

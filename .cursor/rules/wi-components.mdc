@@ -447,9 +447,9 @@ No utilizar solamente iconos sin:
 Ejemplo:
 
 ```html
-<wi-icon-button aria-label="Cerrar diálogo">
-  <wi-icon name="x" />
-</wi-icon-button>
+<button type="button" aria-label="Cerrar diálogo">
+  <wi-icon name="x-mark" />
+</button>
 ```
 
 Los errores de formulario deben estar asociados al control mediante `aria-describedby`.
@@ -573,6 +573,7 @@ Entry points previstos:
 
 ```text
 @wiloc/ui/core
+@wiloc/ui/icon
 @wiloc/ui/button
 @wiloc/ui/forms
 @wiloc/ui/overlays

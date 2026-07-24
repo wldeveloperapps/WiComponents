@@ -27,7 +27,8 @@ Fuente de demanda: la app consumidora usa PrimeNG. El inventario vive en `docs/c
 ## Dominios previstos
 
 ```text
-@wiloc/ui/core          → tokens, theming, iconos
+@wiloc/ui/core          → tokens, theming
+@wiloc/ui/icon          → WiIcon, provideWiIcons, glifos Heroicons
 @wiloc/ui/button
 @wiloc/ui/forms
 @wiloc/ui/overlays

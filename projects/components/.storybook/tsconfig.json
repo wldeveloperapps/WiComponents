@@ -3,9 +3,16 @@
   "compilerOptions": {
     "types": ["node"],
     "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "rootDir": ".."
   },
-  "exclude": ["../src/test.ts", "../src/**/*.spec.ts"],
-  "include": ["../src/**/*.ts", "../src/**/*.stories.*", "./preview.ts"],
+  "exclude": ["../src/test.ts", "../src/**/*.spec.ts", "../icon/**/*.spec.ts"],
+  "include": [
+    "../src/**/*.ts",
+    "../src/**/*.stories.*",
+    "../icon/**/*.ts",
+    "../icon/**/*.stories.*",
+    "./preview.ts"
+  ],
   "files": ["./typings.d.ts"]
 }

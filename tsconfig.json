@@ -4,6 +4,9 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
+      "@wiloc/ui": ["./dist/components"],
+      "@wiloc/ui/icon": ["./projects/components/icon/src/public-api.ts"],
+      "@wiloc/ui/icon/heroicons": ["./projects/components/icon/heroicons/src/public-api.ts"],
       "components": ["./dist/components"]
     },
     "noImplicitOverride": true,
