@@ -2,6 +2,17 @@
 
 This file lists third-party software included or redistributed with `@wiloc/ui`.
 
+## Spartan (Brain)
+
+Copyright (c) goetzrobin and contributors.
+
+Licensed under the MIT License.
+See https://github.com/spartan-ng/spartan
+
+`@spartan-ng/brain` is an internal dependency of `@wiloc/ui` for accessible
+primitives (focus, overlays, keyboard behavior). Applications should consume
+`@wiloc/ui` public APIs, not Spartan types, when a Wiloc equivalent exists.
+
 ## Heroicons
 
 Copyright (c) Tailwind Labs, Inc.

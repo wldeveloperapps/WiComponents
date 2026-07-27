@@ -1,5 +1,5 @@
 ---
-description: Convención de tema claro/oscuro con tokens semánticos y clase dark
+description: Convención de tema claro/oscuro con tokens --wi-color-* y clase .wi-dark
 globs:
   - "**/*.ts"
   - "**/*.html"
@@ -17,9 +17,9 @@ alwaysApply: true
 
 | Quién | Responsabilidad |
 |-------|-----------------|
-| `@wiloc/ui` (tokens) | Publicar variables en `:root` y `.dark` |
+| `@wiloc/ui` (tokens) | Publicar variables `--wi-color-*` en `:root` y `.wi-dark` |
 | `@wiloc/ui` (componentes) | Usar solo clases semánticas; ciegos al tema |
-| App consumidora | Poseer `<html>`, aplicar/quitar `dark`, toggle, persistencia, `system`, anti-flash SSR |
+| App consumidora | Poseer `<html>`, aplicar/quitar `wi-dark`, toggle, persistencia, `system`, anti-flash SSR |
 | Storybook / showcase | Actuar como app de prueba y simular ambos modos |
 
 La librería **no** debe:
@@ -28,18 +28,20 @@ La librería **no** debe:
 - asumir control sobre `<html>`;
 - exponer un servicio que mute el DOM del documento por defecto.
 
-Documentar el contrato para consumidores: importar los tokens de `@wiloc/ui` y, para dark mode, añadir `class="dark"` al `<html>` (o al ancestro root que la app use).
+Documentar el contrato para consumidores: importar los tokens de `@wiloc/ui` y, para dark mode, añadir `class="wi-dark"` al `<html>` (o al ancestro root que la app use).
 
 ## Estrategia
 
-- El cambio de tema lo activa la app con la clase CSS `dark` en un ancestro (recomendado: `<html>`).
-- Compatible con Spartan y con la estrategia `class` de Tailwind.
+- El cambio de tema lo activa la app con la clase CSS `wi-dark` en un ancestro (recomendado: `<html>`).
+- Prefijo público de tokens: `--wi-color-*` (p. ej. `--wi-color-primary`, `--wi-color-on-primary`).
+- No usar la clase genérica `dark` ni `data-theme` como contrato de la librería.
+- Si Tailwind necesita variante `dark:`, configurar el selector a `.wi-dark` (no el default `.dark`).
 - Los componentes reaccionan solo a tokens CSS, nunca al toggle.
-- Preferir `<html class="dark">` para que overlays portaled a `body` hereden el tema; la decisión final es de la app.
+- Preferir `<html class="wi-dark">` para que overlays portaled a `body` hereden el tema; la decisión final es de la app.
 
 ```html
 <!-- En la aplicación consumidora, no en la librería -->
-<html class="dark">
+<html class="wi-dark">
   ...
 </html>
 ```
@@ -50,21 +52,31 @@ Valores de tema permitidos en APIs de producto de la app: `'light' | 'dark' | 's
 
 Definir colores en variables CSS publicadas por la librería, no en literales por modo dentro de cada componente.
 
+Naming alineado a Material Design 3 con prefijo Wiloc:
+
+- rol: `--wi-color-primary`, `--wi-color-surface`
+- contenido sobre rol: `--wi-color-on-primary`, `--wi-color-on-surface`
+- contenedores: `--wi-color-primary-container`, `--wi-color-on-primary-container`
+
 ```css
 :root {
-  --wi-color-background: oklch(...);
-  --wi-color-foreground: oklch(...);
-  --wi-color-primary: oklch(...);
-  --wi-color-primary-foreground: oklch(...);
-  --wi-color-border: oklch(...);
+  --wi-color-primary: #32628d;
+  --wi-color-on-primary: #ffffff;
+  --wi-color-background: #f8f9ff;
+  --wi-color-on-background: #191c20;
+  --wi-color-surface: #f8f9ff;
+  --wi-color-on-surface: #191c20;
+  --wi-color-outline: #73777f;
 }
 
-.dark {
-  --wi-color-background: oklch(...);
-  --wi-color-foreground: oklch(...);
-  --wi-color-primary: oklch(...);
-  --wi-color-primary-foreground: oklch(...);
-  --wi-color-border: oklch(...);
+.wi-dark {
+  --wi-color-primary: #48586c;
+  --wi-color-on-primary: #dce0e8;
+  --wi-color-background: #0e121a;
+  --wi-color-on-background: #c4c9d2;
+  --wi-color-surface: #10161f;
+  --wi-color-on-surface: #c4c9d2;
+  --wi-color-outline: #525a68;
 }
 ```
 
@@ -72,7 +84,7 @@ En componentes, usar utilidades ligadas a tokens:
 
 ```html
 <!-- Preferir -->
-class="bg-background text-foreground border-border bg-primary text-primary-foreground"
+class="bg-primary text-on-primary border-outline bg-surface text-on-surface"
 
 <!-- Evitar -->
 class="bg-white text-black dark:bg-zinc-900 dark:text-white"
@@ -81,10 +93,10 @@ class="bg-blue-600 dark:bg-blue-400"
 
 ## Reglas para componentes
 
-1. Estilos de color siempre vía tokens semánticos.
+1. Estilos de color siempre vía tokens semánticos `--wi-color-*`.
 2. No hardcodear pares light/dark en el template salvo excepción justificada (p. ej. asset raster distinto).
-3. Preferir redefinir el token en `.dark` frente a acumular utilidades `dark:` en cada nodo.
-4. Usar `dark:` solo cuando un token no cubra el caso y documentar el motivo.
+3. Preferir redefinir el token en `.wi-dark` frente a acumular utilidades `dark:` en cada nodo.
+4. Usar `dark:` solo cuando un token no cubra el caso, con selector configurado a `.wi-dark`, y documentar el motivo.
 5. Contraste WCAG AA en **ambos** modos.
 6. No leer `localStorage` / `matchMedia` / APIs del documento en la inicialización del componente (SSR).
 7. Overlays (dialog, menu, tooltip) deben heredar el tema del documento de la app; no forzar un modo propio.
@@ -94,13 +106,14 @@ class="bg-blue-600 dark:bg-blue-400"
 Cada componente público debe verificarse en light y dark (Storybook/showcase simulan la app).
 
 - Historia Default en light.
-- Historia o variante Dark mode cuando el contraste o el estado visual sea relevante.
+- Historia o variante Dark mode (`class="wi-dark"` en el ancestro) cuando el contraste o el estado visual sea relevante.
 - Antes de dar por cerrado un componente: contraste, bordes, focus ring, estados disabled/loading y overlays en ambos modos.
 
 ## Prohibido
 
 - Inputs de tema en componentes base (`theme="dark"` en `wi-button`).
-- Colores de marca literales (`bg-blue-600`) en lugar de `bg-primary`.
+- Colores de marca literales (`bg-blue-600`) en lugar de tokens (`bg-primary`).
 - Asumir que solo existe light mode.
 - Mutar `<html>` / `documentElement` desde código de la librería.
-- Implementar el toggle de tema dentro de la librería salvo un pattern explícito (p. ej. `WiThemeToggle`) que solo emita un evento o delegue en un servicio **inyectado por la app**; nunca aplicar `dark` al documento por sí solo.
+- Usar `.dark` o `[data-theme="dark"]` como contrato público de `@wiloc/ui` (el contrato es `.wi-dark`).
+- Implementar el toggle de tema dentro de la librería salvo un pattern explícito (p. ej. `WiThemeToggle`) que solo emita un evento o delegue en un servicio **inyectado por la app**; nunca aplicar `wi-dark` al documento por sí solo.

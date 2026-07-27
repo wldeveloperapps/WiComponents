@@ -105,7 +105,7 @@ Un componente de `wiComponents` debe aportar al menos una de estas capacidades:
 - Vitest o Jest
 - Angular Package Format
 - ng-packagr
-- npm
+- pnpm
 - MCP (`@wiloc/ui-mcp`) para agentes en apps consumidoras
 
 ---
@@ -312,7 +312,7 @@ Ver también la rule `.cursor/rules/wi-icons.mdc` y Storybook **Custom Icon**.
 ### Ampliar el catálogo oficial
 
 Añade el nombre en `scripts/generate-heroicons.mjs` y ejecuta
-`npm run generate:icons` (con `heroicons` instalado solo para generar).
+`pnpm generate:icons` (con `heroicons` instalado solo para generar).
 
 Licencia: `THIRD_PARTY_NOTICES` (repo y paquete publicado).
 
@@ -413,22 +413,27 @@ Los componentes no deben utilizar colores o dimensiones arbitrarias directamente
 <button class="h-10 rounded-md bg-blue-600 text-white">Guardar</button>
 ```
 
-Los estilos deben estar basados en tokens semánticos.
+Los estilos deben estar basados en tokens semánticos con prefijo `--wi-color-*` (roles MD3: `primary`, `on-primary`, `surface`, etc.).
+
+El tema oscuro se activa con la clase `wi-dark` en un ancestro (recomendado: `<html>`), no con `.dark` ni `data-theme`.
 
 ```css
 :root {
-  --wi-color-primary: 221 83% 53%;
-  --wi-color-primary-foreground: 0 0% 100%;
+  --wi-color-primary: #32628d;
+  --wi-color-on-primary: #ffffff;
+  --wi-color-primary-container: #cfe4ff;
+  --wi-color-on-primary-container: #134a74;
 
-  --wi-color-surface: 0 0% 100%;
-  --wi-color-surface-muted: 210 20% 98%;
+  --wi-color-background: #f8f9ff;
+  --wi-color-on-background: #191c20;
+  --wi-color-surface: #f8f9ff;
+  --wi-color-on-surface: #191c20;
+  --wi-color-outline: #73777f;
 
-  --wi-color-text: 222 47% 11%;
-  --wi-color-text-muted: 215 16% 47%;
-
-  --wi-color-danger: 0 72% 51%;
-  --wi-color-warning: 38 92% 50%;
-  --wi-color-success: 142 71% 45%;
+  --wi-color-error: #ba1a1a;
+  --wi-color-on-error: #ffffff;
+  --wi-color-warning: #f97316;
+  --wi-color-on-warning: #ffffff;
 
   --wi-radius-sm: 0.25rem;
   --wi-radius-md: 0.5rem;
@@ -438,6 +443,22 @@ Los estilos deben estar basados en tokens semánticos.
   --wi-control-height-md: 2.5rem;
   --wi-control-height-lg: 3rem;
 }
+
+.wi-dark {
+  --wi-color-primary: #48586c;
+  --wi-color-on-primary: #dce0e8;
+  --wi-color-background: #0e121a;
+  --wi-color-on-background: #c4c9d2;
+  --wi-color-surface: #10161f;
+  --wi-color-on-surface: #c4c9d2;
+  --wi-color-outline: #525a68;
+}
+```
+
+```html
+<html class="wi-dark">
+  <!-- overlays portaled a body heredan el tema -->
+</html>
 ```
 
 Los nombres de los tokens deben describir su función, no su color concreto.
@@ -445,7 +466,8 @@ Los nombres de los tokens deben describir su función, no su color concreto.
 ```css
 /* Preferir */
 --wi-color-primary;
---wi-color-danger;
+--wi-color-on-primary;
+--wi-color-error;
 --wi-color-surface;
 
 /* Evitar */
@@ -468,9 +490,9 @@ const className = `bg-${color}-600`;
 ```ts
 // Preferir
 const variants = {
-  primary: 'bg-primary text-primary-foreground',
-  secondary: 'bg-secondary text-secondary-foreground',
-  danger: 'bg-destructive text-destructive-foreground',
+  primary: 'bg-primary text-on-primary',
+  secondary: 'bg-secondary text-on-secondary',
+  danger: 'bg-error text-on-error',
 } as const;
 ```
 
@@ -715,14 +737,14 @@ Debe existir una aplicación que consuma la librería como paquete externo.
 Antes de publicar una versión:
 
 ```bash
-npm run build
-npm pack
+pnpm build
+pnpm pack
 ```
 
 El archivo `.tgz` generado debe instalarse en la aplicación de prueba.
 
 ```bash
-npm install ../wiloc-ui-0.1.0.tgz
+pnpm add ../wiloc-ui-0.1.0.tgz
 ```
 
 Esto permite detectar:
@@ -784,11 +806,11 @@ Primera versión estable:
 Comandos orientativos:
 
 ```bash
-npm run lint
-npm run test
-npm run build
-npm pack
-npm publish
+pnpm lint
+pnpm test
+pnpm build
+pnpm pack
+pnpm publish
 ```
 
 La publicación debe realizarse desde CI y no depender de builds manuales locales.
@@ -920,7 +942,7 @@ Un componente solo debe incorporarse cuando:
 - [ ] Está actualizado en el registry del MCP.
 - [ ] No utiliza imports privados.
 - [ ] El build de la librería funciona.
-- [ ] Se ha probado mediante `npm pack`.
+- [ ] Se ha probado mediante `pnpm pack`.
 - [ ] Se ha actualizado el changelog cuando corresponde.
 - [ ] No introduce un breaking change accidental.
 

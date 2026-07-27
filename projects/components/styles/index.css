@@ -1,0 +1,64 @@
+/**
+ * Estilos de desarrollo / Storybook / apps de prueba.
+ *
+ * Apps consumidoras:
+ * 1. Configurar Tailwind v4 (oficial Angular).
+ * 2. Importar tokens: `@import '@wiloc/ui/styles/tokens.css';`
+ * 3. Importar el preset de Spartan Brain (overlays / animaciones).
+ * 4. Usar `@custom-variant dark` con `.wi-dark` (no `.dark`).
+ * 5. Añadir `@source` hacia `node_modules/@wiloc/ui` si hace falta.
+ */
+
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/preflight.css' layer(base);
+@import 'tailwindcss/utilities.css';
+
+@import '@spartan-ng/brain/hlm-tailwind-preset.css';
+@import './tokens.css';
+
+/* Contrato público Wiloc: override del `.dark` del preset de Spartan. */
+@custom-variant dark (&:where(.wi-dark, .wi-dark *));
+
+/* Escaneo de clases en la librería (Storybook / builds locales). */
+@source '../src/**/*.{html,ts}';
+@source '../icon/**/*.{html,ts}';
+@source '../core/**/*.{html,ts}';
+
+@theme inline {
+  /* Roles Wiloc adicionales (además del mapeo Spartan vía puente). */
+  --color-on-primary: var(--wi-color-on-primary);
+  --color-primary-container: var(--wi-color-primary-container);
+  --color-on-primary-container: var(--wi-color-on-primary-container);
+
+  --color-on-secondary: var(--wi-color-on-secondary);
+  --color-secondary-container: var(--wi-color-secondary-container);
+  --color-on-secondary-container: var(--wi-color-on-secondary-container);
+
+  --color-surface: var(--wi-color-surface);
+  --color-on-surface: var(--wi-color-on-surface);
+  --color-surface-variant: var(--wi-color-surface-variant);
+  --color-on-surface-variant: var(--wi-color-on-surface-variant);
+  --color-on-background: var(--wi-color-on-background);
+
+  --color-outline: var(--wi-color-outline);
+  --color-outline-variant: var(--wi-color-outline-variant);
+
+  --color-error: var(--wi-color-error);
+  --color-on-error: var(--wi-color-on-error);
+  --color-error-container: var(--wi-color-error-container);
+  --color-on-error-container: var(--wi-color-on-error-container);
+
+  --color-warning: var(--wi-color-warning);
+  --color-on-warning: var(--wi-color-on-warning);
+  --color-success: var(--wi-color-success);
+  --color-on-success: var(--wi-color-on-success);
+
+  --radius-control: var(--wi-radius-md);
+  --radius-control-sm: var(--wi-radius-sm);
+  --radius-control-lg: var(--wi-radius-lg);
+
+  --height-control-sm: var(--wi-control-height-sm);
+  --height-control-md: var(--wi-control-height-md);
+  --height-control-lg: var(--wi-control-height-lg);
+}

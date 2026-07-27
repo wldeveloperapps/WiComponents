@@ -1,0 +1,123 @@
+/**
+ * Design tokens públicos de @wiloc/ui.
+ *
+ * Contrato de tema:
+ * - Light: valores en `:root`
+ * - Dark: la app añade `class="wi-dark"` en `<html>` (o ancestro root)
+ *
+ * Los componentes usan utilidades Tailwind ligadas a estos tokens
+ * (p. ej. `bg-primary`, `text-on-surface`). No mutan el documento.
+ */
+
+:root {
+  color-scheme: light;
+
+  /* —— Colores (MD3 + prefijo Wiloc) —— */
+  --wi-color-primary: #32628d;
+  --wi-color-on-primary: #ffffff;
+  --wi-color-primary-container: #cfe4ff;
+  --wi-color-on-primary-container: #134a74;
+
+  --wi-color-secondary: #535f70;
+  --wi-color-on-secondary: #ffffff;
+  --wi-color-secondary-container: #d7e3f8;
+  --wi-color-on-secondary-container: #3b4858;
+
+  --wi-color-background: #f8f9ff;
+  --wi-color-on-background: #191c20;
+  --wi-color-surface: #f8f9ff;
+  --wi-color-on-surface: #191c20;
+  --wi-color-surface-variant: #dfe2eb;
+  --wi-color-on-surface-variant: #43474e;
+
+  --wi-color-outline: #73777f;
+  --wi-color-outline-variant: #c3c6cf;
+
+  --wi-color-error: #ba1a1a;
+  --wi-color-on-error: #ffffff;
+  --wi-color-error-container: #ffdad6;
+  --wi-color-on-error-container: #93000a;
+
+  --wi-color-warning: #f97316;
+  --wi-color-on-warning: #ffffff;
+  --wi-color-success: #2e7d32;
+  --wi-color-on-success: #ffffff;
+
+  --wi-color-ring: #32628d;
+
+  /* —— Forma / controles —— */
+  --wi-radius-sm: 0.25rem;
+  --wi-radius-md: 0.5rem;
+  --wi-radius-lg: 0.75rem;
+  --wi-control-height-sm: 2rem;
+  --wi-control-height-md: 2.5rem;
+  --wi-control-height-lg: 3rem;
+
+  /*
+   * Puente interno hacia variables que espera el preset de Spartan Brain.
+   * La API pública sigue siendo `--wi-color-*` + `.wi-dark`.
+   */
+  --background: var(--wi-color-background);
+  --foreground: var(--wi-color-on-background);
+  --card: var(--wi-color-surface);
+  --card-foreground: var(--wi-color-on-surface);
+  --popover: var(--wi-color-surface);
+  --popover-foreground: var(--wi-color-on-surface);
+  --primary: var(--wi-color-primary);
+  --primary-foreground: var(--wi-color-on-primary);
+  --secondary: var(--wi-color-secondary);
+  --secondary-foreground: var(--wi-color-on-secondary);
+  --muted: var(--wi-color-surface-variant);
+  --muted-foreground: var(--wi-color-on-surface-variant);
+  --accent: var(--wi-color-surface-variant);
+  --accent-foreground: var(--wi-color-on-surface);
+  --destructive: var(--wi-color-error);
+  --border: var(--wi-color-outline-variant);
+  --input: var(--wi-color-outline-variant);
+  --ring: var(--wi-color-ring);
+  --radius: var(--wi-radius-md);
+  --sidebar: var(--wi-color-surface);
+  --sidebar-foreground: var(--wi-color-on-surface);
+  --sidebar-primary: var(--wi-color-primary);
+  --sidebar-primary-foreground: var(--wi-color-on-primary);
+  --sidebar-accent: var(--wi-color-surface-variant);
+  --sidebar-accent-foreground: var(--wi-color-on-surface);
+  --sidebar-border: var(--wi-color-outline-variant);
+  --sidebar-ring: var(--wi-color-ring);
+}
+
+.wi-dark {
+  color-scheme: dark;
+
+  --wi-color-primary: #48586c;
+  --wi-color-on-primary: #dce0e8;
+  --wi-color-primary-container: #3a4a5c;
+  --wi-color-on-primary-container: #cfe4ff;
+
+  --wi-color-secondary: #bbc7db;
+  --wi-color-on-secondary: #253140;
+  --wi-color-secondary-container: #3b4858;
+  --wi-color-on-secondary-container: #d7e3f8;
+
+  --wi-color-background: #0e121a;
+  --wi-color-on-background: #c4c9d2;
+  --wi-color-surface: #10161f;
+  --wi-color-on-surface: #c4c9d2;
+  --wi-color-surface-variant: #43474e;
+  --wi-color-on-surface-variant: #c3c6cf;
+
+  --wi-color-outline: #525a68;
+  --wi-color-outline-variant: #43474e;
+
+  --wi-color-error: #ffb4ab;
+  --wi-color-on-error: #690005;
+  --wi-color-error-container: #93000a;
+  --wi-color-on-error-container: #ffdad6;
+
+  --wi-color-warning: #ffb77c;
+  --wi-color-on-warning: #4a2800;
+  --wi-color-success: #81c784;
+  --wi-color-on-success: #003910;
+
+  --wi-color-ring: #a0aec0;
+}

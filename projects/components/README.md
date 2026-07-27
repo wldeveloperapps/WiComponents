@@ -36,9 +36,9 @@ Once the project is built, you can publish your library by following these steps
    cd dist/components
    ```
 
-2. Run the `npm publish` command to publish your library to the npm registry:
+2. Run the `pnpm publish` command to publish your library to the npm registry:
    ```bash
-   npm publish
+   pnpm publish
    ```
 
 ## Running unit tests

@@ -36,7 +36,7 @@ provideWiIcons({
 - Registrar solo los iconos que la app importa (tree shaking).
 - Nombres en **kebab-case estilo Heroicons** (`x-mark`, `magnifying-glass`), nunca `pi-*`.
 - Mapa PrimeIcons → Wi: `docs/coverage-inventory.md` + `docs/icons-prime-migration.md`.
-- Ampliar catálogo oficial: lista en `scripts/generate-heroicons.mjs` + `npm run generate:icons`.
+- Ampliar catálogo oficial: lista en `scripts/generate-heroicons.mjs` + `pnpm generate:icons`.
 
 ## Prohibido
 

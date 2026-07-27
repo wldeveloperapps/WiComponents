@@ -106,7 +106,7 @@ No ejecutar tests completos ni builds completos en cada pre-commit, salvo petici
 Contenido esperado de `.husky/pre-commit`:
 
 ```sh
-npx lint-staged
+pnpm exec lint-staged
 ```
 
 ## lint-staged
@@ -135,7 +135,7 @@ Configuración recomendada en el `package.json` raíz:
 
 No ejecutar ESLint sobre SCSS, CSS, JSON o Markdown salvo que exista un plugin específico configurado para esos formatos.
 
-## Scripts de npm
+## Scripts de pnpm
 
 Mantener scripts claros y explícitos en el `package.json` raíz.
 
@@ -190,9 +190,9 @@ Comprobar compatibilidad entre las versiones de:
 
 Después de realizar cambios, ejecutar cuando corresponda:
 
-- `npm run lint`
-- `npm run format:check`
-- `npm run build:lib`
+- `pnpm lint`
+- `pnpm format:check`
+- `pnpm build:lib`
 
 ## Responsabilidad de cada package.json
 
@@ -223,6 +223,6 @@ No instalar Husky, ESLint, Prettier o lint-staged dentro de `projects/components
 - Antes de crear `.husky`, comprobar que el repositorio Git está inicializado.
 - Antes de editar un hook, comprobar su contenido actual.
 - Antes de proponer comandos, comprobar el gestor de paquetes declarado por el proyecto.
-- En este repositorio utilizar npm, salvo indicación expresa.
+- En este repositorio utilizar pnpm, salvo indicación expresa.
 - No introducir configuraciones complejas sin necesidad.
 - Priorizar una configuración mínima, mantenible y compatible con Angular 22.

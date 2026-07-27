@@ -1,6 +1,6 @@
 /**
  * Genera WiIconGlyph desde SVG oficiales de Heroicons (MIT).
- * Uso: npm run generate:icons (heroicons solo para generar, no es peer).
+ * Uso: pnpm generate:icons (heroicons solo para generar, no es peer).
  */
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';

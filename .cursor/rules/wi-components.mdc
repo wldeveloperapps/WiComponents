@@ -345,7 +345,7 @@ class="bg-blue-600 text-white border-gray-300"
 Preferir:
 
 ```html
-class="bg-primary text-primary-foreground border-border"
+class="bg-primary text-on-primary border-outline"
 ```
 
 No introducir alturas, radios o sombras arbitrarias cuando exista un token.
@@ -368,9 +368,10 @@ Preferir:
 
 ```css
 --wi-color-primary;
---wi-color-danger;
+--wi-color-on-primary;
+--wi-color-error;
 --wi-color-surface;
---wi-color-text-muted;
+--wi-color-on-surface;
 ```
 
 Evitar:
@@ -405,10 +406,10 @@ Preferir:
 
 ```ts
 const variantClasses: Record<WiButtonVariant, string> = {
-  primary: 'bg-primary text-primary-foreground',
-  secondary: 'bg-secondary text-secondary-foreground',
-  danger: 'bg-destructive text-destructive-foreground',
-  ghost: 'bg-transparent hover:bg-accent',
+  primary: 'bg-primary text-on-primary',
+  secondary: 'bg-secondary text-on-secondary',
+  danger: 'bg-error text-on-error',
+  ghost: 'bg-transparent hover:bg-surface-variant',
 };
 ```
 
@@ -679,10 +680,10 @@ const BASE_CLASSES = [
 ].join(' ');
 
 const VARIANT_CLASSES: Record<WiButtonVariant, string> = {
-  primary: 'bg-primary text-primary-foreground',
-  secondary: 'bg-secondary text-secondary-foreground',
-  danger: 'bg-destructive text-destructive-foreground',
-  ghost: 'bg-transparent hover:bg-accent',
+  primary: 'bg-primary text-on-primary',
+  secondary: 'bg-secondary text-on-secondary',
+  danger: 'bg-error text-on-error',
+  ghost: 'bg-transparent hover:bg-surface-variant',
 };
 
 const SIZE_CLASSES: Record<WiButtonSize, string> = {
@@ -805,7 +806,7 @@ Implementar primero el componente mínimo completo, incluyendo tests, Storybook 
 8. Crear historias.
 9. Crear tests.
 10. Actualizar el registry del MCP (`@wiloc/ui-mcp`) con la API pública.
-11. Verificar el paquete mediante `npm pack`.
+11. Verificar el paquete mediante `pnpm pack`.
 
 Cuando se adapte código de Spartan Helm:
 
@@ -850,10 +851,10 @@ No realizar refactorizaciones masivas no solicitadas mientras se implementa una 
 Antes de considerar terminado un cambio:
 
 ```bash
-npm run lint
-npm run test
-npm run build
-npm pack
+pnpm lint
+pnpm test
+pnpm build
+pnpm pack
 ```
 
 Verificar el `.tgz` generado en la aplicación `e2e-consumer`.
@@ -946,7 +947,7 @@ Antes de entregar código, comprobar:
 * [ ] Está registrado o actualizado en el MCP (`@wiloc/ui-mcp`).
 * [ ] El MCP documenta solo API pública (sin Spartan ni rutas internas).
 * [ ] No introduce breaking changes accidentales.
-* [ ] Funciona después de `npm pack`.
+* [ ] Funciona después de `pnpm pack`.
 
 ---
 

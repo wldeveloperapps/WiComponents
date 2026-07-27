@@ -1,0 +1,5 @@
+{
+  "componentsPath": "projects/components/_internal/helm",
+  "importAlias": "@wiloc/ui-internal/helm",
+  "style": "nova"
+}

@@ -78,7 +78,7 @@ Checklist de **demanda** extraído del uso real de PrimeNG en la app consumidora
 
 | Capacidad / tema      | Origen Prime (referencia)            | Cubo         | Estado       | Notas                                                                                      |
 | --------------------- | ------------------------------------ | ------------ | ------------ | ------------------------------------------------------------------------------------------ |
-| Tokens + dark mode    | `providePrimeNG`, Aura, `data-theme` | base         | planned      | Tokens `--wi-*`; app aplica `class="dark"` en `<html>`                                     |
+| Tokens + dark mode    | `providePrimeNG`, Aura, `data-theme` | base         | in-progress  | Tokens `--wi-color-*` + `@wiloc/ui/core`; app aplica `class="wi-dark"`; Storybook toolbar  |
 | PassThrough `[pt]`    | PrimeNG PT                           | out-of-scope | out-of-scope | Sustituir por composición + variantes + tokens                                             |
 | Ripple                | `ripple`                             | out-of-scope | out-of-scope | No requerido en el design system                                                           |
 | Tipos/servicios Prime | `api` (`MenuItem`, etc.)             | out-of-scope | out-of-scope | Tipos Wi propios; adapters solo en la app si hace falta                                    |
