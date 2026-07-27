@@ -10,6 +10,7 @@
     "../src/test.ts",
     "../src/**/*.spec.ts",
     "../button/**/*.spec.ts",
+    "../forms/**/*.spec.ts",
     "../icon/**/*.spec.ts"
   ],
   "include": [
@@ -17,6 +18,8 @@
     "../src/**/*.stories.*",
     "../button/**/*.ts",
     "../button/**/*.stories.*",
+    "../forms/**/*.ts",
+    "../forms/**/*.stories.*",
     "../icon/**/*.ts",
     "../icon/**/*.stories.*",
     "../core/**/*.ts",

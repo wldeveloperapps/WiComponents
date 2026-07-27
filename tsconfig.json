@@ -7,7 +7,9 @@
       "@wiloc/ui": ["./dist/components"],
       "@wiloc/ui/button": ["./projects/components/button/src/public-api.ts"],
       "@wiloc/ui/core": ["./projects/components/core/src/public-api.ts"],
+      "@wiloc/ui/forms": ["./projects/components/forms/src/public-api.ts"],
       "@wiloc/ui/icon": ["./projects/components/icon/src/public-api.ts"],
+
       "@wiloc/ui/icon/heroicons": ["./projects/components/icon/heroicons/src/public-api.ts"],
       "@wiloc/ui-internal/helm": ["./projects/components/_internal/helm"],
       "@wiloc/ui-internal/helm/*": ["./projects/components/_internal/helm/*"],

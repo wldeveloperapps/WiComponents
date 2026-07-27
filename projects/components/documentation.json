@@ -691,7 +691,7 @@
     },
     {
       "name": "WiButtonComponent",
-      "id": "component-WiButtonComponent-abd0ece6df97587d18be028ca0d6da6b002b57b3854d6599cf06b5c9f5db5afd0c23d63c1c3f2afaff5d6ebac804aab5f99bd9ecd1ae12e0313f6ebc98361d28",
+      "id": "component-WiButtonComponent-6f7ebf20c4c2d9988f12f297f496ad4651975203158c3a4a47f8ae695aee665ae42c3fa938b26a5939058a6c95423d4c1774bca0a1ed711f1d2bc8a1578377e2",
       "file": "projects/components/button/src/wi-button.component.ts",
       "changeDetection": "ChangeDetectionStrategy.OnPush",
       "encapsulation": [],
@@ -703,7 +703,7 @@
       "selector": "wi-button",
       "styleUrls": [],
       "styles": [],
-      "template": "<button\n  [attr.type]=\"type()\"\n  [class]=\"classes()\"\n  [disabled]=\"isDisabled()\"\n  [attr.aria-busy]=\"loading() || null\"\n  [attr.aria-label]=\"ariaLabel()\"\n  [attr.aria-disabled]=\"isDisabled() || null\"\n>\n  @if (loading()) {\n    <svg\n      class=\"size-4 animate-spin\"\n      viewBox=\"0 0 24 24\"\n      fill=\"none\"\n      aria-hidden=\"true\"\n    >\n      <circle\n        class=\"opacity-25\"\n        cx=\"12\"\n        cy=\"12\"\n        r=\"10\"\n        stroke=\"currentColor\"\n        stroke-width=\"4\"\n      />\n      <path\n        class=\"opacity-75\"\n        fill=\"currentColor\"\n        d=\"M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z\"\n      />\n    </svg>\n  }\n  <ng-content />\n</button>\n",
+      "template": "<button\n  [attr.type]=\"type()\"\n  [class]=\"classes()\"\n  [disabled]=\"isDisabled()\"\n  [attr.aria-busy]=\"loading() || null\"\n  [attr.aria-label]=\"ariaLabel()\"\n  [attr.aria-disabled]=\"isDisabled() || null\"\n>\n  @if (loading()) {\n    <svg class=\"size-4 animate-spin\" viewBox=\"0 0 24 24\" fill=\"none\" aria-hidden=\"true\">\n      <circle\n        class=\"opacity-25\"\n        cx=\"12\"\n        cy=\"12\"\n        r=\"10\"\n        stroke=\"currentColor\"\n        stroke-width=\"4\"\n      />\n      <path\n        class=\"opacity-75\"\n        fill=\"currentColor\"\n        d=\"M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z\"\n      />\n    </svg>\n  }\n  <ng-content />\n</button>\n",
       "templateUrl": [],
       "templateVariables": [],
       "viewProviders": [],
@@ -719,7 +719,7 @@
           "indexKey": "",
           "optional": false,
           "description": "<p>Nombre accesible; especialmente útil con <code>iconOnly</code>.</p>\n",
-          "line": 101,
+          "line": 95,
           "rawdescription": "\nNombre accesible; especialmente útil con `iconOnly`.",
           "modifierKind": [148],
           "required": false
@@ -734,7 +734,7 @@
           "indexKey": "",
           "optional": false,
           "description": "",
-          "line": 98,
+          "line": 92,
           "rawdescription": "\n",
           "modifierKind": [148],
           "required": false
@@ -749,7 +749,7 @@
           "indexKey": "",
           "optional": false,
           "description": "",
-          "line": 99,
+          "line": 93,
           "rawdescription": "\n",
           "modifierKind": [148],
           "required": false
@@ -764,7 +764,7 @@
           "indexKey": "",
           "optional": false,
           "description": "",
-          "line": 97,
+          "line": 91,
           "rawdescription": "\n",
           "modifierKind": [148],
           "required": false
@@ -779,7 +779,7 @@
           "indexKey": "",
           "optional": false,
           "description": "",
-          "line": 95,
+          "line": 89,
           "rawdescription": "\n",
           "modifierKind": [148],
           "required": false
@@ -794,7 +794,7 @@
           "indexKey": "",
           "optional": false,
           "description": "",
-          "line": 96,
+          "line": 90,
           "rawdescription": "\n",
           "modifierKind": [148],
           "required": false
@@ -809,7 +809,7 @@
           "indexKey": "",
           "optional": false,
           "description": "",
-          "line": 94,
+          "line": 88,
           "rawdescription": "\n",
           "modifierKind": [148],
           "required": false
@@ -827,7 +827,7 @@
           "indexKey": "",
           "optional": false,
           "description": "",
-          "line": 105,
+          "line": 99,
           "rawdescription": "\n",
           "modifierKind": [124, 148]
         },
@@ -841,7 +841,7 @@
           "indexKey": "",
           "optional": false,
           "description": "",
-          "line": 103,
+          "line": 97,
           "rawdescription": "\n",
           "modifierKind": [124, 148]
         }
@@ -857,14 +857,14 @@
       "description": "<p>Botón del design system (<code>wi-button</code>).</p>\n<ul>\n<li>Variantes y tamaños vía tokens semánticos.</li>\n<li><code>loading</code> deshabilita el control y expone <code>aria-busy</code>.</li>\n<li>Icon-only: usar <code>iconOnly</code> + <code>ariaLabel</code> (o texto accesible en el contenido).</li>\n</ul>\n",
       "rawdescription": "\n\nBotón del design system (`wi-button`).\n\n- Variantes y tamaños vía tokens semánticos.\n- `loading` deshabilita el control y expone `aria-busy`.\n- Icon-only: usar `iconOnly` + `ariaLabel` (o texto accesible en el contenido).\n",
       "type": "component",
-      "sourceCode": "import { booleanAttribute, Component, computed, input } from '@angular/core';\n\nimport type { WiButtonSize, WiButtonType, WiButtonVariant } from './wi-button.types';\n\nconst BASE_CLASSES = [\n  'inline-flex',\n  'shrink-0',\n  'items-center',\n  'justify-center',\n  'gap-2',\n  'whitespace-nowrap',\n  'rounded-control',\n  'font-medium',\n  'transition-colors',\n  'outline-none',\n  'select-none',\n  'focus-visible:ring-2',\n  'focus-visible:ring-ring',\n  'focus-visible:ring-offset-2',\n  'focus-visible:ring-offset-background',\n  'disabled:pointer-events-none',\n  'disabled:opacity-50',\n].join(' ');\n\nconst VARIANT_CLASSES: Record<WiButtonVariant, string> = {\n  primary: 'bg-primary text-on-primary hover:bg-primary/90',\n  secondary: 'bg-secondary text-on-secondary hover:bg-secondary/90',\n  danger: 'bg-error text-on-error hover:bg-error/90',\n  ghost: 'bg-transparent text-on-surface hover:bg-surface-variant',\n  outline:\n    'border border-outline bg-transparent text-on-surface hover:bg-surface-variant',\n};\n\nconst SIZE_CLASSES: Record<WiButtonSize, string> = {\n  sm: 'h-control-sm px-3 text-sm',\n  md: 'h-control-md px-4 text-sm',\n  lg: 'h-control-lg px-6 text-base',\n};\n\nconst ICON_ONLY_SIZE_CLASSES: Record<WiButtonSize, string> = {\n  sm: 'h-control-sm w-8 px-0',\n  md: 'h-control-md w-10 px-0',\n  lg: 'h-control-lg w-12 px-0',\n};\n\n/**\n * Botón del design system (`wi-button`).\n *\n * - Variantes y tamaños vía tokens semánticos.\n * - `loading` deshabilita el control y expone `aria-busy`.\n * - Icon-only: usar `iconOnly` + `ariaLabel` (o texto accesible en el contenido).\n */\n@Component({\n  selector: 'wi-button',\n  host: {\n    class: 'wi-button contents',\n  },\n  template: `\n    <button\n      [attr.type]=\"type()\"\n      [class]=\"classes()\"\n      [disabled]=\"isDisabled()\"\n      [attr.aria-busy]=\"loading() || null\"\n      [attr.aria-label]=\"ariaLabel()\"\n      [attr.aria-disabled]=\"isDisabled() || null\"\n    >\n      @if (loading()) {\n        <svg\n          class=\"size-4 animate-spin\"\n          viewBox=\"0 0 24 24\"\n          fill=\"none\"\n          aria-hidden=\"true\"\n        >\n          <circle\n            class=\"opacity-25\"\n            cx=\"12\"\n            cy=\"12\"\n            r=\"10\"\n            stroke=\"currentColor\"\n            stroke-width=\"4\"\n          />\n          <path\n            class=\"opacity-75\"\n            fill=\"currentColor\"\n            d=\"M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z\"\n          />\n        </svg>\n      }\n      <ng-content />\n    </button>\n  `,\n})\nexport class WiButtonComponent {\n  readonly variant = input<WiButtonVariant>('primary');\n  readonly size = input<WiButtonSize>('md');\n  readonly type = input<WiButtonType>('button');\n  readonly loading = input(false, { transform: booleanAttribute });\n  readonly disabled = input(false, { transform: booleanAttribute });\n  readonly iconOnly = input(false, { transform: booleanAttribute });\n  /** Nombre accesible; especialmente útil con `iconOnly`. */\n  readonly ariaLabel = input<string | null>(null);\n\n  protected readonly isDisabled = computed(() => this.disabled() || this.loading());\n\n  protected readonly classes = computed(() => {\n    const sizeClasses = this.iconOnly()\n      ? ICON_ONLY_SIZE_CLASSES[this.size()]\n      : SIZE_CLASSES[this.size()];\n\n    return [BASE_CLASSES, VARIANT_CLASSES[this.variant()], sizeClasses].join(' ');\n  });\n}\n",
+      "sourceCode": "import { booleanAttribute, Component, computed, input } from '@angular/core';\n\nimport type { WiButtonSize, WiButtonType, WiButtonVariant } from './wi-button.types';\n\nconst BASE_CLASSES = [\n  'inline-flex',\n  'shrink-0',\n  'items-center',\n  'justify-center',\n  'gap-2',\n  'whitespace-nowrap',\n  'rounded-control',\n  'font-medium',\n  'transition-colors',\n  'outline-none',\n  'select-none',\n  'focus-visible:ring-2',\n  'focus-visible:ring-ring',\n  'focus-visible:ring-offset-2',\n  'focus-visible:ring-offset-background',\n  'disabled:pointer-events-none',\n  'disabled:opacity-50',\n].join(' ');\n\nconst VARIANT_CLASSES: Record<WiButtonVariant, string> = {\n  primary: 'bg-primary text-on-primary hover:bg-primary/90',\n  secondary: 'bg-secondary text-on-secondary hover:bg-secondary/90',\n  danger: 'bg-error text-on-error hover:bg-error/90',\n  ghost: 'bg-transparent text-on-surface hover:bg-surface-variant',\n  outline: 'border border-outline bg-transparent text-on-surface hover:bg-surface-variant',\n};\n\nconst SIZE_CLASSES: Record<WiButtonSize, string> = {\n  sm: 'h-control-sm px-3 text-sm',\n  md: 'h-control-md px-4 text-sm',\n  lg: 'h-control-lg px-6 text-base',\n};\n\nconst ICON_ONLY_SIZE_CLASSES: Record<WiButtonSize, string> = {\n  sm: 'h-control-sm w-8 px-0',\n  md: 'h-control-md w-10 px-0',\n  lg: 'h-control-lg w-12 px-0',\n};\n\n/**\n * Botón del design system (`wi-button`).\n *\n * - Variantes y tamaños vía tokens semánticos.\n * - `loading` deshabilita el control y expone `aria-busy`.\n * - Icon-only: usar `iconOnly` + `ariaLabel` (o texto accesible en el contenido).\n */\n@Component({\n  selector: 'wi-button',\n  host: {\n    class: 'wi-button contents',\n  },\n  template: `\n    <button\n      [attr.type]=\"type()\"\n      [class]=\"classes()\"\n      [disabled]=\"isDisabled()\"\n      [attr.aria-busy]=\"loading() || null\"\n      [attr.aria-label]=\"ariaLabel()\"\n      [attr.aria-disabled]=\"isDisabled() || null\"\n    >\n      @if (loading()) {\n        <svg class=\"size-4 animate-spin\" viewBox=\"0 0 24 24\" fill=\"none\" aria-hidden=\"true\">\n          <circle\n            class=\"opacity-25\"\n            cx=\"12\"\n            cy=\"12\"\n            r=\"10\"\n            stroke=\"currentColor\"\n            stroke-width=\"4\"\n          />\n          <path\n            class=\"opacity-75\"\n            fill=\"currentColor\"\n            d=\"M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z\"\n          />\n        </svg>\n      }\n      <ng-content />\n    </button>\n  `,\n})\nexport class WiButtonComponent {\n  readonly variant = input<WiButtonVariant>('primary');\n  readonly size = input<WiButtonSize>('md');\n  readonly type = input<WiButtonType>('button');\n  readonly loading = input(false, { transform: booleanAttribute });\n  readonly disabled = input(false, { transform: booleanAttribute });\n  readonly iconOnly = input(false, { transform: booleanAttribute });\n  /** Nombre accesible; especialmente útil con `iconOnly`. */\n  readonly ariaLabel = input<string | null>(null);\n\n  protected readonly isDisabled = computed(() => this.disabled() || this.loading());\n\n  protected readonly classes = computed(() => {\n    const sizeClasses = this.iconOnly()\n      ? ICON_ONLY_SIZE_CLASSES[this.size()]\n      : SIZE_CLASSES[this.size()];\n\n    return [BASE_CLASSES, VARIANT_CLASSES[this.variant()], sizeClasses].join(' ');\n  });\n}\n",
       "assetsDirs": [],
       "styleUrlsData": "",
       "stylesData": "",
       "jsdoctags": [
         {
-          "pos": 1328,
-          "end": 1571,
+          "pos": 1324,
+          "end": 1567,
           "kind": 321,
           "id": 0,
           "flags": 16777216,
@@ -1305,6 +1305,617 @@
         "incoming": [],
         "outgoing": []
       }
+    },
+    {
+      "name": "WiInputComponent",
+      "id": "component-WiInputComponent-9b3d7476300a30032a984733598e13cd6dc0472c7480a85fd82c41fa1e1e882b93d3a8e32ec30c8f23ccbe4a1218a20c6d65696aac4496b50b5707bd292d49bd",
+      "file": "projects/components/forms/src/wi-input.component.ts",
+      "changeDetection": "ChangeDetectionStrategy.OnPush",
+      "encapsulation": [],
+      "entryComponents": [],
+      "host": {},
+      "inputs": [],
+      "outputs": [],
+      "providers": [
+        {
+          "name": ")"
+        }
+      ],
+      "selector": "wi-input",
+      "styleUrls": [],
+      "styles": [],
+      "template": "<input\n  [attr.id]=\"resolvedId()\"\n  [attr.name]=\"name() || null\"\n  [attr.type]=\"type()\"\n  [attr.placeholder]=\"placeholder() || null\"\n  [attr.autocomplete]=\"autocomplete()\"\n  [attr.aria-label]=\"ariaLabel()\"\n  [attr.aria-describedby]=\"ariaDescribedBy()\"\n  [attr.aria-invalid]=\"invalid() || null\"\n  [attr.aria-required]=\"required() || null\"\n  [attr.required]=\"required() || null\"\n  [class]=\"classes()\"\n  [value]=\"value()\"\n  [disabled]=\"isDisabled()\"\n  [readonly]=\"readonly()\"\n  (input)=\"onNativeInput($event)\"\n  (blur)=\"onNativeBlur()\"\n/>\n",
+      "templateUrl": [],
+      "templateVariables": [],
+      "viewProviders": [],
+      "hostDirectives": [],
+      "inputsClass": [
+        {
+          "name": "ariaDescribedBy",
+          "coverageIgnore": false,
+          "defaultValue": "null",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "string | null",
+          "indexKey": "",
+          "optional": false,
+          "description": "",
+          "line": 100,
+          "rawdescription": "\n",
+          "modifierKind": [148],
+          "required": false
+        },
+        {
+          "name": "ariaLabel",
+          "coverageIgnore": false,
+          "defaultValue": "null",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "string | null",
+          "indexKey": "",
+          "optional": false,
+          "description": "",
+          "line": 99,
+          "rawdescription": "\n",
+          "modifierKind": [148],
+          "required": false
+        },
+        {
+          "name": "autocomplete",
+          "coverageIgnore": false,
+          "defaultValue": "null",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "string | null",
+          "indexKey": "",
+          "optional": false,
+          "description": "",
+          "line": 98,
+          "rawdescription": "\n",
+          "modifierKind": [148],
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "coverageIgnore": false,
+          "defaultValue": "false",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "boolean",
+          "indexKey": "",
+          "optional": false,
+          "description": "",
+          "line": 102,
+          "rawdescription": "\n",
+          "modifierKind": [148],
+          "required": false
+        },
+        {
+          "name": "id",
+          "coverageIgnore": false,
+          "defaultValue": "undefined",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "string | undefined",
+          "indexKey": "",
+          "optional": false,
+          "description": "",
+          "line": 96,
+          "rawdescription": "\n",
+          "modifierKind": [148],
+          "required": false
+        },
+        {
+          "name": "invalid",
+          "coverageIgnore": false,
+          "defaultValue": "false",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "boolean",
+          "indexKey": "",
+          "optional": false,
+          "description": "",
+          "line": 104,
+          "rawdescription": "\n",
+          "modifierKind": [148],
+          "required": false
+        },
+        {
+          "name": "name",
+          "coverageIgnore": false,
+          "defaultValue": "''",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "string",
+          "indexKey": "",
+          "optional": false,
+          "description": "",
+          "line": 97,
+          "rawdescription": "\n",
+          "modifierKind": [148],
+          "required": false
+        },
+        {
+          "name": "placeholder",
+          "coverageIgnore": false,
+          "defaultValue": "''",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "string",
+          "indexKey": "",
+          "optional": false,
+          "description": "",
+          "line": 95,
+          "rawdescription": "\n",
+          "modifierKind": [148],
+          "required": false
+        },
+        {
+          "name": "readonly",
+          "coverageIgnore": false,
+          "defaultValue": "false",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "boolean",
+          "indexKey": "",
+          "optional": false,
+          "description": "",
+          "line": 103,
+          "rawdescription": "\n",
+          "modifierKind": [148],
+          "required": false
+        },
+        {
+          "name": "required",
+          "coverageIgnore": false,
+          "defaultValue": "false",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "boolean",
+          "indexKey": "",
+          "optional": false,
+          "description": "",
+          "line": 105,
+          "rawdescription": "\n",
+          "modifierKind": [148],
+          "required": false
+        },
+        {
+          "name": "size",
+          "coverageIgnore": false,
+          "defaultValue": "'md'",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "WiInputSize",
+          "indexKey": "",
+          "optional": false,
+          "description": "",
+          "line": 93,
+          "rawdescription": "\n",
+          "modifierKind": [148],
+          "required": false
+        },
+        {
+          "name": "type",
+          "coverageIgnore": false,
+          "defaultValue": "'text'",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "WiInputType",
+          "indexKey": "",
+          "optional": false,
+          "description": "",
+          "line": 94,
+          "rawdescription": "\n",
+          "modifierKind": [148],
+          "required": false
+        },
+        {
+          "name": "value",
+          "coverageIgnore": false,
+          "defaultValue": "''",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "string",
+          "indexKey": "",
+          "optional": false,
+          "description": "<p>Valor del control (Signal Forms + two-way binding).</p>\n",
+          "line": 91,
+          "rawdescription": "\nValor del control (Signal Forms + two-way binding).",
+          "modifierKind": [148],
+          "required": false
+        }
+      ],
+      "outputsClass": [
+        {
+          "name": "touch",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "void",
+          "indexKey": "",
+          "optional": false,
+          "description": "<p>Emite en blur para Signal Forms (<code>debounce(&#39;blur&#39;)</code>, touched).</p>\n",
+          "line": 108,
+          "rawdescription": "\nEmite en blur para Signal Forms (`debounce('blur')`, touched).",
+          "modifierKind": [148],
+          "required": false
+        },
+        {
+          "name": "value",
+          "coverageIgnore": false,
+          "defaultValue": "''",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "string",
+          "indexKey": "",
+          "optional": false,
+          "description": "<p>Valor del control (Signal Forms + two-way binding).</p>\n",
+          "line": 91,
+          "rawdescription": "\nValor del control (Signal Forms + two-way binding).",
+          "modifierKind": [148],
+          "required": false
+        }
+      ],
+      "propertiesClass": [
+        {
+          "name": "classes",
+          "coverageIgnore": false,
+          "defaultValue": "computed(() =>\n    [BASE_CLASSES, SIZE_CLASSES[this.size()]].join(' '),\n  )",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "unknown",
+          "indexKey": "",
+          "optional": false,
+          "description": "",
+          "line": 120,
+          "rawdescription": "\n",
+          "modifierKind": [124, 148]
+        },
+        {
+          "name": "cvaDisabled",
+          "coverageIgnore": false,
+          "defaultValue": "signal(false)",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "unknown",
+          "indexKey": "",
+          "optional": false,
+          "description": "",
+          "line": 111,
+          "rawdescription": "\n",
+          "modifierKind": [123, 148]
+        },
+        {
+          "name": "generatedId",
+          "coverageIgnore": false,
+          "defaultValue": "`wi-input-${++nextInputId}`",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "unknown",
+          "indexKey": "",
+          "optional": false,
+          "description": "",
+          "line": 110,
+          "rawdescription": "\n",
+          "modifierKind": [123, 148]
+        },
+        {
+          "name": "isDisabled",
+          "coverageIgnore": false,
+          "defaultValue": "computed(() => this.disabled() || this.cvaDisabled())",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "unknown",
+          "indexKey": "",
+          "optional": false,
+          "description": "",
+          "line": 118,
+          "rawdescription": "\n",
+          "modifierKind": [124, 148]
+        },
+        {
+          "name": "onChange",
+          "coverageIgnore": false,
+          "defaultValue": "() => {...}",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "function",
+          "indexKey": "",
+          "optional": false,
+          "description": "",
+          "line": 113,
+          "rawdescription": "\n",
+          "modifierKind": [123]
+        },
+        {
+          "name": "onTouched",
+          "coverageIgnore": false,
+          "defaultValue": "() => {...}",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "function",
+          "indexKey": "",
+          "optional": false,
+          "description": "",
+          "line": 114,
+          "rawdescription": "\n",
+          "modifierKind": [123]
+        },
+        {
+          "name": "resolvedId",
+          "coverageIgnore": false,
+          "defaultValue": "computed(() => this.id() ?? this.generatedId)",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "unknown",
+          "indexKey": "",
+          "optional": false,
+          "description": "",
+          "line": 116,
+          "rawdescription": "\n",
+          "modifierKind": [124, 148]
+        }
+      ],
+      "methodsClass": [
+        {
+          "name": "onNativeBlur",
+          "coverageIgnore": false,
+          "args": [],
+          "optional": false,
+          "returnType": "void",
+          "typeParameters": [],
+          "line": 146,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "rawdescription": "\n",
+          "description": "",
+          "modifierKind": [124]
+        },
+        {
+          "name": "onNativeInput",
+          "coverageIgnore": false,
+          "args": [
+            {
+              "name": "event",
+              "type": "Event",
+              "optional": false,
+              "dotDotDotToken": false,
+              "deprecated": false,
+              "deprecationMessage": ""
+            }
+          ],
+          "optional": false,
+          "returnType": "void",
+          "typeParameters": [],
+          "line": 140,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "rawdescription": "\n",
+          "description": "",
+          "modifierKind": [124],
+          "jsdoctags": [
+            {
+              "name": "event",
+              "type": "Event",
+              "optional": false,
+              "dotDotDotToken": false,
+              "deprecated": false,
+              "deprecationMessage": "",
+              "tagName": {
+                "text": "param"
+              }
+            }
+          ]
+        },
+        {
+          "name": "registerOnChange",
+          "coverageIgnore": false,
+          "args": [
+            {
+              "name": "fn",
+              "type": "function",
+              "optional": false,
+              "dotDotDotToken": false,
+              "deprecated": false,
+              "deprecationMessage": "",
+              "function": [
+                {
+                  "name": "value",
+                  "type": "string",
+                  "optional": false,
+                  "dotDotDotToken": false,
+                  "deprecated": false,
+                  "deprecationMessage": ""
+                }
+              ]
+            }
+          ],
+          "optional": false,
+          "returnType": "void",
+          "typeParameters": [],
+          "line": 128,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "rawdescription": "\n",
+          "description": "",
+          "jsdoctags": [
+            {
+              "name": "fn",
+              "type": "function",
+              "optional": false,
+              "dotDotDotToken": false,
+              "deprecated": false,
+              "deprecationMessage": "",
+              "function": [
+                {
+                  "name": "value",
+                  "type": "string",
+                  "optional": false,
+                  "dotDotDotToken": false,
+                  "deprecated": false,
+                  "deprecationMessage": ""
+                }
+              ],
+              "tagName": {
+                "text": "param"
+              }
+            }
+          ]
+        },
+        {
+          "name": "registerOnTouched",
+          "coverageIgnore": false,
+          "args": [
+            {
+              "name": "fn",
+              "type": "function",
+              "optional": false,
+              "dotDotDotToken": false,
+              "deprecated": false,
+              "deprecationMessage": "",
+              "function": []
+            }
+          ],
+          "optional": false,
+          "returnType": "void",
+          "typeParameters": [],
+          "line": 132,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "rawdescription": "\n",
+          "description": "",
+          "jsdoctags": [
+            {
+              "name": "fn",
+              "type": "function",
+              "optional": false,
+              "dotDotDotToken": false,
+              "deprecated": false,
+              "deprecationMessage": "",
+              "function": [],
+              "tagName": {
+                "text": "param"
+              }
+            }
+          ]
+        },
+        {
+          "name": "setDisabledState",
+          "coverageIgnore": false,
+          "args": [
+            {
+              "name": "isDisabled",
+              "type": "boolean",
+              "optional": false,
+              "dotDotDotToken": false,
+              "deprecated": false,
+              "deprecationMessage": ""
+            }
+          ],
+          "optional": false,
+          "returnType": "void",
+          "typeParameters": [],
+          "line": 136,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "rawdescription": "\n",
+          "description": "",
+          "jsdoctags": [
+            {
+              "name": "isDisabled",
+              "type": "boolean",
+              "optional": false,
+              "dotDotDotToken": false,
+              "deprecated": false,
+              "deprecationMessage": "",
+              "tagName": {
+                "text": "param"
+              }
+            }
+          ]
+        },
+        {
+          "name": "writeValue",
+          "coverageIgnore": false,
+          "args": [
+            {
+              "name": "value",
+              "type": "string | null",
+              "optional": false,
+              "dotDotDotToken": false,
+              "deprecated": false,
+              "deprecationMessage": ""
+            }
+          ],
+          "optional": false,
+          "returnType": "void",
+          "typeParameters": [],
+          "line": 124,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "rawdescription": "\n",
+          "description": "",
+          "jsdoctags": [
+            {
+              "name": "value",
+              "type": "string | null",
+              "optional": false,
+              "dotDotDotToken": false,
+              "deprecated": false,
+              "deprecationMessage": "",
+              "tagName": {
+                "text": "param"
+              }
+            }
+          ]
+        }
+      ],
+      "coverageIgnore": false,
+      "deprecated": false,
+      "deprecationMessage": "",
+      "hostBindings": [],
+      "hostListeners": [],
+      "standalone": true,
+      "imports": [],
+      "description": "<p>Campo de texto del design system (<code>wi-input</code>).</p>\n<ul>\n<li>Tokens semánticos y tamaños alineados con <code>wi-button</code>.</li>\n<li><code>FormValueControl</code> para Signal Forms (<code>[formField]</code>).</li>\n<li><code>ControlValueAccessor</code> para Reactive Forms / <code>ngModel</code>.</li>\n<li>Label, hint y error quedan fuera (composición <code>wi-field</code> prevista).</li>\n</ul>\n",
+      "rawdescription": "\n\nCampo de texto del design system (`wi-input`).\n\n- Tokens semánticos y tamaños alineados con `wi-button`.\n- `FormValueControl` para Signal Forms (`[formField]`).\n- `ControlValueAccessor` para Reactive Forms / `ngModel`.\n- Label, hint y error quedan fuera (composición `wi-field` prevista).\n",
+      "type": "component",
+      "sourceCode": "import {\n  booleanAttribute,\n  Component,\n  computed,\n  forwardRef,\n  input,\n  model,\n  output,\n  signal,\n} from '@angular/core';\nimport { type ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';\nimport type { FormValueControl } from '@angular/forms/signals';\n\nimport type { WiInputSize, WiInputType } from './wi-input.types';\n\nconst BASE_CLASSES = [\n  'flex',\n  'w-full',\n  'min-w-0',\n  'rounded-control',\n  'border',\n  'border-outline',\n  'bg-surface',\n  'text-on-surface',\n  'placeholder:text-on-surface-variant',\n  'transition-colors',\n  'outline-none',\n  'focus-visible:ring-2',\n  'focus-visible:ring-ring',\n  'focus-visible:ring-offset-2',\n  'focus-visible:ring-offset-background',\n  'disabled:pointer-events-none',\n  'disabled:cursor-not-allowed',\n  'disabled:opacity-50',\n  'read-only:bg-surface-variant',\n  'aria-invalid:border-error',\n  'aria-invalid:focus-visible:ring-error',\n].join(' ');\n\nconst SIZE_CLASSES: Record<WiInputSize, string> = {\n  sm: 'h-control-sm px-3 text-sm',\n  md: 'h-control-md px-3 text-sm',\n  lg: 'h-control-lg px-4 text-base',\n};\n\nlet nextInputId = 0;\n\n/**\n * Campo de texto del design system (`wi-input`).\n *\n * - Tokens semánticos y tamaños alineados con `wi-button`.\n * - `FormValueControl` para Signal Forms (`[formField]`).\n * - `ControlValueAccessor` para Reactive Forms / `ngModel`.\n * - Label, hint y error quedan fuera (composición `wi-field` prevista).\n */\n@Component({\n  selector: 'wi-input',\n  providers: [\n    {\n      provide: NG_VALUE_ACCESSOR,\n      useExisting: forwardRef(() => WiInputComponent),\n      multi: true,\n    },\n  ],\n  host: {\n    class: 'wi-input contents',\n  },\n  template: `\n    <input\n      [attr.id]=\"resolvedId()\"\n      [attr.name]=\"name() || null\"\n      [attr.type]=\"type()\"\n      [attr.placeholder]=\"placeholder() || null\"\n      [attr.autocomplete]=\"autocomplete()\"\n      [attr.aria-label]=\"ariaLabel()\"\n      [attr.aria-describedby]=\"ariaDescribedBy()\"\n      [attr.aria-invalid]=\"invalid() || null\"\n      [attr.aria-required]=\"required() || null\"\n      [attr.required]=\"required() || null\"\n      [class]=\"classes()\"\n      [value]=\"value()\"\n      [disabled]=\"isDisabled()\"\n      [readonly]=\"readonly()\"\n      (input)=\"onNativeInput($event)\"\n      (blur)=\"onNativeBlur()\"\n    />\n  `,\n})\nexport class WiInputComponent implements ControlValueAccessor, FormValueControl<string> {\n  /** Valor del control (Signal Forms + two-way binding). */\n  readonly value = model('');\n\n  readonly size = input<WiInputSize>('md');\n  readonly type = input<WiInputType>('text');\n  readonly placeholder = input('');\n  readonly id = input<string | undefined>(undefined);\n  readonly name = input<string>('');\n  readonly autocomplete = input<string | null>(null);\n  readonly ariaLabel = input<string | null>(null);\n  readonly ariaDescribedBy = input<string | null>(null);\n\n  readonly disabled = input(false, { transform: booleanAttribute });\n  readonly readonly = input(false, { transform: booleanAttribute });\n  readonly invalid = input(false, { transform: booleanAttribute });\n  readonly required = input(false, { transform: booleanAttribute });\n\n  /** Emite en blur para Signal Forms (`debounce('blur')`, touched). */\n  readonly touch = output<void>();\n\n  private readonly generatedId = `wi-input-${++nextInputId}`;\n  private readonly cvaDisabled = signal(false);\n\n  private onChange: (value: string) => void = () => undefined;\n  private onTouched: () => void = () => undefined;\n\n  protected readonly resolvedId = computed(() => this.id() ?? this.generatedId);\n\n  protected readonly isDisabled = computed(() => this.disabled() || this.cvaDisabled());\n\n  protected readonly classes = computed(() =>\n    [BASE_CLASSES, SIZE_CLASSES[this.size()]].join(' '),\n  );\n\n  writeValue(value: string | null): void {\n    this.value.set(value ?? '');\n  }\n\n  registerOnChange(fn: (value: string) => void): void {\n    this.onChange = fn;\n  }\n\n  registerOnTouched(fn: () => void): void {\n    this.onTouched = fn;\n  }\n\n  setDisabledState(isDisabled: boolean): void {\n    this.cvaDisabled.set(isDisabled);\n  }\n\n  protected onNativeInput(event: Event): void {\n    const next = (event.target as HTMLInputElement).value;\n    this.value.set(next);\n    this.onChange(next);\n  }\n\n  protected onNativeBlur(): void {\n    this.onTouched();\n    this.touch.emit();\n  }\n}\n",
+      "assetsDirs": [],
+      "styleUrlsData": "",
+      "stylesData": "",
+      "jsdoctags": [
+        {
+          "pos": 1100,
+          "end": 1413,
+          "kind": 321,
+          "id": 0,
+          "flags": 16777216,
+          "modifierFlagsCache": 0,
+          "transformFlags": 0,
+          "comment": "Campo de texto del design system (`wi-input`).\n\n- Tokens semánticos y tamaños alineados con `wi-button`.\n- `FormValueControl` para Signal Forms (`[formField]`).\n- `ControlValueAccessor` para Reactive Forms / `ngModel`.\n- Label, hint y error quedan fuera (composición `wi-field` prevista)."
+        }
+      ],
+      "extends": [],
+      "implements": ["ControlValueAccessor", "FormValueControl"],
+      "relationships": {
+        "incoming": [],
+        "outgoing": [
+          {
+            "name": ")",
+            "type": "injectable"
+          },
+          {
+            "name": "ControlValueAccessor",
+            "type": "interface"
+          },
+          {
+            "name": "FormValueControl",
+            "type": "interface"
+          }
+        ]
+      }
     }
   ],
   "modules": [],
@@ -1721,6 +2332,17 @@
         "deprecationMessage": "",
         "type": "unknown",
         "defaultValue": "[\n  'inline-flex',\n  'shrink-0',\n  'items-center',\n  'justify-center',\n  'gap-2',\n  'whitespace-nowrap',\n  'rounded-control',\n  'font-medium',\n  'transition-colors',\n  'outline-none',\n  'select-none',\n  'focus-visible:ring-2',\n  'focus-visible:ring-ring',\n  'focus-visible:ring-offset-2',\n  'focus-visible:ring-offset-background',\n  'disabled:pointer-events-none',\n  'disabled:opacity-50',\n].join(' ')"
+      },
+      {
+        "name": "BASE_CLASSES",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/forms/src/wi-input.component.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "unknown",
+        "defaultValue": "[\n  'flex',\n  'w-full',\n  'min-w-0',\n  'rounded-control',\n  'border',\n  'border-outline',\n  'bg-surface',\n  'text-on-surface',\n  'placeholder:text-on-surface-variant',\n  'transition-colors',\n  'outline-none',\n  'focus-visible:ring-2',\n  'focus-visible:ring-ring',\n  'focus-visible:ring-offset-2',\n  'focus-visible:ring-offset-background',\n  'disabled:pointer-events-none',\n  'disabled:cursor-not-allowed',\n  'disabled:opacity-50',\n  'read-only:bg-surface-variant',\n  'aria-invalid:border-error',\n  'aria-invalid:focus-visible:ring-error',\n].join(' ')"
       },
       {
         "name": "bellOutline",
@@ -2300,6 +2922,17 @@
         "defaultValue": "{\n  parameters: {\n    globals: { theme: 'dark' },\n  },\n  render: () => ({\n    template: `\n      <div style=\"display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;padding:1.5rem;\">\n        <wi-button variant=\"primary\">Primary</wi-button>\n        <wi-button variant=\"secondary\">Secondary</wi-button>\n        <wi-button variant=\"danger\">Danger</wi-button>\n        <wi-button variant=\"ghost\">Ghost</wi-button>\n        <wi-button variant=\"outline\">Outline</wi-button>\n        <wi-button loading>Loading</wi-button>\n      </div>\n    `,\n  }),\n}"
       },
       {
+        "name": "DarkMode",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/forms/src/wi-input.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  parameters: {\n    globals: { theme: 'dark' },\n  },\n  render: () => ({\n    template: `\n      <div style=\"display:flex;flex-direction:column;gap:0.75rem;width:20rem;padding:1.5rem;\">\n        <wi-input placeholder=\"Default\" ariaLabel=\"Default\" />\n        <wi-input invalid placeholder=\"Invalid\" ariaLabel=\"Invalid\" />\n        <wi-input disabled value=\"Disabled\" ariaLabel=\"Disabled\" />\n      </div>\n    `,\n  }),\n}"
+      },
+      {
         "name": "Decorative",
         "ctype": "miscellaneous",
         "subtype": "variable",
@@ -2325,6 +2958,17 @@
         "name": "Default",
         "ctype": "miscellaneous",
         "subtype": "variable",
+        "file": "projects/components/forms/src/wi-input.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  render: (args) => ({\n    props: args,\n    template: `\n      <div style=\"width:20rem;\">\n        <wi-input\n          [size]=\"size\"\n          [type]=\"type\"\n          [placeholder]=\"placeholder\"\n          [disabled]=\"disabled\"\n          [readonly]=\"readonly\"\n          [invalid]=\"invalid\"\n          [required]=\"required\"\n          [ariaLabel]=\"ariaLabel\"\n        />\n      </div>\n    `,\n  }),\n}"
+      },
+      {
+        "name": "Default",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
         "file": "projects/components/icon/src/wi-icon.stories.ts",
         "coverageIgnore": false,
         "deprecated": false,
@@ -2342,6 +2986,17 @@
         "deprecationMessage": "",
         "type": "Story",
         "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;\">\n        <wi-button disabled>Primary</wi-button>\n        <wi-button variant=\"secondary\" disabled>Secondary</wi-button>\n        <wi-button variant=\"outline\" disabled>Outline</wi-button>\n      </div>\n    `,\n  }),\n}"
+      },
+      {
+        "name": "Disabled",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/forms/src/wi-input.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"width:20rem;\">\n        <wi-input disabled value=\"No editable\" ariaLabel=\"Deshabilitado\" />\n      </div>\n    `,\n  }),\n}"
       },
       {
         "name": "documentOutline",
@@ -2778,6 +3433,17 @@
         "defaultValue": "{\n  render: () => ({\n    template: `\n      <button type=\"button\" style=\"display:inline-flex;align-items:center;gap:0.5rem;\">\n        <wi-icon name=\"trash\" />\n        Eliminar\n      </button>\n    `,\n  }),\n}"
       },
       {
+        "name": "Invalid",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/forms/src/wi-input.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"width:20rem;\">\n        <wi-input invalid value=\"valor-invalido\" ariaLabel=\"Campo inválido\" ariaDescribedBy=\"hint-invalid\" />\n        <p id=\"hint-invalid\" style=\"margin:0.5rem 0 0;font-size:0.875rem;color:var(--wi-color-error);\">\n          Introduce un valor válido.\n        </p>\n      </div>\n    `,\n  }),\n}"
+      },
+      {
         "name": "keyOutline",
         "ctype": "miscellaneous",
         "subtype": "variable",
@@ -3079,6 +3745,17 @@
         "name": "meta",
         "ctype": "miscellaneous",
         "subtype": "variable",
+        "file": "projects/components/forms/src/wi-input.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Meta<WiInputComponent>",
+        "defaultValue": "{\n  title: 'Forms/WiInput',\n  component: WiInputComponent,\n  tags: ['autodocs'],\n  parameters: {\n    layout: 'centered',\n  },\n  decorators: [\n    moduleMetadata({\n      imports: [WiInputComponent, ReactiveFormsModule],\n    }),\n  ],\n  argTypes: {\n    size: {\n      control: 'select',\n      options: ['sm', 'md', 'lg'],\n    },\n    type: {\n      control: 'select',\n      options: ['text', 'email', 'password', 'search', 'tel', 'url', 'number'],\n    },\n    placeholder: { control: 'text' },\n    disabled: { control: 'boolean' },\n    readonly: { control: 'boolean' },\n    invalid: { control: 'boolean' },\n    required: { control: 'boolean' },\n    ariaLabel: { control: 'text' },\n  },\n  args: {\n    size: 'md',\n    type: 'text',\n    placeholder: 'Escribe aquí…',\n    disabled: false,\n    readonly: false,\n    invalid: false,\n    required: false,\n    ariaLabel: 'Nombre',\n  },\n}"
+      },
+      {
+        "name": "meta",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
         "file": "projects/components/icon/src/wi-icon.stories.ts",
         "coverageIgnore": false,
         "deprecated": false,
@@ -3192,6 +3869,17 @@
         "defaultValue": "{\n  viewBox: '0 0 24 24',\n  nodes: [\n    {\n      tag: 'path',\n      attrs: {\n        'fill-rule': 'evenodd',\n        d: 'M9.528 1.718a.75.75 0 0 1 .162.819A8.97 8.97 0 0 0 9 6a9 9 0 0 0 9 9 8.97 8.97 0 0 0 3.463-.69.75.75 0 0 1 .981.98 10.503 10.503 0 0 1-9.694 6.46c-5.799 0-10.5-4.7-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 0 1 .818.162Z',\n        'clip-rule': 'evenodd',\n      },\n    },\n  ],\n}",
         "rawdescription": "Heroicons 24/solid/moon",
         "description": "<p>Heroicons 24/solid/moon</p>\n"
+      },
+      {
+        "name": "nextInputId",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/forms/src/wi-input.component.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "number",
+        "defaultValue": "0"
       },
       {
         "name": "Outline",
@@ -3409,6 +4097,17 @@
         "defaultValue": "{\n  args: {\n    primary: true,\n    label: 'Button',\n  },\n}"
       },
       {
+        "name": "Readonly",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/forms/src/wi-input.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"width:20rem;\">\n        <wi-input readonly value=\"Solo lectura\" ariaLabel=\"Solo lectura\" />\n      </div>\n    `,\n  }),\n}"
+      },
+      {
         "name": "Secondary",
         "ctype": "miscellaneous",
         "subtype": "variable",
@@ -3468,6 +4167,17 @@
         "defaultValue": "{\n  sm: 'h-control-sm px-3 text-sm',\n  md: 'h-control-md px-4 text-sm',\n  lg: 'h-control-lg px-6 text-base',\n}"
       },
       {
+        "name": "SIZE_CLASSES",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/forms/src/wi-input.component.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Record<WiInputSize, string>",
+        "defaultValue": "{\n  sm: 'h-control-sm px-3 text-sm',\n  md: 'h-control-md px-3 text-sm',\n  lg: 'h-control-lg px-4 text-base',\n}"
+      },
+      {
         "name": "Sizes",
         "ctype": "miscellaneous",
         "subtype": "variable",
@@ -3477,6 +4187,17 @@
         "deprecationMessage": "",
         "type": "Story",
         "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;\">\n        <wi-button size=\"sm\">Small</wi-button>\n        <wi-button size=\"md\">Medium</wi-button>\n        <wi-button size=\"lg\">Large</wi-button>\n      </div>\n    `,\n  }),\n}"
+      },
+      {
+        "name": "Sizes",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/forms/src/wi-input.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display:flex;flex-direction:column;gap:0.75rem;width:20rem;\">\n        <wi-input size=\"sm\" placeholder=\"Small\" ariaLabel=\"Small\" />\n        <wi-input size=\"md\" placeholder=\"Medium\" ariaLabel=\"Medium\" />\n        <wi-input size=\"lg\" placeholder=\"Large\" ariaLabel=\"Large\" />\n      </div>\n    `,\n  }),\n}"
       },
       {
         "name": "Sizes",
@@ -3694,6 +4415,17 @@
         "description": "<p>Heroicons 24/solid/trash</p>\n"
       },
       {
+        "name": "Types",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/forms/src/wi-input.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display:flex;flex-direction:column;gap:0.75rem;width:20rem;\">\n        <wi-input type=\"text\" placeholder=\"Texto\" ariaLabel=\"Texto\" />\n        <wi-input type=\"email\" placeholder=\"correo@ejemplo.com\" ariaLabel=\"Email\" />\n        <wi-input type=\"password\" placeholder=\"Contraseña\" ariaLabel=\"Contraseña\" />\n        <wi-input type=\"search\" placeholder=\"Buscar…\" ariaLabel=\"Buscar\" />\n      </div>\n    `,\n  }),\n}"
+      },
+      {
         "name": "userOutline",
         "ctype": "miscellaneous",
         "subtype": "variable",
@@ -3780,7 +4512,7 @@
         "deprecated": false,
         "deprecationMessage": "",
         "type": "Record<WiButtonVariant, string>",
-        "defaultValue": "{\n  primary: 'bg-primary text-on-primary hover:bg-primary/90',\n  secondary: 'bg-secondary text-on-secondary hover:bg-secondary/90',\n  danger: 'bg-error text-on-error hover:bg-error/90',\n  ghost: 'bg-transparent text-on-surface hover:bg-surface-variant',\n  outline:\n    'border border-outline bg-transparent text-on-surface hover:bg-surface-variant',\n}"
+        "defaultValue": "{\n  primary: 'bg-primary text-on-primary hover:bg-primary/90',\n  secondary: 'bg-secondary text-on-secondary hover:bg-secondary/90',\n  danger: 'bg-error text-on-error hover:bg-error/90',\n  ghost: 'bg-transparent text-on-surface hover:bg-surface-variant',\n  outline: 'border border-outline bg-transparent text-on-surface hover:bg-surface-variant',\n}"
       },
       {
         "name": "Variants",
@@ -3888,6 +4620,17 @@
         "deprecationMessage": "",
         "type": "Story",
         "defaultValue": "{\n  render: () => ({\n    template: `\n      <wi-button>\n        Confirmar y continuar con la operación seleccionada\n      </wi-button>\n    `,\n  }),\n}"
+      },
+      {
+        "name": "WithReactiveForms",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/forms/src/wi-input.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  render: () => {\n    const form = new FormGroup({\n      email: new FormControl('', {\n        nonNullable: true,\n        validators: [Validators.required, Validators.email],\n      }),\n    });\n\n    return {\n      props: {\n        form,\n        markTouched: () => {\n          form.controls.email.markAsTouched();\n        },\n      },\n      template: `\n        <form [formGroup]=\"form\" style=\"display:flex;flex-direction:column;gap:0.75rem;width:20rem;\" (ngSubmit)=\"markTouched()\">\n          <label for=\"email-demo\" style=\"font-size:0.875rem;\">Email</label>\n          <wi-input\n            id=\"email-demo\"\n            type=\"email\"\n            formControlName=\"email\"\n            placeholder=\"correo@ejemplo.com\"\n            [invalid]=\"form.controls.email.invalid && form.controls.email.touched\"\n            [required]=\"true\"\n          />\n          @if (form.controls.email.invalid && form.controls.email.touched) {\n            <p style=\"margin:0;font-size:0.875rem;color:var(--wi-color-error);\" role=\"alert\">\n              Introduce un email válido.\n            </p>\n          }\n          <button type=\"submit\" style=\"align-self:start;\">Validar</button>\n        </form>\n      `,\n    };\n  },\n}"
       },
       {
         "name": "workerIcon",
@@ -4108,6 +4851,19 @@
         "ctype": "miscellaneous",
         "subtype": "typealias",
         "coverageIgnore": false,
+        "rawtype": "StoryObj<WiInputComponent>",
+        "file": "projects/components/forms/src/wi-input.stories.ts",
+        "deprecated": false,
+        "deprecationMessage": "",
+        "rawdescription": "",
+        "description": "",
+        "kind": 184
+      },
+      {
+        "name": "Story",
+        "ctype": "miscellaneous",
+        "subtype": "typealias",
+        "coverageIgnore": false,
         "rawtype": "StoryObj<WiIconComponent>",
         "file": "projects/components/icon/src/wi-icon.stories.ts",
         "deprecated": false,
@@ -4244,6 +5000,32 @@
         "deprecationMessage": "",
         "rawdescription": "Variante visual del icono.",
         "description": "<p>Variante visual del icono.</p>\n",
+        "kind": 193
+      },
+      {
+        "name": "WiInputSize",
+        "ctype": "miscellaneous",
+        "subtype": "typealias",
+        "coverageIgnore": false,
+        "rawtype": "\"sm\" | \"md\" | \"lg\"",
+        "file": "projects/components/forms/src/wi-input.types.ts",
+        "deprecated": false,
+        "deprecationMessage": "",
+        "rawdescription": "",
+        "description": "",
+        "kind": 193
+      },
+      {
+        "name": "WiInputType",
+        "ctype": "miscellaneous",
+        "subtype": "typealias",
+        "coverageIgnore": false,
+        "rawtype": "\"text\" | \"email\" | \"password\" | \"search\" | \"tel\" | \"url\" | \"number\"",
+        "file": "projects/components/forms/src/wi-input.types.ts",
+        "deprecated": false,
+        "deprecationMessage": "",
+        "rawdescription": "",
+        "description": "",
         "kind": 193
       },
       {
@@ -4907,7 +5689,42 @@
           "deprecated": false,
           "deprecationMessage": "",
           "type": "Record<WiButtonVariant, string>",
-          "defaultValue": "{\n  primary: 'bg-primary text-on-primary hover:bg-primary/90',\n  secondary: 'bg-secondary text-on-secondary hover:bg-secondary/90',\n  danger: 'bg-error text-on-error hover:bg-error/90',\n  ghost: 'bg-transparent text-on-surface hover:bg-surface-variant',\n  outline:\n    'border border-outline bg-transparent text-on-surface hover:bg-surface-variant',\n}"
+          "defaultValue": "{\n  primary: 'bg-primary text-on-primary hover:bg-primary/90',\n  secondary: 'bg-secondary text-on-secondary hover:bg-secondary/90',\n  danger: 'bg-error text-on-error hover:bg-error/90',\n  ghost: 'bg-transparent text-on-surface hover:bg-surface-variant',\n  outline: 'border border-outline bg-transparent text-on-surface hover:bg-surface-variant',\n}"
+        }
+      ],
+      "projects/components/forms/src/wi-input.component.ts": [
+        {
+          "name": "BASE_CLASSES",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/forms/src/wi-input.component.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "unknown",
+          "defaultValue": "[\n  'flex',\n  'w-full',\n  'min-w-0',\n  'rounded-control',\n  'border',\n  'border-outline',\n  'bg-surface',\n  'text-on-surface',\n  'placeholder:text-on-surface-variant',\n  'transition-colors',\n  'outline-none',\n  'focus-visible:ring-2',\n  'focus-visible:ring-ring',\n  'focus-visible:ring-offset-2',\n  'focus-visible:ring-offset-background',\n  'disabled:pointer-events-none',\n  'disabled:cursor-not-allowed',\n  'disabled:opacity-50',\n  'read-only:bg-surface-variant',\n  'aria-invalid:border-error',\n  'aria-invalid:focus-visible:ring-error',\n].join(' ')"
+        },
+        {
+          "name": "nextInputId",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/forms/src/wi-input.component.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "number",
+          "defaultValue": "0"
+        },
+        {
+          "name": "SIZE_CLASSES",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/forms/src/wi-input.component.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Record<WiInputSize, string>",
+          "defaultValue": "{\n  sm: 'h-control-sm px-3 text-sm',\n  md: 'h-control-md px-3 text-sm',\n  lg: 'h-control-lg px-4 text-base',\n}"
         }
       ],
       "projects/components/icon/heroicons/src/bell.ts": [
@@ -5580,6 +6397,107 @@
           "deprecationMessage": "",
           "type": "Story",
           "defaultValue": "{\n  render: () => ({\n    template: `\n      <wi-button>\n        Confirmar y continuar con la operación seleccionada\n      </wi-button>\n    `,\n  }),\n}"
+        }
+      ],
+      "projects/components/forms/src/wi-input.stories.ts": [
+        {
+          "name": "DarkMode",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/forms/src/wi-input.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  parameters: {\n    globals: { theme: 'dark' },\n  },\n  render: () => ({\n    template: `\n      <div style=\"display:flex;flex-direction:column;gap:0.75rem;width:20rem;padding:1.5rem;\">\n        <wi-input placeholder=\"Default\" ariaLabel=\"Default\" />\n        <wi-input invalid placeholder=\"Invalid\" ariaLabel=\"Invalid\" />\n        <wi-input disabled value=\"Disabled\" ariaLabel=\"Disabled\" />\n      </div>\n    `,\n  }),\n}"
+        },
+        {
+          "name": "Default",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/forms/src/wi-input.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  render: (args) => ({\n    props: args,\n    template: `\n      <div style=\"width:20rem;\">\n        <wi-input\n          [size]=\"size\"\n          [type]=\"type\"\n          [placeholder]=\"placeholder\"\n          [disabled]=\"disabled\"\n          [readonly]=\"readonly\"\n          [invalid]=\"invalid\"\n          [required]=\"required\"\n          [ariaLabel]=\"ariaLabel\"\n        />\n      </div>\n    `,\n  }),\n}"
+        },
+        {
+          "name": "Disabled",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/forms/src/wi-input.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"width:20rem;\">\n        <wi-input disabled value=\"No editable\" ariaLabel=\"Deshabilitado\" />\n      </div>\n    `,\n  }),\n}"
+        },
+        {
+          "name": "Invalid",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/forms/src/wi-input.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"width:20rem;\">\n        <wi-input invalid value=\"valor-invalido\" ariaLabel=\"Campo inválido\" ariaDescribedBy=\"hint-invalid\" />\n        <p id=\"hint-invalid\" style=\"margin:0.5rem 0 0;font-size:0.875rem;color:var(--wi-color-error);\">\n          Introduce un valor válido.\n        </p>\n      </div>\n    `,\n  }),\n}"
+        },
+        {
+          "name": "meta",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/forms/src/wi-input.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Meta<WiInputComponent>",
+          "defaultValue": "{\n  title: 'Forms/WiInput',\n  component: WiInputComponent,\n  tags: ['autodocs'],\n  parameters: {\n    layout: 'centered',\n  },\n  decorators: [\n    moduleMetadata({\n      imports: [WiInputComponent, ReactiveFormsModule],\n    }),\n  ],\n  argTypes: {\n    size: {\n      control: 'select',\n      options: ['sm', 'md', 'lg'],\n    },\n    type: {\n      control: 'select',\n      options: ['text', 'email', 'password', 'search', 'tel', 'url', 'number'],\n    },\n    placeholder: { control: 'text' },\n    disabled: { control: 'boolean' },\n    readonly: { control: 'boolean' },\n    invalid: { control: 'boolean' },\n    required: { control: 'boolean' },\n    ariaLabel: { control: 'text' },\n  },\n  args: {\n    size: 'md',\n    type: 'text',\n    placeholder: 'Escribe aquí…',\n    disabled: false,\n    readonly: false,\n    invalid: false,\n    required: false,\n    ariaLabel: 'Nombre',\n  },\n}"
+        },
+        {
+          "name": "Readonly",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/forms/src/wi-input.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"width:20rem;\">\n        <wi-input readonly value=\"Solo lectura\" ariaLabel=\"Solo lectura\" />\n      </div>\n    `,\n  }),\n}"
+        },
+        {
+          "name": "Sizes",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/forms/src/wi-input.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display:flex;flex-direction:column;gap:0.75rem;width:20rem;\">\n        <wi-input size=\"sm\" placeholder=\"Small\" ariaLabel=\"Small\" />\n        <wi-input size=\"md\" placeholder=\"Medium\" ariaLabel=\"Medium\" />\n        <wi-input size=\"lg\" placeholder=\"Large\" ariaLabel=\"Large\" />\n      </div>\n    `,\n  }),\n}"
+        },
+        {
+          "name": "Types",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/forms/src/wi-input.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display:flex;flex-direction:column;gap:0.75rem;width:20rem;\">\n        <wi-input type=\"text\" placeholder=\"Texto\" ariaLabel=\"Texto\" />\n        <wi-input type=\"email\" placeholder=\"correo@ejemplo.com\" ariaLabel=\"Email\" />\n        <wi-input type=\"password\" placeholder=\"Contraseña\" ariaLabel=\"Contraseña\" />\n        <wi-input type=\"search\" placeholder=\"Buscar…\" ariaLabel=\"Buscar\" />\n      </div>\n    `,\n  }),\n}"
+        },
+        {
+          "name": "WithReactiveForms",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/forms/src/wi-input.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  render: () => {\n    const form = new FormGroup({\n      email: new FormControl('', {\n        nonNullable: true,\n        validators: [Validators.required, Validators.email],\n      }),\n    });\n\n    return {\n      props: {\n        form,\n        markTouched: () => {\n          form.controls.email.markAsTouched();\n        },\n      },\n      template: `\n        <form [formGroup]=\"form\" style=\"display:flex;flex-direction:column;gap:0.75rem;width:20rem;\" (ngSubmit)=\"markTouched()\">\n          <label for=\"email-demo\" style=\"font-size:0.875rem;\">Email</label>\n          <wi-input\n            id=\"email-demo\"\n            type=\"email\"\n            formControlName=\"email\"\n            placeholder=\"correo@ejemplo.com\"\n            [invalid]=\"form.controls.email.invalid && form.controls.email.touched\"\n            [required]=\"true\"\n          />\n          @if (form.controls.email.invalid && form.controls.email.touched) {\n            <p style=\"margin:0;font-size:0.875rem;color:var(--wi-color-error);\" role=\"alert\">\n              Introduce un email válido.\n            </p>\n          }\n          <button type=\"submit\" style=\"align-self:start;\">Validar</button>\n        </form>\n      `,\n    };\n  },\n}"
         }
       ],
       "projects/components/icon/heroicons/src/document.ts": [
@@ -7246,6 +8164,21 @@
           "kind": 184
         }
       ],
+      "projects/components/forms/src/wi-input.stories.ts": [
+        {
+          "name": "Story",
+          "ctype": "miscellaneous",
+          "subtype": "typealias",
+          "coverageIgnore": false,
+          "rawtype": "StoryObj<WiInputComponent>",
+          "file": "projects/components/forms/src/wi-input.stories.ts",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "rawdescription": "",
+          "description": "",
+          "kind": 184
+        }
+      ],
       "projects/components/icon/src/wi-icon.stories.ts": [
         {
           "name": "Story",
@@ -7413,6 +8346,34 @@
           "description": "<p>Etiquetas SVG permitidas al renderizar glyphs.</p>\n",
           "kind": 193
         }
+      ],
+      "projects/components/forms/src/wi-input.types.ts": [
+        {
+          "name": "WiInputSize",
+          "ctype": "miscellaneous",
+          "subtype": "typealias",
+          "coverageIgnore": false,
+          "rawtype": "\"sm\" | \"md\" | \"lg\"",
+          "file": "projects/components/forms/src/wi-input.types.ts",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "rawdescription": "",
+          "description": "",
+          "kind": 193
+        },
+        {
+          "name": "WiInputType",
+          "ctype": "miscellaneous",
+          "subtype": "typealias",
+          "coverageIgnore": false,
+          "rawtype": "\"text\" | \"email\" | \"password\" | \"search\" | \"tel\" | \"url\" | \"number\"",
+          "file": "projects/components/forms/src/wi-input.types.ts",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "rawdescription": "",
+          "description": "",
+          "kind": 193
+        }
       ]
     }
   },
@@ -7422,7 +8383,7 @@
     "children": []
   },
   "coverage": {
-    "count": 74,
+    "count": 69,
     "status": "good",
     "files": [
       {
@@ -7673,6 +8634,165 @@
         "coveragePercent": 100,
         "coverageCount": "1/1",
         "status": "very-good"
+      },
+      {
+        "filePath": "projects/components/forms/src/wi-input.component.ts",
+        "type": "component",
+        "linktype": "component",
+        "name": "WiInputComponent",
+        "coveragePercent": 13,
+        "coverageCount": "4/29",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/forms/src/wi-input.component.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "BASE_CLASSES",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/forms/src/wi-input.component.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "nextInputId",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/forms/src/wi-input.component.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "SIZE_CLASSES",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/forms/src/wi-input.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "DarkMode",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/forms/src/wi-input.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "Default",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/forms/src/wi-input.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "Disabled",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/forms/src/wi-input.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "Invalid",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/forms/src/wi-input.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "meta",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/forms/src/wi-input.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "Readonly",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/forms/src/wi-input.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "Sizes",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/forms/src/wi-input.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "Types",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/forms/src/wi-input.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "WithReactiveForms",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/forms/src/wi-input.stories.ts",
+        "type": "type alias",
+        "linktype": "miscellaneous",
+        "linksubtype": "typealias",
+        "name": "Story",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/forms/src/wi-input.types.ts",
+        "type": "type alias",
+        "linktype": "miscellaneous",
+        "linksubtype": "typealias",
+        "name": "WiInputSize",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/forms/src/wi-input.types.ts",
+        "type": "type alias",
+        "linktype": "miscellaneous",
+        "linksubtype": "typealias",
+        "name": "WiInputType",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
       },
       {
         "filePath": "projects/components/icon/heroicons/src/adjustments-horizontal.ts",
