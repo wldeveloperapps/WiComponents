@@ -19,11 +19,15 @@ Al **crear** o **cambiar la API/comportamiento** de un componente público, los 
 
 ## Ubicación y nombre
 
-Colocar el spec junto al componente:
+Con entry points secundarios (`button/`, `icon/`, …), colocar el spec bajo `src/{name}/` e importar el componente del entry point (necesario para que Vitest/`@angular/build:unit-test` midan coverage correctamente):
 
 ```text
-wi-button.component.ts
-wi-button.component.spec.ts
+button/src/wi-button.component.ts
+src/button/wi-button.component.spec.ts
+```
+
+```ts
+import { WiButtonComponent } from '../../button/src/wi-button.component';
 ```
 
 ## Mínimo obligatorio por componente
@@ -68,11 +72,12 @@ describe('WiButtonComponent', () => {
 
 ## Checklist antes de cerrar
 
-- [ ] Existe `wi-{name}.component.spec.ts` colocalizado.
+- [ ] Existe `src/{name}/wi-{name}.component.spec.ts` (importando desde el entry point).
 - [ ] Cubre defaults, inputs con efecto y estados críticos.
 - [ ] No usa `any` ni depende de Spartan en el spec.
 - [ ] Providers necesarios (p. ej. `provideWiIcons`) están en el `TestBed` del spec.
 - [ ] `pnpm test` pasa para el componente tocado.
+- [ ] Si aplica, `pnpm test:coverage` refleja el entry point (button/icon).
 
 ## Fuera de alcance de este rule
 

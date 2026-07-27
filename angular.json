@@ -29,12 +29,18 @@
           "builder": "@angular/build:unit-test",
           "options": {
             "tsConfig": "projects/components/tsconfig.spec.json",
-            "include": [
+            "include": ["**/*.spec.ts"],
+            "coverageInclude": [
+              "projects/components/button/src/**/*.ts",
+              "projects/components/icon/src/**/*.ts"
+            ],
+            "coverageExclude": [
               "**/*.spec.ts",
-              "../button/**/*.spec.ts",
-              "../icon/**/*.spec.ts",
-              "../core/**/*.spec.ts"
-            ]
+              "**/*.stories.ts",
+              "**/heroicons/**",
+              "**/public-api.ts"
+            ],
+            "coverageReporters": ["text", "text-summary", "html", "lcov", "json-summary"]
           }
         },
         "lint": {

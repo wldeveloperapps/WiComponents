@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WiButtonComponent } from './wi-button.component';
-import type { WiButtonSize, WiButtonVariant } from './wi-button.types';
+import { WiButtonComponent } from '../../button/src/wi-button.component';
+import type { WiButtonSize, WiButtonVariant } from '../../button/src/wi-button.types';
 
 describe('WiButtonComponent', () => {
   let fixture: ComponentFixture<WiButtonComponent>;
