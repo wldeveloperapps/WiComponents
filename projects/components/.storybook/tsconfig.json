@@ -6,12 +6,21 @@
     "resolveJsonModule": true,
     "rootDir": ".."
   },
-  "exclude": ["../src/test.ts", "../src/**/*.spec.ts", "../icon/**/*.spec.ts"],
+  "exclude": [
+    "../src/test.ts",
+    "../src/**/*.spec.ts",
+    "../button/**/*.spec.ts",
+    "../icon/**/*.spec.ts"
+  ],
   "include": [
     "../src/**/*.ts",
     "../src/**/*.stories.*",
+    "../button/**/*.ts",
+    "../button/**/*.stories.*",
     "../icon/**/*.ts",
     "../icon/**/*.stories.*",
+    "../core/**/*.ts",
+    "../core/**/*.stories.*",
     "./preview.ts"
   ],
   "files": ["./typings.d.ts"]

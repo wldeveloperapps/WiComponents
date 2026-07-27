@@ -117,6 +117,8 @@ wi-components/
 ├── projects/
 │   └── components/          # librería publicable @wiloc/ui
 │       ├── src/
+│       ├── button/          # secondary entry @wiloc/ui/button
+│       ├── core/            # secondary entry @wiloc/ui/core
 │       ├── icon/            # secondary entry @wiloc/ui/icon
 │       │   └── heroicons/   # @wiloc/ui/icon/heroicons
 │       ├── ng-package.json

@@ -690,6 +690,196 @@
       }
     },
     {
+      "name": "WiButtonComponent",
+      "id": "component-WiButtonComponent-abd0ece6df97587d18be028ca0d6da6b002b57b3854d6599cf06b5c9f5db5afd0c23d63c1c3f2afaff5d6ebac804aab5f99bd9ecd1ae12e0313f6ebc98361d28",
+      "file": "projects/components/button/src/wi-button.component.ts",
+      "changeDetection": "ChangeDetectionStrategy.OnPush",
+      "encapsulation": [],
+      "entryComponents": [],
+      "host": {},
+      "inputs": [],
+      "outputs": [],
+      "providers": [],
+      "selector": "wi-button",
+      "styleUrls": [],
+      "styles": [],
+      "template": "<button\n  [attr.type]=\"type()\"\n  [class]=\"classes()\"\n  [disabled]=\"isDisabled()\"\n  [attr.aria-busy]=\"loading() || null\"\n  [attr.aria-label]=\"ariaLabel()\"\n  [attr.aria-disabled]=\"isDisabled() || null\"\n>\n  @if (loading()) {\n    <svg\n      class=\"size-4 animate-spin\"\n      viewBox=\"0 0 24 24\"\n      fill=\"none\"\n      aria-hidden=\"true\"\n    >\n      <circle\n        class=\"opacity-25\"\n        cx=\"12\"\n        cy=\"12\"\n        r=\"10\"\n        stroke=\"currentColor\"\n        stroke-width=\"4\"\n      />\n      <path\n        class=\"opacity-75\"\n        fill=\"currentColor\"\n        d=\"M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z\"\n      />\n    </svg>\n  }\n  <ng-content />\n</button>\n",
+      "templateUrl": [],
+      "templateVariables": [],
+      "viewProviders": [],
+      "hostDirectives": [],
+      "inputsClass": [
+        {
+          "name": "ariaLabel",
+          "coverageIgnore": false,
+          "defaultValue": "null",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "string | null",
+          "indexKey": "",
+          "optional": false,
+          "description": "<p>Nombre accesible; especialmente útil con <code>iconOnly</code>.</p>\n",
+          "line": 101,
+          "rawdescription": "\nNombre accesible; especialmente útil con `iconOnly`.",
+          "modifierKind": [148],
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "coverageIgnore": false,
+          "defaultValue": "false",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "boolean",
+          "indexKey": "",
+          "optional": false,
+          "description": "",
+          "line": 98,
+          "rawdescription": "\n",
+          "modifierKind": [148],
+          "required": false
+        },
+        {
+          "name": "iconOnly",
+          "coverageIgnore": false,
+          "defaultValue": "false",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "boolean",
+          "indexKey": "",
+          "optional": false,
+          "description": "",
+          "line": 99,
+          "rawdescription": "\n",
+          "modifierKind": [148],
+          "required": false
+        },
+        {
+          "name": "loading",
+          "coverageIgnore": false,
+          "defaultValue": "false",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "boolean",
+          "indexKey": "",
+          "optional": false,
+          "description": "",
+          "line": 97,
+          "rawdescription": "\n",
+          "modifierKind": [148],
+          "required": false
+        },
+        {
+          "name": "size",
+          "coverageIgnore": false,
+          "defaultValue": "'md'",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "WiButtonSize",
+          "indexKey": "",
+          "optional": false,
+          "description": "",
+          "line": 95,
+          "rawdescription": "\n",
+          "modifierKind": [148],
+          "required": false
+        },
+        {
+          "name": "type",
+          "coverageIgnore": false,
+          "defaultValue": "'button'",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "WiButtonType",
+          "indexKey": "",
+          "optional": false,
+          "description": "",
+          "line": 96,
+          "rawdescription": "\n",
+          "modifierKind": [148],
+          "required": false
+        },
+        {
+          "name": "variant",
+          "coverageIgnore": false,
+          "defaultValue": "'primary'",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "WiButtonVariant",
+          "indexKey": "",
+          "optional": false,
+          "description": "",
+          "line": 94,
+          "rawdescription": "\n",
+          "modifierKind": [148],
+          "required": false
+        }
+      ],
+      "outputsClass": [],
+      "propertiesClass": [
+        {
+          "name": "classes",
+          "coverageIgnore": false,
+          "defaultValue": "computed(() => {\n    const sizeClasses = this.iconOnly()\n      ? ICON_ONLY_SIZE_CLASSES[this.size()]\n      : SIZE_CLASSES[this.size()];\n\n    return [BASE_CLASSES, VARIANT_CLASSES[this.variant()], sizeClasses].join(' ');\n  })",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "unknown",
+          "indexKey": "",
+          "optional": false,
+          "description": "",
+          "line": 105,
+          "rawdescription": "\n",
+          "modifierKind": [124, 148]
+        },
+        {
+          "name": "isDisabled",
+          "coverageIgnore": false,
+          "defaultValue": "computed(() => this.disabled() || this.loading())",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "unknown",
+          "indexKey": "",
+          "optional": false,
+          "description": "",
+          "line": 103,
+          "rawdescription": "\n",
+          "modifierKind": [124, 148]
+        }
+      ],
+      "methodsClass": [],
+      "coverageIgnore": false,
+      "deprecated": false,
+      "deprecationMessage": "",
+      "hostBindings": [],
+      "hostListeners": [],
+      "standalone": true,
+      "imports": [],
+      "description": "<p>Botón del design system (<code>wi-button</code>).</p>\n<ul>\n<li>Variantes y tamaños vía tokens semánticos.</li>\n<li><code>loading</code> deshabilita el control y expone <code>aria-busy</code>.</li>\n<li>Icon-only: usar <code>iconOnly</code> + <code>ariaLabel</code> (o texto accesible en el contenido).</li>\n</ul>\n",
+      "rawdescription": "\n\nBotón del design system (`wi-button`).\n\n- Variantes y tamaños vía tokens semánticos.\n- `loading` deshabilita el control y expone `aria-busy`.\n- Icon-only: usar `iconOnly` + `ariaLabel` (o texto accesible en el contenido).\n",
+      "type": "component",
+      "sourceCode": "import { booleanAttribute, Component, computed, input } from '@angular/core';\n\nimport type { WiButtonSize, WiButtonType, WiButtonVariant } from './wi-button.types';\n\nconst BASE_CLASSES = [\n  'inline-flex',\n  'shrink-0',\n  'items-center',\n  'justify-center',\n  'gap-2',\n  'whitespace-nowrap',\n  'rounded-control',\n  'font-medium',\n  'transition-colors',\n  'outline-none',\n  'select-none',\n  'focus-visible:ring-2',\n  'focus-visible:ring-ring',\n  'focus-visible:ring-offset-2',\n  'focus-visible:ring-offset-background',\n  'disabled:pointer-events-none',\n  'disabled:opacity-50',\n].join(' ');\n\nconst VARIANT_CLASSES: Record<WiButtonVariant, string> = {\n  primary: 'bg-primary text-on-primary hover:bg-primary/90',\n  secondary: 'bg-secondary text-on-secondary hover:bg-secondary/90',\n  danger: 'bg-error text-on-error hover:bg-error/90',\n  ghost: 'bg-transparent text-on-surface hover:bg-surface-variant',\n  outline:\n    'border border-outline bg-transparent text-on-surface hover:bg-surface-variant',\n};\n\nconst SIZE_CLASSES: Record<WiButtonSize, string> = {\n  sm: 'h-control-sm px-3 text-sm',\n  md: 'h-control-md px-4 text-sm',\n  lg: 'h-control-lg px-6 text-base',\n};\n\nconst ICON_ONLY_SIZE_CLASSES: Record<WiButtonSize, string> = {\n  sm: 'h-control-sm w-8 px-0',\n  md: 'h-control-md w-10 px-0',\n  lg: 'h-control-lg w-12 px-0',\n};\n\n/**\n * Botón del design system (`wi-button`).\n *\n * - Variantes y tamaños vía tokens semánticos.\n * - `loading` deshabilita el control y expone `aria-busy`.\n * - Icon-only: usar `iconOnly` + `ariaLabel` (o texto accesible en el contenido).\n */\n@Component({\n  selector: 'wi-button',\n  host: {\n    class: 'wi-button contents',\n  },\n  template: `\n    <button\n      [attr.type]=\"type()\"\n      [class]=\"classes()\"\n      [disabled]=\"isDisabled()\"\n      [attr.aria-busy]=\"loading() || null\"\n      [attr.aria-label]=\"ariaLabel()\"\n      [attr.aria-disabled]=\"isDisabled() || null\"\n    >\n      @if (loading()) {\n        <svg\n          class=\"size-4 animate-spin\"\n          viewBox=\"0 0 24 24\"\n          fill=\"none\"\n          aria-hidden=\"true\"\n        >\n          <circle\n            class=\"opacity-25\"\n            cx=\"12\"\n            cy=\"12\"\n            r=\"10\"\n            stroke=\"currentColor\"\n            stroke-width=\"4\"\n          />\n          <path\n            class=\"opacity-75\"\n            fill=\"currentColor\"\n            d=\"M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z\"\n          />\n        </svg>\n      }\n      <ng-content />\n    </button>\n  `,\n})\nexport class WiButtonComponent {\n  readonly variant = input<WiButtonVariant>('primary');\n  readonly size = input<WiButtonSize>('md');\n  readonly type = input<WiButtonType>('button');\n  readonly loading = input(false, { transform: booleanAttribute });\n  readonly disabled = input(false, { transform: booleanAttribute });\n  readonly iconOnly = input(false, { transform: booleanAttribute });\n  /** Nombre accesible; especialmente útil con `iconOnly`. */\n  readonly ariaLabel = input<string | null>(null);\n\n  protected readonly isDisabled = computed(() => this.disabled() || this.loading());\n\n  protected readonly classes = computed(() => {\n    const sizeClasses = this.iconOnly()\n      ? ICON_ONLY_SIZE_CLASSES[this.size()]\n      : SIZE_CLASSES[this.size()];\n\n    return [BASE_CLASSES, VARIANT_CLASSES[this.variant()], sizeClasses].join(' ');\n  });\n}\n",
+      "assetsDirs": [],
+      "styleUrlsData": "",
+      "stylesData": "",
+      "jsdoctags": [
+        {
+          "pos": 1328,
+          "end": 1571,
+          "kind": 321,
+          "id": 0,
+          "flags": 16777216,
+          "modifierFlagsCache": 0,
+          "transformFlags": 0,
+          "comment": "Botón del design system (`wi-button`).\n\n- Variantes y tamaños vía tokens semánticos.\n- `loading` deshabilita el control y expone `aria-busy`.\n- Icon-only: usar `iconOnly` + `ariaLabel` (o texto accesible en el contenido)."
+        }
+      ],
+      "extends": [],
+      "relationships": {
+        "incoming": [],
+        "outgoing": []
+      }
+    },
+    {
       "name": "WiIconComponent",
       "id": "component-WiIconComponent-58526ddbc20a489b0961e2bca4c328521c99ccff837deec6a9454ee6ec28d56051efca7ab07b3a7f082e6ff52b12ba9087ac248389b7627326792c41f54309ca",
       "file": "projects/components/icon/src/wi-icon.component.ts",
@@ -1522,6 +1712,17 @@
         "description": "<p>Heroicons 24/solid/bars-arrow-up</p>\n"
       },
       {
+        "name": "BASE_CLASSES",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/button/src/wi-button.component.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "unknown",
+        "defaultValue": "[\n  'inline-flex',\n  'shrink-0',\n  'items-center',\n  'justify-center',\n  'gap-2',\n  'whitespace-nowrap',\n  'rounded-control',\n  'font-medium',\n  'transition-colors',\n  'outline-none',\n  'select-none',\n  'focus-visible:ring-2',\n  'focus-visible:ring-ring',\n  'focus-visible:ring-offset-2',\n  'focus-visible:ring-offset-background',\n  'disabled:pointer-events-none',\n  'disabled:opacity-50',\n].join(' ')"
+      },
+      {
         "name": "bellOutline",
         "ctype": "miscellaneous",
         "subtype": "variable",
@@ -2088,6 +2289,17 @@
         "defaultValue": "{\n  args: {\n    name: 'worker',\n    variant: 'solid',\n    size: 'xl',\n    label: 'Trabajador',\n  },\n  render: (args) => ({\n    props: args,\n    template: `\n      <div style=\"display:flex;flex-direction:column;align-items:center;gap:12px;font:14px/1.4 system-ui;color:#111;\">\n        <wi-icon [name]=\"name\" [variant]=\"variant\" [size]=\"size\" [label]=\"label\" />\n        <span>\n          Custom de app: <code>worker</code> (registrado con\n          <code>provideWiIcons</code>, no viene de Heroicons)\n        </span>\n      </div>\n    `,\n  }),\n}"
       },
       {
+        "name": "DarkMode",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/button/src/wi-button.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  parameters: {\n    globals: { theme: 'dark' },\n  },\n  render: () => ({\n    template: `\n      <div style=\"display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;padding:1.5rem;\">\n        <wi-button variant=\"primary\">Primary</wi-button>\n        <wi-button variant=\"secondary\">Secondary</wi-button>\n        <wi-button variant=\"danger\">Danger</wi-button>\n        <wi-button variant=\"ghost\">Ghost</wi-button>\n        <wi-button variant=\"outline\">Outline</wi-button>\n        <wi-button loading>Loading</wi-button>\n      </div>\n    `,\n  }),\n}"
+      },
+      {
         "name": "Decorative",
         "ctype": "miscellaneous",
         "subtype": "variable",
@@ -2102,12 +2314,34 @@
         "name": "Default",
         "ctype": "miscellaneous",
         "subtype": "variable",
+        "file": "projects/components/button/src/wi-button.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  render: (args) => ({\n    props: args,\n    template: `\n      <wi-button\n        [variant]=\"variant\"\n        [size]=\"size\"\n        [type]=\"type\"\n        [loading]=\"loading\"\n        [disabled]=\"disabled\"\n        [iconOnly]=\"iconOnly\"\n        [ariaLabel]=\"ariaLabel\"\n      >\n        Guardar\n      </wi-button>\n    `,\n  }),\n}"
+      },
+      {
+        "name": "Default",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
         "file": "projects/components/icon/src/wi-icon.stories.ts",
         "coverageIgnore": false,
         "deprecated": false,
         "deprecationMessage": "",
         "type": "Story",
         "defaultValue": "{\n  render: (args) => ({\n    props: args,\n    template: `\n      <div style=\"display:flex;align-items:center;gap:12px;font:16px/1.4 system-ui;color:#111;\">\n        <wi-icon [name]=\"name\" [variant]=\"variant\" [size]=\"size\" [label]=\"label\" />\n        <span>{{ name }} ({{ variant }})</span>\n      </div>\n    `,\n  }),\n}"
+      },
+      {
+        "name": "Disabled",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/button/src/wi-button.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;\">\n        <wi-button disabled>Primary</wi-button>\n        <wi-button variant=\"secondary\" disabled>Secondary</wi-button>\n        <wi-button variant=\"outline\" disabled>Outline</wi-button>\n      </div>\n    `,\n  }),\n}"
       },
       {
         "name": "documentOutline",
@@ -2396,6 +2630,17 @@
         "description": "<p>Heroicons 24/solid/home</p>\n"
       },
       {
+        "name": "ICON_ONLY_SIZE_CLASSES",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/button/src/wi-button.component.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Record<WiButtonSize, string>",
+        "defaultValue": "{\n  sm: 'h-control-sm w-8 px-0',\n  md: 'h-control-md w-10 px-0',\n  lg: 'h-control-lg w-12 px-0',\n}"
+      },
+      {
         "name": "ICON_SIZE_CLASSES",
         "ctype": "miscellaneous",
         "subtype": "variable",
@@ -2420,6 +2665,17 @@
         "defaultValue": "{\n  xs: 12,\n  sm: 16,\n  md: 20,\n  lg: 24,\n  xl: 32,\n}",
         "rawdescription": "Tamaño intrínseco del SVG (visible aunque no haya Tailwind cargado).",
         "description": "<p>Tamaño intrínseco del SVG (visible aunque no haya Tailwind cargado).</p>\n"
+      },
+      {
+        "name": "IconOnly",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/button/src/wi-button.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;\">\n        <wi-button iconOnly ariaLabel=\"Crear\">\n          <wi-icon name=\"plus\" size=\"sm\" />\n        </wi-button>\n        <wi-button variant=\"danger\" iconOnly ariaLabel=\"Eliminar\">\n          <wi-icon name=\"trash\" size=\"sm\" />\n        </wi-button>\n        <wi-button variant=\"outline\" iconOnly ariaLabel=\"Crear\" size=\"lg\">\n          <wi-icon name=\"plus\" />\n        </wi-button>\n      </div>\n    `,\n  }),\n}"
       },
       {
         "name": "IconOnlyButton",
@@ -2583,6 +2839,17 @@
         "defaultValue": "{\n  viewBox: '0 0 24 24',\n  nodes: [\n    {\n      tag: 'path',\n      attrs: {\n        'fill-rule': 'evenodd',\n        d: 'M2.625 6.75a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875 0A.75.75 0 0 1 8.25 6h12a.75.75 0 0 1 0 1.5h-12a.75.75 0 0 1-.75-.75ZM2.625 12a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0ZM7.5 12a.75.75 0 0 1 .75-.75h12a.75.75 0 0 1 0 1.5h-12A.75.75 0 0 1 7.5 12Zm-4.875 5.25a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875 0a.75.75 0 0 1 .75-.75h12a.75.75 0 0 1 0 1.5h-12a.75.75 0 0 1-.75-.75Z',\n        'clip-rule': 'evenodd',\n      },\n    },\n  ],\n}",
         "rawdescription": "Heroicons 24/solid/list-bullet",
         "description": "<p>Heroicons 24/solid/list-bullet</p>\n"
+      },
+      {
+        "name": "Loading",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/button/src/wi-button.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;\">\n        <wi-button loading>Guardando</wi-button>\n        <wi-button variant=\"danger\" loading>Eliminando</wi-button>\n      </div>\n    `,\n  }),\n}"
       },
       {
         "name": "lockClosedOutline",
@@ -2783,6 +3050,30 @@
         "defaultValue": "{\n  viewBox: '0 0 24 24',\n  nodes: [\n    {\n      tag: 'path',\n      attrs: {\n        d: 'M16.881 4.345A23.112 23.112 0 0 1 8.25 6H7.5a5.25 5.25 0 0 0-.88 10.427 21.593 21.593 0 0 0 1.378 3.94c.464 1.004 1.674 1.32 2.582.796l.657-.379c.88-.508 1.165-1.593.772-2.468a17.116 17.116 0 0 1-.628-1.607c1.918.258 3.76.75 5.5 1.446A21.727 21.727 0 0 0 18 11.25c0-2.414-.393-4.735-1.119-6.905ZM18.26 3.74a23.22 23.22 0 0 1 1.24 7.51 23.22 23.22 0 0 1-1.41 7.992.75.75 0 1 0 1.409.516 24.555 24.555 0 0 0 1.415-6.43 2.992 2.992 0 0 0 .836-2.078c0-.807-.319-1.54-.836-2.078a24.65 24.65 0 0 0-1.415-6.43.75.75 0 1 0-1.409.516c.059.16.116.321.17.483Z',\n      },\n    },\n  ],\n}",
         "rawdescription": "Heroicons 24/solid/megaphone",
         "description": "<p>Heroicons 24/solid/megaphone</p>\n"
+      },
+      {
+        "name": "meta",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/button/src/wi-button.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Meta<WiButtonComponent>",
+        "defaultValue": "{\n  title: 'Button/WiButton',\n  component: WiButtonComponent,\n  tags: ['autodocs'],\n  parameters: {\n    layout: 'centered',\n  },\n  decorators: [\n    applicationConfig({\n      providers: [\n        provideWiIcons({\n          plus: { outline: plusOutline },\n          trash: { outline: trashOutline },\n        }),\n      ],\n    }),\n    moduleMetadata({\n      imports: [WiButtonComponent, WiIconComponent],\n    }),\n  ],\n  argTypes: {\n    variant: {\n      control: 'select',\n      options: ['primary', 'secondary', 'danger', 'ghost', 'outline'],\n    },\n    size: {\n      control: 'select',\n      options: ['sm', 'md', 'lg'],\n    },\n    type: {\n      control: 'select',\n      options: ['button', 'submit', 'reset'],\n    },\n    loading: { control: 'boolean' },\n    disabled: { control: 'boolean' },\n    iconOnly: { control: 'boolean' },\n    ariaLabel: { control: 'text' },\n  },\n  args: {\n    variant: 'primary',\n    size: 'md',\n    type: 'button',\n    loading: false,\n    disabled: false,\n    iconOnly: false,\n    ariaLabel: null,\n  },\n}"
+      },
+      {
+        "name": "meta",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/core/src/tokens.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Meta",
+        "defaultValue": "{\n  title: 'Foundation/Tokens',\n  parameters: {\n    layout: 'padded',\n  },\n}",
+        "rawdescription": "Smoke test visual de tokens Tailwind + tema `.wi-dark`.\nUsa el selector de Tema en la toolbar de Storybook.",
+        "description": "<p>Smoke test visual de tokens Tailwind + tema <code>.wi-dark</code>.\nUsa el selector de Tema en la toolbar de Storybook.</p>\n"
       },
       {
         "name": "meta",
@@ -3129,6 +3420,17 @@
         "defaultValue": "{\n  args: {\n    label: 'Button',\n  },\n}"
       },
       {
+        "name": "SemanticColors",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/core/src/tokens.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  render: () => ({\n    template: `\n      <div class=\"min-h-40 space-y-4 bg-background p-6 text-on-background\">\n        <p class=\"text-sm text-on-surface-variant\">\n          Tokens semánticos (<code class=\"text-xs\">--wi-color-*</code>). Cambia el tema en la toolbar.\n        </p>\n        <div class=\"flex flex-wrap gap-3\">\n          <div class=\"rounded-control bg-primary px-4 py-2 text-sm text-on-primary\">primary</div>\n          <div class=\"rounded-control bg-secondary px-4 py-2 text-sm text-on-secondary\">secondary</div>\n          <div class=\"rounded-control bg-surface-variant px-4 py-2 text-sm text-on-surface-variant\">surface-variant</div>\n          <div class=\"rounded-control bg-error px-4 py-2 text-sm text-on-error\">error</div>\n          <div class=\"rounded-control bg-warning px-4 py-2 text-sm text-on-warning\">warning</div>\n          <div class=\"rounded-control bg-success px-4 py-2 text-sm text-on-success\">success</div>\n        </div>\n        <div class=\"h-control-md w-48 rounded-control border border-outline bg-surface\"></div>\n      </div>\n    `,\n  }),\n}"
+      },
+      {
         "name": "shieldCheckOutline",
         "ctype": "miscellaneous",
         "subtype": "variable",
@@ -3153,6 +3455,28 @@
         "defaultValue": "{\n  viewBox: '0 0 24 24',\n  nodes: [\n    {\n      tag: 'path',\n      attrs: {\n        'fill-rule': 'evenodd',\n        d: 'M12.516 2.17a.75.75 0 0 0-1.032 0 11.209 11.209 0 0 1-7.877 3.08.75.75 0 0 0-.722.515A12.74 12.74 0 0 0 2.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 0 0 .374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 0 0-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08Zm3.094 8.016a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z',\n        'clip-rule': 'evenodd',\n      },\n    },\n  ],\n}",
         "rawdescription": "Heroicons 24/solid/shield-check",
         "description": "<p>Heroicons 24/solid/shield-check</p>\n"
+      },
+      {
+        "name": "SIZE_CLASSES",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/button/src/wi-button.component.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Record<WiButtonSize, string>",
+        "defaultValue": "{\n  sm: 'h-control-sm px-3 text-sm',\n  md: 'h-control-md px-4 text-sm',\n  lg: 'h-control-lg px-6 text-base',\n}"
+      },
+      {
+        "name": "Sizes",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/button/src/wi-button.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;\">\n        <wi-button size=\"sm\">Small</wi-button>\n        <wi-button size=\"md\">Medium</wi-button>\n        <wi-button size=\"lg\">Large</wi-button>\n      </div>\n    `,\n  }),\n}"
       },
       {
         "name": "Sizes",
@@ -3448,6 +3772,28 @@
         "description": "<p>Heroicons 24/solid/users</p>\n"
       },
       {
+        "name": "VARIANT_CLASSES",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/button/src/wi-button.component.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Record<WiButtonVariant, string>",
+        "defaultValue": "{\n  primary: 'bg-primary text-on-primary hover:bg-primary/90',\n  secondary: 'bg-secondary text-on-secondary hover:bg-secondary/90',\n  danger: 'bg-error text-on-error hover:bg-error/90',\n  ghost: 'bg-transparent text-on-surface hover:bg-surface-variant',\n  outline:\n    'border border-outline bg-transparent text-on-surface hover:bg-surface-variant',\n}"
+      },
+      {
+        "name": "Variants",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/button/src/wi-button.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;\">\n        <wi-button variant=\"primary\">Primary</wi-button>\n        <wi-button variant=\"secondary\">Secondary</wi-button>\n        <wi-button variant=\"danger\">Danger</wi-button>\n        <wi-button variant=\"ghost\">Ghost</wi-button>\n        <wi-button variant=\"outline\">Outline</wi-button>\n      </div>\n    `,\n  }),\n}"
+      },
+      {
         "name": "warnedFallback",
         "ctype": "miscellaneous",
         "subtype": "variable",
@@ -3468,6 +3814,32 @@
         "deprecationMessage": "",
         "type": "unknown",
         "defaultValue": "new Set<string>()"
+      },
+      {
+        "name": "WI_COLOR_TOKEN_PREFIX",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/core/src/wi-theme.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "unknown",
+        "defaultValue": "'--wi-color-' as const",
+        "rawdescription": "Prefijo público de variables CSS de color.",
+        "description": "<p>Prefijo público de variables CSS de color.</p>\n"
+      },
+      {
+        "name": "WI_DARK_CLASS",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/core/src/wi-theme.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "unknown",
+        "defaultValue": "'wi-dark' as const",
+        "rawdescription": "Clase CSS que la aplicación consumidora aplica al documento (recomendado: `<html>`)\npara activar el tema oscuro. La librería no muta el DOM.",
+        "description": "<p>Clase CSS que la aplicación consumidora aplica al documento (recomendado: <code>&lt;html&gt;</code>)\npara activar el tema oscuro. La librería no muta el DOM.</p>\n"
       },
       {
         "name": "WI_HEROICONS_CURATED",
@@ -3494,6 +3866,28 @@
         "defaultValue": "new InjectionToken<readonly WiIconRegistry[]>('WI_ICONS')",
         "rawdescription": "Token multi para registros de iconos.\nPreferir `provideWiIcons` frente a proveer el token manualmente.",
         "description": "<p>Token multi para registros de iconos.\nPreferir <code>provideWiIcons</code> frente a proveer el token manualmente.</p>\n"
+      },
+      {
+        "name": "WithIcon",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/button/src/wi-button.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;\">\n        <wi-button>\n          <wi-icon name=\"plus\" size=\"sm\" />\n          Crear\n        </wi-button>\n        <wi-button variant=\"danger\">\n          <wi-icon name=\"trash\" size=\"sm\" />\n          Eliminar\n        </wi-button>\n      </div>\n    `,\n  }),\n}"
+      },
+      {
+        "name": "WithLongContent",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/button/src/wi-button.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  render: () => ({\n    template: `\n      <wi-button>\n        Confirmar y continuar con la operación seleccionada\n      </wi-button>\n    `,\n  }),\n}"
       },
       {
         "name": "workerIcon",
@@ -3688,6 +4082,32 @@
         "ctype": "miscellaneous",
         "subtype": "typealias",
         "coverageIgnore": false,
+        "rawtype": "StoryObj<WiButtonComponent>",
+        "file": "projects/components/button/src/wi-button.stories.ts",
+        "deprecated": false,
+        "deprecationMessage": "",
+        "rawdescription": "",
+        "description": "",
+        "kind": 184
+      },
+      {
+        "name": "Story",
+        "ctype": "miscellaneous",
+        "subtype": "typealias",
+        "coverageIgnore": false,
+        "rawtype": "StoryObj",
+        "file": "projects/components/core/src/tokens.stories.ts",
+        "deprecated": false,
+        "deprecationMessage": "",
+        "rawdescription": "",
+        "description": "",
+        "kind": 184
+      },
+      {
+        "name": "Story",
+        "ctype": "miscellaneous",
+        "subtype": "typealias",
+        "coverageIgnore": false,
         "rawtype": "StoryObj<WiIconComponent>",
         "file": "projects/components/icon/src/wi-icon.stories.ts",
         "deprecated": false,
@@ -3734,6 +4154,45 @@
         "rawdescription": "",
         "description": "",
         "kind": 184
+      },
+      {
+        "name": "WiButtonSize",
+        "ctype": "miscellaneous",
+        "subtype": "typealias",
+        "coverageIgnore": false,
+        "rawtype": "\"sm\" | \"md\" | \"lg\"",
+        "file": "projects/components/button/src/wi-button.types.ts",
+        "deprecated": false,
+        "deprecationMessage": "",
+        "rawdescription": "",
+        "description": "",
+        "kind": 193
+      },
+      {
+        "name": "WiButtonType",
+        "ctype": "miscellaneous",
+        "subtype": "typealias",
+        "coverageIgnore": false,
+        "rawtype": "\"button\" | \"submit\" | \"reset\"",
+        "file": "projects/components/button/src/wi-button.types.ts",
+        "deprecated": false,
+        "deprecationMessage": "",
+        "rawdescription": "",
+        "description": "",
+        "kind": 193
+      },
+      {
+        "name": "WiButtonVariant",
+        "ctype": "miscellaneous",
+        "subtype": "typealias",
+        "coverageIgnore": false,
+        "rawtype": "\"primary\" | \"secondary\" | \"danger\" | \"ghost\" | \"outline\"",
+        "file": "projects/components/button/src/wi-button.types.ts",
+        "deprecated": false,
+        "deprecationMessage": "",
+        "rawdescription": "",
+        "description": "",
+        "kind": 193
       },
       {
         "name": "WiIconName",
@@ -4405,6 +4864,52 @@
           "description": "<p>Heroicons 24/solid/bars-arrow-up</p>\n"
         }
       ],
+      "projects/components/button/src/wi-button.component.ts": [
+        {
+          "name": "BASE_CLASSES",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/button/src/wi-button.component.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "unknown",
+          "defaultValue": "[\n  'inline-flex',\n  'shrink-0',\n  'items-center',\n  'justify-center',\n  'gap-2',\n  'whitespace-nowrap',\n  'rounded-control',\n  'font-medium',\n  'transition-colors',\n  'outline-none',\n  'select-none',\n  'focus-visible:ring-2',\n  'focus-visible:ring-ring',\n  'focus-visible:ring-offset-2',\n  'focus-visible:ring-offset-background',\n  'disabled:pointer-events-none',\n  'disabled:opacity-50',\n].join(' ')"
+        },
+        {
+          "name": "ICON_ONLY_SIZE_CLASSES",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/button/src/wi-button.component.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Record<WiButtonSize, string>",
+          "defaultValue": "{\n  sm: 'h-control-sm w-8 px-0',\n  md: 'h-control-md w-10 px-0',\n  lg: 'h-control-lg w-12 px-0',\n}"
+        },
+        {
+          "name": "SIZE_CLASSES",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/button/src/wi-button.component.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Record<WiButtonSize, string>",
+          "defaultValue": "{\n  sm: 'h-control-sm px-3 text-sm',\n  md: 'h-control-md px-4 text-sm',\n  lg: 'h-control-lg px-6 text-base',\n}"
+        },
+        {
+          "name": "VARIANT_CLASSES",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/button/src/wi-button.component.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Record<WiButtonVariant, string>",
+          "defaultValue": "{\n  primary: 'bg-primary text-on-primary hover:bg-primary/90',\n  secondary: 'bg-secondary text-on-secondary hover:bg-secondary/90',\n  danger: 'bg-error text-on-error hover:bg-error/90',\n  ghost: 'bg-transparent text-on-surface hover:bg-surface-variant',\n  outline:\n    'border border-outline bg-transparent text-on-surface hover:bg-surface-variant',\n}"
+        }
+      ],
       "projects/components/icon/heroicons/src/bell.ts": [
         {
           "name": "bellOutline",
@@ -4963,6 +5468,118 @@
           "defaultValue": "{\n  viewBox: '0 0 24 24',\n  nodes: [\n    {\n      tag: 'path',\n      attrs: {\n        d: 'M12.378 1.602a.75.75 0 0 0-.756 0L3 6.632l9 5.25 9-5.25-8.622-5.03ZM21.75 7.93l-9 5.25v9l8.628-5.032a.75.75 0 0 0 .372-.648V7.93ZM11.25 22.18v-9l-9-5.25v8.57a.75.75 0 0 0 .372.648l8.628 5.033Z',\n      },\n    },\n  ],\n}",
           "rawdescription": "Heroicons 24/solid/cube",
           "description": "<p>Heroicons 24/solid/cube</p>\n"
+        }
+      ],
+      "projects/components/button/src/wi-button.stories.ts": [
+        {
+          "name": "DarkMode",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/button/src/wi-button.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  parameters: {\n    globals: { theme: 'dark' },\n  },\n  render: () => ({\n    template: `\n      <div style=\"display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;padding:1.5rem;\">\n        <wi-button variant=\"primary\">Primary</wi-button>\n        <wi-button variant=\"secondary\">Secondary</wi-button>\n        <wi-button variant=\"danger\">Danger</wi-button>\n        <wi-button variant=\"ghost\">Ghost</wi-button>\n        <wi-button variant=\"outline\">Outline</wi-button>\n        <wi-button loading>Loading</wi-button>\n      </div>\n    `,\n  }),\n}"
+        },
+        {
+          "name": "Default",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/button/src/wi-button.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  render: (args) => ({\n    props: args,\n    template: `\n      <wi-button\n        [variant]=\"variant\"\n        [size]=\"size\"\n        [type]=\"type\"\n        [loading]=\"loading\"\n        [disabled]=\"disabled\"\n        [iconOnly]=\"iconOnly\"\n        [ariaLabel]=\"ariaLabel\"\n      >\n        Guardar\n      </wi-button>\n    `,\n  }),\n}"
+        },
+        {
+          "name": "Disabled",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/button/src/wi-button.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;\">\n        <wi-button disabled>Primary</wi-button>\n        <wi-button variant=\"secondary\" disabled>Secondary</wi-button>\n        <wi-button variant=\"outline\" disabled>Outline</wi-button>\n      </div>\n    `,\n  }),\n}"
+        },
+        {
+          "name": "IconOnly",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/button/src/wi-button.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;\">\n        <wi-button iconOnly ariaLabel=\"Crear\">\n          <wi-icon name=\"plus\" size=\"sm\" />\n        </wi-button>\n        <wi-button variant=\"danger\" iconOnly ariaLabel=\"Eliminar\">\n          <wi-icon name=\"trash\" size=\"sm\" />\n        </wi-button>\n        <wi-button variant=\"outline\" iconOnly ariaLabel=\"Crear\" size=\"lg\">\n          <wi-icon name=\"plus\" />\n        </wi-button>\n      </div>\n    `,\n  }),\n}"
+        },
+        {
+          "name": "Loading",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/button/src/wi-button.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;\">\n        <wi-button loading>Guardando</wi-button>\n        <wi-button variant=\"danger\" loading>Eliminando</wi-button>\n      </div>\n    `,\n  }),\n}"
+        },
+        {
+          "name": "meta",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/button/src/wi-button.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Meta<WiButtonComponent>",
+          "defaultValue": "{\n  title: 'Button/WiButton',\n  component: WiButtonComponent,\n  tags: ['autodocs'],\n  parameters: {\n    layout: 'centered',\n  },\n  decorators: [\n    applicationConfig({\n      providers: [\n        provideWiIcons({\n          plus: { outline: plusOutline },\n          trash: { outline: trashOutline },\n        }),\n      ],\n    }),\n    moduleMetadata({\n      imports: [WiButtonComponent, WiIconComponent],\n    }),\n  ],\n  argTypes: {\n    variant: {\n      control: 'select',\n      options: ['primary', 'secondary', 'danger', 'ghost', 'outline'],\n    },\n    size: {\n      control: 'select',\n      options: ['sm', 'md', 'lg'],\n    },\n    type: {\n      control: 'select',\n      options: ['button', 'submit', 'reset'],\n    },\n    loading: { control: 'boolean' },\n    disabled: { control: 'boolean' },\n    iconOnly: { control: 'boolean' },\n    ariaLabel: { control: 'text' },\n  },\n  args: {\n    variant: 'primary',\n    size: 'md',\n    type: 'button',\n    loading: false,\n    disabled: false,\n    iconOnly: false,\n    ariaLabel: null,\n  },\n}"
+        },
+        {
+          "name": "Sizes",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/button/src/wi-button.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;\">\n        <wi-button size=\"sm\">Small</wi-button>\n        <wi-button size=\"md\">Medium</wi-button>\n        <wi-button size=\"lg\">Large</wi-button>\n      </div>\n    `,\n  }),\n}"
+        },
+        {
+          "name": "Variants",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/button/src/wi-button.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;\">\n        <wi-button variant=\"primary\">Primary</wi-button>\n        <wi-button variant=\"secondary\">Secondary</wi-button>\n        <wi-button variant=\"danger\">Danger</wi-button>\n        <wi-button variant=\"ghost\">Ghost</wi-button>\n        <wi-button variant=\"outline\">Outline</wi-button>\n      </div>\n    `,\n  }),\n}"
+        },
+        {
+          "name": "WithIcon",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/button/src/wi-button.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;\">\n        <wi-button>\n          <wi-icon name=\"plus\" size=\"sm\" />\n          Crear\n        </wi-button>\n        <wi-button variant=\"danger\">\n          <wi-icon name=\"trash\" size=\"sm\" />\n          Eliminar\n        </wi-button>\n      </div>\n    `,\n  }),\n}"
+        },
+        {
+          "name": "WithLongContent",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/button/src/wi-button.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  render: () => ({\n    template: `\n      <wi-button>\n        Confirmar y continuar con la operación seleccionada\n      </wi-button>\n    `,\n  }),\n}"
         }
       ],
       "projects/components/icon/heroicons/src/document.ts": [
@@ -5758,6 +6375,32 @@
           "description": "<p>Heroicons 24/solid/megaphone</p>\n"
         }
       ],
+      "projects/components/core/src/tokens.stories.ts": [
+        {
+          "name": "meta",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/core/src/tokens.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Meta",
+          "defaultValue": "{\n  title: 'Foundation/Tokens',\n  parameters: {\n    layout: 'padded',\n  },\n}",
+          "rawdescription": "Smoke test visual de tokens Tailwind + tema `.wi-dark`.\nUsa el selector de Tema en la toolbar de Storybook.",
+          "description": "<p>Smoke test visual de tokens Tailwind + tema <code>.wi-dark</code>.\nUsa el selector de Tema en la toolbar de Storybook.</p>\n"
+        },
+        {
+          "name": "SemanticColors",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/core/src/tokens.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  render: () => ({\n    template: `\n      <div class=\"min-h-40 space-y-4 bg-background p-6 text-on-background\">\n        <p class=\"text-sm text-on-surface-variant\">\n          Tokens semánticos (<code class=\"text-xs\">--wi-color-*</code>). Cambia el tema en la toolbar.\n        </p>\n        <div class=\"flex flex-wrap gap-3\">\n          <div class=\"rounded-control bg-primary px-4 py-2 text-sm text-on-primary\">primary</div>\n          <div class=\"rounded-control bg-secondary px-4 py-2 text-sm text-on-secondary\">secondary</div>\n          <div class=\"rounded-control bg-surface-variant px-4 py-2 text-sm text-on-surface-variant\">surface-variant</div>\n          <div class=\"rounded-control bg-error px-4 py-2 text-sm text-on-error\">error</div>\n          <div class=\"rounded-control bg-warning px-4 py-2 text-sm text-on-warning\">warning</div>\n          <div class=\"rounded-control bg-success px-4 py-2 text-sm text-on-success\">success</div>\n        </div>\n        <div class=\"h-control-md w-48 rounded-control border border-outline bg-surface\"></div>\n      </div>\n    `,\n  }),\n}"
+        }
+      ],
       "projects/components/icon/heroicons/src/minus.ts": [
         {
           "name": "minusOutline",
@@ -6331,6 +6974,34 @@
           "description": "<p>Heroicons 24/solid/users</p>\n"
         }
       ],
+      "projects/components/core/src/wi-theme.ts": [
+        {
+          "name": "WI_COLOR_TOKEN_PREFIX",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/core/src/wi-theme.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "unknown",
+          "defaultValue": "'--wi-color-' as const",
+          "rawdescription": "Prefijo público de variables CSS de color.",
+          "description": "<p>Prefijo público de variables CSS de color.</p>\n"
+        },
+        {
+          "name": "WI_DARK_CLASS",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/core/src/wi-theme.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "unknown",
+          "defaultValue": "'wi-dark' as const",
+          "rawdescription": "Clase CSS que la aplicación consumidora aplica al documento (recomendado: `<html>`)\npara activar el tema oscuro. La librería no muta el DOM.",
+          "description": "<p>Clase CSS que la aplicación consumidora aplica al documento (recomendado: <code>&lt;html&gt;</code>)\npara activar el tema oscuro. La librería no muta el DOM.</p>\n"
+        }
+      ],
       "projects/components/icon/heroicons/src/curated.ts": [
         {
           "name": "WI_HEROICONS_CURATED",
@@ -6545,6 +7216,36 @@
     },
     "groupedEnumerations": {},
     "groupedTypeAliases": {
+      "projects/components/button/src/wi-button.stories.ts": [
+        {
+          "name": "Story",
+          "ctype": "miscellaneous",
+          "subtype": "typealias",
+          "coverageIgnore": false,
+          "rawtype": "StoryObj<WiButtonComponent>",
+          "file": "projects/components/button/src/wi-button.stories.ts",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "rawdescription": "",
+          "description": "",
+          "kind": 184
+        }
+      ],
+      "projects/components/core/src/tokens.stories.ts": [
+        {
+          "name": "Story",
+          "ctype": "miscellaneous",
+          "subtype": "typealias",
+          "coverageIgnore": false,
+          "rawtype": "StoryObj",
+          "file": "projects/components/core/src/tokens.stories.ts",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "rawdescription": "",
+          "description": "",
+          "kind": 184
+        }
+      ],
       "projects/components/icon/src/wi-icon.stories.ts": [
         {
           "name": "Story",
@@ -6603,6 +7304,47 @@
           "rawdescription": "",
           "description": "",
           "kind": 184
+        }
+      ],
+      "projects/components/button/src/wi-button.types.ts": [
+        {
+          "name": "WiButtonSize",
+          "ctype": "miscellaneous",
+          "subtype": "typealias",
+          "coverageIgnore": false,
+          "rawtype": "\"sm\" | \"md\" | \"lg\"",
+          "file": "projects/components/button/src/wi-button.types.ts",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "rawdescription": "",
+          "description": "",
+          "kind": 193
+        },
+        {
+          "name": "WiButtonType",
+          "ctype": "miscellaneous",
+          "subtype": "typealias",
+          "coverageIgnore": false,
+          "rawtype": "\"button\" | \"submit\" | \"reset\"",
+          "file": "projects/components/button/src/wi-button.types.ts",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "rawdescription": "",
+          "description": "",
+          "kind": 193
+        },
+        {
+          "name": "WiButtonVariant",
+          "ctype": "miscellaneous",
+          "subtype": "typealias",
+          "coverageIgnore": false,
+          "rawtype": "\"primary\" | \"secondary\" | \"danger\" | \"ghost\" | \"outline\"",
+          "file": "projects/components/button/src/wi-button.types.ts",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "rawdescription": "",
+          "description": "",
+          "kind": 193
         }
       ],
       "projects/components/icon/src/wi-icon.types.ts": [
@@ -6680,8 +7422,8 @@
     "children": []
   },
   "coverage": {
-    "count": 81,
-    "status": "very-good",
+    "count": 74,
+    "status": "good",
     "files": [
       {
         "filePath": "projects/components/.storybook/preview.ts",
@@ -6692,6 +7434,245 @@
         "coveragePercent": 0,
         "coverageCount": "0/1",
         "status": "low"
+      },
+      {
+        "filePath": "projects/components/button/src/wi-button.component.ts",
+        "type": "component",
+        "linktype": "component",
+        "name": "WiButtonComponent",
+        "coveragePercent": 20,
+        "coverageCount": "2/10",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/button/src/wi-button.component.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "BASE_CLASSES",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/button/src/wi-button.component.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "ICON_ONLY_SIZE_CLASSES",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/button/src/wi-button.component.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "SIZE_CLASSES",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/button/src/wi-button.component.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "VARIANT_CLASSES",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/button/src/wi-button.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "DarkMode",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/button/src/wi-button.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "Default",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/button/src/wi-button.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "Disabled",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/button/src/wi-button.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "IconOnly",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/button/src/wi-button.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "Loading",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/button/src/wi-button.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "meta",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/button/src/wi-button.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "Sizes",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/button/src/wi-button.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "Variants",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/button/src/wi-button.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "WithIcon",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/button/src/wi-button.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "WithLongContent",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/button/src/wi-button.stories.ts",
+        "type": "type alias",
+        "linktype": "miscellaneous",
+        "linksubtype": "typealias",
+        "name": "Story",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/button/src/wi-button.types.ts",
+        "type": "type alias",
+        "linktype": "miscellaneous",
+        "linksubtype": "typealias",
+        "name": "WiButtonSize",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/button/src/wi-button.types.ts",
+        "type": "type alias",
+        "linktype": "miscellaneous",
+        "linksubtype": "typealias",
+        "name": "WiButtonType",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/button/src/wi-button.types.ts",
+        "type": "type alias",
+        "linktype": "miscellaneous",
+        "linksubtype": "typealias",
+        "name": "WiButtonVariant",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/core/src/tokens.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "meta",
+        "coveragePercent": 100,
+        "coverageCount": "1/1",
+        "status": "very-good"
+      },
+      {
+        "filePath": "projects/components/core/src/tokens.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "SemanticColors",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/core/src/tokens.stories.ts",
+        "type": "type alias",
+        "linktype": "miscellaneous",
+        "linksubtype": "typealias",
+        "name": "Story",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/core/src/wi-theme.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "WI_COLOR_TOKEN_PREFIX",
+        "coveragePercent": 100,
+        "coverageCount": "1/1",
+        "status": "very-good"
+      },
+      {
+        "filePath": "projects/components/core/src/wi-theme.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "WI_DARK_CLASS",
+        "coveragePercent": 100,
+        "coverageCount": "1/1",
+        "status": "very-good"
       },
       {
         "filePath": "projects/components/icon/heroicons/src/adjustments-horizontal.ts",

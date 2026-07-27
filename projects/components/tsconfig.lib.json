@@ -8,6 +8,6 @@
     "declarationMap": true,
     "types": []
   },
-  "include": ["src/**/*.ts", "icon/**/*.ts"],
+  "include": ["src/**/*.ts", "button/**/*.ts", "icon/**/*.ts", "core/**/*.ts"],
   "exclude": ["**/*.spec.ts", "**/*.stories.ts"]
 }
