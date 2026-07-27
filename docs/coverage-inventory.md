@@ -21,24 +21,24 @@ Checklist de **demanda** extraído del uso real de PrimeNG en la app consumidora
 
 ## Forms
 
-| Capacidad Wi (objetivo) | Origen Prime (referencia) | Dominio    | Cubo    | Estado  | Notas                                                                     |
-| ----------------------- | ------------------------- | ---------- | ------- | ------- | ------------------------------------------------------------------------- |
-| Button                  | `button`                  | `button`   | base    | done    | `@wiloc/ui/button` (`wi-button`); variant/size/loading/iconOnly           |
-| Text input              | `inputtext`               | `forms`    | base    | done    | `@wiloc/ui/forms` (`wi-input`); CVA + FormValueControl; size/type/invalid |
-| Password                | `password`                | `forms`    | base    | planned | login / cambio contraseña                                                 |
-| Checkbox                | `checkbox`                | `forms`    | base    | planned | filtros y listas                                                          |
-| Select                  | `select`                  | `forms`    | base    | planned | overlays, clear, templates item/selected                                  |
-| MultiSelect             | `multiselect`             | `forms`    | base    | planned | filtros multi-opción                                                      |
-| DatePicker              | `datepicker`              | `forms`    | base    | planned | fecha/hora; locale inyectable (sin textos hardcodeados)                   |
-| Float label / Field     | `floatlabel`              | `forms`    | base    | planned | preferir field compuesto frente a API Prime                               |
-| Input group             | `inputgroup` + addon      | `forms`    | base    | planned | composición, no entry point por addon                                     |
-| Input with icon         | `iconfield` + `inputicon` | `forms`    | base    | planned | composición con icon registry                                             |
-| Input OTP               | `inputotp`                | `forms`    | base    | planned | login                                                                     |
-| Slider                  | `slider`                  | `forms`    | base    | planned | heatmap                                                                   |
-| Toggle switch           | `toggleswitch`            | `forms`    | base    | planned |                                                                           |
-| Listbox                 | `listbox`                 | `forms`    | base    | planned | virtual scroll si aplica                                                  |
-| Pick list               | `picklist`                | `patterns` | pattern | planned | asignación users/groups                                                   |
-| File upload             | `fileupload`              | `patterns` | pattern | planned | subidas masivas / certificaciones                                         |
+| Capacidad Wi (objetivo) | Origen Prime (referencia) | Dominio    | Cubo    | Estado  | Notas                                                                                                              |
+| ----------------------- | ------------------------- | ---------- | ------- | ------- | ------------------------------------------------------------------------------------------------------------------ |
+| Button                  | `button`                  | `button`   | base    | done    | `@wiloc/ui/button` (`wi-button`); variant/size/loading/iconOnly                                                    |
+| Text input              | `inputtext`               | `forms`    | base    | done    | `@wiloc/ui/forms` (`wi-input`); CVA + FormValueControl; size/type/invalid                                          |
+| Password                | `password`                | `forms`    | base    | planned | login / cambio contraseña                                                                                          |
+| Checkbox                | `checkbox`                | `forms`    | base    | planned | filtros y listas                                                                                                   |
+| Select                  | `select`                  | `forms`    | base    | done    | `@wiloc/ui/forms` (`wi-select`); single+multi vía `multiple`; overlays, clear, templates item/selected; sin filtro |
+| MultiSelect             | `multiselect`             | `forms`    | base    | planned | multi básico cubierto por `wi-select[multiple]`; queda filtro multi-opción                                         |
+| DatePicker              | `datepicker`              | `forms`    | base    | planned | fecha/hora; locale inyectable (sin textos hardcodeados)                                                            |
+| Float label / Field     | `floatlabel`              | `forms`    | base    | planned | preferir field compuesto frente a API Prime                                                                        |
+| Input group             | `inputgroup` + addon      | `forms`    | base    | planned | composición, no entry point por addon                                                                              |
+| Input with icon         | `iconfield` + `inputicon` | `forms`    | base    | planned | composición con icon registry                                                                                      |
+| Input OTP               | `inputotp`                | `forms`    | base    | planned | login                                                                                                              |
+| Slider                  | `slider`                  | `forms`    | base    | planned | heatmap                                                                                                            |
+| Toggle switch           | `toggleswitch`            | `forms`    | base    | planned |                                                                                                                    |
+| Listbox                 | `listbox`                 | `forms`    | base    | planned | virtual scroll si aplica                                                                                           |
+| Pick list               | `picklist`                | `patterns` | pattern | planned | asignación users/groups                                                                                            |
+| File upload             | `fileupload`              | `patterns` | pattern | planned | subidas masivas / certificaciones                                                                                  |
 
 ## Data display & layout
 
