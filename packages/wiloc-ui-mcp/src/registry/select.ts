@@ -11,6 +11,7 @@ export const wiSelectRegistryEntry = {
     'WiSelectComponent',
     'WiSelectItemDirective',
     'WiSelectSelectedDirective',
+    'WiSelectTriggerIconDirective',
     'WiSelectSize',
     'WiSelectCompareWith',
     'WiSelectItemContext',
@@ -139,6 +140,13 @@ export const wiSelectRegistryEntry = {
       default: undefined,
       description: 'Template del valor seleccionado; alternativa a ng-template wiSelectSelected',
     },
+    {
+      name: 'icon',
+      type: 'string | undefined',
+      default: undefined,
+      description:
+        'Nombre del icono registrado con provideWiIcons; sustituye al chevron. Template wiSelectTriggerIcon tiene prioridad si se usa',
+    },
   ],
   outputs: [
     {
@@ -158,18 +166,18 @@ export const wiSelectRegistryEntry = {
     'typeahead',
   ],
   a11yNotes:
-    'Trigger role=combobox + listbox. Asociar label vía id o ariaLabel. Errores/hints vía ariaDescribedBy. invalid expone aria-invalid. clearLabel obligatorio si clearable. Requiere CSS de overlays CDK/Spartan en la app.',
+    'Trigger role=combobox + listbox. Asociar label vía id o ariaLabel. Icono de trigger decorativo (aria-hidden); registrar el glifo con provideWiIcons. clearLabel obligatorio si clearable. Requiere CSS de overlays CDK/Spartan en la app.',
   example: {
-    import: `import { WiSelectComponent } from '@wiloc/ui/forms';`,
+    import: `import { WiSelectComponent } from '@wiloc/ui/forms';
+import { provideWiIcons } from '@wiloc/ui/icon';
+import { funnelOutline } from '@wiloc/ui/icon/heroicons';
+
+provideWiIcons({ funnel: { outline: funnelOutline } });`,
     template: `<wi-select
-  [(value)]="siteId"
-  [options]="sites"
-  optionLabel="name"
-  optionValue="id"
-  placeholder="Selecciona…"
-  ariaLabel="Sitio"
-  clearable
-  clearLabel="Limpiar"
+  [(value)]="nationality"
+  [options]="options"
+  icon="funnel"
+  ariaLabel="Nationality"
 />`,
   },
 } as const;

@@ -36,6 +36,7 @@ import type {
   WiSelectSelectedContext,
   WiSelectSize,
 } from './wi-select.types';
+import { WiIconComponent } from '../../icon/src/wi-icon.component';
 
 const TRIGGER_BASE_CLASSES = [
   'wi-select__trigger',
@@ -139,10 +140,30 @@ export class WiSelectSelectedDirective {
 }
 
 /**
+ * Icono custom del trigger (escape hatch). Preferir el input `icon` con el nombre registrado.
+ *
+ * @example
+ * ```html
+ * <wi-select ...>
+ *   <ng-template wiSelectTriggerIcon>
+ *     <wi-icon name="funnel" />
+ *   </ng-template>
+ * </wi-select>
+ * ```
+ */
+@Directive({
+  selector: 'ng-template[wiSelectTriggerIcon]',
+})
+export class WiSelectTriggerIconDirective {
+  readonly template = inject(TemplateRef<void>);
+}
+
+/**
  * Select del design system (`wi-select`).
  *
  * - Single o multi vía `multiple` (estático; no cambiar en runtime).
  * - Sin búsqueda (no combobox).
+ * - Icono de trigger: input `icon` (nombre registrado en `provideWiIcons`) o template `wiSelectTriggerIcon`.
  * - `FormValueControl` + `ControlValueAccessor`.
  * - Label / hint / error quedan fuera (composición `wi-field` prevista).
  */
@@ -150,6 +171,7 @@ export class WiSelectSelectedDirective {
   selector: 'wi-select',
   imports: [
     NgTemplateOutlet,
+    WiIconComponent,
     BrnSelect,
     BrnSelectMultiple,
     BrnSelectTrigger,
@@ -211,20 +233,36 @@ export class WiSelectSelectedDirective {
               }
             </span>
             @if (!(clearable() && hasSelection())) {
-              <svg
-                class="size-4 shrink-0 opacity-60"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-                aria-hidden="true"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="m19.5 8.25-7.5 7.5-7.5-7.5"
-                />
-              </svg>
+              @if (triggerIconTemplate(); as iconTpl) {
+                <span
+                  class="wi-select__trigger-icon inline-flex size-4 shrink-0 items-center justify-center opacity-60 [&_svg]:size-4"
+                  aria-hidden="true"
+                >
+                  <ng-container *ngTemplateOutlet="iconTpl" />
+                </span>
+              } @else if (icon(); as iconName) {
+                <span
+                  class="wi-select__trigger-icon inline-flex size-4 shrink-0 items-center justify-center opacity-60 [&_svg]:size-4 [&_wi-icon]:size-4"
+                  aria-hidden="true"
+                >
+                  <wi-icon [name]="iconName" />
+                </span>
+              } @else {
+                <svg
+                  class="wi-select__chevron size-4 shrink-0 opacity-60"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                  />
+                </svg>
+              }
             }
           </button>
           @if (clearable() && hasSelection()) {
@@ -321,20 +359,36 @@ export class WiSelectSelectedDirective {
               }
             </span>
             @if (!(clearable() && hasSelection())) {
-              <svg
-                class="size-4 shrink-0 opacity-60"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-                aria-hidden="true"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="m19.5 8.25-7.5 7.5-7.5-7.5"
-                />
-              </svg>
+              @if (triggerIconTemplate(); as iconTpl) {
+                <span
+                  class="wi-select__trigger-icon inline-flex size-4 shrink-0 items-center justify-center opacity-60 [&_svg]:size-4"
+                  aria-hidden="true"
+                >
+                  <ng-container *ngTemplateOutlet="iconTpl" />
+                </span>
+              } @else if (icon(); as iconName) {
+                <span
+                  class="wi-select__trigger-icon inline-flex size-4 shrink-0 items-center justify-center opacity-60 [&_svg]:size-4 [&_wi-icon]:size-4"
+                  aria-hidden="true"
+                >
+                  <wi-icon [name]="iconName" />
+                </span>
+              } @else {
+                <svg
+                  class="wi-select__chevron size-4 shrink-0 opacity-60"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                  />
+                </svg>
+              }
             }
           </button>
           @if (clearable() && hasSelection()) {
@@ -427,12 +481,18 @@ export class WiSelectComponent implements ControlValueAccessor, FormValueControl
   readonly itemTemplate = input<TemplateRef<WiSelectItemContext> | undefined>(undefined);
   /** Template de valor seleccionado por input (alternativa a `ng-template wiSelectSelected`). */
   readonly selectedTemplate = input<TemplateRef<WiSelectSelectedContext> | undefined>(undefined);
+  /**
+   * Nombre del icono registrado con `provideWiIcons` (sustituye al chevron).
+   * Para contenido custom, usar `ng-template wiSelectTriggerIcon`.
+   */
+  readonly icon = input<string | undefined>(undefined);
 
   /** Emite al cerrar el panel (Signal Forms: touched / debounce blur). */
   readonly touch = output<void>();
 
   private readonly itemTemplateDir = contentChild(WiSelectItemDirective);
   private readonly selectedTemplateDir = contentChild(WiSelectSelectedDirective);
+  private readonly triggerIconDir = contentChild(WiSelectTriggerIconDirective);
 
   private readonly generatedId = `wi-select-${++nextSelectId}`;
   private readonly cvaDisabled = signal(false);
@@ -458,6 +518,9 @@ export class WiSelectComponent implements ControlValueAccessor, FormValueControl
   protected readonly resolvedSelectedTemplate = computed(
     () => this.selectedTemplate() ?? this.selectedTemplateDir()?.template,
   );
+
+  /** Template custom del icono de trigger (tiene prioridad sobre `icon`). */
+  protected readonly triggerIconTemplate = computed(() => this.triggerIconDir()?.template);
 
   protected readonly multiValue = computed(() => {
     const current = this.value();

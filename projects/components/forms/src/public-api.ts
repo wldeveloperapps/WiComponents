@@ -11,4 +11,5 @@ export {
   WiSelectComponent,
   WiSelectItemDirective,
   WiSelectSelectedDirective,
+  WiSelectTriggerIconDirective,
 } from './wi-select.component';

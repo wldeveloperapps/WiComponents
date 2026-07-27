@@ -1,8 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/angular-vite';
-import { moduleMetadata } from '@storybook/angular-vite';
+import { applicationConfig, moduleMetadata } from '@storybook/angular-vite';
 import { JsonPipe } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
+import { provideWiIcons } from '../../icon/src/public-api';
+import { WI_HEROICONS_CURATED } from '../../icon/heroicons/src/curated';
 import { WiSelectComponent, WiSelectItemDirective, WiSelectSelectedDirective } from './public-api';
 
 const fruitOptions = ['Apple', 'Banana', 'Blueberry', 'Grapes', 'Pineapple'];
@@ -22,11 +24,14 @@ const meta: Meta<WiSelectComponent> = {
     docs: {
       description: {
         component:
-          'Select single/multi sin búsqueda. Requiere CSS de overlays CDK/Spartan (preset de `@wiloc/ui` / Brain).',
+          'Select single/multi sin búsqueda. Icono de trigger con input `icon` (nombre en `provideWiIcons`). Requiere CSS de overlays CDK/Spartan.',
       },
     },
   },
   decorators: [
+    applicationConfig({
+      providers: [provideWiIcons(WI_HEROICONS_CURATED)],
+    }),
     moduleMetadata({
       imports: [
         WiSelectComponent,
@@ -51,6 +56,11 @@ const meta: Meta<WiSelectComponent> = {
     emptyText: { control: 'text' },
     clearLabel: { control: 'text' },
     ariaLabel: { control: 'text' },
+    icon: {
+      control: 'text',
+      description:
+        'Nombre de cualquier icono registrado con provideWiIcons (p. ej. funnel, clock, calendar)',
+    },
   },
   args: {
     size: 'md',
@@ -63,6 +73,7 @@ const meta: Meta<WiSelectComponent> = {
     emptyText: 'Sin opciones',
     clearLabel: 'Limpiar',
     ariaLabel: 'Fruta',
+    icon: '',
   },
 };
 
@@ -91,6 +102,7 @@ export const Default: Story = {
           [emptyText]="emptyText"
           [clearLabel]="clearLabel"
           [ariaLabel]="ariaLabel"
+          [icon]="icon || undefined"
         />
       </div>
     `,

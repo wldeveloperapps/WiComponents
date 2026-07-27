@@ -3,7 +3,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
-import { WiSelectComponent } from '../../forms/src/wi-select.component';
+import { provideWiIcons } from '../../icon/src/public-api';
+import { funnelOutline } from '../../icon/heroicons/src/funnel';
+import {
+  WiSelectComponent,
+  WiSelectTriggerIconDirective,
+} from '../../forms/src/wi-select.component';
 import type { WiSelectSize } from '../../forms/src/wi-select.types';
 
 class ResizeObserverStub {
@@ -63,6 +68,11 @@ describe('WiSelectComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [WiSelectComponent, ReactiveHostComponent],
+      providers: [
+        provideWiIcons({
+          funnel: { outline: funnelOutline },
+        }),
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(WiSelectComponent);
@@ -205,6 +215,39 @@ describe('WiSelectComponent', () => {
 
     await openAndSelectFirst();
     expect(touches.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it('renders a named icon instead of the chevron', () => {
+    fixture.componentRef.setInput('icon', 'funnel');
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('.wi-select__chevron')).toBeNull();
+    expect(fixture.nativeElement.querySelector('.wi-select__trigger-icon')).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('wi-icon')).toBeTruthy();
+  });
+
+  it('prefers wiSelectTriggerIcon template over icon input', () => {
+    @Component({
+      imports: [WiSelectComponent, WiSelectTriggerIconDirective],
+      template: `
+        <wi-select [options]="options" icon="funnel" ariaLabel="Filter">
+          <ng-template wiSelectTriggerIcon>
+            <span class="custom-trigger-icon">custom</span>
+          </ng-template>
+        </wi-select>
+      `,
+    })
+    class TriggerIconHostComponent {
+      readonly options = ['A', 'B'];
+    }
+
+    const hostFixture = TestBed.createComponent(TriggerIconHostComponent);
+    hostFixture.detectChanges();
+
+    const root = hostFixture.nativeElement as HTMLElement;
+    expect(root.querySelector('.wi-select__chevron')).toBeNull();
+    expect(root.querySelector('.custom-trigger-icon')?.textContent).toContain('custom');
+    expect(root.querySelector('wi-icon')).toBeNull();
   });
 
   it('integrates with Reactive Forms', async () => {
