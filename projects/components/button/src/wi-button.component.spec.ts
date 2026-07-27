@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WiButtonComponent } from './wi-button.component';
+import type { WiButtonSize, WiButtonVariant } from './wi-button.types';
 
 describe('WiButtonComponent', () => {
   let fixture: ComponentFixture<WiButtonComponent>;
@@ -24,31 +25,46 @@ describe('WiButtonComponent', () => {
     expect(el).toBeTruthy();
     expect(el.getAttribute('type')).toBe('button');
     expect(el.className).toContain('bg-primary');
+    expect(el.className).toContain('text-on-primary');
     expect(el.className).toContain('h-control-md');
     expect(fixture.nativeElement.classList.contains('wi-button')).toBe(true);
+    expect(el.disabled).toBe(false);
+    expect(el.getAttribute('aria-busy')).toBeNull();
+    expect(el.getAttribute('aria-disabled')).toBeNull();
+    expect(el.getAttribute('aria-label')).toBeNull();
+    expect(el.querySelector('svg')).toBeNull();
   });
 
-  it('applies variant classes', () => {
-    fixture.componentRef.setInput('variant', 'danger');
-    fixture.detectChanges();
+  it.each([
+    ['primary', 'bg-primary', 'text-on-primary'],
+    ['secondary', 'bg-secondary', 'text-on-secondary'],
+    ['danger', 'bg-error', 'text-on-error'],
+    ['ghost', 'bg-transparent', 'text-on-surface'],
+    ['outline', 'border-outline', 'text-on-surface'],
+  ] as const satisfies readonly (readonly [WiButtonVariant, string, string])[])(
+    'applies %s variant classes',
+    (variant, tokenA, tokenB) => {
+      fixture.componentRef.setInput('variant', variant);
+      fixture.detectChanges();
 
-    expect(button().className).toContain('bg-error');
-    expect(button().className).toContain('text-on-error');
-  });
+      expect(button().className).toContain(tokenA);
+      expect(button().className).toContain(tokenB);
+    },
+  );
 
-  it('applies size classes', () => {
-    fixture.componentRef.setInput('size', 'lg');
-    fixture.detectChanges();
+  it.each([
+    ['sm', 'h-control-sm'],
+    ['md', 'h-control-md'],
+    ['lg', 'h-control-lg'],
+  ] as const satisfies readonly (readonly [WiButtonSize, string])[])(
+    'applies %s size classes',
+    (size, heightClass) => {
+      fixture.componentRef.setInput('size', size);
+      fixture.detectChanges();
 
-    expect(button().className).toContain('h-control-lg');
-  });
-
-  it('applies outline variant', () => {
-    fixture.componentRef.setInput('variant', 'outline');
-    fixture.detectChanges();
-
-    expect(button().className).toContain('border-outline');
-  });
+      expect(button().className).toContain(heightClass);
+    },
+  );
 
   it('disables when disabled is true', () => {
     fixture.componentRef.setInput('disabled', true);
@@ -65,7 +81,17 @@ describe('WiButtonComponent', () => {
     const el = button();
     expect(el.disabled).toBe(true);
     expect(el.getAttribute('aria-busy')).toBe('true');
+    expect(el.getAttribute('aria-disabled')).toBe('true');
     expect(el.querySelector('svg')).toBeTruthy();
+  });
+
+  it('stays disabled when both disabled and loading are true', () => {
+    fixture.componentRef.setInput('disabled', true);
+    fixture.componentRef.setInput('loading', true);
+    fixture.detectChanges();
+
+    expect(button().disabled).toBe(true);
+    expect(button().getAttribute('aria-busy')).toBe('true');
   });
 
   it('applies icon-only sizing and aria-label', () => {
@@ -79,11 +105,30 @@ describe('WiButtonComponent', () => {
     expect(el.getAttribute('aria-label')).toBe('Eliminar');
   });
 
-  it('supports submit type', () => {
+  it.each([
+    ['sm', 'w-8'],
+    ['md', 'w-10'],
+    ['lg', 'w-12'],
+  ] as const satisfies readonly (readonly [WiButtonSize, string])[])(
+    'applies icon-only width for size %s',
+    (size, widthClass) => {
+      fixture.componentRef.setInput('iconOnly', true);
+      fixture.componentRef.setInput('size', size);
+      fixture.detectChanges();
+
+      expect(button().className).toContain(widthClass);
+      expect(button().className).toContain('px-0');
+    },
+  );
+
+  it('supports submit and reset types', () => {
     fixture.componentRef.setInput('type', 'submit');
     fixture.detectChanges();
-
     expect(button().getAttribute('type')).toBe('submit');
+
+    fixture.componentRef.setInput('type', 'reset');
+    fixture.detectChanges();
+    expect(button().getAttribute('type')).toBe('reset');
   });
 
   it('can be created without throwing (SSR-safe construction)', () => {
