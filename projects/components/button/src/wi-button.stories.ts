@@ -12,6 +12,13 @@ const meta: Meta<WiButtonComponent> = {
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
+    docs: {
+      description: {
+        component: `
+Host con \`inline-flex\` (genera caja CSS). Así directivas de overlay como \`[wiTooltip]\` pueden ir en \`<wi-button>\` sin anclarse en (0,0). Evitar \`display: contents\` en hosts que necesiten overlays.
+        `,
+      },
+    },
   },
   decorators: [
     applicationConfig({

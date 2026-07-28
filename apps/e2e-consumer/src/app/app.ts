@@ -12,6 +12,7 @@ import {
 } from '@wiloc/ui/data-display';
 import { WiDatepickerComponent, WiInputComponent, WiSelectComponent } from '@wiloc/ui/forms';
 import { WiIconComponent } from '@wiloc/ui/icon';
+import { WiTooltipDirective } from '@wiloc/ui/overlays';
 
 import { appLocale, toggleAppLocale, uiMessages } from './locale';
 
@@ -30,6 +31,7 @@ import { appLocale, toggleAppLocale, uiMessages } from './locale';
     WiIconComponent,
     WiInputComponent,
     WiSelectComponent,
+    WiTooltipDirective,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',

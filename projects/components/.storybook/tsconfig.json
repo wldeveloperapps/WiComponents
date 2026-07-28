@@ -12,7 +12,8 @@
     "../button/**/*.spec.ts",
     "../data-display/**/*.spec.ts",
     "../forms/**/*.spec.ts",
-    "../icon/**/*.spec.ts"
+    "../icon/**/*.spec.ts",
+    "../overlays/**/*.spec.ts"
   ],
   "include": [
     "../src/**/*.ts",
@@ -27,6 +28,8 @@
     "../icon/**/*.stories.*",
     "../core/**/*.ts",
     "../core/**/*.stories.*",
+    "../overlays/**/*.ts",
+    "../overlays/**/*.stories.*",
     "./preview.ts"
   ],
   "files": ["./typings.d.ts"]

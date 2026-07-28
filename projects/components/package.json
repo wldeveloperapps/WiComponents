@@ -58,6 +58,10 @@
     "./icon/heroicons": {
       "types": "./icon/heroicons/src/public-api.ts",
       "default": "./icon/heroicons/src/public-api.ts"
+    },
+    "./overlays": {
+      "types": "./overlays/src/public-api.ts",
+      "default": "./overlays/src/public-api.ts"
     }
   }
 }

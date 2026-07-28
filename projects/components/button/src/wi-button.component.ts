@@ -48,11 +48,12 @@ const ICON_ONLY_SIZE_CLASSES: Record<WiButtonSize, string> = {
  * - Variantes y tamaños vía tokens semánticos.
  * - `loading` deshabilita el control y expone `aria-busy`.
  * - Icon-only: usar `iconOnly` + `ariaLabel` (o texto accesible en el contenido).
+ * - Host `inline-flex` (caja medible): compatible con overlays como `[wiTooltip]` en el propio host.
  */
 @Component({
   selector: 'wi-button',
   host: {
-    class: 'wi-button contents',
+    class: 'wi-button inline-flex',
   },
   template: `
     <button

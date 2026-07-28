@@ -509,6 +509,40 @@
         "incoming": [],
         "outgoing": []
       }
+    },
+    {
+      "name": "WiTooltipGroupOptions",
+      "id": "interface-WiTooltipGroupOptions-803a0564d2b368cd8ff3ddfb979908154b2d7b591e13ebbfdef4ca57b79a475c476ee334c9e8a8b34fa6f11504cff2c23747d0ddd35240a031fa9552233aadf8",
+      "file": "projects/components/overlays/src/wi-tooltip.types.ts",
+      "deprecated": false,
+      "deprecationMessage": "",
+      "type": "interface",
+      "sourceCode": "export type WiTooltipPosition = 'top' | 'bottom' | 'left' | 'right';\n\n/**\n * Opciones del grupo de tooltips (skip-delay entre hermanos).\n */\nexport interface WiTooltipGroupOptions {\n  /** Ms tras cerrar el último tooltip durante los cuales el siguiente abre al instante. `0` desactiva. */\n  skipDelayDuration: number;\n}\n",
+      "displayName": "WiTooltipGroupOptions",
+      "properties": [
+        {
+          "name": "skipDelayDuration",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "number",
+          "indexKey": "",
+          "optional": false,
+          "description": "<p>Ms tras cerrar el último tooltip durante los cuales el siguiente abre al instante. <code>0</code> desactiva.</p>\n",
+          "line": 11,
+          "rawdescription": "\nMs tras cerrar el último tooltip durante los cuales el siguiente abre al instante. `0` desactiva."
+        }
+      ],
+      "indexSignatures": [],
+      "kind": 172,
+      "description": "<p>Opciones del grupo de tooltips (skip-delay entre hermanos).</p>\n",
+      "rawdescription": "\n\nOpciones del grupo de tooltips (skip-delay entre hermanos).\n",
+      "methods": [],
+      "extends": [],
+      "relationships": {
+        "incoming": [],
+        "outgoing": []
+      }
     }
   ],
   "injectables": [],
@@ -703,6 +737,70 @@
       "relationships": {
         "incoming": [],
         "outgoing": []
+      }
+    },
+    {
+      "name": "WiTooltipDirective",
+      "id": "directive-WiTooltipDirective-54647c8386fb275017c54616616751882cf6caf8672ec15f71a82eca0b55535b502672d400bac0115a6b45e907f449ef58fbc2ffbc600eb344076b721b27dc40",
+      "file": "projects/components/overlays/src/wi-tooltip.directive.ts",
+      "type": "directive",
+      "description": "<p>Tooltip del design system (<code>[wiTooltip]</code>).</p>\n<ul>\n<li>Contenido: string o <code>TemplateRef</code> vía <code>wiTooltip</code>.</li>\n<li>Hover y focus en el host; no usar como única fuente de información crítica.</li>\n<li>En botones icon-only el nombre accesible va en el botón (<code>aria-label</code> / <code>ariaLabel</code>).</li>\n<li>Usar <code>tooltipDisabled</code> (no <code>disabled</code>) para no chocar con el atributo nativo del control.</li>\n</ul>\n",
+      "rawdescription": "\n\nTooltip del design system (`[wiTooltip]`).\n\n- Contenido: string o `TemplateRef` vía `wiTooltip`.\n- Hover y focus en el host; no usar como única fuente de información crítica.\n- En botones icon-only el nombre accesible va en el botón (`aria-label` / `ariaLabel`).\n- Usar `tooltipDisabled` (no `disabled`) para no chocar con el atributo nativo del control.\n",
+      "sourceCode": "import { Directive, type Provider } from '@angular/core';\nimport {\n  BrnTooltip,\n  type BrnTooltipPosition,\n  provideBrnTooltipDefaultOptions,\n  provideBrnTooltipGroup,\n} from '@spartan-ng/brain/tooltip';\n\nimport type { WiTooltipGroupOptions, WiTooltipPosition } from './wi-tooltip.types';\n\nconst TOOLTIP_CONTENT_CLASSES = [\n  'wi-tooltip',\n  'z-50',\n  'w-fit',\n  'max-w-xs',\n  'rounded-control-sm',\n  'bg-on-surface',\n  'px-3',\n  'py-1.5',\n  'text-xs',\n  'text-balance',\n  'text-surface',\n  'shadow-md',\n  'data-[state=open]:animate-in',\n  'data-[state=open]:fade-in-0',\n  'data-[state=open]:zoom-in-95',\n  'data-[state=instant-open]:animate-in',\n  'data-[state=instant-open]:fade-in-0',\n  'data-[state=closed]:animate-out',\n  'data-[state=closed]:fade-out-0',\n  'data-[state=closed]:zoom-out-95',\n  'data-[side=bottom]:slide-in-from-top-2',\n  'data-[side=left]:slide-in-from-right-2',\n  'data-[side=right]:slide-in-from-left-2',\n  'data-[side=top]:slide-in-from-bottom-2',\n].join(' ');\n\nconst TOOLTIP_SVG_CLASSES = 'fill-on-surface z-50 block';\n\nconst ARROW_POSITION_CLASSES: Record<WiTooltipPosition, string> = {\n  top: 'absolute bottom-0 left-[calc(50%-5px)] translate-y-full',\n  bottom: 'absolute -top-2.5 left-[calc(50%-5px)] translate-y-0 rotate-180',\n  left: 'absolute -end-2.5 top-[calc(50%-5px)] translate-y-0 rotate-270 rtl:-rotate-270',\n  right: 'absolute -start-2.5 top-[calc(50%-5px)] translate-y-0 rotate-90 rtl:-rotate-90',\n};\n\n/**\n * Tooltip del design system (`[wiTooltip]`).\n *\n * - Contenido: string o `TemplateRef` vía `wiTooltip`.\n * - Hover y focus en el host; no usar como única fuente de información crítica.\n * - En botones icon-only el nombre accesible va en el botón (`aria-label` / `ariaLabel`).\n * - Usar `tooltipDisabled` (no `disabled`) para no chocar con el atributo nativo del control.\n */\n@Directive({\n  selector: '[wiTooltip]',\n  providers: [\n    provideBrnTooltipDefaultOptions({\n      showDelay: 150,\n      hideDelay: 100,\n      tooltipContentClasses: TOOLTIP_CONTENT_CLASSES,\n      svgClasses: TOOLTIP_SVG_CLASSES,\n      arrowClasses: (position: BrnTooltipPosition) => ARROW_POSITION_CLASSES[position],\n    }),\n  ],\n  hostDirectives: [\n    {\n      directive: BrnTooltip,\n      inputs: [\n        'brnTooltip: wiTooltip',\n        'position',\n        'showDelay',\n        'hideDelay',\n        'tooltipDisabled',\n      ],\n      outputs: ['show', 'hide'],\n    },\n  ],\n})\nexport class WiTooltipDirective {}\n\n/**\n * Coordina el skip-delay entre tooltips hermanos (p. ej. toolbar).\n * Proveer en el contenedor que agrupa los triggers.\n */\nexport function provideWiTooltipGroup(\n  options?: Partial<WiTooltipGroupOptions>,\n): Provider[] {\n  return provideBrnTooltipGroup(options);\n}\n",
+      "selector": "[wiTooltip]",
+      "providers": [
+        {
+          "name": "provideBrnTooltipDefaultOptions({\n    showDelay: , hideDelay: , tooltipContentClasses: TOOLTIP_CONTENT_CLASSES, svgClasses: TOOLTIP_SVG_CLASSES, arrowClasses: (position: BrnTooltipPosition) => ARROW_POSITION_CLASSES[position],\n})"
+        }
+      ],
+      "hostDirectives": [
+        {
+          "name": "BrnTooltip",
+          "inputs": [
+            "brnTooltip: wiTooltip",
+            "position",
+            "showDelay",
+            "hideDelay",
+            "tooltipDisabled"
+          ],
+          "outputs": ["show", "hide"]
+        }
+      ],
+      "standalone": true,
+      "inputsClass": [],
+      "outputsClass": [],
+      "deprecated": false,
+      "deprecationMessage": "",
+      "hostBindings": [],
+      "hostListeners": [],
+      "propertiesClass": [],
+      "methodsClass": [],
+      "coverageIgnore": false,
+      "jsdoctags": [
+        {
+          "pos": 1444,
+          "end": 1823,
+          "kind": 321,
+          "id": 0,
+          "flags": 16777216,
+          "modifierFlagsCache": 0,
+          "transformFlags": 0,
+          "comment": "Tooltip del design system (`[wiTooltip]`).\n\n- Contenido: string o `TemplateRef` vía `wiTooltip`.\n- Hover y focus en el host; no usar como única fuente de información crítica.\n- En botones icon-only el nombre accesible va en el botón (`aria-label` / `ariaLabel`).\n- Usar `tooltipDisabled` (no `disabled`) para no chocar con el atributo nativo del control."
+        }
+      ],
+      "extends": [],
+      "relationships": {
+        "incoming": [],
+        "outgoing": [
+          {
+            "name": "provideBrnTooltipDefaultOptions({\n    showDelay: , hideDelay: , tooltipContentClasses: TOOLTIP_CONTENT_CLASSES, svgClasses: TOOLTIP_SVG_CLASSES, arrowClasses: (position: BrnTooltipPosition) => ARROW_POSITION_CLASSES[position],\n})",
+            "type": "injectable"
+          },
+          {
+            "name": "BrnTooltip",
+            "type": "directive"
+          }
+        ]
       }
     }
   ],
@@ -1319,7 +1417,7 @@
     },
     {
       "name": "WiCardActionComponent",
-      "id": "component-WiCardActionComponent-f204c073bc0510fbf58760f52803eade5eaf6604810861d4683b710967b1b62860eff837c3f84789bc2dd1aeccaffa206d7229aba088a84cc04db36f65fcc189",
+      "id": "component-WiCardActionComponent-ee6dd42ee86993d70ebe6d2da81db9f37065f13fab23cd48ffe79c0622ae3e7ab659674863532398ed33d5cad24e6ca2e11e0ecf598825309c4e6e2876aaf5e6",
       "file": "projects/components/data-display/src/wi-card.component.ts",
       "changeDetection": "ChangeDetectionStrategy.OnPush",
       "encapsulation": [],
@@ -1350,7 +1448,7 @@
       "description": "",
       "rawdescription": "\n",
       "type": "component",
-      "sourceCode": "import { Component, input } from '@angular/core';\n\nimport type { WiCardSize } from './wi-card.types';\n\n/**\n * Contenedor de superficie (`wi-card`) para agrupar contenido (dashboards, formularios, etc.).\n *\n * Composición:\n * ```html\n * <wi-card>\n *   <wi-card-header>\n *     <wi-card-title>Título</wi-card-title>\n *     <wi-card-description>Descripción</wi-card-description>\n *     <wi-card-action>…</wi-card-action>\n *   </wi-card-header>\n *   <wi-card-content>…</wi-card-content>\n *   <wi-card-footer>…</wi-card-footer>\n * </wi-card>\n * ```\n */\n@Component({\n  selector: 'wi-card',\n  host: {\n    'data-slot': 'card',\n    '[attr.data-size]': 'size()',\n    class:\n      'wi-card group/card flex flex-col gap-(--wi-card-spacing) overflow-hidden rounded-control-lg border border-outline-variant bg-surface text-on-surface py-(--wi-card-spacing) text-sm shadow-sm [--wi-card-spacing:1.5rem] data-[size=sm]:[--wi-card-spacing:1rem] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 *:[img:first-child]:rounded-t-[inherit] *:[img:last-child]:rounded-b-[inherit]',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardComponent {\n  /** Densidad del espaciado interno: `sm` | `md`. */\n  readonly size = input<WiCardSize>('md');\n}\n\n@Component({\n  selector: 'wi-card-header',\n  host: {\n    'data-slot': 'card-header',\n    class:\n      'wi-card__header @container/card-header grid auto-rows-min items-start gap-1.5 px-(--wi-card-spacing) has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto]',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardHeaderComponent {}\n\n@Component({\n  selector: 'wi-card-title',\n  host: {\n    'data-slot': 'card-title',\n    class:\n      'wi-card__title text-base leading-snug font-semibold text-on-surface group-data-[size=sm]/card:text-sm',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardTitleComponent {}\n\n@Component({\n  selector: 'wi-card-description',\n  host: {\n    'data-slot': 'card-description',\n    class: 'wi-card__description text-sm text-on-surface-variant',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardDescriptionComponent {}\n\n@Component({\n  selector: 'wi-card-action',\n  host: {\n    'data-slot': 'card-action',\n    class:\n      'wi-card__action col-start-2 row-span-2 row-start-1 self-start justify-self-end',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardActionComponent {}\n\n@Component({\n  selector: 'wi-card-content',\n  host: {\n    'data-slot': 'card-content',\n    class: 'wi-card__content px-(--wi-card-spacing)',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardContentComponent {}\n\n@Component({\n  selector: 'wi-card-footer',\n  host: {\n    'data-slot': 'card-footer',\n    class:\n      'wi-card__footer flex items-center gap-2 rounded-b-[inherit] border-t border-outline-variant bg-surface-variant/40 p-(--wi-card-spacing)',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardFooterComponent {}\n",
+      "sourceCode": "import { Component, input } from '@angular/core';\n\nimport type { WiCardSize } from './wi-card.types';\n\n/**\n * Contenedor de superficie (`wi-card`) para agrupar contenido (dashboards, formularios, etc.).\n *\n * Espaciado denso (paneles tipo dashboard):\n * - `size=\"md\"` → padding 1rem (`p-4` / `px-4`)\n * - `size=\"sm\"` → padding 0.75rem (`p-3` / `px-3`)\n * - Gap entre secciones: 0.5rem (`gap-2`), independiente del padding\n *\n * Composición:\n * ```html\n * <wi-card>\n *   <wi-card-header>\n *     <wi-card-title>Título</wi-card-title>\n *     <wi-card-description>Descripción</wi-card-description>\n *     <wi-card-action>…</wi-card-action>\n *   </wi-card-header>\n *   <wi-card-content>…</wi-card-content>\n *   <wi-card-footer>…</wi-card-footer>\n * </wi-card>\n * ```\n */\n@Component({\n  selector: 'wi-card',\n  host: {\n    'data-slot': 'card',\n    '[attr.data-size]': 'size()',\n    class:\n      'wi-card group/card flex flex-col gap-2 overflow-hidden rounded-control-lg border border-outline-variant bg-surface py-4 text-sm text-on-surface shadow-sm data-[size=sm]:py-3 has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 *:[img:first-child]:rounded-t-[inherit] *:[img:last-child]:rounded-b-[inherit]',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardComponent {\n  /** Densidad del padding interno: `sm` (0.75rem) | `md` (1rem). */\n  readonly size = input<WiCardSize>('md');\n}\n\n@Component({\n  selector: 'wi-card-header',\n  host: {\n    'data-slot': 'card-header',\n    class:\n      'wi-card__header @container/card-header grid auto-rows-min items-start gap-1 px-4 group-data-[size=sm]/card:px-3 has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto]',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardHeaderComponent {}\n\n@Component({\n  selector: 'wi-card-title',\n  host: {\n    'data-slot': 'card-title',\n    class: 'wi-card__title text-sm leading-snug font-semibold text-on-surface',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardTitleComponent {}\n\n@Component({\n  selector: 'wi-card-description',\n  host: {\n    'data-slot': 'card-description',\n    class: 'wi-card__description text-xs text-on-surface-variant',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardDescriptionComponent {}\n\n@Component({\n  selector: 'wi-card-action',\n  host: {\n    'data-slot': 'card-action',\n    class: 'wi-card__action col-start-2 row-span-2 row-start-1 self-start justify-self-end',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardActionComponent {}\n\n@Component({\n  selector: 'wi-card-content',\n  host: {\n    'data-slot': 'card-content',\n    class: 'wi-card__content px-4 group-data-[size=sm]/card:px-3',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardContentComponent {}\n\n@Component({\n  selector: 'wi-card-footer',\n  host: {\n    'data-slot': 'card-footer',\n    class:\n      'wi-card__footer flex items-center gap-2 rounded-b-[inherit] border-t border-outline-variant p-4 group-data-[size=sm]/card:p-3',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardFooterComponent {}\n",
       "assetsDirs": [],
       "styleUrlsData": "",
       "stylesData": "",
@@ -1362,7 +1460,7 @@
     },
     {
       "name": "WiCardComponent",
-      "id": "component-WiCardComponent-f204c073bc0510fbf58760f52803eade5eaf6604810861d4683b710967b1b62860eff837c3f84789bc2dd1aeccaffa206d7229aba088a84cc04db36f65fcc189",
+      "id": "component-WiCardComponent-ee6dd42ee86993d70ebe6d2da81db9f37065f13fab23cd48ffe79c0622ae3e7ab659674863532398ed33d5cad24e6ca2e11e0ecf598825309c4e6e2876aaf5e6",
       "file": "projects/components/data-display/src/wi-card.component.ts",
       "changeDetection": "ChangeDetectionStrategy.OnPush",
       "encapsulation": [],
@@ -1389,9 +1487,9 @@
           "type": "WiCardSize",
           "indexKey": "",
           "optional": false,
-          "description": "<p>Densidad del espaciado interno: <code>sm</code> | <code>md</code>.</p>\n",
-          "line": 33,
-          "rawdescription": "\nDensidad del espaciado interno: `sm` | `md`.",
+          "description": "<p>Densidad del padding interno: <code>sm</code> (0.75rem) | <code>md</code> (1rem).</p>\n",
+          "line": 38,
+          "rawdescription": "\nDensidad del padding interno: `sm` (0.75rem) | `md` (1rem).",
           "modifierKind": [148],
           "required": false
         }
@@ -1406,23 +1504,23 @@
       "hostListeners": [],
       "standalone": true,
       "imports": [],
-      "description": "<p>Contenedor de superficie (<code>wi-card</code>) para agrupar contenido (dashboards, formularios, etc.).</p>\n<p>Composición:</p>\n<b>Example :</b><div><pre class=\"line-numbers\"><code class=\"language-html\">&lt;wi-card&gt;\n  &lt;wi-card-header&gt;\n    &lt;wi-card-title&gt;Título&lt;/wi-card-title&gt;\n    &lt;wi-card-description&gt;Descripción&lt;/wi-card-description&gt;\n    &lt;wi-card-action&gt;…&lt;/wi-card-action&gt;\n  &lt;/wi-card-header&gt;\n  &lt;wi-card-content&gt;…&lt;/wi-card-content&gt;\n  &lt;wi-card-footer&gt;…&lt;/wi-card-footer&gt;\n&lt;/wi-card&gt;</code></pre></div>",
-      "rawdescription": "\n\nContenedor de superficie (`wi-card`) para agrupar contenido (dashboards, formularios, etc.).\n\nComposición:\n```html\n<wi-card>\n  <wi-card-header>\n    <wi-card-title>Título</wi-card-title>\n    <wi-card-description>Descripción</wi-card-description>\n    <wi-card-action>…</wi-card-action>\n  </wi-card-header>\n  <wi-card-content>…</wi-card-content>\n  <wi-card-footer>…</wi-card-footer>\n</wi-card>\n```\n",
+      "description": "<p>Contenedor de superficie (<code>wi-card</code>) para agrupar contenido (dashboards, formularios, etc.).</p>\n<p>Espaciado denso (paneles tipo dashboard):</p>\n<ul>\n<li><code>size=&quot;md&quot;</code> → padding 1rem (<code>p-4</code> / <code>px-4</code>)</li>\n<li><code>size=&quot;sm&quot;</code> → padding 0.75rem (<code>p-3</code> / <code>px-3</code>)</li>\n<li>Gap entre secciones: 0.5rem (<code>gap-2</code>), independiente del padding</li>\n</ul>\n<p>Composición:</p>\n<b>Example :</b><div><pre class=\"line-numbers\"><code class=\"language-html\">&lt;wi-card&gt;\n  &lt;wi-card-header&gt;\n    &lt;wi-card-title&gt;Título&lt;/wi-card-title&gt;\n    &lt;wi-card-description&gt;Descripción&lt;/wi-card-description&gt;\n    &lt;wi-card-action&gt;…&lt;/wi-card-action&gt;\n  &lt;/wi-card-header&gt;\n  &lt;wi-card-content&gt;…&lt;/wi-card-content&gt;\n  &lt;wi-card-footer&gt;…&lt;/wi-card-footer&gt;\n&lt;/wi-card&gt;</code></pre></div>",
+      "rawdescription": "\n\nContenedor de superficie (`wi-card`) para agrupar contenido (dashboards, formularios, etc.).\n\nEspaciado denso (paneles tipo dashboard):\n- `size=\"md\"` → padding 1rem (`p-4` / `px-4`)\n- `size=\"sm\"` → padding 0.75rem (`p-3` / `px-3`)\n- Gap entre secciones: 0.5rem (`gap-2`), independiente del padding\n\nComposición:\n```html\n<wi-card>\n  <wi-card-header>\n    <wi-card-title>Título</wi-card-title>\n    <wi-card-description>Descripción</wi-card-description>\n    <wi-card-action>…</wi-card-action>\n  </wi-card-header>\n  <wi-card-content>…</wi-card-content>\n  <wi-card-footer>…</wi-card-footer>\n</wi-card>\n```\n",
       "type": "component",
-      "sourceCode": "import { Component, input } from '@angular/core';\n\nimport type { WiCardSize } from './wi-card.types';\n\n/**\n * Contenedor de superficie (`wi-card`) para agrupar contenido (dashboards, formularios, etc.).\n *\n * Composición:\n * ```html\n * <wi-card>\n *   <wi-card-header>\n *     <wi-card-title>Título</wi-card-title>\n *     <wi-card-description>Descripción</wi-card-description>\n *     <wi-card-action>…</wi-card-action>\n *   </wi-card-header>\n *   <wi-card-content>…</wi-card-content>\n *   <wi-card-footer>…</wi-card-footer>\n * </wi-card>\n * ```\n */\n@Component({\n  selector: 'wi-card',\n  host: {\n    'data-slot': 'card',\n    '[attr.data-size]': 'size()',\n    class:\n      'wi-card group/card flex flex-col gap-(--wi-card-spacing) overflow-hidden rounded-control-lg border border-outline-variant bg-surface text-on-surface py-(--wi-card-spacing) text-sm shadow-sm [--wi-card-spacing:1.5rem] data-[size=sm]:[--wi-card-spacing:1rem] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 *:[img:first-child]:rounded-t-[inherit] *:[img:last-child]:rounded-b-[inherit]',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardComponent {\n  /** Densidad del espaciado interno: `sm` | `md`. */\n  readonly size = input<WiCardSize>('md');\n}\n\n@Component({\n  selector: 'wi-card-header',\n  host: {\n    'data-slot': 'card-header',\n    class:\n      'wi-card__header @container/card-header grid auto-rows-min items-start gap-1.5 px-(--wi-card-spacing) has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto]',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardHeaderComponent {}\n\n@Component({\n  selector: 'wi-card-title',\n  host: {\n    'data-slot': 'card-title',\n    class:\n      'wi-card__title text-base leading-snug font-semibold text-on-surface group-data-[size=sm]/card:text-sm',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardTitleComponent {}\n\n@Component({\n  selector: 'wi-card-description',\n  host: {\n    'data-slot': 'card-description',\n    class: 'wi-card__description text-sm text-on-surface-variant',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardDescriptionComponent {}\n\n@Component({\n  selector: 'wi-card-action',\n  host: {\n    'data-slot': 'card-action',\n    class:\n      'wi-card__action col-start-2 row-span-2 row-start-1 self-start justify-self-end',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardActionComponent {}\n\n@Component({\n  selector: 'wi-card-content',\n  host: {\n    'data-slot': 'card-content',\n    class: 'wi-card__content px-(--wi-card-spacing)',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardContentComponent {}\n\n@Component({\n  selector: 'wi-card-footer',\n  host: {\n    'data-slot': 'card-footer',\n    class:\n      'wi-card__footer flex items-center gap-2 rounded-b-[inherit] border-t border-outline-variant bg-surface-variant/40 p-(--wi-card-spacing)',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardFooterComponent {}\n",
+      "sourceCode": "import { Component, input } from '@angular/core';\n\nimport type { WiCardSize } from './wi-card.types';\n\n/**\n * Contenedor de superficie (`wi-card`) para agrupar contenido (dashboards, formularios, etc.).\n *\n * Espaciado denso (paneles tipo dashboard):\n * - `size=\"md\"` → padding 1rem (`p-4` / `px-4`)\n * - `size=\"sm\"` → padding 0.75rem (`p-3` / `px-3`)\n * - Gap entre secciones: 0.5rem (`gap-2`), independiente del padding\n *\n * Composición:\n * ```html\n * <wi-card>\n *   <wi-card-header>\n *     <wi-card-title>Título</wi-card-title>\n *     <wi-card-description>Descripción</wi-card-description>\n *     <wi-card-action>…</wi-card-action>\n *   </wi-card-header>\n *   <wi-card-content>…</wi-card-content>\n *   <wi-card-footer>…</wi-card-footer>\n * </wi-card>\n * ```\n */\n@Component({\n  selector: 'wi-card',\n  host: {\n    'data-slot': 'card',\n    '[attr.data-size]': 'size()',\n    class:\n      'wi-card group/card flex flex-col gap-2 overflow-hidden rounded-control-lg border border-outline-variant bg-surface py-4 text-sm text-on-surface shadow-sm data-[size=sm]:py-3 has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 *:[img:first-child]:rounded-t-[inherit] *:[img:last-child]:rounded-b-[inherit]',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardComponent {\n  /** Densidad del padding interno: `sm` (0.75rem) | `md` (1rem). */\n  readonly size = input<WiCardSize>('md');\n}\n\n@Component({\n  selector: 'wi-card-header',\n  host: {\n    'data-slot': 'card-header',\n    class:\n      'wi-card__header @container/card-header grid auto-rows-min items-start gap-1 px-4 group-data-[size=sm]/card:px-3 has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto]',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardHeaderComponent {}\n\n@Component({\n  selector: 'wi-card-title',\n  host: {\n    'data-slot': 'card-title',\n    class: 'wi-card__title text-sm leading-snug font-semibold text-on-surface',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardTitleComponent {}\n\n@Component({\n  selector: 'wi-card-description',\n  host: {\n    'data-slot': 'card-description',\n    class: 'wi-card__description text-xs text-on-surface-variant',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardDescriptionComponent {}\n\n@Component({\n  selector: 'wi-card-action',\n  host: {\n    'data-slot': 'card-action',\n    class: 'wi-card__action col-start-2 row-span-2 row-start-1 self-start justify-self-end',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardActionComponent {}\n\n@Component({\n  selector: 'wi-card-content',\n  host: {\n    'data-slot': 'card-content',\n    class: 'wi-card__content px-4 group-data-[size=sm]/card:px-3',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardContentComponent {}\n\n@Component({\n  selector: 'wi-card-footer',\n  host: {\n    'data-slot': 'card-footer',\n    class:\n      'wi-card__footer flex items-center gap-2 rounded-b-[inherit] border-t border-outline-variant p-4 group-data-[size=sm]/card:p-3',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardFooterComponent {}\n",
       "assetsDirs": [],
       "styleUrlsData": "",
       "stylesData": "",
       "jsdoctags": [
         {
           "pos": 103,
-          "end": 546,
+          "end": 765,
           "kind": 321,
           "id": 0,
           "flags": 16777216,
           "modifierFlagsCache": 0,
           "transformFlags": 0,
-          "comment": "Contenedor de superficie (`wi-card`) para agrupar contenido (dashboards, formularios, etc.).\n\nComposición:\n```html\n<wi-card>\n  <wi-card-header>\n    <wi-card-title>Título</wi-card-title>\n    <wi-card-description>Descripción</wi-card-description>\n    <wi-card-action>…</wi-card-action>\n  </wi-card-header>\n  <wi-card-content>…</wi-card-content>\n  <wi-card-footer>…</wi-card-footer>\n</wi-card>\n```"
+          "comment": "Contenedor de superficie (`wi-card`) para agrupar contenido (dashboards, formularios, etc.).\n\nEspaciado denso (paneles tipo dashboard):\n- `size=\"md\"` → padding 1rem (`p-4` / `px-4`)\n- `size=\"sm\"` → padding 0.75rem (`p-3` / `px-3`)\n- Gap entre secciones: 0.5rem (`gap-2`), independiente del padding\n\nComposición:\n```html\n<wi-card>\n  <wi-card-header>\n    <wi-card-title>Título</wi-card-title>\n    <wi-card-description>Descripción</wi-card-description>\n    <wi-card-action>…</wi-card-action>\n  </wi-card-header>\n  <wi-card-content>…</wi-card-content>\n  <wi-card-footer>…</wi-card-footer>\n</wi-card>\n```"
         }
       ],
       "extends": [],
@@ -1433,7 +1531,7 @@
     },
     {
       "name": "WiCardContentComponent",
-      "id": "component-WiCardContentComponent-f204c073bc0510fbf58760f52803eade5eaf6604810861d4683b710967b1b62860eff837c3f84789bc2dd1aeccaffa206d7229aba088a84cc04db36f65fcc189",
+      "id": "component-WiCardContentComponent-ee6dd42ee86993d70ebe6d2da81db9f37065f13fab23cd48ffe79c0622ae3e7ab659674863532398ed33d5cad24e6ca2e11e0ecf598825309c4e6e2876aaf5e6",
       "file": "projects/components/data-display/src/wi-card.component.ts",
       "changeDetection": "ChangeDetectionStrategy.OnPush",
       "encapsulation": [],
@@ -1464,7 +1562,7 @@
       "description": "",
       "rawdescription": "\n",
       "type": "component",
-      "sourceCode": "import { Component, input } from '@angular/core';\n\nimport type { WiCardSize } from './wi-card.types';\n\n/**\n * Contenedor de superficie (`wi-card`) para agrupar contenido (dashboards, formularios, etc.).\n *\n * Composición:\n * ```html\n * <wi-card>\n *   <wi-card-header>\n *     <wi-card-title>Título</wi-card-title>\n *     <wi-card-description>Descripción</wi-card-description>\n *     <wi-card-action>…</wi-card-action>\n *   </wi-card-header>\n *   <wi-card-content>…</wi-card-content>\n *   <wi-card-footer>…</wi-card-footer>\n * </wi-card>\n * ```\n */\n@Component({\n  selector: 'wi-card',\n  host: {\n    'data-slot': 'card',\n    '[attr.data-size]': 'size()',\n    class:\n      'wi-card group/card flex flex-col gap-(--wi-card-spacing) overflow-hidden rounded-control-lg border border-outline-variant bg-surface text-on-surface py-(--wi-card-spacing) text-sm shadow-sm [--wi-card-spacing:1.5rem] data-[size=sm]:[--wi-card-spacing:1rem] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 *:[img:first-child]:rounded-t-[inherit] *:[img:last-child]:rounded-b-[inherit]',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardComponent {\n  /** Densidad del espaciado interno: `sm` | `md`. */\n  readonly size = input<WiCardSize>('md');\n}\n\n@Component({\n  selector: 'wi-card-header',\n  host: {\n    'data-slot': 'card-header',\n    class:\n      'wi-card__header @container/card-header grid auto-rows-min items-start gap-1.5 px-(--wi-card-spacing) has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto]',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardHeaderComponent {}\n\n@Component({\n  selector: 'wi-card-title',\n  host: {\n    'data-slot': 'card-title',\n    class:\n      'wi-card__title text-base leading-snug font-semibold text-on-surface group-data-[size=sm]/card:text-sm',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardTitleComponent {}\n\n@Component({\n  selector: 'wi-card-description',\n  host: {\n    'data-slot': 'card-description',\n    class: 'wi-card__description text-sm text-on-surface-variant',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardDescriptionComponent {}\n\n@Component({\n  selector: 'wi-card-action',\n  host: {\n    'data-slot': 'card-action',\n    class:\n      'wi-card__action col-start-2 row-span-2 row-start-1 self-start justify-self-end',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardActionComponent {}\n\n@Component({\n  selector: 'wi-card-content',\n  host: {\n    'data-slot': 'card-content',\n    class: 'wi-card__content px-(--wi-card-spacing)',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardContentComponent {}\n\n@Component({\n  selector: 'wi-card-footer',\n  host: {\n    'data-slot': 'card-footer',\n    class:\n      'wi-card__footer flex items-center gap-2 rounded-b-[inherit] border-t border-outline-variant bg-surface-variant/40 p-(--wi-card-spacing)',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardFooterComponent {}\n",
+      "sourceCode": "import { Component, input } from '@angular/core';\n\nimport type { WiCardSize } from './wi-card.types';\n\n/**\n * Contenedor de superficie (`wi-card`) para agrupar contenido (dashboards, formularios, etc.).\n *\n * Espaciado denso (paneles tipo dashboard):\n * - `size=\"md\"` → padding 1rem (`p-4` / `px-4`)\n * - `size=\"sm\"` → padding 0.75rem (`p-3` / `px-3`)\n * - Gap entre secciones: 0.5rem (`gap-2`), independiente del padding\n *\n * Composición:\n * ```html\n * <wi-card>\n *   <wi-card-header>\n *     <wi-card-title>Título</wi-card-title>\n *     <wi-card-description>Descripción</wi-card-description>\n *     <wi-card-action>…</wi-card-action>\n *   </wi-card-header>\n *   <wi-card-content>…</wi-card-content>\n *   <wi-card-footer>…</wi-card-footer>\n * </wi-card>\n * ```\n */\n@Component({\n  selector: 'wi-card',\n  host: {\n    'data-slot': 'card',\n    '[attr.data-size]': 'size()',\n    class:\n      'wi-card group/card flex flex-col gap-2 overflow-hidden rounded-control-lg border border-outline-variant bg-surface py-4 text-sm text-on-surface shadow-sm data-[size=sm]:py-3 has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 *:[img:first-child]:rounded-t-[inherit] *:[img:last-child]:rounded-b-[inherit]',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardComponent {\n  /** Densidad del padding interno: `sm` (0.75rem) | `md` (1rem). */\n  readonly size = input<WiCardSize>('md');\n}\n\n@Component({\n  selector: 'wi-card-header',\n  host: {\n    'data-slot': 'card-header',\n    class:\n      'wi-card__header @container/card-header grid auto-rows-min items-start gap-1 px-4 group-data-[size=sm]/card:px-3 has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto]',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardHeaderComponent {}\n\n@Component({\n  selector: 'wi-card-title',\n  host: {\n    'data-slot': 'card-title',\n    class: 'wi-card__title text-sm leading-snug font-semibold text-on-surface',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardTitleComponent {}\n\n@Component({\n  selector: 'wi-card-description',\n  host: {\n    'data-slot': 'card-description',\n    class: 'wi-card__description text-xs text-on-surface-variant',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardDescriptionComponent {}\n\n@Component({\n  selector: 'wi-card-action',\n  host: {\n    'data-slot': 'card-action',\n    class: 'wi-card__action col-start-2 row-span-2 row-start-1 self-start justify-self-end',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardActionComponent {}\n\n@Component({\n  selector: 'wi-card-content',\n  host: {\n    'data-slot': 'card-content',\n    class: 'wi-card__content px-4 group-data-[size=sm]/card:px-3',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardContentComponent {}\n\n@Component({\n  selector: 'wi-card-footer',\n  host: {\n    'data-slot': 'card-footer',\n    class:\n      'wi-card__footer flex items-center gap-2 rounded-b-[inherit] border-t border-outline-variant p-4 group-data-[size=sm]/card:p-3',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardFooterComponent {}\n",
       "assetsDirs": [],
       "styleUrlsData": "",
       "stylesData": "",
@@ -1476,7 +1574,7 @@
     },
     {
       "name": "WiCardDescriptionComponent",
-      "id": "component-WiCardDescriptionComponent-f204c073bc0510fbf58760f52803eade5eaf6604810861d4683b710967b1b62860eff837c3f84789bc2dd1aeccaffa206d7229aba088a84cc04db36f65fcc189",
+      "id": "component-WiCardDescriptionComponent-ee6dd42ee86993d70ebe6d2da81db9f37065f13fab23cd48ffe79c0622ae3e7ab659674863532398ed33d5cad24e6ca2e11e0ecf598825309c4e6e2876aaf5e6",
       "file": "projects/components/data-display/src/wi-card.component.ts",
       "changeDetection": "ChangeDetectionStrategy.OnPush",
       "encapsulation": [],
@@ -1507,7 +1605,7 @@
       "description": "",
       "rawdescription": "\n",
       "type": "component",
-      "sourceCode": "import { Component, input } from '@angular/core';\n\nimport type { WiCardSize } from './wi-card.types';\n\n/**\n * Contenedor de superficie (`wi-card`) para agrupar contenido (dashboards, formularios, etc.).\n *\n * Composición:\n * ```html\n * <wi-card>\n *   <wi-card-header>\n *     <wi-card-title>Título</wi-card-title>\n *     <wi-card-description>Descripción</wi-card-description>\n *     <wi-card-action>…</wi-card-action>\n *   </wi-card-header>\n *   <wi-card-content>…</wi-card-content>\n *   <wi-card-footer>…</wi-card-footer>\n * </wi-card>\n * ```\n */\n@Component({\n  selector: 'wi-card',\n  host: {\n    'data-slot': 'card',\n    '[attr.data-size]': 'size()',\n    class:\n      'wi-card group/card flex flex-col gap-(--wi-card-spacing) overflow-hidden rounded-control-lg border border-outline-variant bg-surface text-on-surface py-(--wi-card-spacing) text-sm shadow-sm [--wi-card-spacing:1.5rem] data-[size=sm]:[--wi-card-spacing:1rem] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 *:[img:first-child]:rounded-t-[inherit] *:[img:last-child]:rounded-b-[inherit]',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardComponent {\n  /** Densidad del espaciado interno: `sm` | `md`. */\n  readonly size = input<WiCardSize>('md');\n}\n\n@Component({\n  selector: 'wi-card-header',\n  host: {\n    'data-slot': 'card-header',\n    class:\n      'wi-card__header @container/card-header grid auto-rows-min items-start gap-1.5 px-(--wi-card-spacing) has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto]',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardHeaderComponent {}\n\n@Component({\n  selector: 'wi-card-title',\n  host: {\n    'data-slot': 'card-title',\n    class:\n      'wi-card__title text-base leading-snug font-semibold text-on-surface group-data-[size=sm]/card:text-sm',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardTitleComponent {}\n\n@Component({\n  selector: 'wi-card-description',\n  host: {\n    'data-slot': 'card-description',\n    class: 'wi-card__description text-sm text-on-surface-variant',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardDescriptionComponent {}\n\n@Component({\n  selector: 'wi-card-action',\n  host: {\n    'data-slot': 'card-action',\n    class:\n      'wi-card__action col-start-2 row-span-2 row-start-1 self-start justify-self-end',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardActionComponent {}\n\n@Component({\n  selector: 'wi-card-content',\n  host: {\n    'data-slot': 'card-content',\n    class: 'wi-card__content px-(--wi-card-spacing)',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardContentComponent {}\n\n@Component({\n  selector: 'wi-card-footer',\n  host: {\n    'data-slot': 'card-footer',\n    class:\n      'wi-card__footer flex items-center gap-2 rounded-b-[inherit] border-t border-outline-variant bg-surface-variant/40 p-(--wi-card-spacing)',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardFooterComponent {}\n",
+      "sourceCode": "import { Component, input } from '@angular/core';\n\nimport type { WiCardSize } from './wi-card.types';\n\n/**\n * Contenedor de superficie (`wi-card`) para agrupar contenido (dashboards, formularios, etc.).\n *\n * Espaciado denso (paneles tipo dashboard):\n * - `size=\"md\"` → padding 1rem (`p-4` / `px-4`)\n * - `size=\"sm\"` → padding 0.75rem (`p-3` / `px-3`)\n * - Gap entre secciones: 0.5rem (`gap-2`), independiente del padding\n *\n * Composición:\n * ```html\n * <wi-card>\n *   <wi-card-header>\n *     <wi-card-title>Título</wi-card-title>\n *     <wi-card-description>Descripción</wi-card-description>\n *     <wi-card-action>…</wi-card-action>\n *   </wi-card-header>\n *   <wi-card-content>…</wi-card-content>\n *   <wi-card-footer>…</wi-card-footer>\n * </wi-card>\n * ```\n */\n@Component({\n  selector: 'wi-card',\n  host: {\n    'data-slot': 'card',\n    '[attr.data-size]': 'size()',\n    class:\n      'wi-card group/card flex flex-col gap-2 overflow-hidden rounded-control-lg border border-outline-variant bg-surface py-4 text-sm text-on-surface shadow-sm data-[size=sm]:py-3 has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 *:[img:first-child]:rounded-t-[inherit] *:[img:last-child]:rounded-b-[inherit]',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardComponent {\n  /** Densidad del padding interno: `sm` (0.75rem) | `md` (1rem). */\n  readonly size = input<WiCardSize>('md');\n}\n\n@Component({\n  selector: 'wi-card-header',\n  host: {\n    'data-slot': 'card-header',\n    class:\n      'wi-card__header @container/card-header grid auto-rows-min items-start gap-1 px-4 group-data-[size=sm]/card:px-3 has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto]',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardHeaderComponent {}\n\n@Component({\n  selector: 'wi-card-title',\n  host: {\n    'data-slot': 'card-title',\n    class: 'wi-card__title text-sm leading-snug font-semibold text-on-surface',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardTitleComponent {}\n\n@Component({\n  selector: 'wi-card-description',\n  host: {\n    'data-slot': 'card-description',\n    class: 'wi-card__description text-xs text-on-surface-variant',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardDescriptionComponent {}\n\n@Component({\n  selector: 'wi-card-action',\n  host: {\n    'data-slot': 'card-action',\n    class: 'wi-card__action col-start-2 row-span-2 row-start-1 self-start justify-self-end',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardActionComponent {}\n\n@Component({\n  selector: 'wi-card-content',\n  host: {\n    'data-slot': 'card-content',\n    class: 'wi-card__content px-4 group-data-[size=sm]/card:px-3',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardContentComponent {}\n\n@Component({\n  selector: 'wi-card-footer',\n  host: {\n    'data-slot': 'card-footer',\n    class:\n      'wi-card__footer flex items-center gap-2 rounded-b-[inherit] border-t border-outline-variant p-4 group-data-[size=sm]/card:p-3',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardFooterComponent {}\n",
       "assetsDirs": [],
       "styleUrlsData": "",
       "stylesData": "",
@@ -1519,7 +1617,7 @@
     },
     {
       "name": "WiCardFooterComponent",
-      "id": "component-WiCardFooterComponent-f204c073bc0510fbf58760f52803eade5eaf6604810861d4683b710967b1b62860eff837c3f84789bc2dd1aeccaffa206d7229aba088a84cc04db36f65fcc189",
+      "id": "component-WiCardFooterComponent-ee6dd42ee86993d70ebe6d2da81db9f37065f13fab23cd48ffe79c0622ae3e7ab659674863532398ed33d5cad24e6ca2e11e0ecf598825309c4e6e2876aaf5e6",
       "file": "projects/components/data-display/src/wi-card.component.ts",
       "changeDetection": "ChangeDetectionStrategy.OnPush",
       "encapsulation": [],
@@ -1550,7 +1648,7 @@
       "description": "",
       "rawdescription": "\n",
       "type": "component",
-      "sourceCode": "import { Component, input } from '@angular/core';\n\nimport type { WiCardSize } from './wi-card.types';\n\n/**\n * Contenedor de superficie (`wi-card`) para agrupar contenido (dashboards, formularios, etc.).\n *\n * Composición:\n * ```html\n * <wi-card>\n *   <wi-card-header>\n *     <wi-card-title>Título</wi-card-title>\n *     <wi-card-description>Descripción</wi-card-description>\n *     <wi-card-action>…</wi-card-action>\n *   </wi-card-header>\n *   <wi-card-content>…</wi-card-content>\n *   <wi-card-footer>…</wi-card-footer>\n * </wi-card>\n * ```\n */\n@Component({\n  selector: 'wi-card',\n  host: {\n    'data-slot': 'card',\n    '[attr.data-size]': 'size()',\n    class:\n      'wi-card group/card flex flex-col gap-(--wi-card-spacing) overflow-hidden rounded-control-lg border border-outline-variant bg-surface text-on-surface py-(--wi-card-spacing) text-sm shadow-sm [--wi-card-spacing:1.5rem] data-[size=sm]:[--wi-card-spacing:1rem] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 *:[img:first-child]:rounded-t-[inherit] *:[img:last-child]:rounded-b-[inherit]',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardComponent {\n  /** Densidad del espaciado interno: `sm` | `md`. */\n  readonly size = input<WiCardSize>('md');\n}\n\n@Component({\n  selector: 'wi-card-header',\n  host: {\n    'data-slot': 'card-header',\n    class:\n      'wi-card__header @container/card-header grid auto-rows-min items-start gap-1.5 px-(--wi-card-spacing) has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto]',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardHeaderComponent {}\n\n@Component({\n  selector: 'wi-card-title',\n  host: {\n    'data-slot': 'card-title',\n    class:\n      'wi-card__title text-base leading-snug font-semibold text-on-surface group-data-[size=sm]/card:text-sm',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardTitleComponent {}\n\n@Component({\n  selector: 'wi-card-description',\n  host: {\n    'data-slot': 'card-description',\n    class: 'wi-card__description text-sm text-on-surface-variant',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardDescriptionComponent {}\n\n@Component({\n  selector: 'wi-card-action',\n  host: {\n    'data-slot': 'card-action',\n    class:\n      'wi-card__action col-start-2 row-span-2 row-start-1 self-start justify-self-end',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardActionComponent {}\n\n@Component({\n  selector: 'wi-card-content',\n  host: {\n    'data-slot': 'card-content',\n    class: 'wi-card__content px-(--wi-card-spacing)',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardContentComponent {}\n\n@Component({\n  selector: 'wi-card-footer',\n  host: {\n    'data-slot': 'card-footer',\n    class:\n      'wi-card__footer flex items-center gap-2 rounded-b-[inherit] border-t border-outline-variant bg-surface-variant/40 p-(--wi-card-spacing)',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardFooterComponent {}\n",
+      "sourceCode": "import { Component, input } from '@angular/core';\n\nimport type { WiCardSize } from './wi-card.types';\n\n/**\n * Contenedor de superficie (`wi-card`) para agrupar contenido (dashboards, formularios, etc.).\n *\n * Espaciado denso (paneles tipo dashboard):\n * - `size=\"md\"` → padding 1rem (`p-4` / `px-4`)\n * - `size=\"sm\"` → padding 0.75rem (`p-3` / `px-3`)\n * - Gap entre secciones: 0.5rem (`gap-2`), independiente del padding\n *\n * Composición:\n * ```html\n * <wi-card>\n *   <wi-card-header>\n *     <wi-card-title>Título</wi-card-title>\n *     <wi-card-description>Descripción</wi-card-description>\n *     <wi-card-action>…</wi-card-action>\n *   </wi-card-header>\n *   <wi-card-content>…</wi-card-content>\n *   <wi-card-footer>…</wi-card-footer>\n * </wi-card>\n * ```\n */\n@Component({\n  selector: 'wi-card',\n  host: {\n    'data-slot': 'card',\n    '[attr.data-size]': 'size()',\n    class:\n      'wi-card group/card flex flex-col gap-2 overflow-hidden rounded-control-lg border border-outline-variant bg-surface py-4 text-sm text-on-surface shadow-sm data-[size=sm]:py-3 has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 *:[img:first-child]:rounded-t-[inherit] *:[img:last-child]:rounded-b-[inherit]',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardComponent {\n  /** Densidad del padding interno: `sm` (0.75rem) | `md` (1rem). */\n  readonly size = input<WiCardSize>('md');\n}\n\n@Component({\n  selector: 'wi-card-header',\n  host: {\n    'data-slot': 'card-header',\n    class:\n      'wi-card__header @container/card-header grid auto-rows-min items-start gap-1 px-4 group-data-[size=sm]/card:px-3 has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto]',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardHeaderComponent {}\n\n@Component({\n  selector: 'wi-card-title',\n  host: {\n    'data-slot': 'card-title',\n    class: 'wi-card__title text-sm leading-snug font-semibold text-on-surface',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardTitleComponent {}\n\n@Component({\n  selector: 'wi-card-description',\n  host: {\n    'data-slot': 'card-description',\n    class: 'wi-card__description text-xs text-on-surface-variant',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardDescriptionComponent {}\n\n@Component({\n  selector: 'wi-card-action',\n  host: {\n    'data-slot': 'card-action',\n    class: 'wi-card__action col-start-2 row-span-2 row-start-1 self-start justify-self-end',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardActionComponent {}\n\n@Component({\n  selector: 'wi-card-content',\n  host: {\n    'data-slot': 'card-content',\n    class: 'wi-card__content px-4 group-data-[size=sm]/card:px-3',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardContentComponent {}\n\n@Component({\n  selector: 'wi-card-footer',\n  host: {\n    'data-slot': 'card-footer',\n    class:\n      'wi-card__footer flex items-center gap-2 rounded-b-[inherit] border-t border-outline-variant p-4 group-data-[size=sm]/card:p-3',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardFooterComponent {}\n",
       "assetsDirs": [],
       "styleUrlsData": "",
       "stylesData": "",
@@ -1562,7 +1660,7 @@
     },
     {
       "name": "WiCardHeaderComponent",
-      "id": "component-WiCardHeaderComponent-f204c073bc0510fbf58760f52803eade5eaf6604810861d4683b710967b1b62860eff837c3f84789bc2dd1aeccaffa206d7229aba088a84cc04db36f65fcc189",
+      "id": "component-WiCardHeaderComponent-ee6dd42ee86993d70ebe6d2da81db9f37065f13fab23cd48ffe79c0622ae3e7ab659674863532398ed33d5cad24e6ca2e11e0ecf598825309c4e6e2876aaf5e6",
       "file": "projects/components/data-display/src/wi-card.component.ts",
       "changeDetection": "ChangeDetectionStrategy.OnPush",
       "encapsulation": [],
@@ -1593,7 +1691,7 @@
       "description": "",
       "rawdescription": "\n",
       "type": "component",
-      "sourceCode": "import { Component, input } from '@angular/core';\n\nimport type { WiCardSize } from './wi-card.types';\n\n/**\n * Contenedor de superficie (`wi-card`) para agrupar contenido (dashboards, formularios, etc.).\n *\n * Composición:\n * ```html\n * <wi-card>\n *   <wi-card-header>\n *     <wi-card-title>Título</wi-card-title>\n *     <wi-card-description>Descripción</wi-card-description>\n *     <wi-card-action>…</wi-card-action>\n *   </wi-card-header>\n *   <wi-card-content>…</wi-card-content>\n *   <wi-card-footer>…</wi-card-footer>\n * </wi-card>\n * ```\n */\n@Component({\n  selector: 'wi-card',\n  host: {\n    'data-slot': 'card',\n    '[attr.data-size]': 'size()',\n    class:\n      'wi-card group/card flex flex-col gap-(--wi-card-spacing) overflow-hidden rounded-control-lg border border-outline-variant bg-surface text-on-surface py-(--wi-card-spacing) text-sm shadow-sm [--wi-card-spacing:1.5rem] data-[size=sm]:[--wi-card-spacing:1rem] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 *:[img:first-child]:rounded-t-[inherit] *:[img:last-child]:rounded-b-[inherit]',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardComponent {\n  /** Densidad del espaciado interno: `sm` | `md`. */\n  readonly size = input<WiCardSize>('md');\n}\n\n@Component({\n  selector: 'wi-card-header',\n  host: {\n    'data-slot': 'card-header',\n    class:\n      'wi-card__header @container/card-header grid auto-rows-min items-start gap-1.5 px-(--wi-card-spacing) has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto]',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardHeaderComponent {}\n\n@Component({\n  selector: 'wi-card-title',\n  host: {\n    'data-slot': 'card-title',\n    class:\n      'wi-card__title text-base leading-snug font-semibold text-on-surface group-data-[size=sm]/card:text-sm',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardTitleComponent {}\n\n@Component({\n  selector: 'wi-card-description',\n  host: {\n    'data-slot': 'card-description',\n    class: 'wi-card__description text-sm text-on-surface-variant',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardDescriptionComponent {}\n\n@Component({\n  selector: 'wi-card-action',\n  host: {\n    'data-slot': 'card-action',\n    class:\n      'wi-card__action col-start-2 row-span-2 row-start-1 self-start justify-self-end',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardActionComponent {}\n\n@Component({\n  selector: 'wi-card-content',\n  host: {\n    'data-slot': 'card-content',\n    class: 'wi-card__content px-(--wi-card-spacing)',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardContentComponent {}\n\n@Component({\n  selector: 'wi-card-footer',\n  host: {\n    'data-slot': 'card-footer',\n    class:\n      'wi-card__footer flex items-center gap-2 rounded-b-[inherit] border-t border-outline-variant bg-surface-variant/40 p-(--wi-card-spacing)',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardFooterComponent {}\n",
+      "sourceCode": "import { Component, input } from '@angular/core';\n\nimport type { WiCardSize } from './wi-card.types';\n\n/**\n * Contenedor de superficie (`wi-card`) para agrupar contenido (dashboards, formularios, etc.).\n *\n * Espaciado denso (paneles tipo dashboard):\n * - `size=\"md\"` → padding 1rem (`p-4` / `px-4`)\n * - `size=\"sm\"` → padding 0.75rem (`p-3` / `px-3`)\n * - Gap entre secciones: 0.5rem (`gap-2`), independiente del padding\n *\n * Composición:\n * ```html\n * <wi-card>\n *   <wi-card-header>\n *     <wi-card-title>Título</wi-card-title>\n *     <wi-card-description>Descripción</wi-card-description>\n *     <wi-card-action>…</wi-card-action>\n *   </wi-card-header>\n *   <wi-card-content>…</wi-card-content>\n *   <wi-card-footer>…</wi-card-footer>\n * </wi-card>\n * ```\n */\n@Component({\n  selector: 'wi-card',\n  host: {\n    'data-slot': 'card',\n    '[attr.data-size]': 'size()',\n    class:\n      'wi-card group/card flex flex-col gap-2 overflow-hidden rounded-control-lg border border-outline-variant bg-surface py-4 text-sm text-on-surface shadow-sm data-[size=sm]:py-3 has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 *:[img:first-child]:rounded-t-[inherit] *:[img:last-child]:rounded-b-[inherit]',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardComponent {\n  /** Densidad del padding interno: `sm` (0.75rem) | `md` (1rem). */\n  readonly size = input<WiCardSize>('md');\n}\n\n@Component({\n  selector: 'wi-card-header',\n  host: {\n    'data-slot': 'card-header',\n    class:\n      'wi-card__header @container/card-header grid auto-rows-min items-start gap-1 px-4 group-data-[size=sm]/card:px-3 has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto]',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardHeaderComponent {}\n\n@Component({\n  selector: 'wi-card-title',\n  host: {\n    'data-slot': 'card-title',\n    class: 'wi-card__title text-sm leading-snug font-semibold text-on-surface',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardTitleComponent {}\n\n@Component({\n  selector: 'wi-card-description',\n  host: {\n    'data-slot': 'card-description',\n    class: 'wi-card__description text-xs text-on-surface-variant',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardDescriptionComponent {}\n\n@Component({\n  selector: 'wi-card-action',\n  host: {\n    'data-slot': 'card-action',\n    class: 'wi-card__action col-start-2 row-span-2 row-start-1 self-start justify-self-end',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardActionComponent {}\n\n@Component({\n  selector: 'wi-card-content',\n  host: {\n    'data-slot': 'card-content',\n    class: 'wi-card__content px-4 group-data-[size=sm]/card:px-3',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardContentComponent {}\n\n@Component({\n  selector: 'wi-card-footer',\n  host: {\n    'data-slot': 'card-footer',\n    class:\n      'wi-card__footer flex items-center gap-2 rounded-b-[inherit] border-t border-outline-variant p-4 group-data-[size=sm]/card:p-3',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardFooterComponent {}\n",
       "assetsDirs": [],
       "styleUrlsData": "",
       "stylesData": "",
@@ -1605,7 +1703,7 @@
     },
     {
       "name": "WiCardTitleComponent",
-      "id": "component-WiCardTitleComponent-f204c073bc0510fbf58760f52803eade5eaf6604810861d4683b710967b1b62860eff837c3f84789bc2dd1aeccaffa206d7229aba088a84cc04db36f65fcc189",
+      "id": "component-WiCardTitleComponent-ee6dd42ee86993d70ebe6d2da81db9f37065f13fab23cd48ffe79c0622ae3e7ab659674863532398ed33d5cad24e6ca2e11e0ecf598825309c4e6e2876aaf5e6",
       "file": "projects/components/data-display/src/wi-card.component.ts",
       "changeDetection": "ChangeDetectionStrategy.OnPush",
       "encapsulation": [],
@@ -1636,7 +1734,7 @@
       "description": "",
       "rawdescription": "\n",
       "type": "component",
-      "sourceCode": "import { Component, input } from '@angular/core';\n\nimport type { WiCardSize } from './wi-card.types';\n\n/**\n * Contenedor de superficie (`wi-card`) para agrupar contenido (dashboards, formularios, etc.).\n *\n * Composición:\n * ```html\n * <wi-card>\n *   <wi-card-header>\n *     <wi-card-title>Título</wi-card-title>\n *     <wi-card-description>Descripción</wi-card-description>\n *     <wi-card-action>…</wi-card-action>\n *   </wi-card-header>\n *   <wi-card-content>…</wi-card-content>\n *   <wi-card-footer>…</wi-card-footer>\n * </wi-card>\n * ```\n */\n@Component({\n  selector: 'wi-card',\n  host: {\n    'data-slot': 'card',\n    '[attr.data-size]': 'size()',\n    class:\n      'wi-card group/card flex flex-col gap-(--wi-card-spacing) overflow-hidden rounded-control-lg border border-outline-variant bg-surface text-on-surface py-(--wi-card-spacing) text-sm shadow-sm [--wi-card-spacing:1.5rem] data-[size=sm]:[--wi-card-spacing:1rem] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 *:[img:first-child]:rounded-t-[inherit] *:[img:last-child]:rounded-b-[inherit]',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardComponent {\n  /** Densidad del espaciado interno: `sm` | `md`. */\n  readonly size = input<WiCardSize>('md');\n}\n\n@Component({\n  selector: 'wi-card-header',\n  host: {\n    'data-slot': 'card-header',\n    class:\n      'wi-card__header @container/card-header grid auto-rows-min items-start gap-1.5 px-(--wi-card-spacing) has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto]',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardHeaderComponent {}\n\n@Component({\n  selector: 'wi-card-title',\n  host: {\n    'data-slot': 'card-title',\n    class:\n      'wi-card__title text-base leading-snug font-semibold text-on-surface group-data-[size=sm]/card:text-sm',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardTitleComponent {}\n\n@Component({\n  selector: 'wi-card-description',\n  host: {\n    'data-slot': 'card-description',\n    class: 'wi-card__description text-sm text-on-surface-variant',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardDescriptionComponent {}\n\n@Component({\n  selector: 'wi-card-action',\n  host: {\n    'data-slot': 'card-action',\n    class:\n      'wi-card__action col-start-2 row-span-2 row-start-1 self-start justify-self-end',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardActionComponent {}\n\n@Component({\n  selector: 'wi-card-content',\n  host: {\n    'data-slot': 'card-content',\n    class: 'wi-card__content px-(--wi-card-spacing)',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardContentComponent {}\n\n@Component({\n  selector: 'wi-card-footer',\n  host: {\n    'data-slot': 'card-footer',\n    class:\n      'wi-card__footer flex items-center gap-2 rounded-b-[inherit] border-t border-outline-variant bg-surface-variant/40 p-(--wi-card-spacing)',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardFooterComponent {}\n",
+      "sourceCode": "import { Component, input } from '@angular/core';\n\nimport type { WiCardSize } from './wi-card.types';\n\n/**\n * Contenedor de superficie (`wi-card`) para agrupar contenido (dashboards, formularios, etc.).\n *\n * Espaciado denso (paneles tipo dashboard):\n * - `size=\"md\"` → padding 1rem (`p-4` / `px-4`)\n * - `size=\"sm\"` → padding 0.75rem (`p-3` / `px-3`)\n * - Gap entre secciones: 0.5rem (`gap-2`), independiente del padding\n *\n * Composición:\n * ```html\n * <wi-card>\n *   <wi-card-header>\n *     <wi-card-title>Título</wi-card-title>\n *     <wi-card-description>Descripción</wi-card-description>\n *     <wi-card-action>…</wi-card-action>\n *   </wi-card-header>\n *   <wi-card-content>…</wi-card-content>\n *   <wi-card-footer>…</wi-card-footer>\n * </wi-card>\n * ```\n */\n@Component({\n  selector: 'wi-card',\n  host: {\n    'data-slot': 'card',\n    '[attr.data-size]': 'size()',\n    class:\n      'wi-card group/card flex flex-col gap-2 overflow-hidden rounded-control-lg border border-outline-variant bg-surface py-4 text-sm text-on-surface shadow-sm data-[size=sm]:py-3 has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 *:[img:first-child]:rounded-t-[inherit] *:[img:last-child]:rounded-b-[inherit]',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardComponent {\n  /** Densidad del padding interno: `sm` (0.75rem) | `md` (1rem). */\n  readonly size = input<WiCardSize>('md');\n}\n\n@Component({\n  selector: 'wi-card-header',\n  host: {\n    'data-slot': 'card-header',\n    class:\n      'wi-card__header @container/card-header grid auto-rows-min items-start gap-1 px-4 group-data-[size=sm]/card:px-3 has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto]',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardHeaderComponent {}\n\n@Component({\n  selector: 'wi-card-title',\n  host: {\n    'data-slot': 'card-title',\n    class: 'wi-card__title text-sm leading-snug font-semibold text-on-surface',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardTitleComponent {}\n\n@Component({\n  selector: 'wi-card-description',\n  host: {\n    'data-slot': 'card-description',\n    class: 'wi-card__description text-xs text-on-surface-variant',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardDescriptionComponent {}\n\n@Component({\n  selector: 'wi-card-action',\n  host: {\n    'data-slot': 'card-action',\n    class: 'wi-card__action col-start-2 row-span-2 row-start-1 self-start justify-self-end',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardActionComponent {}\n\n@Component({\n  selector: 'wi-card-content',\n  host: {\n    'data-slot': 'card-content',\n    class: 'wi-card__content px-4 group-data-[size=sm]/card:px-3',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardContentComponent {}\n\n@Component({\n  selector: 'wi-card-footer',\n  host: {\n    'data-slot': 'card-footer',\n    class:\n      'wi-card__footer flex items-center gap-2 rounded-b-[inherit] border-t border-outline-variant p-4 group-data-[size=sm]/card:p-3',\n  },\n  template: `<ng-content />`,\n})\nexport class WiCardFooterComponent {}\n",
       "assetsDirs": [],
       "styleUrlsData": "",
       "stylesData": "",
@@ -5995,6 +6093,17 @@
         "description": "<p>Heroicons 24/solid/archive-box</p>\n"
       },
       {
+        "name": "ARROW_POSITION_CLASSES",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/overlays/src/wi-tooltip.directive.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Record<WiTooltipPosition, string>",
+        "defaultValue": "{\n  top: 'absolute bottom-0 left-[calc(50%-5px)] translate-y-full',\n  bottom: 'absolute -top-2.5 left-[calc(50%-5px)] translate-y-0 rotate-180',\n  left: 'absolute -end-2.5 top-[calc(50%-5px)] translate-y-0 rotate-270 rtl:-rotate-270',\n  right: 'absolute -start-2.5 top-[calc(50%-5px)] translate-y-0 rotate-90 rtl:-rotate-90',\n}"
+      },
+      {
         "name": "arrowDownCircleOutline",
         "ctype": "miscellaneous",
         "subtype": "variable",
@@ -7020,6 +7129,17 @@
         "defaultValue": "{\n  render: () => ({\n    props: {\n      options: fruitOptions,\n      value: 'Grapes',\n    },\n    template: `\n      <div class=\"wi-dark\" style=\"width:20rem;padding:1.5rem;background:var(--wi-color-background);\">\n        <wi-select\n          [(value)]=\"value\"\n          [options]=\"options\"\n          clearable\n          clearLabel=\"Limpiar\"\n          ariaLabel=\"Fruta\"\n        />\n      </div>\n    `,\n  }),\n}"
       },
       {
+        "name": "DarkMode",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/overlays/src/wi-tooltip.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  render: () => ({\n    template: `\n      <div class=\"wi-dark rounded-control bg-background p-8\">\n        <button\n          type=\"button\"\n          class=\"rounded-control bg-primary px-4 py-2 text-sm text-on-primary\"\n          wiTooltip=\"Tooltip en modo oscuro\"\n          [showDelay]=\"0\"\n          [hideDelay]=\"0\"\n        >\n          Dark mode\n        </button>\n      </div>\n    `,\n  }),\n}"
+      },
+      {
         "name": "DAY_BUTTON_CLASSES",
         "ctype": "miscellaneous",
         "subtype": "variable",
@@ -7108,6 +7228,28 @@
         "defaultValue": "{\n  render: (args) => ({\n    props: args,\n    template: `\n      <div style=\"display:flex;align-items:center;gap:12px;font:16px/1.4 system-ui;color:#111;\">\n        <wi-icon [name]=\"name\" [variant]=\"variant\" [size]=\"size\" [label]=\"label\" />\n        <span>{{ name }} ({{ variant }})</span>\n      </div>\n    `,\n  }),\n}"
       },
       {
+        "name": "Default",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/overlays/src/wi-tooltip.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  render: (args) => ({\n    props: args,\n    template: `\n      <button\n        type=\"button\"\n        class=\"rounded-control bg-primary px-4 py-2 text-sm text-on-primary\"\n        [wiTooltip]=\"wiTooltip\"\n        [position]=\"position\"\n        [showDelay]=\"showDelay\"\n        [hideDelay]=\"hideDelay\"\n        [tooltipDisabled]=\"tooltipDisabled\"\n      >\n        Hover o focus\n      </button>\n    `,\n  }),\n}"
+      },
+      {
+        "name": "Delays",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/overlays/src/wi-tooltip.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  render: () => ({\n    template: `\n      <button\n        type=\"button\"\n        class=\"rounded-control border border-outline px-3 py-2 text-sm text-on-surface\"\n        wiTooltip=\"Aparece tras 600 ms\"\n        [showDelay]=\"600\"\n        [hideDelay]=\"200\"\n      >\n        Delay largo\n      </button>\n    `,\n  }),\n}"
+      },
+      {
         "name": "Disabled",
         "ctype": "miscellaneous",
         "subtype": "variable",
@@ -7150,6 +7292,17 @@
         "deprecationMessage": "",
         "type": "Story",
         "defaultValue": "{\n  render: () => ({\n    props: {\n      options: fruitOptions,\n      value: 'Apple',\n    },\n    template: `\n      <div style=\"width:20rem;\">\n        <wi-select\n          [(value)]=\"value\"\n          [options]=\"options\"\n          disabled\n          ariaLabel=\"Fruta\"\n        />\n      </div>\n    `,\n  }),\n}"
+      },
+      {
+        "name": "Disabled",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/overlays/src/wi-tooltip.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  render: () => ({\n    template: `\n      <button\n        type=\"button\"\n        class=\"rounded-control border border-outline px-3 py-2 text-sm text-on-surface\"\n        wiTooltip=\"No debería verse\"\n        [tooltipDisabled]=\"true\"\n      >\n        Tooltip deshabilitado\n      </button>\n    `,\n  }),\n}"
       },
       {
         "name": "documentOutline",
@@ -7467,6 +7620,17 @@
         "description": "<p>Heroicons 24/solid/funnel</p>\n"
       },
       {
+        "name": "GroupSkipDelay",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/overlays/src/wi-tooltip.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  decorators: [\n    applicationConfig({\n      providers: [Directionality, provideWiTooltipGroup({ skipDelayDuration: 800 })],\n    }),\n  ],\n  render: () => ({\n    template: `\n      <div class=\"flex flex-wrap gap-3\">\n        <button type=\"button\" class=\"rounded-control border border-outline px-3 py-2 text-sm\" wiTooltip=\"Uno\" [showDelay]=\"200\" [hideDelay]=\"0\">Uno</button>\n        <button type=\"button\" class=\"rounded-control border border-outline px-3 py-2 text-sm\" wiTooltip=\"Dos\" [showDelay]=\"200\" [hideDelay]=\"0\">Dos</button>\n        <button type=\"button\" class=\"rounded-control border border-outline px-3 py-2 text-sm\" wiTooltip=\"Tres\" [showDelay]=\"200\" [hideDelay]=\"0\">Tres</button>\n      </div>\n    `,\n  }),\n  parameters: {\n    docs: {\n      description: {\n        story:\n          'Con `provideWiTooltipGroup`, tras el primero el siguiente abre al instante dentro de la ventana de skip-delay.',\n      },\n    },\n  },\n}"
+      },
+      {
         "name": "homeOutline",
         "ctype": "miscellaneous",
         "subtype": "variable",
@@ -7539,6 +7703,17 @@
         "deprecationMessage": "",
         "type": "Story",
         "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;\">\n        <wi-button iconOnly ariaLabel=\"Crear\">\n          <wi-icon name=\"plus\" size=\"sm\" />\n        </wi-button>\n        <wi-button variant=\"danger\" iconOnly ariaLabel=\"Eliminar\">\n          <wi-icon name=\"trash\" size=\"sm\" />\n        </wi-button>\n        <wi-button variant=\"outline\" iconOnly ariaLabel=\"Crear\" size=\"lg\">\n          <wi-icon name=\"plus\" />\n        </wi-button>\n      </div>\n    `,\n  }),\n}"
+      },
+      {
+        "name": "IconOnly",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/overlays/src/wi-tooltip.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  render: () => ({\n    template: `\n      <wi-button\n        type=\"button\"\n        variant=\"danger\"\n        iconOnly\n        ariaLabel=\"Eliminar\"\n        wiTooltip=\"Eliminar\"\n        position=\"top\"\n        [showDelay]=\"0\"\n        [hideDelay]=\"0\"\n      >\n        <wi-icon name=\"trash\" />\n      </wi-button>\n    `,\n  }),\n}"
       },
       {
         "name": "IconOnlyButton",
@@ -8004,7 +8179,9 @@
         "deprecated": false,
         "deprecationMessage": "",
         "type": "Meta<WiCardComponent>",
-        "defaultValue": "{\n  title: 'Data display/WiCard',\n  component: WiCardComponent,\n  tags: ['autodocs'],\n  parameters: {\n    layout: 'centered',\n  },\n  decorators: [\n    moduleMetadata({\n      imports: [\n        WiButtonComponent,\n        WiCardActionComponent,\n        WiCardComponent,\n        WiCardContentComponent,\n        WiCardDescriptionComponent,\n        WiCardFooterComponent,\n        WiCardHeaderComponent,\n        WiCardTitleComponent,\n      ],\n    }),\n  ],\n  argTypes: {\n    size: {\n      control: 'select',\n      options: ['sm', 'md'],\n    },\n  },\n  args: {\n    size: 'md',\n  },\n}"
+        "defaultValue": "{\n  title: 'Data display/WiCard',\n  component: WiCardComponent,\n  tags: ['autodocs'],\n  parameters: {\n    layout: 'centered',\n    docs: {\n      description: {\n        component: `\nContenedor de superficie. **No** expone variantes de producto (header tintado, KPI, fila de lista):\nesas se componen en la app con tokens y clases.\n\n- API: \\`size\\` (\\`sm\\` | \\`md\\`) + slots header / title / description / action / content / footer.\n- Story **Recipe\\\\*** = ejemplos de composición, no inputs nuevos.\n        `,\n      },\n    },\n  },\n  decorators: [\n    applicationConfig({\n      providers: [\n        provideWiIcons({\n          bars3: { outline: bars3Outline },\n          document: { outline: documentOutline },\n          map: { outline: mapOutline },\n          trash: { outline: trashOutline },\n          user: { outline: userOutline },\n          users: { outline: usersOutline },\n        }),\n      ],\n    }),\n    moduleMetadata({\n      imports: [\n        WiButtonComponent,\n        WiCardActionComponent,\n        WiCardComponent,\n        WiCardContentComponent,\n        WiCardDescriptionComponent,\n        WiCardFooterComponent,\n        WiCardHeaderComponent,\n        WiCardTitleComponent,\n        WiIconComponent,\n      ],\n    }),\n  ],\n  argTypes: {\n    size: {\n      control: 'select',\n      options: ['sm', 'md'],\n    },\n  },\n  args: {\n    size: 'md',\n  },\n}",
+        "rawdescription": "Recetas de composición en la app (no son variantes de API).\nEl card sigue siendo un contenedor; el look se arma con tokens + proyección.",
+        "description": "<p>Recetas de composición en la app (no son variantes de API).\nEl card sigue siendo un contenedor; el look se arma con tokens + proyección.</p>\n"
       },
       {
         "name": "meta",
@@ -8049,6 +8226,17 @@
         "deprecationMessage": "",
         "type": "Meta<WiIconComponent>",
         "defaultValue": "{\n  title: 'Icon/WiIcon',\n  component: WiIconComponent,\n  tags: ['autodocs'],\n  parameters: {\n    layout: 'centered',\n  },\n  decorators: [\n    applicationConfig({\n      providers: [\n        provideWiIcons(WI_HEROICONS_CURATED),\n        provideWiIcons({\n          worker: { solid: workerIcon },\n        }),\n      ],\n    }),\n    moduleMetadata({\n      imports: [WiIconComponent],\n    }),\n  ],\n  argTypes: {\n    name: { control: 'text' },\n    variant: {\n      control: 'select',\n      options: ['outline', 'solid'],\n    },\n    size: {\n      control: 'select',\n      options: ['xs', 'sm', 'md', 'lg', 'xl'],\n    },\n    label: { control: 'text' },\n  },\n  args: {\n    name: 'home',\n    variant: 'outline',\n    size: 'lg',\n    label: null,\n  },\n}"
+      },
+      {
+        "name": "meta",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/overlays/src/wi-tooltip.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Meta",
+        "defaultValue": "{\n  title: 'Overlays/WiTooltip',\n  tags: ['autodocs'],\n  parameters: {\n    layout: 'centered',\n    docs: {\n      description: {\n        component: `\nTooltip complementario vía \\`\"wiTooltip\"\\` (string o \\`TemplateRef\\`).\n\n- Hover y focus en el **host** focusable (preferir el control nativo).\n- No usar como única fuente de información crítica: en icon-only el nombre accesible va en el botón.\n- Responsive: cerca del borde del viewport el overlay hace flip (\\`top\\` ↔ \\`bottom\\`, etc.).\n        `,\n      },\n    },\n  },\n  decorators: [\n    applicationConfig({\n      providers: [\n        Directionality,\n        provideWiIcons({\n          trash: { outline: trashOutline },\n        }),\n      ],\n    }),\n    moduleMetadata({\n      imports: [WiTooltipDirective, WiButtonComponent, WiIconComponent],\n    }),\n  ],\n  argTypes: {\n    wiTooltip: { control: 'text' },\n    position: {\n      control: 'select',\n      options: ['top', 'bottom', 'left', 'right'],\n    },\n    showDelay: { control: 'number' },\n    hideDelay: { control: 'number' },\n    tooltipDisabled: { control: 'boolean' },\n  },\n  args: {\n    wiTooltip: 'Acción de ejemplo',\n    position: 'top',\n    showDelay: 150,\n    hideDelay: 100,\n    tooltipDisabled: false,\n  },\n}"
       },
       {
         "name": "meta",
@@ -8178,6 +8366,17 @@
         "deprecationMessage": "",
         "type": "unknown",
         "defaultValue": "[\n  'inline-flex',\n  'size-8',\n  'items-center',\n  'justify-center',\n  'rounded-control',\n  'text-on-surface',\n  'outline-none',\n  'hover:bg-surface-variant',\n  'focus-visible:ring-2',\n  'focus-visible:ring-ring',\n  'disabled:pointer-events-none',\n  'disabled:opacity-40',\n].join(' ')"
+      },
+      {
+        "name": "NearViewportEdge",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/overlays/src/wi-tooltip.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  parameters: {\n    layout: 'fullscreen',\n    docs: {\n      description: {\n        story:\n          'En viewport estrecho (~320px) el tooltip preferido `top` puede hacer flip a `bottom` si no cabe.',\n      },\n    },\n  },\n  render: () => ({\n    template: `\n      <div class=\"flex min-h-40 items-start justify-center p-2\">\n        <button\n          type=\"button\"\n          class=\"rounded-control border border-outline px-3 py-2 text-sm text-on-surface\"\n          wiTooltip=\"Texto largo que necesita espacio cerca del borde superior del viewport\"\n          position=\"top\"\n          [showDelay]=\"0\"\n          [hideDelay]=\"0\"\n        >\n          Cerca del borde\n        </button>\n      </div>\n    `,\n  }),\n}"
       },
       {
         "name": "nextDatepickerId",
@@ -8450,6 +8649,17 @@
         "description": "<p>Heroicons 24/solid/plus</p>\n"
       },
       {
+        "name": "Positions",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/overlays/src/wi-tooltip.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  render: () => ({\n    template: `\n      <div class=\"flex flex-wrap items-center justify-center gap-4 p-8\">\n        <button type=\"button\" class=\"rounded-control border border-outline px-3 py-2 text-sm text-on-surface\" wiTooltip=\"Arriba\" position=\"top\">top</button>\n        <button type=\"button\" class=\"rounded-control border border-outline px-3 py-2 text-sm text-on-surface\" wiTooltip=\"Abajo\" position=\"bottom\">bottom</button>\n        <button type=\"button\" class=\"rounded-control border border-outline px-3 py-2 text-sm text-on-surface\" wiTooltip=\"Izquierda\" position=\"left\">left</button>\n        <button type=\"button\" class=\"rounded-control border border-outline px-3 py-2 text-sm text-on-surface\" wiTooltip=\"Derecha\" position=\"right\">right</button>\n      </div>\n    `,\n  }),\n}"
+      },
+      {
         "name": "preview",
         "ctype": "miscellaneous",
         "subtype": "variable",
@@ -8525,6 +8735,58 @@
         "deprecationMessage": "",
         "type": "Story",
         "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"width:20rem;\">\n        <wi-input readonly value=\"Solo lectura\" ariaLabel=\"Solo lectura\" />\n      </div>\n    `,\n  }),\n}"
+      },
+      {
+        "name": "RecipeAssetRows",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/data-display/src/wi-card.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  name: 'Recipe / Asset rows',\n  parameters: {\n    layout: 'padded',\n    docs: {\n      description: {\n        story: `\nPanel de activos con **altura fija** (\\`h-[28rem]\\`). El toolbar queda fijo;\nla lista usa \\`min-h-0 flex-1 overflow-y-auto\\` para hacer scroll si hay más filas\n(p. ej. 8) sin crecer el card. Composición de app, no un input del card.\n        `,\n      },\n    },\n  },\n  render: () => ({\n    template: `\n      <wi-card class=\"h-[28rem] w-full max-w-md !gap-0 !py-0\">\n        <wi-card-header class=\"shrink-0 items-center !pb-3\">\n          <wi-card-title>Activos con alarma habilitada</wi-card-title>\n          <wi-card-action>\n            <wi-button variant=\"outline\" size=\"sm\" disabled>Guardar cambios</wi-button>\n          </wi-card-action>\n        </wi-card-header>\n        <wi-card-content class=\"flex min-h-0 flex-1 flex-col !gap-0 !px-0 !pb-0\">\n          <div\n            class=\"flex shrink-0 items-center gap-2 bg-primary px-3 py-2 text-on-primary\"\n          >\n            <span class=\"min-w-0 flex-1 truncate text-sm\">Seleccionar tipo de…</span>\n            <wi-button variant=\"secondary\" size=\"sm\">+ Añadir</wi-button>\n          </div>\n          <ul class=\"flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto p-3\">\n            @for (asset of assets; track asset.name) {\n              <li>\n                <wi-card size=\"sm\" class=\"!gap-0 !py-0\">\n                  <wi-card-content class=\"flex items-center gap-3 !py-2.5\">\n                    <span [class]=\"asset.badgeClass\">\n                      <wi-icon [name]=\"asset.icon\" size=\"sm\" />\n                    </span>\n                    <span class=\"min-w-0 flex-1 font-medium text-on-surface\">{{ asset.name }}</span>\n                    <wi-button\n                      variant=\"ghost\"\n                      size=\"sm\"\n                      iconOnly\n                      [ariaLabel]=\"'Eliminar ' + asset.name\"\n                    >\n                      <wi-icon name=\"trash\" class=\"text-on-surface-variant\" />\n                    </wi-button>\n                  </wi-card-content>\n                </wi-card>\n              </li>\n            }\n          </ul>\n        </wi-card-content>\n      </wi-card>\n    `,\n    props: {\n      assets: [\n        {\n          name: 'JV',\n          icon: 'user',\n          badgeClass:\n            'inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-primary text-on-primary',\n        },\n        {\n          name: 'Supplier',\n          icon: 'user',\n          badgeClass:\n            'inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-warning text-on-warning',\n        },\n        {\n          name: 'Subcontractor',\n          icon: 'users',\n          badgeClass:\n            'inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-error text-on-error',\n        },\n        {\n          name: 'Adnoc',\n          icon: 'user',\n          badgeClass:\n            'inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-secondary text-on-secondary',\n        },\n        {\n          name: 'Vehicle',\n          icon: 'map',\n          badgeClass:\n            'inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-success text-on-success',\n        },\n        {\n          name: 'Adhoc',\n          icon: 'user',\n          badgeClass:\n            'inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-primary-container text-on-primary-container',\n        },\n        {\n          name: 'Contractor B',\n          icon: 'users',\n          badgeClass:\n            'inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-error text-on-error',\n        },\n        {\n          name: 'Fleet East',\n          icon: 'map',\n          badgeClass:\n            'inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-success text-on-success',\n        },\n      ],\n    },\n  }),\n}",
+        "rawdescription": "Filas de lista (app): panel de altura fija + scroll en el listado.",
+        "description": "<p>Filas de lista (app): panel de altura fija + scroll en el listado.</p>\n"
+      },
+      {
+        "name": "RecipeDashboardPanels",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/data-display/src/wi-card.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  name: 'Recipe / Dashboard panels',\n  parameters: {\n    layout: 'padded',\n    docs: {\n      description: {\n        story:\n          'Grid de paneles con `size=\"sm\"`. Layout responsive: 1 columna en móvil, 2 desde `sm`, 3 desde `lg`.',\n      },\n    },\n  },\n  render: () => ({\n    template: `\n      <div class=\"grid w-full max-w-4xl grid-cols-1 gap-3 bg-background p-4 sm:grid-cols-2 lg:grid-cols-3\">\n        <wi-card size=\"sm\">\n          <wi-card-header>\n            <wi-card-title>Mapa</wi-card-title>\n          </wi-card-header>\n          <wi-card-content>\n            <div class=\"flex h-28 items-center justify-center rounded-control bg-surface-variant text-xs text-on-surface-variant\">\n              Vista mapa\n            </div>\n          </wi-card-content>\n        </wi-card>\n        <wi-card size=\"sm\">\n          <wi-card-header>\n            <wi-card-title>Control de presencia</wi-card-title>\n            <wi-card-action>\n              <wi-button variant=\"ghost\" size=\"sm\">Detalles</wi-button>\n            </wi-card-action>\n          </wi-card-header>\n          <wi-card-content>\n            <div class=\"flex h-28 items-center justify-center rounded-control bg-surface-variant text-xs text-on-surface-variant\">\n              Gráfico\n            </div>\n          </wi-card-content>\n        </wi-card>\n        <wi-card size=\"sm\" class=\"sm:col-span-2 lg:col-span-1\">\n          <wi-card-header>\n            <wi-card-title>Alertas SOS</wi-card-title>\n          </wi-card-header>\n          <wi-card-content>\n            <ul class=\"flex flex-col gap-1 text-xs text-on-surface\">\n              <li class=\"rounded-control bg-error-container px-2 py-1 text-on-error-container\">Alerta 1</li>\n              <li class=\"rounded-control bg-error-container px-2 py-1 text-on-error-container\">Alerta 2</li>\n              <li class=\"rounded-control bg-error-container px-2 py-1 text-on-error-container\">Alerta 3</li>\n            </ul>\n          </wi-card-content>\n        </wi-card>\n      </div>\n    `,\n  }),\n}",
+        "rawdescription": "Grid de paneles de dashboard (app).",
+        "description": "<p>Grid de paneles de dashboard (app).</p>\n"
+      },
+      {
+        "name": "RecipeKpiTiles",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/data-display/src/wi-card.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  name: 'Recipe / KPI tiles',\n  parameters: {\n    layout: 'padded',\n    docs: {\n      description: {\n        story:\n          'Tiles de métrica: `wi-card` sin header, fondo con tokens (`bg-primary`, `bg-error`, …). El color es de la app, no un `variant` del card. Grid responsive: 2 → 3 → 5 columnas.',\n      },\n    },\n  },\n  render: () => ({\n    template: `\n      <div class=\"grid w-full max-w-4xl grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5\">\n        <wi-card size=\"sm\" class=\"!gap-0 !border-0 !bg-secondary !py-0 !text-on-secondary !shadow-none\">\n          <wi-card-content class=\"flex items-center gap-2 !py-3\">\n            <wi-icon name=\"user\" class=\"opacity-80\" />\n            <div class=\"min-w-0\">\n              <p class=\"text-lg font-semibold leading-none\">12</p>\n              <p class=\"truncate text-xs opacity-90\">Adhoc</p>\n            </div>\n          </wi-card-content>\n        </wi-card>\n        <wi-card size=\"sm\" class=\"!gap-0 !border-0 !bg-primary !py-0 !text-on-primary !shadow-none\">\n          <wi-card-content class=\"flex items-center gap-2 !py-3\">\n            <wi-icon name=\"users\" class=\"opacity-80\" />\n            <div class=\"min-w-0\">\n              <p class=\"text-lg font-semibold leading-none\">48</p>\n              <p class=\"truncate text-xs opacity-90\">JV</p>\n            </div>\n          </wi-card-content>\n        </wi-card>\n        <wi-card size=\"sm\" class=\"!gap-0 !border-0 !bg-error !py-0 !text-on-error !shadow-none\">\n          <wi-card-content class=\"flex items-center gap-2 !py-3\">\n            <wi-icon name=\"users\" class=\"opacity-80\" />\n            <div class=\"min-w-0\">\n              <p class=\"text-lg font-semibold leading-none\">101</p>\n              <p class=\"truncate text-xs opacity-90\">Subcontractor</p>\n            </div>\n          </wi-card-content>\n        </wi-card>\n        <wi-card size=\"sm\" class=\"!gap-0 !border-0 !bg-success !py-0 !text-on-success !shadow-none\">\n          <wi-card-content class=\"flex items-center gap-2 !py-3\">\n            <wi-icon name=\"user\" class=\"opacity-80\" />\n            <div class=\"min-w-0\">\n              <p class=\"text-lg font-semibold leading-none\">7</p>\n              <p class=\"truncate text-xs opacity-90\">Supplier</p>\n            </div>\n          </wi-card-content>\n        </wi-card>\n        <wi-card size=\"sm\" class=\"!gap-0 !border-0 !bg-warning !py-0 !text-on-warning !shadow-none\">\n          <wi-card-content class=\"flex items-center gap-2 !py-3\">\n            <wi-icon name=\"map\" class=\"opacity-80\" />\n            <div class=\"min-w-0\">\n              <p class=\"text-lg font-semibold leading-none\">23</p>\n              <p class=\"truncate text-xs opacity-90\">Vehicle</p>\n            </div>\n          </wi-card-content>\n        </wi-card>\n      </div>\n    `,\n  }),\n}",
+        "rawdescription": "KPIs de color (app): content-only + fondo semántico.",
+        "description": "<p>KPIs de color (app): content-only + fondo semántico.</p>\n"
+      },
+      {
+        "name": "RecipeTintedHeader",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/data-display/src/wi-card.stories.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story",
+        "defaultValue": "{\n  name: 'Recipe / Tinted header',\n  parameters: {\n    layout: 'padded',\n    docs: {\n      description: {\n        story:\n          'Composición en app: `!py-0 !gap-0` en el card y `bg-primary text-on-primary` en el header. No es un input `variant`.',\n      },\n    },\n  },\n  render: () => ({\n    template: `\n      <wi-card class=\"w-full max-w-3xl !gap-0 !py-0\">\n        <wi-card-header\n          class=\"items-center !bg-primary !px-4 !py-3 text-on-primary\"\n        >\n          <div class=\"flex min-w-0 flex-col gap-0.5\">\n            <p class=\"text-xs text-on-primary/80\">Multipurpose button</p>\n            <wi-card-title class=\"!text-base !text-on-primary\">\n              Maximizing Ethane Recovery and Monetization…\n            </wi-card-title>\n          </div>\n          <wi-card-action class=\"flex gap-2\">\n            <wi-button\n              variant=\"ghost\"\n              size=\"sm\"\n              iconOnly\n              ariaLabel=\"Mapa\"\n              class=\"!text-on-primary hover:!bg-on-primary/15\"\n            >\n              <wi-icon name=\"map\" />\n            </wi-button>\n            <wi-button\n              variant=\"ghost\"\n              size=\"sm\"\n              iconOnly\n              ariaLabel=\"Menú\"\n              class=\"!text-on-primary hover:!bg-on-primary/15\"\n            >\n              <wi-icon name=\"bars3\" />\n            </wi-button>\n          </wi-card-action>\n        </wi-card-header>\n        <wi-card-content class=\"!py-4\">\n          <div\n            class=\"flex h-48 flex-col justify-end gap-3 rounded-control bg-surface-variant/40 p-4\"\n            aria-hidden=\"true\"\n          >\n            <div class=\"flex flex-1 items-end gap-2 px-2\">\n              <div class=\"w-8 rounded-t bg-error\" style=\"height: 70%\"></div>\n              <div class=\"w-8 rounded-t bg-error\" style=\"height: 55%\"></div>\n              <div class=\"w-8 rounded-t bg-error\" style=\"height: 85%\"></div>\n              <div class=\"w-8 rounded-t bg-error\" style=\"height: 40%\"></div>\n              <div class=\"w-8 rounded-t bg-primary\" style=\"height: 15%\"></div>\n              <div class=\"w-8 rounded-t bg-error\" style=\"height: 60%\"></div>\n              <div class=\"w-8 rounded-t bg-error\" style=\"height: 75%\"></div>\n            </div>\n            <div class=\"flex justify-center gap-4 text-xs text-on-surface-variant\">\n              <span class=\"inline-flex items-center gap-1.5\">\n                <span class=\"size-2.5 rounded-sm bg-error\"></span> Subcontratista (101)\n              </span>\n              <span class=\"inline-flex items-center gap-1.5\">\n                <span class=\"size-2.5 rounded-sm bg-primary\"></span> Adhoc (1)\n              </span>\n            </div>\n          </div>\n        </wi-card-content>\n      </wi-card>\n    `,\n  }),\n}",
+        "rawdescription": "Panel con cabecera tintada (app): py-0 + header bg-primary.",
+        "description": "<p>Panel con cabecera tintada (app): py-0 + header bg-primary.</p>\n"
       },
       {
         "name": "Secondary",
@@ -8627,7 +8889,7 @@
         "deprecated": false,
         "deprecationMessage": "",
         "type": "Story",
-        "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display:flex;flex-wrap:wrap;gap:1rem;align-items:stretch;\">\n        <wi-card size=\"sm\" class=\"w-72\">\n          <wi-card-header>\n            <wi-card-title>Compacto</wi-card-title>\n            <wi-card-description>size=&quot;sm&quot;</wi-card-description>\n          </wi-card-header>\n          <wi-card-content>\n            Menos espaciado interno para paneles densos.\n          </wi-card-content>\n        </wi-card>\n        <wi-card size=\"md\" class=\"w-72\">\n          <wi-card-header>\n            <wi-card-title>Estándar</wi-card-title>\n            <wi-card-description>size=&quot;md&quot; (default)</wi-card-description>\n          </wi-card-header>\n          <wi-card-content>\n            Espaciado cómodo para dashboards y formularios.\n          </wi-card-content>\n        </wi-card>\n      </div>\n    `,\n  }),\n}"
+        "defaultValue": "{\n  render: () => ({\n    template: `\n      <div class=\"flex flex-wrap items-stretch gap-4\">\n        <wi-card size=\"sm\" class=\"w-72\">\n          <wi-card-header>\n            <wi-card-title>Compacto</wi-card-title>\n            <wi-card-description>size=&quot;sm&quot; · padding 0.75rem</wi-card-description>\n          </wi-card-header>\n          <wi-card-content>\n            KPIs y paneles densos de dashboard.\n          </wi-card-content>\n        </wi-card>\n        <wi-card size=\"md\" class=\"w-72\">\n          <wi-card-header>\n            <wi-card-title>Estándar</wi-card-title>\n            <wi-card-description>size=&quot;md&quot; · padding 1rem</wi-card-description>\n          </wi-card-header>\n          <wi-card-content>\n            Default para paneles y formularios.\n          </wi-card-content>\n        </wi-card>\n      </div>\n    `,\n  }),\n}"
       },
       {
         "name": "Sizes",
@@ -8861,6 +9123,28 @@
         "deprecationMessage": "",
         "type": "unknown",
         "defaultValue": "[\n  'wi-datepicker__time-input',\n  'h-control-sm',\n  'rounded-control',\n  'border',\n  'border-outline',\n  'bg-surface',\n  'px-2',\n  'text-sm',\n  'text-on-surface',\n  'outline-none',\n  'focus-visible:ring-2',\n  'focus-visible:ring-ring',\n  'disabled:cursor-not-allowed',\n  'disabled:opacity-50',\n].join(' ')"
+      },
+      {
+        "name": "TOOLTIP_CONTENT_CLASSES",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/overlays/src/wi-tooltip.directive.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "unknown",
+        "defaultValue": "[\n  'wi-tooltip',\n  'z-50',\n  'w-fit',\n  'max-w-xs',\n  'rounded-control-sm',\n  'bg-on-surface',\n  'px-3',\n  'py-1.5',\n  'text-xs',\n  'text-balance',\n  'text-surface',\n  'shadow-md',\n  'data-[state=open]:animate-in',\n  'data-[state=open]:fade-in-0',\n  'data-[state=open]:zoom-in-95',\n  'data-[state=instant-open]:animate-in',\n  'data-[state=instant-open]:fade-in-0',\n  'data-[state=closed]:animate-out',\n  'data-[state=closed]:fade-out-0',\n  'data-[state=closed]:zoom-out-95',\n  'data-[side=bottom]:slide-in-from-top-2',\n  'data-[side=left]:slide-in-from-right-2',\n  'data-[side=right]:slide-in-from-left-2',\n  'data-[side=top]:slide-in-from-bottom-2',\n].join(' ')"
+      },
+      {
+        "name": "TOOLTIP_SVG_CLASSES",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/components/overlays/src/wi-tooltip.directive.ts",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "string",
+        "defaultValue": "'fill-on-surface z-50 block'"
       },
       {
         "name": "trashOutline",
@@ -9403,6 +9687,40 @@
         ]
       },
       {
+        "name": "provideWiTooltipGroup",
+        "file": "projects/components/overlays/src/wi-tooltip.directive.ts",
+        "ctype": "miscellaneous",
+        "subtype": "function",
+        "coverageIgnore": false,
+        "deprecated": false,
+        "deprecationMessage": "",
+        "rawdescription": "Coordina el skip-delay entre tooltips hermanos (p. ej. toolbar).\nProveer en el contenedor que agrupa los triggers.",
+        "description": "<p>Coordina el skip-delay entre tooltips hermanos (p. ej. toolbar).\nProveer en el contenedor que agrupa los triggers.</p>\n",
+        "displayName": "provideWiTooltipGroup",
+        "args": [
+          {
+            "name": "options",
+            "type": "Partial",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "optional": true
+          }
+        ],
+        "returnType": "Provider[]",
+        "jsdoctags": [
+          {
+            "name": "options",
+            "type": "Partial",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "optional": true,
+            "tagName": {
+              "text": "param"
+            }
+          }
+        ]
+      },
+      {
         "name": "resolveIconGlyph",
         "file": "projects/components/icon/src/wi-icon.registry.ts",
         "ctype": "miscellaneous",
@@ -9564,6 +9882,19 @@
         "coverageIgnore": false,
         "rawtype": "StoryObj<WiIconComponent>",
         "file": "projects/components/icon/src/wi-icon.stories.ts",
+        "deprecated": false,
+        "deprecationMessage": "",
+        "rawdescription": "",
+        "description": "",
+        "kind": 184
+      },
+      {
+        "name": "Story",
+        "ctype": "miscellaneous",
+        "subtype": "typealias",
+        "coverageIgnore": false,
+        "rawtype": "StoryObj",
+        "file": "projects/components/overlays/src/wi-tooltip.stories.ts",
         "deprecated": false,
         "deprecationMessage": "",
         "rawdescription": "",
@@ -9831,6 +10162,19 @@
         "kind": 193
       },
       {
+        "name": "WiTooltipPosition",
+        "ctype": "miscellaneous",
+        "subtype": "typealias",
+        "coverageIgnore": false,
+        "rawtype": "\"top\" | \"bottom\" | \"left\" | \"right\"",
+        "file": "projects/components/overlays/src/wi-tooltip.types.ts",
+        "deprecated": false,
+        "deprecationMessage": "",
+        "rawdescription": "Posición preferida del tooltip (CDK Overlay puede hacer flip si no cabe).",
+        "description": "<p>Posición preferida del tooltip (CDK Overlay puede hacer flip si no cabe).</p>\n",
+        "kind": 193
+      },
+      {
         "name": "WiWeekday",
         "ctype": "miscellaneous",
         "subtype": "typealias",
@@ -10082,6 +10426,41 @@
           "defaultValue": "{\n  viewBox: '0 0 24 24',\n  nodes: [\n    {\n      tag: 'path',\n      attrs: {\n        d: 'M3.375 3C2.339 3 1.5 3.84 1.5 4.875v.75c0 1.036.84 1.875 1.875 1.875h17.25c1.035 0 1.875-.84 1.875-1.875v-.75C22.5 3.839 21.66 3 20.625 3H3.375Z',\n      },\n    },\n    {\n      tag: 'path',\n      attrs: {\n        'fill-rule': 'evenodd',\n        d: 'm3.087 9 .54 9.176A3 3 0 0 0 6.62 21h10.757a3 3 0 0 0 2.995-2.824L20.913 9H3.087Zm6.163 3.75A.75.75 0 0 1 10 12h4a.75.75 0 0 1 0 1.5h-4a.75.75 0 0 1-.75-.75Z',\n        'clip-rule': 'evenodd',\n      },\n    },\n  ],\n}",
           "rawdescription": "Heroicons 24/solid/archive-box",
           "description": "<p>Heroicons 24/solid/archive-box</p>\n"
+        }
+      ],
+      "projects/components/overlays/src/wi-tooltip.directive.ts": [
+        {
+          "name": "ARROW_POSITION_CLASSES",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/overlays/src/wi-tooltip.directive.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Record<WiTooltipPosition, string>",
+          "defaultValue": "{\n  top: 'absolute bottom-0 left-[calc(50%-5px)] translate-y-full',\n  bottom: 'absolute -top-2.5 left-[calc(50%-5px)] translate-y-0 rotate-180',\n  left: 'absolute -end-2.5 top-[calc(50%-5px)] translate-y-0 rotate-270 rtl:-rotate-270',\n  right: 'absolute -start-2.5 top-[calc(50%-5px)] translate-y-0 rotate-90 rtl:-rotate-90',\n}"
+        },
+        {
+          "name": "TOOLTIP_CONTENT_CLASSES",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/overlays/src/wi-tooltip.directive.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "unknown",
+          "defaultValue": "[\n  'wi-tooltip',\n  'z-50',\n  'w-fit',\n  'max-w-xs',\n  'rounded-control-sm',\n  'bg-on-surface',\n  'px-3',\n  'py-1.5',\n  'text-xs',\n  'text-balance',\n  'text-surface',\n  'shadow-md',\n  'data-[state=open]:animate-in',\n  'data-[state=open]:fade-in-0',\n  'data-[state=open]:zoom-in-95',\n  'data-[state=instant-open]:animate-in',\n  'data-[state=instant-open]:fade-in-0',\n  'data-[state=closed]:animate-out',\n  'data-[state=closed]:fade-out-0',\n  'data-[state=closed]:zoom-out-95',\n  'data-[side=bottom]:slide-in-from-top-2',\n  'data-[side=left]:slide-in-from-right-2',\n  'data-[side=right]:slide-in-from-left-2',\n  'data-[side=top]:slide-in-from-bottom-2',\n].join(' ')"
+        },
+        {
+          "name": "TOOLTIP_SVG_CLASSES",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/overlays/src/wi-tooltip.directive.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "string",
+          "defaultValue": "'fill-on-surface z-50 block'"
         }
       ],
       "projects/components/icon/heroicons/src/arrow-down-circle.ts": [
@@ -11412,7 +11791,61 @@
           "deprecated": false,
           "deprecationMessage": "",
           "type": "Meta<WiCardComponent>",
-          "defaultValue": "{\n  title: 'Data display/WiCard',\n  component: WiCardComponent,\n  tags: ['autodocs'],\n  parameters: {\n    layout: 'centered',\n  },\n  decorators: [\n    moduleMetadata({\n      imports: [\n        WiButtonComponent,\n        WiCardActionComponent,\n        WiCardComponent,\n        WiCardContentComponent,\n        WiCardDescriptionComponent,\n        WiCardFooterComponent,\n        WiCardHeaderComponent,\n        WiCardTitleComponent,\n      ],\n    }),\n  ],\n  argTypes: {\n    size: {\n      control: 'select',\n      options: ['sm', 'md'],\n    },\n  },\n  args: {\n    size: 'md',\n  },\n}"
+          "defaultValue": "{\n  title: 'Data display/WiCard',\n  component: WiCardComponent,\n  tags: ['autodocs'],\n  parameters: {\n    layout: 'centered',\n    docs: {\n      description: {\n        component: `\nContenedor de superficie. **No** expone variantes de producto (header tintado, KPI, fila de lista):\nesas se componen en la app con tokens y clases.\n\n- API: \\`size\\` (\\`sm\\` | \\`md\\`) + slots header / title / description / action / content / footer.\n- Story **Recipe\\\\*** = ejemplos de composición, no inputs nuevos.\n        `,\n      },\n    },\n  },\n  decorators: [\n    applicationConfig({\n      providers: [\n        provideWiIcons({\n          bars3: { outline: bars3Outline },\n          document: { outline: documentOutline },\n          map: { outline: mapOutline },\n          trash: { outline: trashOutline },\n          user: { outline: userOutline },\n          users: { outline: usersOutline },\n        }),\n      ],\n    }),\n    moduleMetadata({\n      imports: [\n        WiButtonComponent,\n        WiCardActionComponent,\n        WiCardComponent,\n        WiCardContentComponent,\n        WiCardDescriptionComponent,\n        WiCardFooterComponent,\n        WiCardHeaderComponent,\n        WiCardTitleComponent,\n        WiIconComponent,\n      ],\n    }),\n  ],\n  argTypes: {\n    size: {\n      control: 'select',\n      options: ['sm', 'md'],\n    },\n  },\n  args: {\n    size: 'md',\n  },\n}",
+          "rawdescription": "Recetas de composición en la app (no son variantes de API).\nEl card sigue siendo un contenedor; el look se arma con tokens + proyección.",
+          "description": "<p>Recetas de composición en la app (no son variantes de API).\nEl card sigue siendo un contenedor; el look se arma con tokens + proyección.</p>\n"
+        },
+        {
+          "name": "RecipeAssetRows",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/data-display/src/wi-card.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  name: 'Recipe / Asset rows',\n  parameters: {\n    layout: 'padded',\n    docs: {\n      description: {\n        story: `\nPanel de activos con **altura fija** (\\`h-[28rem]\\`). El toolbar queda fijo;\nla lista usa \\`min-h-0 flex-1 overflow-y-auto\\` para hacer scroll si hay más filas\n(p. ej. 8) sin crecer el card. Composición de app, no un input del card.\n        `,\n      },\n    },\n  },\n  render: () => ({\n    template: `\n      <wi-card class=\"h-[28rem] w-full max-w-md !gap-0 !py-0\">\n        <wi-card-header class=\"shrink-0 items-center !pb-3\">\n          <wi-card-title>Activos con alarma habilitada</wi-card-title>\n          <wi-card-action>\n            <wi-button variant=\"outline\" size=\"sm\" disabled>Guardar cambios</wi-button>\n          </wi-card-action>\n        </wi-card-header>\n        <wi-card-content class=\"flex min-h-0 flex-1 flex-col !gap-0 !px-0 !pb-0\">\n          <div\n            class=\"flex shrink-0 items-center gap-2 bg-primary px-3 py-2 text-on-primary\"\n          >\n            <span class=\"min-w-0 flex-1 truncate text-sm\">Seleccionar tipo de…</span>\n            <wi-button variant=\"secondary\" size=\"sm\">+ Añadir</wi-button>\n          </div>\n          <ul class=\"flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto p-3\">\n            @for (asset of assets; track asset.name) {\n              <li>\n                <wi-card size=\"sm\" class=\"!gap-0 !py-0\">\n                  <wi-card-content class=\"flex items-center gap-3 !py-2.5\">\n                    <span [class]=\"asset.badgeClass\">\n                      <wi-icon [name]=\"asset.icon\" size=\"sm\" />\n                    </span>\n                    <span class=\"min-w-0 flex-1 font-medium text-on-surface\">{{ asset.name }}</span>\n                    <wi-button\n                      variant=\"ghost\"\n                      size=\"sm\"\n                      iconOnly\n                      [ariaLabel]=\"'Eliminar ' + asset.name\"\n                    >\n                      <wi-icon name=\"trash\" class=\"text-on-surface-variant\" />\n                    </wi-button>\n                  </wi-card-content>\n                </wi-card>\n              </li>\n            }\n          </ul>\n        </wi-card-content>\n      </wi-card>\n    `,\n    props: {\n      assets: [\n        {\n          name: 'JV',\n          icon: 'user',\n          badgeClass:\n            'inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-primary text-on-primary',\n        },\n        {\n          name: 'Supplier',\n          icon: 'user',\n          badgeClass:\n            'inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-warning text-on-warning',\n        },\n        {\n          name: 'Subcontractor',\n          icon: 'users',\n          badgeClass:\n            'inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-error text-on-error',\n        },\n        {\n          name: 'Adnoc',\n          icon: 'user',\n          badgeClass:\n            'inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-secondary text-on-secondary',\n        },\n        {\n          name: 'Vehicle',\n          icon: 'map',\n          badgeClass:\n            'inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-success text-on-success',\n        },\n        {\n          name: 'Adhoc',\n          icon: 'user',\n          badgeClass:\n            'inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-primary-container text-on-primary-container',\n        },\n        {\n          name: 'Contractor B',\n          icon: 'users',\n          badgeClass:\n            'inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-error text-on-error',\n        },\n        {\n          name: 'Fleet East',\n          icon: 'map',\n          badgeClass:\n            'inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-success text-on-success',\n        },\n      ],\n    },\n  }),\n}",
+          "rawdescription": "Filas de lista (app): panel de altura fija + scroll en el listado.",
+          "description": "<p>Filas de lista (app): panel de altura fija + scroll en el listado.</p>\n"
+        },
+        {
+          "name": "RecipeDashboardPanels",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/data-display/src/wi-card.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  name: 'Recipe / Dashboard panels',\n  parameters: {\n    layout: 'padded',\n    docs: {\n      description: {\n        story:\n          'Grid de paneles con `size=\"sm\"`. Layout responsive: 1 columna en móvil, 2 desde `sm`, 3 desde `lg`.',\n      },\n    },\n  },\n  render: () => ({\n    template: `\n      <div class=\"grid w-full max-w-4xl grid-cols-1 gap-3 bg-background p-4 sm:grid-cols-2 lg:grid-cols-3\">\n        <wi-card size=\"sm\">\n          <wi-card-header>\n            <wi-card-title>Mapa</wi-card-title>\n          </wi-card-header>\n          <wi-card-content>\n            <div class=\"flex h-28 items-center justify-center rounded-control bg-surface-variant text-xs text-on-surface-variant\">\n              Vista mapa\n            </div>\n          </wi-card-content>\n        </wi-card>\n        <wi-card size=\"sm\">\n          <wi-card-header>\n            <wi-card-title>Control de presencia</wi-card-title>\n            <wi-card-action>\n              <wi-button variant=\"ghost\" size=\"sm\">Detalles</wi-button>\n            </wi-card-action>\n          </wi-card-header>\n          <wi-card-content>\n            <div class=\"flex h-28 items-center justify-center rounded-control bg-surface-variant text-xs text-on-surface-variant\">\n              Gráfico\n            </div>\n          </wi-card-content>\n        </wi-card>\n        <wi-card size=\"sm\" class=\"sm:col-span-2 lg:col-span-1\">\n          <wi-card-header>\n            <wi-card-title>Alertas SOS</wi-card-title>\n          </wi-card-header>\n          <wi-card-content>\n            <ul class=\"flex flex-col gap-1 text-xs text-on-surface\">\n              <li class=\"rounded-control bg-error-container px-2 py-1 text-on-error-container\">Alerta 1</li>\n              <li class=\"rounded-control bg-error-container px-2 py-1 text-on-error-container\">Alerta 2</li>\n              <li class=\"rounded-control bg-error-container px-2 py-1 text-on-error-container\">Alerta 3</li>\n            </ul>\n          </wi-card-content>\n        </wi-card>\n      </div>\n    `,\n  }),\n}",
+          "rawdescription": "Grid de paneles de dashboard (app).",
+          "description": "<p>Grid de paneles de dashboard (app).</p>\n"
+        },
+        {
+          "name": "RecipeKpiTiles",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/data-display/src/wi-card.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  name: 'Recipe / KPI tiles',\n  parameters: {\n    layout: 'padded',\n    docs: {\n      description: {\n        story:\n          'Tiles de métrica: `wi-card` sin header, fondo con tokens (`bg-primary`, `bg-error`, …). El color es de la app, no un `variant` del card. Grid responsive: 2 → 3 → 5 columnas.',\n      },\n    },\n  },\n  render: () => ({\n    template: `\n      <div class=\"grid w-full max-w-4xl grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5\">\n        <wi-card size=\"sm\" class=\"!gap-0 !border-0 !bg-secondary !py-0 !text-on-secondary !shadow-none\">\n          <wi-card-content class=\"flex items-center gap-2 !py-3\">\n            <wi-icon name=\"user\" class=\"opacity-80\" />\n            <div class=\"min-w-0\">\n              <p class=\"text-lg font-semibold leading-none\">12</p>\n              <p class=\"truncate text-xs opacity-90\">Adhoc</p>\n            </div>\n          </wi-card-content>\n        </wi-card>\n        <wi-card size=\"sm\" class=\"!gap-0 !border-0 !bg-primary !py-0 !text-on-primary !shadow-none\">\n          <wi-card-content class=\"flex items-center gap-2 !py-3\">\n            <wi-icon name=\"users\" class=\"opacity-80\" />\n            <div class=\"min-w-0\">\n              <p class=\"text-lg font-semibold leading-none\">48</p>\n              <p class=\"truncate text-xs opacity-90\">JV</p>\n            </div>\n          </wi-card-content>\n        </wi-card>\n        <wi-card size=\"sm\" class=\"!gap-0 !border-0 !bg-error !py-0 !text-on-error !shadow-none\">\n          <wi-card-content class=\"flex items-center gap-2 !py-3\">\n            <wi-icon name=\"users\" class=\"opacity-80\" />\n            <div class=\"min-w-0\">\n              <p class=\"text-lg font-semibold leading-none\">101</p>\n              <p class=\"truncate text-xs opacity-90\">Subcontractor</p>\n            </div>\n          </wi-card-content>\n        </wi-card>\n        <wi-card size=\"sm\" class=\"!gap-0 !border-0 !bg-success !py-0 !text-on-success !shadow-none\">\n          <wi-card-content class=\"flex items-center gap-2 !py-3\">\n            <wi-icon name=\"user\" class=\"opacity-80\" />\n            <div class=\"min-w-0\">\n              <p class=\"text-lg font-semibold leading-none\">7</p>\n              <p class=\"truncate text-xs opacity-90\">Supplier</p>\n            </div>\n          </wi-card-content>\n        </wi-card>\n        <wi-card size=\"sm\" class=\"!gap-0 !border-0 !bg-warning !py-0 !text-on-warning !shadow-none\">\n          <wi-card-content class=\"flex items-center gap-2 !py-3\">\n            <wi-icon name=\"map\" class=\"opacity-80\" />\n            <div class=\"min-w-0\">\n              <p class=\"text-lg font-semibold leading-none\">23</p>\n              <p class=\"truncate text-xs opacity-90\">Vehicle</p>\n            </div>\n          </wi-card-content>\n        </wi-card>\n      </div>\n    `,\n  }),\n}",
+          "rawdescription": "KPIs de color (app): content-only + fondo semántico.",
+          "description": "<p>KPIs de color (app): content-only + fondo semántico.</p>\n"
+        },
+        {
+          "name": "RecipeTintedHeader",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/data-display/src/wi-card.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  name: 'Recipe / Tinted header',\n  parameters: {\n    layout: 'padded',\n    docs: {\n      description: {\n        story:\n          'Composición en app: `!py-0 !gap-0` en el card y `bg-primary text-on-primary` en el header. No es un input `variant`.',\n      },\n    },\n  },\n  render: () => ({\n    template: `\n      <wi-card class=\"w-full max-w-3xl !gap-0 !py-0\">\n        <wi-card-header\n          class=\"items-center !bg-primary !px-4 !py-3 text-on-primary\"\n        >\n          <div class=\"flex min-w-0 flex-col gap-0.5\">\n            <p class=\"text-xs text-on-primary/80\">Multipurpose button</p>\n            <wi-card-title class=\"!text-base !text-on-primary\">\n              Maximizing Ethane Recovery and Monetization…\n            </wi-card-title>\n          </div>\n          <wi-card-action class=\"flex gap-2\">\n            <wi-button\n              variant=\"ghost\"\n              size=\"sm\"\n              iconOnly\n              ariaLabel=\"Mapa\"\n              class=\"!text-on-primary hover:!bg-on-primary/15\"\n            >\n              <wi-icon name=\"map\" />\n            </wi-button>\n            <wi-button\n              variant=\"ghost\"\n              size=\"sm\"\n              iconOnly\n              ariaLabel=\"Menú\"\n              class=\"!text-on-primary hover:!bg-on-primary/15\"\n            >\n              <wi-icon name=\"bars3\" />\n            </wi-button>\n          </wi-card-action>\n        </wi-card-header>\n        <wi-card-content class=\"!py-4\">\n          <div\n            class=\"flex h-48 flex-col justify-end gap-3 rounded-control bg-surface-variant/40 p-4\"\n            aria-hidden=\"true\"\n          >\n            <div class=\"flex flex-1 items-end gap-2 px-2\">\n              <div class=\"w-8 rounded-t bg-error\" style=\"height: 70%\"></div>\n              <div class=\"w-8 rounded-t bg-error\" style=\"height: 55%\"></div>\n              <div class=\"w-8 rounded-t bg-error\" style=\"height: 85%\"></div>\n              <div class=\"w-8 rounded-t bg-error\" style=\"height: 40%\"></div>\n              <div class=\"w-8 rounded-t bg-primary\" style=\"height: 15%\"></div>\n              <div class=\"w-8 rounded-t bg-error\" style=\"height: 60%\"></div>\n              <div class=\"w-8 rounded-t bg-error\" style=\"height: 75%\"></div>\n            </div>\n            <div class=\"flex justify-center gap-4 text-xs text-on-surface-variant\">\n              <span class=\"inline-flex items-center gap-1.5\">\n                <span class=\"size-2.5 rounded-sm bg-error\"></span> Subcontratista (101)\n              </span>\n              <span class=\"inline-flex items-center gap-1.5\">\n                <span class=\"size-2.5 rounded-sm bg-primary\"></span> Adhoc (1)\n              </span>\n            </div>\n          </div>\n        </wi-card-content>\n      </wi-card>\n    `,\n  }),\n}",
+          "rawdescription": "Panel con cabecera tintada (app): py-0 + header bg-primary.",
+          "description": "<p>Panel con cabecera tintada (app): py-0 + header bg-primary.</p>\n"
         },
         {
           "name": "Sizes",
@@ -11423,7 +11856,7 @@
           "deprecated": false,
           "deprecationMessage": "",
           "type": "Story",
-          "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display:flex;flex-wrap:wrap;gap:1rem;align-items:stretch;\">\n        <wi-card size=\"sm\" class=\"w-72\">\n          <wi-card-header>\n            <wi-card-title>Compacto</wi-card-title>\n            <wi-card-description>size=&quot;sm&quot;</wi-card-description>\n          </wi-card-header>\n          <wi-card-content>\n            Menos espaciado interno para paneles densos.\n          </wi-card-content>\n        </wi-card>\n        <wi-card size=\"md\" class=\"w-72\">\n          <wi-card-header>\n            <wi-card-title>Estándar</wi-card-title>\n            <wi-card-description>size=&quot;md&quot; (default)</wi-card-description>\n          </wi-card-header>\n          <wi-card-content>\n            Espaciado cómodo para dashboards y formularios.\n          </wi-card-content>\n        </wi-card>\n      </div>\n    `,\n  }),\n}"
+          "defaultValue": "{\n  render: () => ({\n    template: `\n      <div class=\"flex flex-wrap items-stretch gap-4\">\n        <wi-card size=\"sm\" class=\"w-72\">\n          <wi-card-header>\n            <wi-card-title>Compacto</wi-card-title>\n            <wi-card-description>size=&quot;sm&quot; · padding 0.75rem</wi-card-description>\n          </wi-card-header>\n          <wi-card-content>\n            KPIs y paneles densos de dashboard.\n          </wi-card-content>\n        </wi-card>\n        <wi-card size=\"md\" class=\"w-72\">\n          <wi-card-header>\n            <wi-card-title>Estándar</wi-card-title>\n            <wi-card-description>size=&quot;md&quot; · padding 1rem</wi-card-description>\n          </wi-card-header>\n          <wi-card-content>\n            Default para paneles y formularios.\n          </wi-card-content>\n        </wi-card>\n      </div>\n    `,\n  }),\n}"
         },
         {
           "name": "WithActionAndFooter",
@@ -11715,6 +12148,107 @@
           "deprecationMessage": "",
           "type": "Story",
           "defaultValue": "{\n  render: () => {\n    const form = new FormGroup({\n      email: new FormControl('', {\n        nonNullable: true,\n        validators: [Validators.required, Validators.email],\n      }),\n    });\n\n    return {\n      props: {\n        form,\n        markTouched: () => {\n          form.controls.email.markAsTouched();\n        },\n      },\n      template: `\n        <form [formGroup]=\"form\" style=\"display:flex;flex-direction:column;gap:0.75rem;width:20rem;\" (ngSubmit)=\"markTouched()\">\n          <label for=\"email-demo\" style=\"font-size:0.875rem;\">Email</label>\n          <wi-input\n            id=\"email-demo\"\n            type=\"email\"\n            formControlName=\"email\"\n            placeholder=\"correo@ejemplo.com\"\n            [invalid]=\"form.controls.email.invalid && form.controls.email.touched\"\n            [required]=\"true\"\n          />\n          @if (form.controls.email.invalid && form.controls.email.touched) {\n            <p style=\"margin:0;font-size:0.875rem;color:var(--wi-color-error);\" role=\"alert\">\n              Introduce un email válido.\n            </p>\n          }\n          <button type=\"submit\" style=\"align-self:start;\">Validar</button>\n        </form>\n      `,\n    };\n  },\n}"
+        }
+      ],
+      "projects/components/overlays/src/wi-tooltip.stories.ts": [
+        {
+          "name": "DarkMode",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/overlays/src/wi-tooltip.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  render: () => ({\n    template: `\n      <div class=\"wi-dark rounded-control bg-background p-8\">\n        <button\n          type=\"button\"\n          class=\"rounded-control bg-primary px-4 py-2 text-sm text-on-primary\"\n          wiTooltip=\"Tooltip en modo oscuro\"\n          [showDelay]=\"0\"\n          [hideDelay]=\"0\"\n        >\n          Dark mode\n        </button>\n      </div>\n    `,\n  }),\n}"
+        },
+        {
+          "name": "Default",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/overlays/src/wi-tooltip.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  render: (args) => ({\n    props: args,\n    template: `\n      <button\n        type=\"button\"\n        class=\"rounded-control bg-primary px-4 py-2 text-sm text-on-primary\"\n        [wiTooltip]=\"wiTooltip\"\n        [position]=\"position\"\n        [showDelay]=\"showDelay\"\n        [hideDelay]=\"hideDelay\"\n        [tooltipDisabled]=\"tooltipDisabled\"\n      >\n        Hover o focus\n      </button>\n    `,\n  }),\n}"
+        },
+        {
+          "name": "Delays",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/overlays/src/wi-tooltip.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  render: () => ({\n    template: `\n      <button\n        type=\"button\"\n        class=\"rounded-control border border-outline px-3 py-2 text-sm text-on-surface\"\n        wiTooltip=\"Aparece tras 600 ms\"\n        [showDelay]=\"600\"\n        [hideDelay]=\"200\"\n      >\n        Delay largo\n      </button>\n    `,\n  }),\n}"
+        },
+        {
+          "name": "Disabled",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/overlays/src/wi-tooltip.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  render: () => ({\n    template: `\n      <button\n        type=\"button\"\n        class=\"rounded-control border border-outline px-3 py-2 text-sm text-on-surface\"\n        wiTooltip=\"No debería verse\"\n        [tooltipDisabled]=\"true\"\n      >\n        Tooltip deshabilitado\n      </button>\n    `,\n  }),\n}"
+        },
+        {
+          "name": "GroupSkipDelay",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/overlays/src/wi-tooltip.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  decorators: [\n    applicationConfig({\n      providers: [Directionality, provideWiTooltipGroup({ skipDelayDuration: 800 })],\n    }),\n  ],\n  render: () => ({\n    template: `\n      <div class=\"flex flex-wrap gap-3\">\n        <button type=\"button\" class=\"rounded-control border border-outline px-3 py-2 text-sm\" wiTooltip=\"Uno\" [showDelay]=\"200\" [hideDelay]=\"0\">Uno</button>\n        <button type=\"button\" class=\"rounded-control border border-outline px-3 py-2 text-sm\" wiTooltip=\"Dos\" [showDelay]=\"200\" [hideDelay]=\"0\">Dos</button>\n        <button type=\"button\" class=\"rounded-control border border-outline px-3 py-2 text-sm\" wiTooltip=\"Tres\" [showDelay]=\"200\" [hideDelay]=\"0\">Tres</button>\n      </div>\n    `,\n  }),\n  parameters: {\n    docs: {\n      description: {\n        story:\n          'Con `provideWiTooltipGroup`, tras el primero el siguiente abre al instante dentro de la ventana de skip-delay.',\n      },\n    },\n  },\n}"
+        },
+        {
+          "name": "IconOnly",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/overlays/src/wi-tooltip.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  render: () => ({\n    template: `\n      <wi-button\n        type=\"button\"\n        variant=\"danger\"\n        iconOnly\n        ariaLabel=\"Eliminar\"\n        wiTooltip=\"Eliminar\"\n        position=\"top\"\n        [showDelay]=\"0\"\n        [hideDelay]=\"0\"\n      >\n        <wi-icon name=\"trash\" />\n      </wi-button>\n    `,\n  }),\n}"
+        },
+        {
+          "name": "meta",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/overlays/src/wi-tooltip.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Meta",
+          "defaultValue": "{\n  title: 'Overlays/WiTooltip',\n  tags: ['autodocs'],\n  parameters: {\n    layout: 'centered',\n    docs: {\n      description: {\n        component: `\nTooltip complementario vía \\`\"wiTooltip\"\\` (string o \\`TemplateRef\\`).\n\n- Hover y focus en el **host** focusable (preferir el control nativo).\n- No usar como única fuente de información crítica: en icon-only el nombre accesible va en el botón.\n- Responsive: cerca del borde del viewport el overlay hace flip (\\`top\\` ↔ \\`bottom\\`, etc.).\n        `,\n      },\n    },\n  },\n  decorators: [\n    applicationConfig({\n      providers: [\n        Directionality,\n        provideWiIcons({\n          trash: { outline: trashOutline },\n        }),\n      ],\n    }),\n    moduleMetadata({\n      imports: [WiTooltipDirective, WiButtonComponent, WiIconComponent],\n    }),\n  ],\n  argTypes: {\n    wiTooltip: { control: 'text' },\n    position: {\n      control: 'select',\n      options: ['top', 'bottom', 'left', 'right'],\n    },\n    showDelay: { control: 'number' },\n    hideDelay: { control: 'number' },\n    tooltipDisabled: { control: 'boolean' },\n  },\n  args: {\n    wiTooltip: 'Acción de ejemplo',\n    position: 'top',\n    showDelay: 150,\n    hideDelay: 100,\n    tooltipDisabled: false,\n  },\n}"
+        },
+        {
+          "name": "NearViewportEdge",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/overlays/src/wi-tooltip.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  parameters: {\n    layout: 'fullscreen',\n    docs: {\n      description: {\n        story:\n          'En viewport estrecho (~320px) el tooltip preferido `top` puede hacer flip a `bottom` si no cabe.',\n      },\n    },\n  },\n  render: () => ({\n    template: `\n      <div class=\"flex min-h-40 items-start justify-center p-2\">\n        <button\n          type=\"button\"\n          class=\"rounded-control border border-outline px-3 py-2 text-sm text-on-surface\"\n          wiTooltip=\"Texto largo que necesita espacio cerca del borde superior del viewport\"\n          position=\"top\"\n          [showDelay]=\"0\"\n          [hideDelay]=\"0\"\n        >\n          Cerca del borde\n        </button>\n      </div>\n    `,\n  }),\n}"
+        },
+        {
+          "name": "Positions",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/components/overlays/src/wi-tooltip.stories.ts",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story",
+          "defaultValue": "{\n  render: () => ({\n    template: `\n      <div class=\"flex flex-wrap items-center justify-center gap-4 p-8\">\n        <button type=\"button\" class=\"rounded-control border border-outline px-3 py-2 text-sm text-on-surface\" wiTooltip=\"Arriba\" position=\"top\">top</button>\n        <button type=\"button\" class=\"rounded-control border border-outline px-3 py-2 text-sm text-on-surface\" wiTooltip=\"Abajo\" position=\"bottom\">bottom</button>\n        <button type=\"button\" class=\"rounded-control border border-outline px-3 py-2 text-sm text-on-surface\" wiTooltip=\"Izquierda\" position=\"left\">left</button>\n        <button type=\"button\" class=\"rounded-control border border-outline px-3 py-2 text-sm text-on-surface\" wiTooltip=\"Derecha\" position=\"right\">right</button>\n      </div>\n    `,\n  }),\n}"
         }
       ],
       "projects/components/forms/src/wi-datepicker.component.ts": [
@@ -13566,6 +14100,42 @@
           ]
         }
       ],
+      "projects/components/overlays/src/wi-tooltip.directive.ts": [
+        {
+          "name": "provideWiTooltipGroup",
+          "file": "projects/components/overlays/src/wi-tooltip.directive.ts",
+          "ctype": "miscellaneous",
+          "subtype": "function",
+          "coverageIgnore": false,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "rawdescription": "Coordina el skip-delay entre tooltips hermanos (p. ej. toolbar).\nProveer en el contenedor que agrupa los triggers.",
+          "description": "<p>Coordina el skip-delay entre tooltips hermanos (p. ej. toolbar).\nProveer en el contenedor que agrupa los triggers.</p>\n",
+          "displayName": "provideWiTooltipGroup",
+          "args": [
+            {
+              "name": "options",
+              "type": "Partial",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "optional": true
+            }
+          ],
+          "returnType": "Provider[]",
+          "jsdoctags": [
+            {
+              "name": "options",
+              "type": "Partial",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "optional": true,
+              "tagName": {
+                "text": "param"
+              }
+            }
+          ]
+        }
+      ],
       "projects/components/forms/src/wi-select.component.ts": [
         {
           "name": "stringifyLabel",
@@ -13699,6 +14269,21 @@
           "coverageIgnore": false,
           "rawtype": "StoryObj<WiIconComponent>",
           "file": "projects/components/icon/src/wi-icon.stories.ts",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "rawdescription": "",
+          "description": "",
+          "kind": 184
+        }
+      ],
+      "projects/components/overlays/src/wi-tooltip.stories.ts": [
+        {
+          "name": "Story",
+          "ctype": "miscellaneous",
+          "subtype": "typealias",
+          "coverageIgnore": false,
+          "rawtype": "StoryObj",
+          "file": "projects/components/overlays/src/wi-tooltip.stories.ts",
           "deprecated": false,
           "deprecationMessage": "",
           "rawdescription": "",
@@ -13998,6 +14583,21 @@
           "description": "",
           "kind": 193
         }
+      ],
+      "projects/components/overlays/src/wi-tooltip.types.ts": [
+        {
+          "name": "WiTooltipPosition",
+          "ctype": "miscellaneous",
+          "subtype": "typealias",
+          "coverageIgnore": false,
+          "rawtype": "\"top\" | \"bottom\" | \"left\" | \"right\"",
+          "file": "projects/components/overlays/src/wi-tooltip.types.ts",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "rawdescription": "Posición preferida del tooltip (CDK Overlay puede hacer flip si no cabe).",
+          "description": "<p>Posición preferida del tooltip (CDK Overlay puede hacer flip si no cabe).</p>\n",
+          "kind": 193
+        }
       ]
     }
   },
@@ -14007,7 +14607,7 @@
     "children": []
   },
   "coverage": {
-    "count": 56,
+    "count": 55,
     "status": "good",
     "files": [
       {
@@ -14358,9 +14958,49 @@
         "linktype": "miscellaneous",
         "linksubtype": "variable",
         "name": "meta",
-        "coveragePercent": 0,
-        "coverageCount": "0/1",
-        "status": "low"
+        "coveragePercent": 100,
+        "coverageCount": "1/1",
+        "status": "very-good"
+      },
+      {
+        "filePath": "projects/components/data-display/src/wi-card.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "RecipeAssetRows",
+        "coveragePercent": 100,
+        "coverageCount": "1/1",
+        "status": "very-good"
+      },
+      {
+        "filePath": "projects/components/data-display/src/wi-card.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "RecipeDashboardPanels",
+        "coveragePercent": 100,
+        "coverageCount": "1/1",
+        "status": "very-good"
+      },
+      {
+        "filePath": "projects/components/data-display/src/wi-card.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "RecipeKpiTiles",
+        "coveragePercent": 100,
+        "coverageCount": "1/1",
+        "status": "very-good"
+      },
+      {
+        "filePath": "projects/components/data-display/src/wi-card.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "RecipeTintedHeader",
+        "coveragePercent": 100,
+        "coverageCount": "1/1",
+        "status": "very-good"
       },
       {
         "filePath": "projects/components/data-display/src/wi-card.stories.ts",
@@ -17123,6 +17763,174 @@
         "linktype": "miscellaneous",
         "linksubtype": "typealias",
         "name": "WiSvgTag",
+        "coveragePercent": 100,
+        "coverageCount": "1/1",
+        "status": "very-good"
+      },
+      {
+        "filePath": "projects/components/overlays/src/wi-tooltip.directive.ts",
+        "type": "directive",
+        "linktype": "directive",
+        "name": "WiTooltipDirective",
+        "coveragePercent": 100,
+        "coverageCount": "1/1",
+        "status": "very-good"
+      },
+      {
+        "filePath": "projects/components/overlays/src/wi-tooltip.directive.ts",
+        "type": "function",
+        "linktype": "miscellaneous",
+        "linksubtype": "function",
+        "name": "provideWiTooltipGroup",
+        "coveragePercent": 100,
+        "coverageCount": "1/1",
+        "status": "very-good"
+      },
+      {
+        "filePath": "projects/components/overlays/src/wi-tooltip.directive.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "ARROW_POSITION_CLASSES",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/overlays/src/wi-tooltip.directive.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "TOOLTIP_CONTENT_CLASSES",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/overlays/src/wi-tooltip.directive.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "TOOLTIP_SVG_CLASSES",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/overlays/src/wi-tooltip.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "DarkMode",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/overlays/src/wi-tooltip.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "Default",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/overlays/src/wi-tooltip.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "Delays",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/overlays/src/wi-tooltip.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "Disabled",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/overlays/src/wi-tooltip.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "GroupSkipDelay",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/overlays/src/wi-tooltip.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "IconOnly",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/overlays/src/wi-tooltip.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "meta",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/overlays/src/wi-tooltip.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "NearViewportEdge",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/overlays/src/wi-tooltip.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "Positions",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/overlays/src/wi-tooltip.stories.ts",
+        "type": "type alias",
+        "linktype": "miscellaneous",
+        "linksubtype": "typealias",
+        "name": "Story",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/components/overlays/src/wi-tooltip.types.ts",
+        "type": "interface",
+        "linktype": "interface",
+        "name": "WiTooltipGroupOptions",
+        "coveragePercent": 100,
+        "coverageCount": "2/2",
+        "status": "very-good"
+      },
+      {
+        "filePath": "projects/components/overlays/src/wi-tooltip.types.ts",
+        "type": "type alias",
+        "linktype": "miscellaneous",
+        "linksubtype": "typealias",
+        "name": "WiTooltipPosition",
         "coveragePercent": 100,
         "coverageCount": "1/1",
         "status": "very-good"

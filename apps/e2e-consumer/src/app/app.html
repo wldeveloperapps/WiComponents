@@ -46,7 +46,16 @@
             {{ t().primary }}
           </wi-button>
           <wi-button type="button" variant="secondary">{{ t().secondary }}</wi-button>
-          <wi-button type="button" variant="danger" iconOnly [ariaLabel]="t().delete">
+          <wi-button
+            type="button"
+            variant="danger"
+            iconOnly
+            [ariaLabel]="t().delete"
+            [wiTooltip]="t().delete"
+            position="top"
+            [showDelay]="0"
+            [hideDelay]="0"
+          >
             <wi-icon name="trash" />
           </wi-button>
         </div>

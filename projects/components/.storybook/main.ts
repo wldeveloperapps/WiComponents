@@ -15,6 +15,7 @@ const config: StorybookConfig = {
     '../forms/**/*.stories.@(js|jsx|mjs|ts|tsx)',
     '../icon/**/*.stories.@(js|jsx|mjs|ts|tsx)',
     '../core/**/*.stories.@(js|jsx|mjs|ts|tsx)',
+    '../overlays/**/*.stories.@(js|jsx|mjs|ts|tsx)',
   ],
   addons: [
     '@chromatic-com/storybook',
@@ -43,6 +44,7 @@ const config: StorybookConfig = {
           '@wiloc/ui/data-display': resolve(componentsRoot, 'data-display/src/public-api.ts'),
           '@wiloc/ui/button': resolve(componentsRoot, 'button/src/public-api.ts'),
           '@wiloc/ui/core': resolve(componentsRoot, 'core/src/public-api.ts'),
+          '@wiloc/ui/overlays': resolve(componentsRoot, 'overlays/src/public-api.ts'),
         },
       },
     });

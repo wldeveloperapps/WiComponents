@@ -28,6 +28,7 @@ describe('WiButtonComponent', () => {
     expect(el.className).toContain('text-on-primary');
     expect(el.className).toContain('h-control-md');
     expect(fixture.nativeElement.classList.contains('wi-button')).toBe(true);
+    expect(fixture.nativeElement.classList.contains('inline-flex')).toBe(true);
     expect(el.disabled).toBe(false);
     expect(el.getAttribute('aria-busy')).toBeNull();
     expect(el.getAttribute('aria-disabled')).toBeNull();

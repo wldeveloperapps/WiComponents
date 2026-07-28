@@ -63,16 +63,16 @@ Checklist de **demanda** extraído del uso real de PrimeNG en la app consumidora
 
 ## Overlays & feedback
 
-| Capacidad Wi (objetivo) | Origen Prime (referencia)        | Dominio    | Cubo    | Estado  | Notas                                   |
-| ----------------------- | -------------------------------- | ---------- | ------- | ------- | --------------------------------------- |
-| Dialog                  | `dialog`                         | `overlays` | base    | planned | composición header/content/footer       |
-| Toast service           | `toast` + `MessageService`       | `overlays` | base    | planned | API propia `WiToast*` (no clonar Prime) |
-| Confirm dialog/popup    | `confirmdialog` / `confirmpopup` | `overlays` | base    | planned | API propia `WiConfirm*`                 |
-| Menu                    | `menu`                           | `overlays` | base    | planned | acciones contextuales                   |
-| Context menu            | `contextmenu`                    | `overlays` | base    | planned | p. ej. asset-table                      |
-| Popover                 | `popover`                        | `overlays` | base    | planned | menú de usuario                         |
-| Tooltip                 | `tooltip`                        | `overlays` | base    | planned |                                         |
-| Speed dial              | `speeddial`                      | `patterns` | pattern | planned | acciones por fila                       |
+| Capacidad Wi (objetivo) | Origen Prime (referencia)        | Dominio    | Cubo    | Estado  | Notas                                                                                                                         |
+| ----------------------- | -------------------------------- | ---------- | ------- | ------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| Dialog                  | `dialog`                         | `overlays` | base    | planned | composición header/content/footer                                                                                             |
+| Toast service           | `toast` + `MessageService`       | `overlays` | base    | planned | API propia `WiToast*` (no clonar Prime)                                                                                       |
+| Confirm dialog/popup    | `confirmdialog` / `confirmpopup` | `overlays` | base    | planned | API propia `WiConfirm*`                                                                                                       |
+| Menu                    | `menu`                           | `overlays` | base    | planned | acciones contextuales                                                                                                         |
+| Context menu            | `contextmenu`                    | `overlays` | base    | planned | p. ej. asset-table                                                                                                            |
+| Popover                 | `popover`                        | `overlays` | base    | planned | menú de usuario                                                                                                               |
+| Tooltip                 | `tooltip`                        | `overlays` | base    | done    | `@wiloc/ui/overlays` (`[wiTooltip]`); host con caja CSS; `wi-button` es `inline-flex` (compatible); ver story HostMustHaveBox |
+| Speed dial              | `speeddial`                      | `patterns` | pattern | planned | acciones por fila                                                                                                             |
 
 ## Infraestructura (no clonar)
 

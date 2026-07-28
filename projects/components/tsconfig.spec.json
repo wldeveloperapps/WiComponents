@@ -13,6 +13,7 @@
     "data-display/**/*.ts",
     "forms/**/*.ts",
     "icon/**/*.ts",
-    "core/**/*.ts"
+    "core/**/*.ts",
+    "overlays/**/*.ts"
   ]
 }

@@ -27,6 +27,7 @@
 @source '../forms/**/*.{html,ts}';
 @source '../icon/**/*.{html,ts}';
 @source '../core/**/*.{html,ts}';
+@source '../overlays/**/*.{html,ts}';
 
 @theme inline {
   /* Roles Wiloc adicionales (además del mapeo Spartan vía puente). */
