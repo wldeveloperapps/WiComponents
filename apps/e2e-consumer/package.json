@@ -19,7 +19,7 @@
     "@angular/platform-browser": "^22.0.0",
     "@angular/router": "^22.0.0",
     "@spartan-ng/brain": "^1.1.2",
-    "@wiloc/ui": "file:../../dist/wiloc-ui-0.0.1.tgz",
+    "@wiloc/ui": "file:C:/Users/MartaNaveiraGorrocha/Proyectos/wi-components/dist/wiloc-ui-0.0.1.tgz",
     "clsx": "^2.1.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

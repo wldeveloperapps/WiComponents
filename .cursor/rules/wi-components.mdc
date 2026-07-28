@@ -712,11 +712,13 @@ Crear como mínimo:
 * With long content;
 * Dark mode cuando sea relevante;
 * casos de accesibilidad;
-* casos responsive.
+* casos responsive (**obligatorio**; ver regla `responsive`).
 
 Para componentes complejos añadir historias de interacción.
 
 No utilizar Storybook únicamente como escaparate visual. Debe documentar también el comportamiento esperado.
+
+Las stories de layout / **Recipe /** deben usar grids responsive (`grid-cols-1 sm:…`). Comprobar el canvas a ~320–400px de ancho antes de darlas por cerradas.
 
 ---
 
@@ -943,6 +945,7 @@ Antes de entregar código, comprobar:
 * [ ] Es compatible con zoneless.
 * [ ] Incluye tests.
 * [ ] Incluye historias de Storybook.
+* [ ] Layouts / recipes verificados en viewport estrecho (~320px); regla `responsive`.
 * [ ] Utiliza imports públicos (`@wiloc/ui/...`; cruzados sin rutas relativas).
 * [ ] Está exportado desde el entry point correcto.
 * [ ] Si hay entry/subpath nuevo o import cruzado: `exports` + Storybook alias + `tsconfig` paths.

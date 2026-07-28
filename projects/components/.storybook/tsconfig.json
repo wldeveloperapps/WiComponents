@@ -10,6 +10,7 @@
     "../src/test.ts",
     "../src/**/*.spec.ts",
     "../button/**/*.spec.ts",
+    "../data-display/**/*.spec.ts",
     "../forms/**/*.spec.ts",
     "../icon/**/*.spec.ts"
   ],
@@ -18,6 +19,8 @@
     "../src/**/*.stories.*",
     "../button/**/*.ts",
     "../button/**/*.stories.*",
+    "../data-display/**/*.ts",
+    "../data-display/**/*.stories.*",
     "../forms/**/*.ts",
     "../forms/**/*.stories.*",
     "../icon/**/*.ts",

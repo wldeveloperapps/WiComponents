@@ -190,7 +190,7 @@ importers:
         specifier: ^1.1.2
         version: 1.1.2(ce2a193983162219aa1af5c0cbe6e655)
       '@wiloc/ui':
-        specifier: file:..\..\dist\wiloc-ui-0.0.1.tgz
+        specifier: file:C:/Users/MartaNaveiraGorrocha/Proyectos/wi-components/dist/wiloc-ui-0.0.1.tgz
         version: file:dist/wiloc-ui-0.0.1.tgz(9f7021f7116718553fbf16e60cfc4dc6)
       clsx:
         specifier: ^2.1.1
@@ -3831,7 +3831,7 @@ packages:
     resolution: {integrity: sha512-6aN99yL695Hi9SuIk1oC88l9o0gmxL1nGWWQ/kNy81HigJ0FoaoTXpytCj6ItzgyCEwA9kF1wixsTuv5cjsgng==}
 
   '@wiloc/ui@file:dist/wiloc-ui-0.0.1.tgz':
-    resolution: {integrity: sha512-0yweaykc49sLS67i9AOwBe3exi/EDQlFfnhF74gtYV5YqWLr1a8/Ifzq/6tdwJJmxOamR+ggCD0U6E8j43NrgQ==, tarball: file:dist/wiloc-ui-0.0.1.tgz}
+    resolution: {integrity: sha512-DHFGlOaCaEdPGw9GBtaNdUMajhPpVH0IPlRlhIf1siJ/6amQsw2tzpnNRyWVbtGUxtKHvxpnAToZeTSIBKklEQ==, tarball: file:dist/wiloc-ui-0.0.1.tgz}
     version: 0.0.1
     peerDependencies:
       '@angular/cdk': ^22.0.0

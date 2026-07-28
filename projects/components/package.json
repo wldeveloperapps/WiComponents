@@ -43,6 +43,10 @@
       "types": "./core/src/public-api.ts",
       "default": "./core/src/public-api.ts"
     },
+    "./data-display": {
+      "types": "./data-display/src/public-api.ts",
+      "default": "./data-display/src/public-api.ts"
+    },
     "./forms": {
       "types": "./forms/src/public-api.ts",
       "default": "./forms/src/public-api.ts"

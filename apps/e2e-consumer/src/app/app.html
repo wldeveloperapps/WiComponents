@@ -27,56 +27,73 @@
     </div>
   </header>
 
-  <section class="flex flex-col gap-3" aria-labelledby="buttons-heading">
-    <h2 id="buttons-heading" class="text-sm font-medium text-on-surface">{{ t().buttons }}</h2>
-    <div class="flex flex-wrap gap-2">
-      <wi-button type="button" variant="primary" (click)="simulateLoading()" [loading]="loading()">
-        <wi-icon name="plus" />
-        {{ t().primary }}
-      </wi-button>
-      <wi-button type="button" variant="secondary">{{ t().secondary }}</wi-button>
-      <wi-button type="button" variant="danger" iconOnly [ariaLabel]="t().delete">
-        <wi-icon name="trash" />
-      </wi-button>
-    </div>
-  </section>
+  <wi-card>
+    <wi-card-header>
+      <wi-card-title>{{ t().card }}</wi-card-title>
+      <wi-card-description>{{ t().cardDescription }}</wi-card-description>
+    </wi-card-header>
+    <wi-card-content class="flex flex-col gap-6">
+      <section class="flex flex-col gap-3" aria-labelledby="buttons-heading">
+        <h2 id="buttons-heading" class="text-sm font-medium text-on-surface">{{ t().buttons }}</h2>
+        <div class="flex flex-wrap gap-2">
+          <wi-button
+            type="button"
+            variant="primary"
+            (click)="simulateLoading()"
+            [loading]="loading()"
+          >
+            <wi-icon name="plus" />
+            {{ t().primary }}
+          </wi-button>
+          <wi-button type="button" variant="secondary">{{ t().secondary }}</wi-button>
+          <wi-button type="button" variant="danger" iconOnly [ariaLabel]="t().delete">
+            <wi-icon name="trash" />
+          </wi-button>
+        </div>
+      </section>
 
-  <section class="flex flex-col gap-3" aria-labelledby="input-heading">
-    <h2 id="input-heading" class="text-sm font-medium text-on-surface">{{ t().input }}</h2>
-    <label class="flex flex-col gap-1 text-sm text-on-surface-variant" for="name">
-      {{ t().name }}
-      <wi-input id="name" [formControl]="nameControl" [placeholder]="t().namePlaceholder" />
-    </label>
-    <p class="text-sm text-on-surface-variant">{{ t().value }}: {{ nameControl.value }}</p>
-  </section>
+      <section class="flex flex-col gap-3" aria-labelledby="input-heading">
+        <h2 id="input-heading" class="text-sm font-medium text-on-surface">{{ t().input }}</h2>
+        <label class="flex flex-col gap-1 text-sm text-on-surface-variant" for="name">
+          {{ t().name }}
+          <wi-input id="name" [formControl]="nameControl" [placeholder]="t().namePlaceholder" />
+        </label>
+        <p class="text-sm text-on-surface-variant">{{ t().value }}: {{ nameControl.value }}</p>
+      </section>
 
-  <section class="flex flex-col gap-3" aria-labelledby="select-heading">
-    <h2 id="select-heading" class="text-sm font-medium text-on-surface">{{ t().select }}</h2>
-    <wi-select
-      [(value)]="fruit"
-      [options]="t().fruits"
-      [placeholder]="t().fruitPlaceholder"
-      [ariaLabel]="t().fruitAria"
-      icon="funnel"
-      clearable
-      [clearLabel]="t().clear"
-    />
-    <p class="text-sm text-on-surface-variant">{{ t().value }}: {{ fruit() ?? '—' }}</p>
-  </section>
+      <section class="flex flex-col gap-3" aria-labelledby="select-heading">
+        <h2 id="select-heading" class="text-sm font-medium text-on-surface">{{ t().select }}</h2>
+        <wi-select
+          [(value)]="fruit"
+          [options]="t().fruits"
+          [placeholder]="t().fruitPlaceholder"
+          [ariaLabel]="t().fruitAria"
+          icon="funnel"
+          clearable
+          [clearLabel]="t().clear"
+        />
+        <p class="text-sm text-on-surface-variant">{{ t().value }}: {{ fruit() ?? '—' }}</p>
+      </section>
 
-  <section class="flex flex-col gap-3" aria-labelledby="datepicker-heading">
-    <h2 id="datepicker-heading" class="text-sm font-medium text-on-surface">
-      {{ t().datepicker }}
-    </h2>
-    <wi-datepicker
-      [(value)]="date"
-      clearable
-      [ariaLabel]="t().dateAria"
-      [calendarLabel]="t().openCalendar"
-      [clearLabel]="t().clear"
-    />
-    <p class="text-sm text-on-surface-variant">
-      {{ t().value }}: {{ date() ? date()!.toISOString().slice(0, 10) : '—' }}
-    </p>
-  </section>
+      <section class="flex flex-col gap-3" aria-labelledby="datepicker-heading">
+        <h2 id="datepicker-heading" class="text-sm font-medium text-on-surface">
+          {{ t().datepicker }}
+        </h2>
+        <wi-datepicker
+          [(value)]="date"
+          clearable
+          [ariaLabel]="t().dateAria"
+          [calendarLabel]="t().openCalendar"
+          [clearLabel]="t().clear"
+        />
+        <p class="text-sm text-on-surface-variant">
+          {{ t().value }}: {{ date() ? date()!.toISOString().slice(0, 10) : '—' }}
+        </p>
+      </section>
+    </wi-card-content>
+    <wi-card-footer class="justify-end">
+      <wi-button type="button" variant="outline" size="sm">{{ t().secondary }}</wi-button>
+      <wi-button type="button" size="sm">{{ t().primary }}</wi-button>
+    </wi-card-footer>
+  </wi-card>
 </main>

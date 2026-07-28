@@ -23,6 +23,7 @@
 /* Escaneo de clases en la librería (Storybook / builds locales). */
 @source '../src/**/*.{html,ts}';
 @source '../button/**/*.{html,ts}';
+@source '../data-display/**/*.{html,ts}';
 @source '../forms/**/*.{html,ts}';
 @source '../icon/**/*.{html,ts}';
 @source '../core/**/*.{html,ts}';

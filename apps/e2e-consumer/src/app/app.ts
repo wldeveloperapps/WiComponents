@@ -2,6 +2,14 @@ import { DOCUMENT } from '@angular/common';
 import { Component, effect, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { WiButtonComponent } from '@wiloc/ui/button';
+import {
+  WiCardComponent,
+  WiCardContentComponent,
+  WiCardDescriptionComponent,
+  WiCardFooterComponent,
+  WiCardHeaderComponent,
+  WiCardTitleComponent,
+} from '@wiloc/ui/data-display';
 import { WiDatepickerComponent, WiInputComponent, WiSelectComponent } from '@wiloc/ui/forms';
 import { WiIconComponent } from '@wiloc/ui/icon';
 
@@ -12,6 +20,12 @@ import { appLocale, toggleAppLocale, uiMessages } from './locale';
   imports: [
     ReactiveFormsModule,
     WiButtonComponent,
+    WiCardComponent,
+    WiCardContentComponent,
+    WiCardDescriptionComponent,
+    WiCardFooterComponent,
+    WiCardHeaderComponent,
+    WiCardTitleComponent,
     WiDatepickerComponent,
     WiIconComponent,
     WiInputComponent,

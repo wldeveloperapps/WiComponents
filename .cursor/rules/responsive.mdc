@@ -1,0 +1,58 @@
+---
+description: Responsive obligatorio en componentes, layouts de stories y recetas de composición
+globs:
+  - "**/*.ts"
+  - "**/*.html"
+  - "**/*.scss"
+  - "**/*.css"
+  - "**/*.stories.ts"
+alwaysApply: true
+---
+
+# Responsive (obligatorio)
+
+La vista responsive es **requisito de entrega**, no un extra. Dashboards y paneles Wiloc se usan en anchos estrechos (sidebar + viewport reducido, tablets, Storybook viewport).
+
+## Principio
+
+| Capa | Responsabilidad |
+|------|-----------------|
+| Componente `@wiloc/ui` | Encoger sin romper: `min-w-0`, truncado, wrap, sin anchos fijos frágiles |
+| Layout / receta / app | Columnas y grids con breakpoints (`grid-cols-1 sm:… lg:…`) |
+| Storybook | Verificar móvil / estrecho; no solo desktop centrado |
+
+El **card** (u otro contenedor) no impone el grid del dashboard: el layout responsive lo define quien compone. Las stories de receta deben ser un ejemplo correcto.
+
+## Obligatorio
+
+1. **Nunca** fijar columnas solo con estilo inline del tipo `grid-template-columns: repeat(N, 1fr)` sin breakpoints.
+2. Preferir utilidades Tailwind responsive:
+   - paneles: `grid-cols-1 sm:grid-cols-2 lg:grid-cols-3`
+   - KPIs densos: `grid-cols-2 sm:grid-cols-3 lg:grid-cols-5` (o similar)
+3. En flex/grid hijos: `min-w-0` para que el truncado (`truncate`) y el wrap funcionen.
+4. Textos largos en headers: permitir wrap o `truncate` + título accesible; no asumir ancho de desktop.
+5. Listas densas en altura fija: scroll **interno** (`min-h-0 flex-1 overflow-y-auto`), no crecer el viewport.
+6. Overlays / popovers: comprobados en viewport estrecho (no cortados fuera de pantalla de forma irreparable).
+
+## Storybook
+
+Al crear o tocar stories (sobre todo **Recipe /** y layouts multi-panel):
+
+- Comprobar en viewport ~320–400px de ancho (toolbar de viewport o resize del canvas).
+- Si a ese ancho el contenido queda ilegible o aplastado, el layout **no está listo**.
+- Documentar en la descripción de la story el comportamiento responsive esperado.
+- Incluir o mantener una historia / nota de **casos responsive** cuando el componente o la receta dependan del ancho.
+
+## Prohibido
+
+- Grids de N columnas fijas que a 300px dejen celdas inutilizables.
+- Anchos mágicos (`w-[872px]`, etc.) en componentes públicos o stories de layout.
+- Asumir que “centered + desktop” basta para dar por cerrado un componente o receta.
+- Resolver el responsive metiendo media queries ad hoc en cada componente cuando basten utilidades `sm:` / `md:` / `lg:` en el contenedor.
+
+## Checklist rápido
+
+- [ ] En ~320px el contenido se apila o reflujo de forma legible.
+- [ ] No hay overflow horizontal indebido del layout de la story.
+- [ ] Títulos / acciones no se pisan; hay wrap, truncado o stack.
+- [ ] Si hay scroll, es el área de contenido prevista, no toda la página por error de flex (`min-h-0`).

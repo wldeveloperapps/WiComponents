@@ -64,6 +64,8 @@ interface UiMessages {
   themeToDark: string;
   languageToEs: string;
   languageToEn: string;
+  card: string;
+  cardDescription: string;
   buttons: string;
   primary: string;
   secondary: string;
@@ -89,6 +91,8 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     themeToDark: 'Cambiar a tema oscuro',
     languageToEs: 'Cambiar a español',
     languageToEn: 'Cambiar a inglés',
+    card: 'Card',
+    cardDescription: 'Contenedor de superficie para los controles de smoke.',
     buttons: 'Button',
     primary: 'Primario',
     secondary: 'Secundario',
@@ -112,6 +116,8 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     themeToDark: 'Switch to dark theme',
     languageToEs: 'Switch to Spanish',
     languageToEn: 'Switch to English',
+    card: 'Card',
+    cardDescription: 'Surface container for the smoke-test controls.',
     buttons: 'Button',
     primary: 'Primary',
     secondary: 'Secondary',
