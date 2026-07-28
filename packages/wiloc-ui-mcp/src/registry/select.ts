@@ -166,18 +166,23 @@ export const wiSelectRegistryEntry = {
     'typeahead',
   ],
   a11yNotes:
-    'Trigger role=combobox + listbox. Asociar label vía id o ariaLabel. Icono de trigger decorativo (aria-hidden); registrar el glifo con provideWiIcons. clearLabel obligatorio si clearable. Requiere CSS de overlays CDK/Spartan en la app.',
+    'Trigger role=combobox + listbox. Asociar label vía id o ariaLabel. Icono de trigger decorativo (aria-hidden); registrar el glifo con provideWiIcons. clearLabel obligatorio si clearable. Textos i18n (placeholder, emptyText, clearLabel, ariaLabel) los provee la app; @wiloc/ui no incluye diccionarios. Requiere CSS de overlays CDK/Spartan en la app.',
   example: {
     import: `import { WiSelectComponent } from '@wiloc/ui/forms';
 import { provideWiIcons } from '@wiloc/ui/icon';
 import { funnelOutline } from '@wiloc/ui/icon/heroicons';
 
 provideWiIcons({ funnel: { outline: funnelOutline } });`,
-    template: `<wi-select
+    template: `<!-- i18n: strings desde la app -->
+<wi-select
   [(value)]="nationality"
   [options]="options"
   icon="funnel"
-  ariaLabel="Nationality"
+  placeholder="Selecciona…"
+  emptyText="Sin opciones"
+  clearable
+  clearLabel="Limpiar"
+  ariaLabel="Nacionalidad"
 />`,
   },
 } as const;

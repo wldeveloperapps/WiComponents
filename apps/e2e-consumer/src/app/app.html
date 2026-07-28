@@ -1,0 +1,82 @@
+<main class="mx-auto flex min-h-dvh max-w-lg flex-col gap-8 p-6">
+  <header class="flex items-start justify-between gap-4">
+    <div>
+      <p class="text-sm text-on-surface-variant">{{ t().subtitle }}</p>
+      <h1 class="text-xl font-semibold text-on-background">{{ title }}</h1>
+    </div>
+    <div class="flex shrink-0 gap-2">
+      <wi-button
+        type="button"
+        variant="outline"
+        size="sm"
+        [ariaLabel]="locale() === 'es' ? t().languageToEn : t().languageToEs"
+        (click)="toggleLanguage()"
+      >
+        {{ locale() === 'es' ? 'EN' : 'ES' }}
+      </wi-button>
+      <wi-button
+        type="button"
+        variant="outline"
+        size="sm"
+        iconOnly
+        [ariaLabel]="dark() ? t().themeToLight : t().themeToDark"
+        (click)="toggleTheme()"
+      >
+        <wi-icon [name]="dark() ? 'sun' : 'moon'" />
+      </wi-button>
+    </div>
+  </header>
+
+  <section class="flex flex-col gap-3" aria-labelledby="buttons-heading">
+    <h2 id="buttons-heading" class="text-sm font-medium text-on-surface">{{ t().buttons }}</h2>
+    <div class="flex flex-wrap gap-2">
+      <wi-button type="button" variant="primary" (click)="simulateLoading()" [loading]="loading()">
+        <wi-icon name="plus" />
+        {{ t().primary }}
+      </wi-button>
+      <wi-button type="button" variant="secondary">{{ t().secondary }}</wi-button>
+      <wi-button type="button" variant="danger" iconOnly [ariaLabel]="t().delete">
+        <wi-icon name="trash" />
+      </wi-button>
+    </div>
+  </section>
+
+  <section class="flex flex-col gap-3" aria-labelledby="input-heading">
+    <h2 id="input-heading" class="text-sm font-medium text-on-surface">{{ t().input }}</h2>
+    <label class="flex flex-col gap-1 text-sm text-on-surface-variant" for="name">
+      {{ t().name }}
+      <wi-input id="name" [formControl]="nameControl" [placeholder]="t().namePlaceholder" />
+    </label>
+    <p class="text-sm text-on-surface-variant">{{ t().value }}: {{ nameControl.value }}</p>
+  </section>
+
+  <section class="flex flex-col gap-3" aria-labelledby="select-heading">
+    <h2 id="select-heading" class="text-sm font-medium text-on-surface">{{ t().select }}</h2>
+    <wi-select
+      [(value)]="fruit"
+      [options]="t().fruits"
+      [placeholder]="t().fruitPlaceholder"
+      [ariaLabel]="t().fruitAria"
+      icon="funnel"
+      clearable
+      [clearLabel]="t().clear"
+    />
+    <p class="text-sm text-on-surface-variant">{{ t().value }}: {{ fruit() ?? '—' }}</p>
+  </section>
+
+  <section class="flex flex-col gap-3" aria-labelledby="datepicker-heading">
+    <h2 id="datepicker-heading" class="text-sm font-medium text-on-surface">
+      {{ t().datepicker }}
+    </h2>
+    <wi-datepicker
+      [(value)]="date"
+      clearable
+      [ariaLabel]="t().dateAria"
+      [calendarLabel]="t().openCalendar"
+      [clearLabel]="t().clear"
+    />
+    <p class="text-sm text-on-surface-variant">
+      {{ t().value }}: {{ date() ? date()!.toISOString().slice(0, 10) : '—' }}
+    </p>
+  </section>
+</main>

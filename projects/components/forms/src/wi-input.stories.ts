@@ -10,6 +10,12 @@ const meta: Meta<WiInputComponent> = {
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
+    docs: {
+      description: {
+        component:
+          'Campo de texto. `placeholder` / `ariaLabel` / hints vía la app (ver Documentation/I18n). Compatible con Reactive Forms y Signal Forms.',
+      },
+    },
   },
   decorators: [
     moduleMetadata({

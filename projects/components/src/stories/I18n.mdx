@@ -1,0 +1,139 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Documentation/I18n" />
+
+# Internacionalización (`@wiloc/ui`)
+
+`@wiloc/ui` **no** incluye diccionarios ES/EN ni copy de producto. La librería expone el **contrato** (inputs de texto + `provideWiCalendarI18n`). Las **traducciones viven en la app**.
+
+Usar esta página como **plantilla / checklist** al integrar formularios.
+
+## Principio
+
+| Capa | Responsabilidad |
+| ---- | ---------------- |
+| `@wiloc/ui` | Comportamiento, a11y, inputs para labels, provider de calendario |
+| App consumidora | Strings, locale, `document.documentElement.lang`, motor i18n (Transloco, etc.) |
+
+Defaults en inglés en algunos inputs (`clearLabel: 'Clear'`) son solo fallback técnico, no un locale oficial.
+
+---
+
+## Checklist por componente
+
+### `wi-input`
+
+| Qué | Dónde |
+| --- | ----- |
+| Placeholder | input `placeholder` |
+| Nombre accesible | `ariaLabel` o `<label for>` + `id` |
+| Hint / error | texto en la app + `ariaDescribedBy` |
+
+### `wi-select`
+
+| Qué | Dónde |
+| --- | ----- |
+| Placeholder | `placeholder` |
+| Lista vacía | `emptyText` |
+| Limpiar | `clearLabel` (si `clearable`) |
+| Nombre accesible | `ariaLabel` o label asociado |
+| Label visible de opciones | datos de la app (`options` / templates) |
+
+### `wi-datepicker`
+
+| Qué | Dónde |
+| --- | ----- |
+| Placeholder | `placeholder` |
+| Limpiar | `clearLabel` |
+| Abrir calendario | `calendarLabel` (y/o `ariaLabel`) |
+| Hora | `timeLabel` (si `showTime`) |
+| Meses, días, prev/next | `provideWiCalendarI18n` |
+
+### `wi-date-range`
+
+Además de lo anterior (reutilizado en cada picker):
+
+| Qué | Dónde |
+| --- | ----- |
+| Placeholders | `startPlaceholder`, `endPlaceholder` |
+| Aria | `startAriaLabel`, `endAriaLabel` |
+| Abrir calendarios | `startCalendarLabel`, `endCalendarLabel` |
+| Limpiar / hora | `clearLabel`, `timeLabel` |
+
+Demo interactiva: **Forms → WiDatepicker → Locale (app-provided)**.
+
+---
+
+## Plantilla `provideWiCalendarI18n`
+
+Registrar en `app.config.ts` (o equivalente). Las funciones se evalúan al renderizar el calendario: pueden leer un signal/locale de la app.
+
+```ts
+import { provideWiCalendarI18n } from '@wiloc/ui/forms';
+import type { WiMonthLabels } from '@wiloc/ui/forms';
+
+const MONTHS_ES: WiMonthLabels = [
+  'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+  'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre',
+];
+
+provideWiCalendarI18n({
+  firstDayOfWeek: () => 1, // lunes
+  months: () => MONTHS_ES,
+  formatMonth: (month) => MONTHS_ES[month],
+  formatYear: (year) => String(year),
+  formatHeader: (month, year) => `${MONTHS_ES[month]} ${year}`,
+  formatWeekdayName: (index) => ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'][index % 7] ?? '',
+  labelWeekday: (index) =>
+    ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'][index % 7] ?? '',
+  labelPrevious: () => 'Mes anterior',
+  labelNext: () => 'Mes siguiente',
+});
+```
+
+Campos de `WiCalendarI18n` (todos opcionales en el `Partial`; completar los que la app necesite):
+
+- `firstDayOfWeek`
+- `months` / `formatMonth` / `formatYear` / `formatHeader`
+- `formatWeekdayName` / `labelWeekday`
+- `labelPrevious` / `labelNext`
+- `years` (lista de años del selector, si aplica)
+
+---
+
+## Snippet de template (app)
+
+```html
+<label for="hire-date">Fecha de alta</label>
+<wi-datepicker
+  id="hire-date"
+  [(value)]="hireDate"
+  clearable
+  placeholder="Selecciona una fecha…"
+  clearLabel="Limpiar"
+  calendarLabel="Abrir calendario"
+  ariaLabel="Fecha de alta"
+/>
+```
+
+Con hora:
+
+```html
+<wi-datepicker
+  [(value)]="appointment"
+  showTime
+  timeLabel="Hora"
+  placeholder="Fecha y hora…"
+  ariaLabel="Cita"
+/>
+```
+
+---
+
+## Qué no hacer
+
+- No hardcodear idiomas de producto dentro de `@wiloc/ui`.
+- No asumir que Storybook o el monorepo sustituyen el i18n de la app.
+- No dejar botones solo-icono sin `ariaLabel` / `clearLabel` traducidos.
+
+Referencia de consumo empaquetado: `apps/e2e-consumer` (toggle ES/EN + `.tgz`).

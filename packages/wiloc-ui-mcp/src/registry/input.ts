@@ -98,9 +98,11 @@ export const wiInputRegistryEntry = {
   variants: [],
   keyboard: ['Tab', 'character input'],
   a11yNotes:
-    'Input nativo. Asociar label vía id, o ariaLabel. Errores/hints vía ariaDescribedBy. invalid expone aria-invalid.',
+    'Input nativo. Asociar label vía id, o ariaLabel. Errores/hints vía ariaDescribedBy (texto de la app). invalid expone aria-invalid. placeholder/ariaLabel son i18n de la app; @wiloc/ui no incluye diccionarios.',
   example: {
     import: `import { WiInputComponent } from '@wiloc/ui/forms';`,
-    template: `<wi-input type="email" placeholder="correo@ejemplo.com" ariaLabel="Email" />`,
+    template: `<!-- i18n: strings desde la app -->
+<label for="email">Correo</label>
+<wi-input id="email" type="email" placeholder="correo@ejemplo.com" />`,
   },
 } as const;

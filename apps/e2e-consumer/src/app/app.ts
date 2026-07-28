@@ -1,0 +1,57 @@
+import { DOCUMENT } from '@angular/common';
+import { Component, effect, inject, signal } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { WiButtonComponent } from '@wiloc/ui/button';
+import { WiDatepickerComponent, WiInputComponent, WiSelectComponent } from '@wiloc/ui/forms';
+import { WiIconComponent } from '@wiloc/ui/icon';
+
+import { appLocale, toggleAppLocale, uiMessages } from './locale';
+
+@Component({
+  selector: 'app-root',
+  imports: [
+    ReactiveFormsModule,
+    WiButtonComponent,
+    WiDatepickerComponent,
+    WiIconComponent,
+    WiInputComponent,
+    WiSelectComponent,
+  ],
+  templateUrl: './app.html',
+  styleUrl: './app.css',
+})
+export class App {
+  private readonly document = inject(DOCUMENT);
+
+  protected readonly title = 'e2e-consumer · @wiloc/ui (.tgz)';
+  protected readonly dark = signal(false);
+  protected readonly loading = signal(false);
+  protected readonly locale = appLocale;
+  protected readonly t = uiMessages;
+
+  protected readonly nameControl = new FormControl('Wiloc', { nonNullable: true });
+  protected readonly fruit = signal<string | null>(null);
+  protected readonly date = signal<Date | null>(null);
+
+  constructor() {
+    effect(() => {
+      this.document.documentElement.lang = this.locale();
+    });
+  }
+
+  protected toggleTheme(): void {
+    const next = !this.dark();
+    this.dark.set(next);
+    this.document.documentElement.classList.toggle('wi-dark', next);
+  }
+
+  protected toggleLanguage(): void {
+    toggleAppLocale();
+    this.fruit.set(null);
+  }
+
+  protected simulateLoading(): void {
+    this.loading.set(true);
+    globalThis.setTimeout(() => this.loading.set(false), 1200);
+  }
+}

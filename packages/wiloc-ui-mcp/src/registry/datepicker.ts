@@ -180,20 +180,60 @@ export const wiDatepickerRegistryEntry = {
     'El trigger expone aria-haspopup=dialog y aria-expanded',
     'Días deshabilitados con aria-disabled',
     'Textos de navegación e i18n vía provideWiCalendarI18n (sin copy hardcodeado de producto)',
+    'Plantilla i18n: inputs placeholder/clearLabel/calendarLabel/timeLabel/ariaLabel + provideWiCalendarI18n (months, weekdays, labelPrevious/Next)',
     'Icono calendar debe registrarse con provideWiIcons',
     'Overlays: la app debe incluir CSS de CDK Overlay / Spartan popover',
   ],
   example: {
-    import: `import { WiDatepickerComponent, WiDateRangeComponent, provideWiCalendarI18n } from '@wiloc/ui/forms';
+    import: `import {
+  WiDatepickerComponent,
+  WiDateRangeComponent,
+  provideWiCalendarI18n,
+  type WiMonthLabels,
+} from '@wiloc/ui/forms';
 import { provideWiIcons } from '@wiloc/ui/icon';
-import { calendarOutline } from '@wiloc/ui/icon/heroicons';`,
-    template: `<!-- Single -->
-<wi-datepicker [(value)]="date" clearable placeholder="Fecha…" ariaLabel="Fecha" />
+import { calendarOutline } from '@wiloc/ui/icon/heroicons';
+
+const MONTHS: WiMonthLabels = [
+  'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+  'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre',
+];
+
+provideWiIcons({ calendar: { outline: calendarOutline } });
+provideWiCalendarI18n({
+  firstDayOfWeek: () => 1,
+  months: () => MONTHS,
+  formatMonth: (m) => MONTHS[m],
+  formatYear: (y) => String(y),
+  formatHeader: (m, y) => \`\${MONTHS[m]} \${y}\`,
+  formatWeekdayName: (i) => ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'][i % 7] ?? '',
+  labelWeekday: (i) =>
+    ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'][i % 7] ?? '',
+  labelPrevious: () => 'Mes anterior',
+  labelNext: () => 'Mes siguiente',
+});`,
+    template: `<!-- Labels / i18n: siempre desde la app (no hay diccionario en @wiloc/ui) -->
+<label for="hire-date">Fecha de alta</label>
+<wi-datepicker
+  id="hire-date"
+  [(value)]="date"
+  clearable
+  placeholder="Selecciona una fecha…"
+  clearLabel="Limpiar"
+  calendarLabel="Abrir calendario"
+  ariaLabel="Fecha de alta"
+/>
 
 <!-- Con hora -->
-<wi-datepicker [(value)]="dateTime" showTime timeLabel="Hora" ariaLabel="Fecha y hora" />
+<wi-datepicker
+  [(value)]="dateTime"
+  showTime
+  timeLabel="Hora"
+  placeholder="Fecha y hora…"
+  ariaLabel="Fecha y hora"
+/>
 
-<!-- Rango (dos pickers) -->
+<!-- Rango -->
 <wi-date-range
   [(start)]="from"
   [(end)]="to"
@@ -202,6 +242,9 @@ import { calendarOutline } from '@wiloc/ui/icon/heroicons';`,
   endPlaceholder="Hasta…"
   startAriaLabel="Inicio"
   endAriaLabel="Fin"
+  startCalendarLabel="Abrir fecha inicio"
+  endCalendarLabel="Abrir fecha fin"
+  clearLabel="Limpiar"
 />`,
   },
 };

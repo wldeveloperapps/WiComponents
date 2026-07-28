@@ -7,7 +7,33 @@ import { provideWiIcons } from '../../icon/src/public-api';
 import { WI_HEROICONS_CURATED } from '../../icon/heroicons/src/curated';
 import { WiDatepickerComponent } from './wi-datepicker.component';
 import { WiDateRangeComponent } from './wi-date-range.component';
-import { provideWiCalendarI18n } from './wi-datepicker.i18n';
+import { provideWiCalendarI18n, type WiMonthLabels } from './wi-datepicker.i18n';
+
+const EN_MONTHS: WiMonthLabels = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+const EN_WEEKDAYS_SHORT = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'] as const;
+const EN_WEEKDAYS_LONG = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+] as const;
 
 const meta: Meta<WiDatepickerComponent> = {
   title: 'Forms/WiDatepicker',
@@ -18,7 +44,7 @@ const meta: Meta<WiDatepickerComponent> = {
     docs: {
       description: {
         component:
-          'Selector de fecha (y hora opcional). Locale del calendario vía `provideWiCalendarI18n`. Rango con `wi-date-range` (dos pickers). Requiere CSS de overlays CDK/Spartan e icono `calendar` registrado.',
+          'Selector de fecha (y hora opcional). Locale del calendario vía `provideWiCalendarI18n` (la app provee el copy; ver Documentation/I18n). Rango con `wi-date-range` (dos pickers). Requiere CSS de overlays CDK/Spartan e icono `calendar` registrado.',
       },
     },
   },
@@ -247,6 +273,62 @@ export const DarkMode: Story = {
           showTime
           clearable
           ariaLabel="Fecha dark"
+        />
+      </div>
+    `,
+  }),
+};
+
+/**
+ * Ejemplo de copy en inglés provisto por la app (no es un locale de la librería).
+ * Checklist completa: Documentation → I18n.
+ */
+export const LocaleAppProvided: Story = {
+  name: 'Locale (app-provided)',
+  decorators: [
+    applicationConfig({
+      providers: [
+        provideWiIcons(WI_HEROICONS_CURATED),
+        provideWiCalendarI18n({
+          firstDayOfWeek: () => 0,
+          months: () => EN_MONTHS,
+          formatMonth: (month) => EN_MONTHS[month],
+          formatYear: (year) => String(year),
+          formatHeader: (month, year) => `${EN_MONTHS[month]} ${year}`,
+          formatWeekdayName: (index) => EN_WEEKDAYS_SHORT[index % 7] ?? '',
+          labelWeekday: (index) => EN_WEEKDAYS_LONG[index % 7] ?? '',
+          labelPrevious: () => 'Previous month',
+          labelNext: () => 'Next month',
+        }),
+      ],
+    }),
+  ],
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'La app inyecta labels y `provideWiCalendarI18n` (aquí en inglés). `@wiloc/ui` no trae diccionarios. Ver **Documentation / I18n**.',
+      },
+    },
+  },
+  render: () => ({
+    props: {
+      value: null as Date | null,
+    },
+    template: `
+      <div style="width:20rem;display:flex;flex-direction:column;gap:0.75rem;">
+        <p style="margin:0;font-size:0.875rem;opacity:0.75;">
+          App-provided English copy (demo). Open the calendar to see month/weekday labels.
+        </p>
+        <wi-datepicker
+          [(value)]="value"
+          clearable
+          showTime
+          placeholder="Select a date…"
+          clearLabel="Clear"
+          calendarLabel="Open calendar"
+          timeLabel="Time"
+          ariaLabel="Date"
         />
       </div>
     `,

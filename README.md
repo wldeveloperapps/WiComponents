@@ -734,19 +734,13 @@ Playwright debe utilizarse para comprobar componentes complejos y flujos reales.
 
 ### Consumidor externo
 
-Debe existir una aplicación que consuma la librería como paquete externo.
-
-Antes de publicar una versión:
+La app de prueba vive en `apps/e2e-consumer` (workspace Angular **separado**). Consume el `.tgz`, no el source.
 
 ```bash
-pnpm build
-pnpm pack
-```
-
-El archivo `.tgz` generado debe instalarse en la aplicación de prueba.
-
-```bash
-pnpm add ../wiloc-ui-0.1.0.tgz
+pnpm pack:lib              # build + pack → dist/wiloc-ui-*.tgz
+pnpm e2e-consumer:sync     # pack + instalar el .tgz en e2e-consumer
+pnpm e2e-consumer:build    # compilar contra el paquete
+pnpm e2e-consumer:serve    # smoke manual en http://localhost:4200
 ```
 
 Esto permite detectar:
@@ -759,6 +753,7 @@ Esto permite detectar:
 - fallos de empaquetado;
 - diferencias entre el monorepo y npm.
 
+No hace falta publicar a npm para este smoke.
 ---
 
 ## Dependencias

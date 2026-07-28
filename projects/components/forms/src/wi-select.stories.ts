@@ -24,7 +24,7 @@ const meta: Meta<WiSelectComponent> = {
     docs: {
       description: {
         component:
-          'Select single/multi sin búsqueda. Icono de trigger con input `icon` (nombre en `provideWiIcons`). Requiere CSS de overlays CDK/Spartan.',
+          'Select single/multi sin búsqueda. Icono de trigger con input `icon` (nombre en `provideWiIcons`). Textos (`placeholder`, `emptyText`, `clearLabel`, `ariaLabel`) los provee la app — ver Documentation/I18n. Requiere CSS de overlays CDK/Spartan.',
       },
     },
   },
