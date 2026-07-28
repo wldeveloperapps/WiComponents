@@ -1,6 +1,10 @@
 import type { StorybookConfig } from '@storybook/angular-vite';
 import tailwindcss from '@tailwindcss/vite';
+import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { mergeConfig } from 'vite';
+
+const componentsRoot = resolve(fileURLToPath(new URL('..', import.meta.url)));
 
 const config: StorybookConfig = {
   stories: [
@@ -28,6 +32,17 @@ const config: StorybookConfig = {
   async viteFinal(config) {
     return mergeConfig(config, {
       plugins: [tailwindcss()],
+      resolve: {
+        alias: {
+          // Respaldo de exports del package.json fuente (Storybook/Vite).
+          // Al añadir un entry: actualizar también package.json exports + tsconfig paths.
+          '@wiloc/ui/icon/heroicons': resolve(componentsRoot, 'icon/heroicons/src/public-api.ts'),
+          '@wiloc/ui/icon': resolve(componentsRoot, 'icon/src/public-api.ts'),
+          '@wiloc/ui/forms': resolve(componentsRoot, 'forms/src/public-api.ts'),
+          '@wiloc/ui/button': resolve(componentsRoot, 'button/src/public-api.ts'),
+          '@wiloc/ui/core': resolve(componentsRoot, 'core/src/public-api.ts'),
+        },
+      },
     });
   },
 };

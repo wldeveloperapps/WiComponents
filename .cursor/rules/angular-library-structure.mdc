@@ -21,3 +21,49 @@ alwaysApply: true
 - Mantener herramientas como ESLint, Prettier, Husky y ng-packagr como dependencias de desarrollo de la raíz.
 - No mover configuraciones generales dentro de la carpeta de la librería.
 - Antes de modificar nombres o rutas, consultar `angular.json` y `ng-package.json`.
+
+## Entry points secundarios e imports cruzados (obligatorio)
+
+Los dominios viven en carpetas con `ng-package.json` (`button/`, `icon/`, `forms/`, …) y se importan como `@wiloc/ui/{entry}`.
+
+### Imports entre entry points
+
+Dentro de la librería, **no** usar rutas relativas a otro entry (`../../icon/src/...`). Usar siempre el subpath público:
+
+```ts
+import { WiIconComponent } from '@wiloc/ui/icon';
+```
+
+Las rutas relativas rompen `ng build components` (`TS6059` / `rootDir` del secondary entry).
+
+### `exports` en el `package.json` fuente
+
+Storybook (Vite) resuelve `@wiloc/ui/icon` contra [`projects/components/package.json`](projects/components/package.json). Si el subpath no está en `exports`, falla con:
+
+`"./icon" is not exported ... from package .../projects/components`
+
+Al **crear un entry point nuevo** o al **añadir un subpath** (`./icon/heroicons`, etc.):
+
+1. Añadir la clave en `exports` del `package.json` **fuente** apuntando a `src/public-api.ts`.
+2. Añadir el alias equivalente en [`projects/components/.storybook/main.ts`](projects/components/.storybook/main.ts) (`viteFinal` → `resolve.alias`). El alias más específico (`icon/heroicons`) va **antes** que el genérico (`icon`).
+3. Añadir el path en el `tsconfig.json` raíz (`compilerOptions.paths`).
+4. Verificar con `pnpm build:lib` / `ng build components`: ng-packagr **reescribe** esos `exports` en `dist/components/package.json` hacia FESM/DTS (correcto para publicar).
+5. Verificar Storybook (`pnpm storybook`): sin error de `vite-resolve` / exports.
+
+Ejemplo de entrada fuente (desarrollo / Storybook):
+
+```json
+"./icon": {
+  "types": "./icon/src/public-api.ts",
+  "default": "./icon/src/public-api.ts"
+}
+```
+
+### Checklist rápido
+
+- [ ] Import cruzado vía `@wiloc/ui/{entry}`, no relativo
+- [ ] `exports` en `projects/components/package.json`
+- [ ] Alias en `.storybook/main.ts`
+- [ ] Path en `tsconfig.json`
+- [ ] `ng build components` OK
+- [ ] Storybook resuelve el entry sin overlay de Vite

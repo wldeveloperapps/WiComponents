@@ -34,6 +34,26 @@
     "./styles/index.css": {
       "style": "./styles/index.css",
       "default": "./styles/index.css"
+    },
+    "./button": {
+      "types": "./button/src/public-api.ts",
+      "default": "./button/src/public-api.ts"
+    },
+    "./core": {
+      "types": "./core/src/public-api.ts",
+      "default": "./core/src/public-api.ts"
+    },
+    "./forms": {
+      "types": "./forms/src/public-api.ts",
+      "default": "./forms/src/public-api.ts"
+    },
+    "./icon": {
+      "types": "./icon/src/public-api.ts",
+      "default": "./icon/src/public-api.ts"
+    },
+    "./icon/heroicons": {
+      "types": "./icon/heroicons/src/public-api.ts",
+      "default": "./icon/heroicons/src/public-api.ts"
     }
   }
 }

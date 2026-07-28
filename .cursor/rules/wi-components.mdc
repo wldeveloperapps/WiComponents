@@ -560,7 +560,7 @@ Evitar en aplicaciones consumidoras:
 import { WiButtonComponent } from '@wiloc/ui/src/lib/button/wi-button.component';
 ```
 
-Dentro de la propia librería se permiten imports internos controlados, pero no deben terminar expuestos en el paquete publicado.
+**Entre entry points de la propia librería** (p. ej. `forms` → `icon`): usar también `@wiloc/ui/{entry}`, nunca `../../icon/src/...`. Detalle obligatorio (exports + Storybook): regla `angular-library-structure`.
 
 No depender de rutas internas de Spartan o Angular CDK no documentadas.
 
@@ -589,7 +589,8 @@ No crear un entry point nuevo sin comprobar:
 * si el dominio ya existe;
 * si tendrá varios exports;
 * si mejora el árbol de dependencias;
-* si aporta una frontera arquitectónica clara.
+* si aporta una frontera arquitectónica clara;
+* si se actualizaron `exports` del `package.json` fuente, aliases de Storybook y `paths` del `tsconfig` (ver `angular-library-structure`).
 
 ---
 
@@ -942,9 +943,11 @@ Antes de entregar código, comprobar:
 * [ ] Es compatible con zoneless.
 * [ ] Incluye tests.
 * [ ] Incluye historias de Storybook.
-* [ ] Utiliza imports públicos.
+* [ ] Utiliza imports públicos (`@wiloc/ui/...`; cruzados sin rutas relativas).
 * [ ] Está exportado desde el entry point correcto.
+* [ ] Si hay entry/subpath nuevo o import cruzado: `exports` + Storybook alias + `tsconfig` paths.
 * [ ] Está registrado o actualizado en el MCP (`@wiloc/ui-mcp`).
+
 * [ ] El MCP documenta solo API pública (sin Spartan ni rutas internas).
 * [ ] No introduce breaking changes accidentales.
 * [ ] Funciona después de `pnpm pack`.

@@ -13,3 +13,14 @@ export {
   WiSelectSelectedDirective,
   WiSelectTriggerIconDirective,
 } from './wi-select.component';
+
+export type {
+  WiDateDisabled,
+  WiDatepickerSize,
+  WiFormatDate,
+  WiWeekday,
+} from './wi-datepicker.types';
+export type { WiCalendarI18n, WiMonthLabels } from './wi-datepicker.i18n';
+export { provideWiCalendarI18n } from './wi-datepicker.i18n';
+export { WiDatepickerComponent } from './wi-datepicker.component';
+export { WiDateRangeComponent } from './wi-date-range.component';
