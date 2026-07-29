@@ -65,7 +65,7 @@ Checklist de **demanda** extraído del uso real de PrimeNG en la app consumidora
 
 | Capacidad Wi (objetivo) | Origen Prime (referencia)        | Dominio    | Cubo    | Estado  | Notas                                                                                                                         |
 | ----------------------- | -------------------------------- | ---------- | ------- | ------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| Dialog                  | `dialog`                         | `overlays` | base    | planned | composición header/content/footer                                                                                             |
+| Dialog                  | `dialog`                         | `overlays` | base    | done    | composición header/content/footer (`@wiloc/ui/overlays`)                                                                      |
 | Toast service           | `toast` + `MessageService`       | `overlays` | base    | planned | API propia `WiToast*` (no clonar Prime)                                                                                       |
 | Confirm dialog/popup    | `confirmdialog` / `confirmpopup` | `overlays` | base    | planned | API propia `WiConfirm*`                                                                                                       |
 | Menu                    | `menu`                           | `overlays` | base    | planned | acciones contextuales                                                                                                         |
