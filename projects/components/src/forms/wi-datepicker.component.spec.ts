@@ -141,12 +141,24 @@ describe('WiDatepickerComponent', () => {
   it('merges time into the selected date when showTime is enabled', () => {
     fixture.componentRef.setInput('showTime', true);
     fixture.componentRef.setInput('value', new Date(2026, 6, 20, 10, 0, 0, 0));
+    fixture.componentRef.setInput('autoCloseOnSelect', false);
     fixture.detectChanges();
 
-    const event = {
-      target: { value: '14:45' },
-    } as unknown as Event;
-    fixture.componentInstance['onTimeChange'](event);
+    trigger().click();
+    fixture.detectChanges();
+
+    const hourInput = document.querySelectorAll(
+      '.wi-datepicker__time-input',
+    )[0] as HTMLInputElement;
+    const minuteInput = document.querySelectorAll(
+      '.wi-datepicker__time-input',
+    )[1] as HTMLInputElement;
+    expect(hourInput).toBeTruthy();
+    expect(minuteInput).toBeTruthy();
+
+    hourInput.value = '14';
+    minuteInput.value = '45';
+    fixture.componentInstance['commitTimeFromInputs']();
     fixture.detectChanges();
 
     const value = fixture.componentInstance.value();
@@ -156,6 +168,34 @@ describe('WiDatepickerComponent', () => {
     expect(value!.getDate()).toBe(20);
     expect(value!.getHours()).toBe(14);
     expect(value!.getMinutes()).toBe(45);
+  });
+
+  it('commits time on Enter and closes the popover', () => {
+    fixture.componentRef.setInput('showTime', true);
+    fixture.componentRef.setInput('value', new Date(2026, 6, 20, 10, 0, 0, 0));
+    fixture.componentRef.setInput('autoCloseOnSelect', false);
+    fixture.detectChanges();
+
+    trigger().click();
+    fixture.detectChanges();
+    expect(trigger().getAttribute('aria-expanded')).toBe('true');
+
+    const hourInput = document.querySelectorAll(
+      '.wi-datepicker__time-input',
+    )[0] as HTMLInputElement;
+    const minuteInput = document.querySelectorAll(
+      '.wi-datepicker__time-input',
+    )[1] as HTMLInputElement;
+    hourInput.value = '08';
+    minuteInput.value = '15';
+
+    const enter = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true });
+    fixture.componentInstance['onTimeEnter'](enter);
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.value()!.getHours()).toBe(8);
+    expect(fixture.componentInstance.value()!.getMinutes()).toBe(15);
+    expect(trigger().getAttribute('aria-expanded')).toBe('false');
   });
 
   it('preserves existing time when selecting a new day with showTime', () => {
@@ -170,6 +210,86 @@ describe('WiDatepickerComponent', () => {
     expect(value!.getDate()).toBe(25);
     expect(value!.getHours()).toBe(9);
     expect(value!.getMinutes()).toBe(30);
+  });
+
+  it('commits the selected calendar day into value', () => {
+    fixture.componentInstance['onCalendarDateChange'](new Date(2026, 6, 8, 15, 45, 0));
+    fixture.detectChanges();
+
+    const value = fixture.componentInstance.value();
+    expect(value).toBeTruthy();
+    expect(value!.getFullYear()).toBe(2026);
+    expect(value!.getMonth()).toBe(6);
+    expect(value!.getDate()).toBe(8);
+    expect(value!.getHours()).toBe(0);
+    expect(value!.getMinutes()).toBe(0);
+    expect(fixture.componentInstance['calendarDate']()?.getDate()).toBe(8);
+  });
+
+  it('keeps calendarDate in sync with value for panel reopen', () => {
+    const selected = new Date(2026, 6, 8, 0, 0, 0, 0);
+    fixture.componentRef.setInput('value', selected);
+    fixture.detectChanges();
+
+    const calendarDate = fixture.componentInstance['calendarDate']();
+    expect(calendarDate).toBeTruthy();
+    expect(calendarDate!.getFullYear()).toBe(2026);
+    expect(calendarDate!.getMonth()).toBe(6);
+    expect(calendarDate!.getDate()).toBe(8);
+
+    const focused = fixture.componentInstance['focusedDate']();
+    expect(focused.getDate()).toBe(8);
+    expect(focused.getMonth()).toBe(6);
+  });
+
+  it('does not clear value when Brain toggles off and clearable is false', () => {
+    fixture.componentRef.setInput('value', new Date(2026, 6, 8));
+    fixture.componentRef.setInput('clearable', false);
+    fixture.detectChanges();
+
+    fixture.componentInstance['onCalendarDateChange'](undefined);
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.value()?.getDate()).toBe(8);
+    expect(fixture.componentInstance['calendarDate']()?.getDate()).toBe(8);
+  });
+
+  it('clears value when Brain toggles off and clearable is true', () => {
+    fixture.componentRef.setInput('value', new Date(2026, 6, 8));
+    fixture.componentRef.setInput('clearable', true);
+    fixture.detectChanges();
+
+    fixture.componentInstance['onCalendarDateChange'](undefined);
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.value()).toBeNull();
+    expect(fixture.componentInstance['calendarDate']()).toBeUndefined();
+  });
+
+  it('applies selected-day Tailwind variants with data-[selected-single=true]', () => {
+    expect(fixture.componentInstance['dayButtonClasses']).toContain(
+      'data-[selected-single=true]:bg-primary',
+    );
+  });
+
+  it('marks the selected day when the popover opens', async () => {
+    fixture.componentRef.setInput('value', new Date(2026, 6, 9));
+    fixture.componentRef.setInput('autoCloseOnSelect', false);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    trigger().click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    // Overlay content may need a second turn for the sync effect.
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const selected = document.querySelector(
+      '.wi-datepicker__day[data-selected-single="true"]',
+    ) as HTMLButtonElement | null;
+    expect(selected).toBeTruthy();
+    expect(selected!.textContent?.trim()).toBe('9');
   });
 
   it('works with Reactive Forms ControlValueAccessor', async () => {

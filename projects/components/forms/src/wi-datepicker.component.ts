@@ -2,11 +2,15 @@ import {
   booleanAttribute,
   Component,
   computed,
+  effect,
+  ElementRef,
   forwardRef,
   input,
+  linkedSignal,
   model,
   output,
   signal,
+  untracked,
   viewChild,
 } from '@angular/core';
 import { type ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -64,7 +68,7 @@ const TRIGGER_BASE_CLASSES = [
   'disabled:opacity-50',
   'aria-invalid:border-error',
   'aria-invalid:focus-visible:ring-error',
-  'data-placeholder:text-on-surface-variant',
+  'data-[placeholder]:text-on-surface-variant',
 ].join(' ');
 
 const TRIGGER_SIZE_CLASSES: Record<WiDatepickerSize, string> = {
@@ -87,6 +91,7 @@ const PANEL_CLASSES = [
   'p-3',
 ].join(' ');
 
+/** Variantes `data-[…=true]` alineadas con BrnCalendarCellButton / Helm. */
 const DAY_BUTTON_CLASSES = [
   'wi-datepicker__day',
   'inline-flex',
@@ -100,15 +105,15 @@ const DAY_BUTTON_CLASSES = [
   'hover:bg-surface-variant',
   'focus-visible:ring-2',
   'focus-visible:ring-ring',
-  'data-outside:text-on-surface-variant',
-  'data-outside:opacity-60',
-  'data-today:border',
-  'data-today:border-outline',
-  'data-selected-single:bg-primary',
-  'data-selected-single:text-on-primary',
-  'data-selected-single:hover:bg-primary',
-  'data-disabled:pointer-events-none',
-  'data-disabled:opacity-40',
+  'data-[outside=true]:text-on-surface-variant',
+  'data-[outside=true]:opacity-60',
+  'data-[today=true]:border',
+  'data-[today=true]:border-outline',
+  'data-[selected-single=true]:bg-primary',
+  'data-[selected-single=true]:text-on-primary',
+  'data-[selected-single=true]:hover:bg-primary',
+  'data-[disabled=true]:pointer-events-none',
+  'data-[disabled=true]:opacity-40',
 ].join(' ');
 
 const NAV_BUTTON_CLASSES = [
@@ -129,11 +134,13 @@ const NAV_BUTTON_CLASSES = [
 const TIME_INPUT_CLASSES = [
   'wi-datepicker__time-input',
   'h-control-sm',
+  'w-12',
   'rounded-control',
   'border',
   'border-outline',
   'bg-surface',
-  'px-2',
+  'px-1',
+  'text-center',
   'text-sm',
   'text-on-surface',
   'outline-none',
@@ -258,7 +265,7 @@ function pad2(value: number): string {
             [disabled]="isDisabled() || readonly()"
             [dateDisabled]="dateDisabled()"
             [weekStartsOn]="weekStartsOn()"
-            [defaultFocusedDate]="calendarDate() ?? undefined"
+            [defaultFocusedDate]="focusedDate()"
             (dateChange)="onCalendarDateChange($event)"
           >
             <div class="mb-2 flex items-center justify-between gap-1">
@@ -338,19 +345,46 @@ function pad2(value: number): string {
             <div
               class="wi-datepicker__time mt-3 flex items-center gap-2 border-t border-outline pt-3"
             >
-              <label class="text-sm text-on-surface-variant" [attr.for]="timeInputId()">
+              <span class="text-sm text-on-surface-variant" [id]="timeInputId() + '-label'">
                 {{ timeLabel() }}
-              </label>
-              <input
-                [id]="timeInputId()"
-                type="time"
-                [class]="timeInputClasses"
-                [value]="timeValue()"
-                [disabled]="isDisabled() || readonly() || !hasValue()"
-                [attr.aria-label]="timeLabel()"
-                (change)="onTimeChange($event)"
-                (input)="onTimeChange($event)"
-              />
+              </span>
+              <div
+                class="wi-datepicker__time-fields flex items-center gap-1"
+                role="group"
+                [attr.aria-labelledby]="timeInputId() + '-label'"
+              >
+                <input
+                  #hourInput
+                  [id]="timeInputId() + '-hour'"
+                  type="text"
+                  inputmode="numeric"
+                  maxlength="2"
+                  placeholder="HH"
+                  autocomplete="off"
+                  [class]="timeInputClasses"
+                  [disabled]="isDisabled() || readonly() || !hasValue()"
+                  [attr.aria-label]="timeLabel() + ' (hora)'"
+                  (focus)="onTimeFocus()"
+                  (blur)="onTimeBlur()"
+                  (keydown.enter)="onTimeEnter($event)"
+                />
+                <span class="text-sm text-on-surface-variant" aria-hidden="true">:</span>
+                <input
+                  #minuteInput
+                  [id]="timeInputId() + '-minute'"
+                  type="text"
+                  inputmode="numeric"
+                  maxlength="2"
+                  placeholder="MM"
+                  autocomplete="off"
+                  [class]="timeInputClasses"
+                  [disabled]="isDisabled() || readonly() || !hasValue()"
+                  [attr.aria-label]="timeLabel() + ' (minuto)'"
+                  (focus)="onTimeFocus()"
+                  (blur)="onTimeBlur()"
+                  (keydown.enter)="onTimeEnter($event)"
+                />
+              </div>
             </div>
           }
         </div>
@@ -363,9 +397,62 @@ export class WiDatepickerComponent implements ControlValueAccessor, FormValueCon
   private readonly calendarI18n = injectBrnCalendarI18n();
   private readonly popover = viewChild(BrnPopover);
   private readonly calendar = viewChild(BrnCalendar);
+  private readonly hourInput = viewChild<ElementRef<HTMLInputElement>>('hourInput');
+  private readonly minuteInput = viewChild<ElementRef<HTMLInputElement>>('minuteInput');
 
   /** Valor del control (Signal Forms + two-way binding). */
   readonly value = model<Date | null>(null);
+
+  /** Evita reescribir los inputs de hora mientras el usuario escribe. */
+  private readonly timeEditing = signal(false);
+
+  constructor() {
+    // El calendario vive en el portal del popover: el `model` `date` no siempre
+    // recibe el one-way `[date]` al montar. Forzamos selección al abrir.
+    // Importante: NO usar `setFocusedDate` aquí — enfoca la celda del día y
+    // roba el foco de los inputs de hora.
+    effect(() => {
+      const cal = this.calendar();
+      const selected = this.calendarDate();
+      if (!cal || this.timeEditing()) {
+        return;
+      }
+      untracked(() => {
+        const current = cal.date();
+        const same =
+          current === selected ||
+          (current != null && selected != null && this.dateAdapter.isSameDay(current, selected));
+        if (!same) {
+          cal.date.set(selected);
+        }
+        if (selected) {
+          const focused = cal.focusedDate();
+          if (!this.dateAdapter.isSameDay(focused, selected)) {
+            cal.focusedDate.set(selected);
+          }
+        }
+      });
+    });
+
+    // Sincroniza HH/MM solo cuando no se está editando.
+    effect(() => {
+      const current = this.value();
+      const editing = this.timeEditing();
+      const hourEl = this.hourInput()?.nativeElement;
+      const minuteEl = this.minuteInput()?.nativeElement;
+      if (!hourEl || !minuteEl || editing) {
+        return;
+      }
+      const hours = current ? pad2(current.getHours()) : '';
+      const minutes = current ? pad2(current.getMinutes()) : '';
+      if (hourEl.value !== hours) {
+        hourEl.value = hours;
+      }
+      if (minuteEl.value !== minutes) {
+        minuteEl.value = minutes;
+      }
+    });
+  }
 
   readonly size = input<WiDatepickerSize>('md');
   readonly placeholder = input('');
@@ -429,7 +516,17 @@ export class WiDatepickerComponent implements ControlValueAccessor, FormValueCon
     return !this.showTime();
   });
 
-  protected readonly calendarDate = computed(() => this.value() ?? undefined);
+  /**
+   * Fecha del calendario Brain (writable). Se sincroniza con `value` y admite
+   * escrituras locales al seleccionar / al deshacer el toggle de Brain.
+   */
+  protected readonly calendarDate = linkedSignal<Date | undefined>(() => {
+    const current = this.value();
+    return current ? this.dateAdapter.startOfDay(current) : undefined;
+  });
+
+  /** Mes / día enfocado al abrir el panel (selección actual o hoy). */
+  protected readonly focusedDate = computed(() => this.calendarDate() ?? this.dateAdapter.now());
 
   protected readonly displayText = computed(() => {
     const current = this.value();
@@ -454,14 +551,6 @@ export class WiDatepickerComponent implements ControlValueAccessor, FormValueCon
       month: 'short',
       day: 'numeric',
     });
-  });
-
-  protected readonly timeValue = computed(() => {
-    const current = this.value();
-    if (!current) {
-      return '';
-    }
-    return `${pad2(current.getHours())}:${pad2(current.getMinutes())}`;
   });
 
   protected readonly headerLabel = computed(() => {
@@ -514,23 +603,39 @@ export class WiDatepickerComponent implements ControlValueAccessor, FormValueCon
       return;
     }
 
+    // Brain hace toggle: re-clicar el día seleccionado emite `undefined`.
     if (!date) {
       if (this.clearable()) {
+        this.calendarDate.set(undefined);
         this.commit(null);
+      } else {
+        this.calendarDate.set(
+          this.value() ? this.dateAdapter.startOfDay(this.value()!) : undefined,
+        );
       }
       return;
     }
 
-    const next = new Date(date.getTime());
-    if (!this.showTime()) {
-      next.setHours(0, 0, 0, 0);
-    } else {
+    let next = this.dateAdapter.startOfDay(date);
+    if (this.showTime()) {
       const current = this.value();
       if (current) {
+        next = new Date(next.getTime());
         next.setHours(current.getHours(), current.getMinutes(), current.getSeconds(), 0);
-      } else {
-        next.setHours(0, 0, 0, 0);
       }
+    }
+
+    this.calendarDate.set(next);
+
+    // Evita cerrar el panel cuando el effect re-aplica la selección al abrir.
+    const current = this.value();
+    const alreadySelected =
+      current != null &&
+      this.dateAdapter.isSameDay(current, next) &&
+      (!this.showTime() ||
+        (current.getHours() === next.getHours() && current.getMinutes() === next.getMinutes()));
+    if (alreadySelected) {
+      return;
     }
 
     this.commit(next);
@@ -540,7 +645,35 @@ export class WiDatepickerComponent implements ControlValueAccessor, FormValueCon
     }
   }
 
-  protected onTimeChange(event: Event): void {
+  protected onTimeFocus(): void {
+    this.timeEditing.set(true);
+  }
+
+  protected onTimeBlur(): void {
+    // Al pasar de hora → minuto el blur dispara antes del focus del otro campo.
+    // Aplazamos el commit para no pisar la edición en curso.
+    queueMicrotask(() => {
+      const hourEl = this.hourInput()?.nativeElement;
+      const minuteEl = this.minuteInput()?.nativeElement;
+      const active = typeof document !== 'undefined' ? document.activeElement : null;
+      if (active === hourEl || active === minuteEl) {
+        return;
+      }
+      this.commitTimeFromInputs();
+      this.timeEditing.set(false);
+    });
+  }
+
+  /** Confirma la hora y cierra el panel. */
+  protected onTimeEnter(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.commitTimeFromInputs();
+    this.timeEditing.set(false);
+    this.popover()?.close();
+  }
+
+  private commitTimeFromInputs(): void {
     if (this.isDisabled() || this.readonly()) {
       return;
     }
@@ -550,21 +683,41 @@ export class WiDatepickerComponent implements ControlValueAccessor, FormValueCon
       return;
     }
 
-    const raw = (event.target as HTMLInputElement).value;
-    if (!raw) {
+    const hourEl = this.hourInput()?.nativeElement;
+    const minuteEl = this.minuteInput()?.nativeElement;
+    if (!hourEl || !minuteEl) {
       return;
     }
 
-    const [hoursText, minutesText] = raw.split(':');
-    const hours = Number(hoursText);
-    const minutes = Number(minutesText);
-    if (Number.isNaN(hours) || Number.isNaN(minutes)) {
+    const hours = this.parseTimePart(hourEl.value, 23);
+    const minutes = this.parseTimePart(minuteEl.value, 59);
+    if (hours === null || minutes === null) {
+      hourEl.value = pad2(current.getHours());
+      minuteEl.value = pad2(current.getMinutes());
+      return;
+    }
+
+    hourEl.value = pad2(hours);
+    minuteEl.value = pad2(minutes);
+
+    if (current.getHours() === hours && current.getMinutes() === minutes) {
       return;
     }
 
     const next = new Date(current.getTime());
     next.setHours(hours, minutes, 0, 0);
     this.commit(next);
+  }
+
+  private parseTimePart(raw: string, max: number): number | null {
+    if (raw.trim() === '') {
+      return null;
+    }
+    const value = Number(raw);
+    if (!Number.isInteger(value) || value < 0 || value > max) {
+      return null;
+    }
+    return value;
   }
 
   protected onClear(event: Event): void {

@@ -96,7 +96,7 @@
           [clearLabel]="t().clear"
         />
         <p class="text-sm text-on-surface-variant">
-          {{ t().value }}: {{ date() ? date()!.toISOString().slice(0, 10) : '—' }}
+          {{ t().value }}: {{ date() ? formatLocalDate(date()!) : '—' }}
         </p>
       </section>
 

@@ -3831,7 +3831,7 @@ packages:
     resolution: {integrity: sha512-6aN99yL695Hi9SuIk1oC88l9o0gmxL1nGWWQ/kNy81HigJ0FoaoTXpytCj6ItzgyCEwA9kF1wixsTuv5cjsgng==}
 
   '@wiloc/ui@file:dist/wiloc-ui-0.0.1.tgz':
-    resolution: {integrity: sha512-tJwudSwK23Up0FOX5KXeSFVNb75HV/cf6ZAgcv88Xut/QI8mItcSZ/IaZL+werCnTF0B6C9+w56iijTufAMfQw==, tarball: file:dist/wiloc-ui-0.0.1.tgz}
+    resolution: {integrity: sha512-lGgipjCEhqxXsYdAhIetuGKXVB2UoYWJFNJSjxw4F/ZLMm2+ZK7/5xy+bhM0h0ZlpZsbsVwz1QoWGmCFuKhTJg==, tarball: file:dist/wiloc-ui-0.0.1.tgz}
     version: 0.0.1
     peerDependencies:
       '@angular/cdk': ^22.0.0

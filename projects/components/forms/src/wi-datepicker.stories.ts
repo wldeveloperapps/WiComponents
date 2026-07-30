@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { applicationConfig, moduleMetadata } from '@storybook/angular-vite';
-import { JsonPipe } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { provideWiIcons } from '../../icon/src/public-api';
@@ -8,6 +7,27 @@ import { WI_HEROICONS_CURATED } from '../../icon/heroicons/src/curated';
 import { WiDatepickerComponent } from './wi-datepicker.component';
 import { WiDateRangeComponent } from './wi-date-range.component';
 import { provideWiCalendarI18n, type WiMonthLabels } from './wi-datepicker.i18n';
+
+/** YYYY-MM-DD en zona local (evitar el desfase de `Date.toISOString()` / `json`). */
+function formatLocalDate(date: Date | null | undefined): string {
+  if (!date) {
+    return '—';
+  }
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+/** YYYY-MM-DD HH:mm en zona local. */
+function formatLocalDateTime(date: Date | null | undefined): string {
+  if (!date) {
+    return '—';
+  }
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  return `${formatLocalDate(date)} ${hours}:${minutes}`;
+}
 
 const EN_MONTHS: WiMonthLabels = [
   'January',
@@ -41,10 +61,32 @@ const meta: Meta<WiDatepickerComponent> = {
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
+    controls: {
+      exclude: [
+        'calendarDate',
+        'focusedDate',
+        'displayText',
+        'hasValue',
+        'headerLabel',
+        'isDisabled',
+        'popoverState',
+        'resolvedAriaLabel',
+        'resolvedId',
+        'shouldAutoClose',
+        'timeInputId',
+        'timeValue',
+        'triggerClasses',
+        'dayButtonClasses',
+        'navButtonClasses',
+        'panelClasses',
+        'timeInputClasses',
+        'touch',
+      ],
+    },
     docs: {
       description: {
         component:
-          'Selector de fecha (y hora opcional). Locale del calendario vía `provideWiCalendarI18n` (la app provee el copy; ver Documentation/I18n). Rango con `wi-date-range` (dos pickers). Requiere CSS de overlays CDK/Spartan e icono `calendar` registrado.',
+          'Selector de fecha (y hora opcional). Locale del calendario vía `provideWiCalendarI18n` (la app provee el copy; ver Documentation/I18n). Rango con `wi-date-range` (dos pickers). Requiere CSS de overlays CDK/Spartan e icono `calendar` registrado. El valor es un `Date` en hora local; no uses `toISOString()` / `json` para mostrar el día civil.',
       },
     },
   },
@@ -60,7 +102,7 @@ const meta: Meta<WiDatepickerComponent> = {
       ],
     }),
     moduleMetadata({
-      imports: [WiDatepickerComponent, WiDateRangeComponent, ReactiveFormsModule, JsonPipe],
+      imports: [WiDatepickerComponent, WiDateRangeComponent, ReactiveFormsModule],
     }),
   ],
   argTypes: {
@@ -102,6 +144,7 @@ export const Default: Story = {
     props: {
       ...args,
       value: null as Date | null,
+      formatLocalDate,
     },
     template: `
       <div style="width:20rem;">
@@ -119,7 +162,9 @@ export const Default: Story = {
           [timeLabel]="timeLabel"
           [ariaLabel]="ariaLabel"
         />
-        <p style="margin-top:0.75rem;font-size:0.875rem;opacity:0.7;">{{ value | json }}</p>
+        <p style="margin-top:0.75rem;font-size:0.875rem;opacity:0.7;">
+          Valor: {{ formatLocalDate(value) }}
+        </p>
       </div>
     `,
   }),
@@ -196,6 +241,7 @@ export const WithTime: Story = {
   render: () => ({
     props: {
       value: null as Date | null,
+      formatLocalDateTime,
     },
     template: `
       <div style="width:20rem;">
@@ -207,7 +253,9 @@ export const WithTime: Story = {
           timeLabel="Hora"
           ariaLabel="Fecha y hora"
         />
-        <p style="margin-top:0.75rem;font-size:0.875rem;opacity:0.7;">{{ value | json }}</p>
+        <p style="margin-top:0.75rem;font-size:0.875rem;opacity:0.7;">
+          Valor: {{ formatLocalDateTime(value) }}
+        </p>
       </div>
     `,
   }),
@@ -218,6 +266,7 @@ export const Range: Story = {
     props: {
       start: null as Date | null,
       end: null as Date | null,
+      formatLocalDate,
     },
     template: `
       <div style="width:36rem;">
@@ -231,7 +280,7 @@ export const Range: Story = {
           endAriaLabel="Fecha fin"
         />
         <p style="margin-top:0.75rem;font-size:0.875rem;opacity:0.7;">
-          start: {{ start | json }} — end: {{ end | json }}
+          start: {{ formatLocalDate(start) }} — end: {{ formatLocalDate(end) }}
         </p>
       </div>
     `,
@@ -341,11 +390,12 @@ export const ReactiveForms: Story = {
       control: new FormControl<Date | null>(null),
       startControl: new FormControl<Date | null>(null),
       endControl: new FormControl<Date | null>(null),
+      formatLocalDate,
     },
     template: `
       <div style="display:flex;flex-direction:column;gap:1.5rem;width:36rem;">
         <wi-datepicker [formControl]="control" clearable placeholder="FormControl" ariaLabel="Fecha form" />
-        <p style="font-size:0.875rem;opacity:0.7;">{{ control.value | json }}</p>
+        <p style="font-size:0.875rem;opacity:0.7;">Valor: {{ formatLocalDate(control.value) }}</p>
 
         <div style="display:flex;gap:0.75rem;">
           <wi-datepicker
