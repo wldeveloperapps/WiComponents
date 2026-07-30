@@ -99,6 +99,30 @@
           {{ t().value }}: {{ date() ? date()!.toISOString().slice(0, 10) : '—' }}
         </p>
       </section>
+
+      <section class="flex flex-col gap-3" aria-labelledby="dialog-heading">
+        <h2 id="dialog-heading" class="text-sm font-medium text-on-surface">{{ t().dialog }}</h2>
+        <wi-dialog size="md">
+          <wi-button type="button" variant="outline" wiDialogTrigger>{{
+            t().openDialog
+          }}</wi-button>
+          <ng-template wiDialogPortal>
+            <wi-dialog-content [closeLabel]="t().closeDialog">
+              <wi-dialog-header>
+                <wi-dialog-title>{{ t().dialogTitle }}</wi-dialog-title>
+                <wi-dialog-description>{{ t().dialogDescription }}</wi-dialog-description>
+              </wi-dialog-header>
+              <p class="min-w-0 text-sm text-on-surface">{{ t().dialogBody }}</p>
+              <wi-dialog-footer>
+                <wi-button type="button" variant="secondary" wiDialogClose>
+                  {{ t().secondary }}
+                </wi-button>
+                <wi-button type="button" wiDialogClose>{{ t().primary }}</wi-button>
+              </wi-dialog-footer>
+            </wi-dialog-content>
+          </ng-template>
+        </wi-dialog>
+      </section>
     </wi-card-content>
     <wi-card-footer class="justify-end">
       <wi-button type="button" variant="outline" size="sm">{{ t().secondary }}</wi-button>

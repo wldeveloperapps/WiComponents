@@ -81,6 +81,12 @@ interface UiMessages {
   datepicker: string;
   dateAria: string;
   openCalendar: string;
+  dialog: string;
+  openDialog: string;
+  dialogTitle: string;
+  dialogDescription: string;
+  dialogBody: string;
+  closeDialog: string;
   fruits: readonly [string, string, string];
 }
 
@@ -108,6 +114,12 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     datepicker: 'Datepicker',
     dateAria: 'Fecha',
     openCalendar: 'Abrir calendario',
+    dialog: 'Dialog',
+    openDialog: 'Abrir dialog',
+    dialogTitle: 'Editar sitio',
+    dialogDescription: 'Los cambios se aplican al guardar.',
+    dialogBody: 'Contenido de ejemplo del dialog en el smoke del paquete.',
+    closeDialog: 'Cerrar',
     fruits: ['Manzana', 'Naranja', 'Plátano'],
   },
   en: {
@@ -133,6 +145,12 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     datepicker: 'Datepicker',
     dateAria: 'Date',
     openCalendar: 'Open calendar',
+    dialog: 'Dialog',
+    openDialog: 'Open dialog',
+    dialogTitle: 'Edit site',
+    dialogDescription: 'Changes apply when you save.',
+    dialogBody: 'Sample dialog content in the packaged library smoke test.',
+    closeDialog: 'Close',
     fruits: ['Apple', 'Orange', 'Banana'],
   },
 };

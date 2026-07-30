@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideWiCalendarI18n } from '@wiloc/ui/forms';
 import { provideWiIcons } from '@wiloc/ui/icon';
-import { calendarOutline } from '@wiloc/ui/icon/heroicons';
+import { calendarOutline, xMarkOutline } from '@wiloc/ui/icon/heroicons';
 
 import { App } from './app';
 import { createCalendarI18n, setAppLocale } from './locale';
@@ -14,6 +14,7 @@ describe('App', () => {
       providers: [
         provideWiIcons({
           calendar: { outline: calendarOutline },
+          'x-mark': { outline: xMarkOutline },
         }),
         provideWiCalendarI18n(createCalendarI18n()),
       ],

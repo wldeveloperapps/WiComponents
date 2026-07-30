@@ -12,7 +12,18 @@ import {
 } from '@wiloc/ui/data-display';
 import { WiDatepickerComponent, WiInputComponent, WiSelectComponent } from '@wiloc/ui/forms';
 import { WiIconComponent } from '@wiloc/ui/icon';
-import { WiTooltipDirective } from '@wiloc/ui/overlays';
+import {
+  WiDialogCloseDirective,
+  WiDialogComponent,
+  WiDialogContentComponent,
+  WiDialogDescriptionComponent,
+  WiDialogFooterComponent,
+  WiDialogHeaderComponent,
+  WiDialogPortalDirective,
+  WiDialogTitleComponent,
+  WiDialogTriggerDirective,
+  WiTooltipDirective,
+} from '@wiloc/ui/overlays';
 
 import { appLocale, toggleAppLocale, uiMessages } from './locale';
 
@@ -28,6 +39,15 @@ import { appLocale, toggleAppLocale, uiMessages } from './locale';
     WiCardHeaderComponent,
     WiCardTitleComponent,
     WiDatepickerComponent,
+    WiDialogCloseDirective,
+    WiDialogComponent,
+    WiDialogContentComponent,
+    WiDialogDescriptionComponent,
+    WiDialogFooterComponent,
+    WiDialogHeaderComponent,
+    WiDialogPortalDirective,
+    WiDialogTitleComponent,
+    WiDialogTriggerDirective,
     WiIconComponent,
     WiInputComponent,
     WiSelectComponent,

@@ -9,6 +9,7 @@ import {
   plusOutline,
   sunOutline,
   trashOutline,
+  xMarkOutline,
 } from '@wiloc/ui/icon/heroicons';
 
 import { routes } from './app.routes';
@@ -25,6 +26,7 @@ export const appConfig: ApplicationConfig = {
       plus: { outline: plusOutline },
       sun: { outline: sunOutline },
       trash: { outline: trashOutline },
+      'x-mark': { outline: xMarkOutline },
     }),
     provideWiCalendarI18n(createCalendarI18n()),
   ],
