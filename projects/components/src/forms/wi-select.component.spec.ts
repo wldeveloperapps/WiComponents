@@ -155,6 +155,26 @@ describe('WiSelectComponent', () => {
     expect(fixture.componentInstance.value()).toBe('One');
   });
 
+  it('marks the selected option with aria-selected when the panel reopens', async () => {
+    fixture.componentInstance.value.set('Two');
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    trigger().click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const options = Array.from(document.querySelectorAll('[brnSelectItem]')) as HTMLElement[];
+    expect(options).toHaveLength(3);
+    expect(options[0]?.getAttribute('aria-selected')).toBe('false');
+    expect(options[1]?.getAttribute('aria-selected')).toBe('true');
+    expect(options[2]?.getAttribute('aria-selected')).toBe('false');
+    expect(options[1]?.className).toContain('group');
+    expect(options[1]?.querySelector('.wi-select__check')?.getAttribute('class')).toContain(
+      'group-aria-selected:opacity-100',
+    );
+  });
+
   it('clears value when clearable and clear is clicked', async () => {
     fixture.componentRef.setInput('clearable', true);
     fixture.componentRef.setInput('clearLabel', 'Limpiar');

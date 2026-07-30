@@ -89,6 +89,7 @@ const PANEL_CLASSES = [
 
 const OPTION_CLASSES = [
   'wi-select__option',
+  'group',
   'relative',
   'flex',
   'w-full',
@@ -104,7 +105,15 @@ const OPTION_CLASSES = [
   'data-highlighted:bg-surface-variant',
   'data-disabled:pointer-events-none',
   'data-disabled:opacity-50',
-  'aria-selected:[&_.wi-select__check]:opacity-100',
+].join(' ');
+
+/** Check visible when Spartan sets `aria-selected="true"` on the option (`group`). */
+const OPTION_CHECK_CLASSES = [
+  'wi-select__check',
+  'size-4',
+  'shrink-0',
+  'opacity-0',
+  'group-aria-selected:opacity-100',
 ].join(' ');
 
 let nextSelectId = 0;
@@ -300,7 +309,7 @@ export class WiSelectTriggerIconDirective {
                     }
                   </span>
                   <svg
-                    class="wi-select__check size-4 shrink-0 opacity-0"
+                    [class]="optionCheckClasses"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -426,7 +435,7 @@ export class WiSelectTriggerIconDirective {
                     }
                   </span>
                   <svg
-                    class="wi-select__check size-4 shrink-0 opacity-0"
+                    [class]="optionCheckClasses"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -502,6 +511,7 @@ export class WiSelectComponent implements ControlValueAccessor, FormValueControl
 
   protected readonly panelClasses = PANEL_CLASSES;
   protected readonly optionClasses = OPTION_CLASSES;
+  protected readonly optionCheckClasses = OPTION_CHECK_CLASSES;
 
   protected readonly resolvedId = computed(() => this.id() ?? this.generatedId);
 
