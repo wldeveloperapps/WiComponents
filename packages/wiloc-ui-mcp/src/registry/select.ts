@@ -29,7 +29,8 @@ export const wiSelectRegistryEntry = {
       name: 'multiple',
       type: 'boolean',
       default: false,
-      description: 'Activa selección múltiple. Tratar como estático (cambia la forma del valor)',
+      description:
+        'Activa selección múltiple. Los valores se muestran como chips con aspa para quitarlos. Tratar como estático (cambia la forma del valor)',
     },
     {
       name: 'options',
@@ -85,6 +86,13 @@ export const wiSelectRegistryEntry = {
       type: 'string',
       default: 'Clear',
       description: 'aria-label del botón clear (inyectable / i18n app)',
+    },
+    {
+      name: 'removeChipLabel',
+      type: 'string',
+      default: 'Remove',
+      description:
+        'Prefijo del aria-label del aspa de cada chip en multiple (resultado: `${removeChipLabel} ${label}`)',
     },
     {
       name: 'id',
@@ -166,7 +174,7 @@ export const wiSelectRegistryEntry = {
     'typeahead',
   ],
   a11yNotes:
-    'Trigger role=combobox + listbox. Asociar label vía id o ariaLabel. Icono de trigger decorativo (aria-hidden); registrar el glifo con provideWiIcons. clearLabel obligatorio si clearable. Textos i18n (placeholder, emptyText, clearLabel, ariaLabel) los provee la app; @wiloc/ui no incluye diccionarios. Requiere CSS de overlays CDK/Spartan en la app.',
+    'Trigger role=combobox + listbox. Asociar label vía id o ariaLabel. Icono de trigger decorativo (aria-hidden); registrar el glifo con provideWiIcons. clearLabel obligatorio si clearable. En multiple, cada chip tiene aspa con aria-label vía removeChipLabel. Textos i18n (placeholder, emptyText, clearLabel, removeChipLabel, ariaLabel) los provee la app; @wiloc/ui no incluye diccionarios. Requiere CSS de overlays CDK/Spartan en la app.',
   example: {
     import: `import { WiSelectComponent } from '@wiloc/ui/forms';
 import { provideWiIcons } from '@wiloc/ui/icon';
@@ -175,14 +183,15 @@ import { funnelOutline } from '@wiloc/ui/icon/heroicons';
 provideWiIcons({ funnel: { outline: funnelOutline } });`,
     template: `<!-- i18n: strings desde la app -->
 <wi-select
-  [(value)]="nationality"
+  multiple
+  [(value)]="nationalities"
   [options]="options"
-  icon="funnel"
   placeholder="Selecciona…"
   emptyText="Sin opciones"
   clearable
   clearLabel="Limpiar"
-  ariaLabel="Nacionalidad"
+  removeChipLabel="Quitar"
+  ariaLabel="Nacionalidades"
 />`,
   },
 } as const;

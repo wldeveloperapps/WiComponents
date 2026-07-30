@@ -214,6 +214,54 @@ describe('WiSelectComponent', () => {
     expect(fixture.componentInstance.value()).toEqual(['One', 'Two']);
   });
 
+  it('renders removable chips for multiple selection', async () => {
+    fixture.componentRef.setInput('multiple', true);
+    fixture.componentRef.setInput('removeChipLabel', 'Quitar');
+    fixture.componentInstance.value.set(['One', 'Three']);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const chips = Array.from(
+      fixture.nativeElement.querySelectorAll('.wi-select__chip'),
+    ) as HTMLElement[];
+    expect(chips).toHaveLength(2);
+    expect(chips[0]?.textContent).toContain('One');
+    expect(chips[1]?.textContent).toContain('Three');
+
+    const removeThree = chips[1]?.querySelector('.wi-select__chip-remove') as HTMLElement | null;
+    expect(removeThree?.getAttribute('aria-label')).toBe('Quitar Three');
+    removeThree?.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(fixture.componentInstance.value()).toEqual(['One']);
+    expect(fixture.nativeElement.querySelectorAll('.wi-select__chip')).toHaveLength(1);
+  });
+
+  it('keeps the panel open when removing a chip while expanded', async () => {
+    fixture.componentRef.setInput('multiple', true);
+    fixture.componentInstance.value.set(['One', 'Two']);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    trigger().click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(trigger().getAttribute('aria-expanded')).toBe('true');
+
+    const removeFirst = fixture.nativeElement.querySelector(
+      '.wi-select__chip-remove',
+    ) as HTMLElement | null;
+    removeFirst?.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
+    removeFirst?.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(fixture.componentInstance.value()).toEqual(['Two']);
+    expect(trigger().getAttribute('aria-expanded')).toBe('true');
+    expect(document.querySelector('[brnSelectContent]')).toBeTruthy();
+  });
+
   it('resolves optionLabel and optionValue for object options', async () => {
     fixture.componentRef.setInput('options', [
       { id: 's1', name: 'Site One' },

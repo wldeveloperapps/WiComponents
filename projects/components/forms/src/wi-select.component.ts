@@ -71,6 +71,74 @@ const TRIGGER_SIZE_CLASSES: Record<WiSelectSize, string> = {
   lg: 'h-control-lg px-4 text-base',
 };
 
+/** Contenedor visual del trigger multi (chips + chevron). */
+const MULTI_TRIGGER_BASE_CLASSES = [
+  'wi-select__trigger',
+  'wi-select__trigger--multiple',
+  'flex',
+  'w-full',
+  'min-w-0',
+  'items-center',
+  'gap-2',
+  'rounded-control',
+  'border',
+  'border-outline',
+  'bg-surface',
+  'text-on-surface',
+  'transition-colors',
+  'outline-none',
+  'focus-visible:ring-2',
+  'focus-visible:ring-ring',
+  'focus-visible:ring-offset-2',
+  'focus-visible:ring-offset-background',
+  'disabled:pointer-events-none',
+  'disabled:cursor-not-allowed',
+  'disabled:opacity-50',
+  'aria-invalid:border-error',
+  'aria-invalid:focus-visible:ring-error',
+  'data-placeholder:text-on-surface-variant',
+].join(' ');
+
+const MULTI_TRIGGER_SIZE_CLASSES: Record<WiSelectSize, string> = {
+  sm: 'min-h-(--height-control-sm) px-2 py-1 text-sm',
+  md: 'min-h-(--height-control-md) px-2 py-1 text-sm',
+  lg: 'min-h-(--height-control-lg) px-3 py-1.5 text-base',
+};
+
+const CHIP_CLASSES = [
+  'wi-select__chip',
+  'inline-flex',
+  'max-w-full',
+  'items-center',
+  'gap-1',
+  'rounded-control',
+  'bg-surface-variant',
+  'px-1.5',
+  'py-0.5',
+  'text-xs',
+  'text-on-surface',
+].join(' ');
+
+/** Span (no button) para no anidar botones dentro del trigger; el aspa no debe cerrar el panel. */
+const CHIP_REMOVE_CLASSES = [
+  'wi-select__chip-remove',
+  'inline-flex',
+  'size-4',
+  'shrink-0',
+  'items-center',
+  'justify-center',
+  'rounded-control',
+  'text-on-surface-variant',
+  'transition-colors',
+  'hover:bg-outline-variant',
+  'hover:text-on-surface',
+  'focus-visible:outline-none',
+  'focus-visible:ring-2',
+  'focus-visible:ring-ring',
+  'aria-disabled:pointer-events-none',
+  'aria-disabled:opacity-50',
+].join(' ');
+
 const PANEL_CLASSES = [
   'wi-select__panel',
   'z-50',
@@ -171,6 +239,7 @@ export class WiSelectTriggerIconDirective {
  * Select del design system (`wi-select`).
  *
  * - Single o multi vía `multiple` (estático; no cambiar en runtime).
+ * - Multi: chips con aspa para quitar ítems individualmente.
  * - Sin búsqueda (no combobox).
  * - Icono de trigger: input `icon` (nombre registrado en `provideWiIcons`) o template `wiSelectTriggerIcon`.
  * - `FormValueControl` + `ControlValueAccessor`.
@@ -349,24 +418,57 @@ export class WiSelectTriggerIconDirective {
             brnSelectTrigger
             [id]="resolvedId()"
             [forceInvalid]="invalid()"
-            [class]="triggerClasses()"
+            [class]="multiTriggerClasses()"
             [attr.aria-label]="ariaLabel()"
             [attr.aria-describedby]="ariaDescribedBy()"
             [attr.aria-required]="required() || null"
             [attr.aria-invalid]="invalid() || null"
             [attr.name]="name() || null"
           >
-            <span class="min-w-0 flex-1 truncate text-left">
+            <div
+              class="wi-select__value flex min-w-0 flex-1 flex-wrap items-center gap-1 text-left"
+              [class.pr-6]="clearable() && hasSelection()"
+            >
               @if (hasSelection()) {
                 @if (resolvedSelectedTemplate(); as selectedTpl) {
                   <ng-container *ngTemplateOutlet="selectedTpl; context: selectedContext()" />
                 } @else {
-                  {{ displayLabel() }}
+                  @for (item of multiValue(); track trackSelected($index, item)) {
+                    <span [class]="chipClasses">
+                      <span class="min-w-0 truncate">{{ selectedItemLabel(item) }}</span>
+                      <span
+                        role="button"
+                        tabindex="-1"
+                        [class]="chipRemoveClasses"
+                        [attr.aria-label]="chipRemoveAriaLabel(item)"
+                        [attr.aria-disabled]="isDisabled() || null"
+                        (click)="onRemoveSelected($event, item)"
+                        (keydown.enter)="onRemoveSelected($event, item)"
+                        (keydown.space)="onRemoveSelected($event, item)"
+                      >
+                        <svg
+                          class="size-3"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          aria-hidden="true"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M6 18 18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </span>
+                    </span>
+                  }
                 }
               } @else {
-                {{ placeholder() }}
+                <span>{{ placeholder() }}</span>
               }
-            </span>
+            </div>
+
             @if (!(clearable() && hasSelection())) {
               @if (triggerIconTemplate(); as iconTpl) {
                 <span
@@ -400,13 +502,15 @@ export class WiSelectTriggerIconDirective {
               }
             }
           </button>
+
           @if (clearable() && hasSelection()) {
             <button
               type="button"
-              class="wi-select__clear absolute top-1/2 right-2 inline-flex size-6 -translate-y-1/2 items-center justify-center rounded-control text-on-surface-variant hover:bg-surface-variant hover:text-on-surface"
+              class="wi-select__clear absolute top-1/2 right-2 z-20 inline-flex size-6 -translate-y-1/2 items-center justify-center rounded-control text-on-surface-variant hover:bg-surface-variant hover:text-on-surface"
               [attr.aria-label]="clearLabel()"
               [disabled]="isDisabled()"
               (click)="onClear($event)"
+              (pointerdown)="$event.stopPropagation()"
             >
               <svg
                 class="size-4"
@@ -475,6 +579,11 @@ export class WiSelectComponent implements ControlValueAccessor, FormValueControl
   readonly placeholder = input('');
   readonly emptyText = input('');
   readonly clearLabel = input('Clear');
+  /**
+   * Prefijo del aria-label del aspa de cada chip en modo multiple.
+   * Resultado: `${removeChipLabel} ${label}` (p. ej. "Quitar Apple").
+   */
+  readonly removeChipLabel = input('Remove');
   readonly clearable = input(false, { transform: booleanAttribute });
 
   readonly id = input<string | undefined>(undefined);
@@ -512,6 +621,8 @@ export class WiSelectComponent implements ControlValueAccessor, FormValueControl
   protected readonly panelClasses = PANEL_CLASSES;
   protected readonly optionClasses = OPTION_CLASSES;
   protected readonly optionCheckClasses = OPTION_CHECK_CLASSES;
+  protected readonly chipClasses = CHIP_CLASSES;
+  protected readonly chipRemoveClasses = CHIP_REMOVE_CLASSES;
 
   protected readonly resolvedId = computed(() => this.id() ?? this.generatedId);
 
@@ -519,6 +630,10 @@ export class WiSelectComponent implements ControlValueAccessor, FormValueControl
 
   protected readonly triggerClasses = computed(() =>
     [TRIGGER_BASE_CLASSES, TRIGGER_SIZE_CLASSES[this.size()]].join(' '),
+  );
+
+  protected readonly multiTriggerClasses = computed(() =>
+    [MULTI_TRIGGER_BASE_CLASSES, MULTI_TRIGGER_SIZE_CLASSES[this.size()]].join(' '),
   );
 
   protected readonly resolvedItemTemplate = computed(
@@ -607,6 +722,33 @@ export class WiSelectComponent implements ControlValueAccessor, FormValueControl
     this.onChange(next);
     this.onTouched();
     this.touch.emit();
+  }
+
+  protected onRemoveSelected(event: Event, itemValue: unknown): void {
+    event.preventDefault();
+    event.stopPropagation();
+    if (this.isDisabled() || !this.multiple()) {
+      return;
+    }
+    const next = this.multiValue().filter((value) => !this.compareWith()(itemValue, value));
+    this.value.set(next);
+    this.onChange(next);
+    this.onTouched();
+    this.touch.emit();
+  }
+
+  protected selectedItemLabel(formValue: unknown): string {
+    return this.labelForFormValue(formValue);
+  }
+
+  protected chipRemoveAriaLabel(formValue: unknown): string {
+    const label = this.selectedItemLabel(formValue);
+    const prefix = this.removeChipLabel().trim();
+    return label ? `${prefix} ${label}`.trim() : prefix;
+  }
+
+  protected trackSelected(index: number, value: unknown): unknown {
+    return value !== undefined && value !== null ? value : index;
   }
 
   protected resolveOptionValue(option: unknown): unknown {

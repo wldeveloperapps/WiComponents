@@ -24,7 +24,7 @@ const meta: Meta<WiSelectComponent> = {
     docs: {
       description: {
         component:
-          'Select single/multi sin búsqueda. Icono de trigger con input `icon` (nombre en `provideWiIcons`). Textos (`placeholder`, `emptyText`, `clearLabel`, `ariaLabel`) los provee la app — ver Documentation/I18n. Requiere CSS de overlays CDK/Spartan.',
+          'Select single/multi sin búsqueda. En `multiple`, los valores se muestran como chips con aspa para quitarlos. Icono de trigger con input `icon` (nombre en `provideWiIcons`). Textos (`placeholder`, `emptyText`, `clearLabel`, `removeChipLabel`, `ariaLabel`) los provee la app — ver Documentation/I18n. Requiere CSS de overlays CDK/Spartan.',
       },
     },
   },
@@ -55,6 +55,7 @@ const meta: Meta<WiSelectComponent> = {
     placeholder: { control: 'text' },
     emptyText: { control: 'text' },
     clearLabel: { control: 'text' },
+    removeChipLabel: { control: 'text' },
     ariaLabel: { control: 'text' },
     icon: {
       control: 'text',
@@ -72,6 +73,7 @@ const meta: Meta<WiSelectComponent> = {
     placeholder: 'Selecciona…',
     emptyText: 'Sin opciones',
     clearLabel: 'Limpiar',
+    removeChipLabel: 'Quitar',
     ariaLabel: 'Fruta',
     icon: '',
   },
@@ -113,7 +115,7 @@ export const Multiple: Story = {
   render: () => ({
     props: {
       options: fruitOptions,
-      value: [] as string[],
+      value: ['Apple', 'Banana'] as string[],
     },
     template: `
       <div style="width:20rem;">
@@ -125,6 +127,7 @@ export const Multiple: Story = {
           ariaLabel="Frutas"
           clearable
           clearLabel="Limpiar"
+          removeChipLabel="Quitar"
         />
       </div>
     `,
