@@ -35,7 +35,7 @@ const warnedFallback = new Set<string>();
 @Component({
   selector: 'wi-icon',
   host: {
-    class: 'wi-icon inline-block shrink-0 text-current leading-none',
+    class: 'wi-icon inline-flex shrink-0 items-center justify-center text-current leading-none',
   },
   template: `
     @if (resolved(); as icon) {

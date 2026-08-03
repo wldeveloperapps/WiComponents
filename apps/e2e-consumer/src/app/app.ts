@@ -10,7 +10,12 @@ import {
   WiCardHeaderComponent,
   WiCardTitleComponent,
 } from '@wiloc/ui/data-display';
-import { WiDatepickerComponent, WiInputComponent, WiSelectComponent } from '@wiloc/ui/forms';
+import {
+  WiCheckboxComponent,
+  WiDatepickerComponent,
+  WiInputComponent,
+  WiSelectComponent,
+} from '@wiloc/ui/forms';
 import { WiIconComponent } from '@wiloc/ui/icon';
 import {
   WiDialogCloseDirective,
@@ -48,6 +53,7 @@ import { appLocale, toggleAppLocale, uiMessages } from './locale';
     WiDialogPortalDirective,
     WiDialogTitleComponent,
     WiDialogTriggerDirective,
+    WiCheckboxComponent,
     WiIconComponent,
     WiInputComponent,
     WiSelectComponent,
@@ -66,6 +72,7 @@ export class App {
   protected readonly t = uiMessages;
 
   protected readonly nameControl = new FormControl('Wiloc', { nonNullable: true });
+  protected readonly termsControl = new FormControl(false, { nonNullable: true });
   protected readonly fruit = signal<string | null>(null);
   protected readonly date = signal<Date | null>(null);
 

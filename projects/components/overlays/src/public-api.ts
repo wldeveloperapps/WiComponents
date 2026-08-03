@@ -13,3 +13,18 @@ export {
   WiDialogTitleComponent,
   WiDialogTriggerDirective,
 } from './wi-dialog.component';
+
+export type { WiMenuAlign, WiMenuItemVariant, WiMenuSide } from './wi-menu.types';
+export {
+  WiMenuComponent,
+  /** @internal hostDirective — no usar en apps */
+  WiMenuFocusOnHoverDirective,
+  WiMenuGroupComponent,
+  WiMenuItemDirective,
+  WiMenuLabelComponent,
+  /** @internal hostDirective — no usar en apps */
+  WiMenuRadioCdkDirective,
+  WiMenuRadioDirective,
+  WiMenuSeparatorComponent,
+  WiMenuTriggerDirective,
+} from './wi-menu.component';

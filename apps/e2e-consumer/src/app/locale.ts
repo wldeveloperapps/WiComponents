@@ -74,6 +74,10 @@ interface UiMessages {
   name: string;
   namePlaceholder: string;
   value: string;
+  checkbox: string;
+  terms: string;
+  yes: string;
+  no: string;
   select: string;
   fruitPlaceholder: string;
   fruitAria: string;
@@ -107,6 +111,10 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     name: 'Nombre',
     namePlaceholder: 'Escribe un nombre',
     value: 'Valor',
+    checkbox: 'Checkbox',
+    terms: 'Acepto los términos y condiciones',
+    yes: 'sí',
+    no: 'no',
     select: 'Select',
     fruitPlaceholder: 'Selecciona una fruta',
     fruitAria: 'Fruta',
@@ -138,6 +146,10 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     name: 'Name',
     namePlaceholder: 'Type a name',
     value: 'Value',
+    checkbox: 'Checkbox',
+    terms: 'I accept the terms and conditions',
+    yes: 'yes',
+    no: 'no',
     select: 'Select',
     fruitPlaceholder: 'Select a fruit',
     fruitAria: 'Fruit',

@@ -70,6 +70,19 @@
         <p class="text-sm text-on-surface-variant">{{ t().value }}: {{ nameControl.value }}</p>
       </section>
 
+      <section class="flex flex-col gap-3" aria-labelledby="checkbox-heading">
+        <h2 id="checkbox-heading" class="text-sm font-medium text-on-surface">
+          {{ t().checkbox }}
+        </h2>
+        <div class="flex min-w-0 items-center gap-2 text-sm text-on-surface">
+          <wi-checkbox id="terms" [formControl]="termsControl" ariaLabelledBy="terms-label" />
+          <span id="terms-label" class="min-w-0">{{ t().terms }}</span>
+        </div>
+        <p class="text-sm text-on-surface-variant">
+          {{ t().value }}: {{ termsControl.value ? t().yes : t().no }}
+        </p>
+      </section>
+
       <section class="flex flex-col gap-3" aria-labelledby="select-heading">
         <h2 id="select-heading" class="text-sm font-medium text-on-surface">{{ t().select }}</h2>
         <wi-select
