@@ -17,6 +17,19 @@ export const wiDatepickerRegistryEntry = {
     'WiFormatDate',
     'WiCalendarI18n',
     'WiMonthLabels',
+    'WiLocalDateString',
+    'WiTimeZoneId',
+    'WiZonedDateTimeParts',
+    'toLocalDateString',
+    'fromLocalDateString',
+    'isLocalDateString',
+    'requireTimeZoneId',
+    'datepickerValueToUtcIso',
+    'datepickerValueToUtcDate',
+    'utcIsoToDatepickerValue',
+    'utcDateToDatepickerValue',
+    'zonedPartsToUtcDate',
+    'utcDateToZonedParts',
   ],
   inputs: [
     {
@@ -183,12 +196,18 @@ export const wiDatepickerRegistryEntry = {
     'Plantilla i18n: inputs placeholder/clearLabel/calendarLabel/timeLabel/ariaLabel + provideWiCalendarI18n (months, weekdays, labelPrevious/Next)',
     'Icono calendar debe registrarse con provideWiIcons',
     'Overlays: la app debe incluir CSS de CDK Overlay / Spartan popover',
+    'El control captura componentes de fecha/hora; no adivina TZ. Ver docs/datepicker-international.md y helpers toLocalDateString / datepickerValueToUtcIso',
   ],
   example: {
     import: `import {
   WiDatepickerComponent,
   WiDateRangeComponent,
   provideWiCalendarI18n,
+  toLocalDateString,
+  fromLocalDateString,
+  datepickerValueToUtcIso,
+  utcIsoToDatepickerValue,
+  requireTimeZoneId,
   type WiMonthLabels,
 } from '@wiloc/ui/forms';
 import { provideWiIcons } from '@wiloc/ui/icon';
@@ -211,7 +230,17 @@ provideWiCalendarI18n({
     ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'][i % 7] ?? '',
   labelPrevious: () => 'Mes anterior',
   labelNext: () => 'Mes siguiente',
-});`,
+});
+
+// Civil → API
+const payloadDate = date ? toLocalDateString(date) : null;
+// API → picker
+date = payloadDate ? fromLocalDateString(payloadDate) : null;
+
+// Con hora + TZ del site (IIoT)
+const tz = requireTimeZoneId(site.timeZoneId);
+const iso = dateTime ? datepickerValueToUtcIso(dateTime, tz) : null;
+dateTime = iso ? utcIsoToDatepickerValue(iso, tz) : null;`,
     template: `<!-- Labels / i18n: siempre desde la app (no hay diccionario en @wiloc/ui) -->
 <label for="hire-date">Fecha de alta</label>
 <wi-datepicker
@@ -224,7 +253,7 @@ provideWiCalendarI18n({
   ariaLabel="Fecha de alta"
 />
 
-<!-- Con hora -->
+<!-- Con hora (mapear con timeZoneId del site/usuario) -->
 <wi-datepicker
   [(value)]="dateTime"
   showTime

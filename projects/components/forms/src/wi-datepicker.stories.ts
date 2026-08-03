@@ -7,26 +7,21 @@ import { WI_HEROICONS_CURATED } from '../../icon/heroicons/src/curated';
 import { WiDatepickerComponent } from './wi-datepicker.component';
 import { WiDateRangeComponent } from './wi-date-range.component';
 import { provideWiCalendarI18n, type WiMonthLabels } from './wi-datepicker.i18n';
+import { toLocalDateString } from './wi-date';
 
-/** YYYY-MM-DD en zona local (evitar el desfase de `Date.toISOString()` / `json`). */
+/** Preview civil (helpers públicos; evitar `toISOString` / `json`). */
 function formatLocalDate(date: Date | null | undefined): string {
-  if (!date) {
-    return '—';
-  }
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
+  return date ? toLocalDateString(date) : '—';
 }
 
-/** YYYY-MM-DD HH:mm en zona local. */
+/** Preview fecha+hora en getters locales del Date del picker. */
 function formatLocalDateTime(date: Date | null | undefined): string {
   if (!date) {
     return '—';
   }
   const hours = String(date.getHours()).padStart(2, '0');
   const minutes = String(date.getMinutes()).padStart(2, '0');
-  return `${formatLocalDate(date)} ${hours}:${minutes}`;
+  return `${toLocalDateString(date)} ${hours}:${minutes}`;
 }
 
 const EN_MONTHS: WiMonthLabels = [
