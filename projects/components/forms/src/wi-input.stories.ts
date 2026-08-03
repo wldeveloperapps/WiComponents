@@ -171,8 +171,8 @@ export const WithReactiveForms: Story = {
 };
 
 export const DarkMode: Story = {
-  parameters: {
-    globals: { theme: 'dark' },
+  globals: {
+    theme: 'dark',
   },
   render: () => ({
     template: `

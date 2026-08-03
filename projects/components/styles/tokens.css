@@ -30,6 +30,10 @@
   --wi-color-surface-variant: #dfe2eb;
   --wi-color-on-surface-variant: #43474e;
 
+  /* Superficie invertida (tooltips, chips de contraste): se mantiene oscura en ambos temas */
+  --wi-color-inverse-surface: #191c20;
+  --wi-color-inverse-on-surface: #f8f9ff;
+
   --wi-color-outline: #73777f;
   --wi-color-outline-variant: #c3c6cf;
 
@@ -105,6 +109,9 @@
   --wi-color-on-surface: #c4c9d2;
   --wi-color-surface-variant: #43474e;
   --wi-color-on-surface-variant: #c3c6cf;
+
+  --wi-color-inverse-surface: #2a3140;
+  --wi-color-inverse-on-surface: #f8f9ff;
 
   --wi-color-outline: #525a68;
   --wi-color-outline-variant: #43474e;

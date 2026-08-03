@@ -25,6 +25,7 @@ export const SemanticColors: Story = {
           <div class="rounded-control bg-primary px-4 py-2 text-sm text-on-primary">primary</div>
           <div class="rounded-control bg-secondary px-4 py-2 text-sm text-on-secondary">secondary</div>
           <div class="rounded-control bg-surface-variant px-4 py-2 text-sm text-on-surface-variant">surface-variant</div>
+          <div class="rounded-control bg-inverse-surface px-4 py-2 text-sm text-inverse-on-surface">inverse-surface</div>
           <div class="rounded-control bg-error px-4 py-2 text-sm text-on-error">error</div>
           <div class="rounded-control bg-warning px-4 py-2 text-sm text-on-warning">warning</div>
           <div class="rounded-control bg-success px-4 py-2 text-sm text-on-success">success</div>

@@ -306,12 +306,15 @@ export const RangeWithTime: Story = {
 };
 
 export const DarkMode: Story = {
+  globals: {
+    theme: 'dark',
+  },
   render: () => ({
     props: {
       value: new Date(2026, 6, 20, 14, 30),
     },
     template: `
-      <div class="wi-dark" style="padding:1.5rem;background:var(--wi-color-background,#0e121a);width:22rem;">
+      <div style="padding:1.5rem;width:22rem;">
         <wi-datepicker
           [(value)]="value"
           showTime

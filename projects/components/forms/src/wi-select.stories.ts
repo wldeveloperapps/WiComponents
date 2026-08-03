@@ -295,13 +295,16 @@ export const EmptyOptions: Story = {
 };
 
 export const DarkMode: Story = {
+  globals: {
+    theme: 'dark',
+  },
   render: () => ({
     props: {
       options: fruitOptions,
       value: 'Grapes',
     },
     template: `
-      <div class="wi-dark" style="width:20rem;padding:1.5rem;background:var(--wi-color-background);">
+      <div style="width:20rem;padding:1.5rem;">
         <wi-select
           [(value)]="value"
           [options]="options"

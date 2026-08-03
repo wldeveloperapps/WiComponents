@@ -14,12 +14,12 @@ const TOOLTIP_CONTENT_CLASSES = [
   'w-fit',
   'max-w-xs',
   'rounded-control-sm',
-  'bg-on-surface',
+  'bg-inverse-surface',
   'px-3',
   'py-1.5',
   'text-xs',
   'text-balance',
-  'text-surface',
+  'text-inverse-on-surface',
   'shadow-md',
   'data-[state=open]:animate-in',
   'data-[state=open]:fade-in-0',
@@ -35,7 +35,17 @@ const TOOLTIP_CONTENT_CLASSES = [
   'data-[side=top]:slide-in-from-bottom-2',
 ].join(' ');
 
-const TOOLTIP_SVG_CLASSES = 'fill-on-surface z-50 block';
+/** Diamante (cuadrado rotado) solapado al borde: evita la costura del triángulo SVG. */
+const TOOLTIP_SVG_CLASSES = [
+  'bg-inverse-surface',
+  'fill-inverse-surface',
+  'z-50',
+  'block',
+  'size-2.5',
+  'translate-y-[calc(-50%-2px)]',
+  'rotate-45',
+  'rounded-[2px]',
+].join(' ');
 
 const ARROW_POSITION_CLASSES: Record<WiTooltipPosition, string> = {
   top: 'absolute bottom-0 left-[calc(50%-5px)] translate-y-full',

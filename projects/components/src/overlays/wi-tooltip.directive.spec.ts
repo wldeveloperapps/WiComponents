@@ -117,8 +117,8 @@ describe('WiTooltipDirective', () => {
       const tip = tooltipEl();
       expect(tip).toBeTruthy();
       expect(tip?.textContent).toContain('Tip de prueba');
-      expect(tip?.className).toContain('bg-on-surface');
-      expect(tip?.className).toContain('text-surface');
+      expect(tip?.className).toContain('bg-inverse-surface');
+      expect(tip?.className).toContain('text-inverse-on-surface');
 
       const describedBy = trigger().getAttribute('aria-describedby');
       expect(describedBy).toBeTruthy();

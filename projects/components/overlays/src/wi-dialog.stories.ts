@@ -209,10 +209,13 @@ export const WithoutCloseButton: Story = {
 };
 
 export const DarkMode: Story = {
+  globals: {
+    theme: 'dark',
+  },
   render: (args) => ({
     props: args,
     template: `
-      <div class="wi-dark rounded-control-lg bg-background p-8 text-on-background">
+      <div class="p-8">
         <wi-dialog [size]="size">
           <wi-button type="button" wiDialogTrigger>Abrir en dark</wi-button>
           ${dialogBody}

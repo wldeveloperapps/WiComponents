@@ -4,13 +4,14 @@ import docJson from '../documentation.json';
 import { WI_DARK_CLASS } from '../core/src/wi-theme';
 
 import '../styles/index.css';
+import './storybook-theme.css';
 
 setCompodocJson(docJson);
 
 const preview: Preview = {
   globalTypes: {
     theme: {
-      description: 'Tema Wiloc (clase wi-dark en el ancestro)',
+      description: 'Tema Wiloc (clase wi-dark en <html>; fondo del canvas vía tokens)',
       toolbar: {
         title: 'Tema',
         icon: 'circlehollow',
@@ -28,8 +29,7 @@ const preview: Preview = {
   decorators: [
     (storyFn, context) => {
       const theme = context.globals['theme'] as string;
-      const root = document.documentElement;
-      root.classList.toggle(WI_DARK_CLASS, theme === 'dark');
+      document.documentElement.classList.toggle(WI_DARK_CLASS, theme === 'dark');
       return storyFn();
     },
   ],

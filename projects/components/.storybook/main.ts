@@ -8,8 +8,7 @@ const componentsRoot = resolve(fileURLToPath(new URL('..', import.meta.url)));
 
 const config: StorybookConfig = {
   stories: [
-    '../src/**/*.mdx',
-    '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)',
+    '../src/docs/**/*.mdx',
     '../button/**/*.stories.@(js|jsx|mjs|ts|tsx)',
     '../data-display/**/*.stories.@(js|jsx|mjs|ts|tsx)',
     '../forms/**/*.stories.@(js|jsx|mjs|ts|tsx)',
@@ -22,7 +21,6 @@ const config: StorybookConfig = {
     '@storybook/addon-vitest',
     '@storybook/addon-a11y',
     '@storybook/addon-docs',
-    '@storybook/addon-onboarding',
   ],
   framework: {
     name: '@storybook/angular-vite',

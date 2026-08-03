@@ -1,0 +1,19 @@
+/**
+ * Storybook actúa como app consumidora: el canvas hereda tokens Wiloc.
+ * El decorator de preview aplica/quita `.wi-dark` en <html>.
+ */
+html,
+body,
+#storybook-root,
+.sb-show-main {
+  background-color: var(--wi-color-background) !important;
+  color: var(--wi-color-on-background);
+}
+
+/* Docs: los previews no deben quedar en blanco forzado cuando el tema es dark. */
+.docs-story,
+.sbdocs-preview,
+.sbdocs-preview > .docs-story {
+  background-color: var(--wi-color-background) !important;
+  color: var(--wi-color-on-background);
+}

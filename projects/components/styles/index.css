@@ -43,6 +43,8 @@
   --color-on-surface: var(--wi-color-on-surface);
   --color-surface-variant: var(--wi-color-surface-variant);
   --color-on-surface-variant: var(--wi-color-on-surface-variant);
+  --color-inverse-surface: var(--wi-color-inverse-surface);
+  --color-inverse-on-surface: var(--wi-color-inverse-on-surface);
   --color-on-background: var(--wi-color-on-background);
 
   --color-outline: var(--wi-color-outline);

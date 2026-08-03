@@ -226,13 +226,25 @@ Si un componente propio usa \`contents\` en el host y necesita tooltip/popover, 
 };
 
 export const DarkMode: Story = {
+  globals: {
+    theme: 'dark',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Tooltip con `inverse-surface` (fondo oscuro + texto claro en light y dark). Contraste estable; la flecha es un diamante solapado al borde.',
+      },
+    },
+  },
   render: () => ({
     template: `
-      <div class="wi-dark rounded-control bg-background p-8">
+      <div class="p-8">
         <button
           type="button"
           class="rounded-control bg-primary px-4 py-2 text-sm text-on-primary"
           wiTooltip="Tooltip en modo oscuro"
+          position="bottom"
           [showDelay]="0"
           [hideDelay]="0"
         >

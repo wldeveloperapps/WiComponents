@@ -37,22 +37,6 @@ export default defineConfig([
     },
   },
   {
-    // Scaffold de Storybook (Example/*): no aplica el prefijo wi ni las reglas de API pública.
-    files: ['**/src/stories/**/*.ts'],
-    rules: {
-      '@angular-eslint/component-selector': [
-        'error',
-        {
-          type: 'element',
-          prefix: 'storybook',
-          style: 'kebab-case',
-        },
-      ],
-      '@angular-eslint/no-output-on-prefix': 'off',
-      '@angular-eslint/template/prefer-control-flow': 'off',
-    },
-  },
-  {
     // Apps consumidoras: prefijo app (no wi de la librería).
     files: ['apps/**/*.ts'],
     rules: {
