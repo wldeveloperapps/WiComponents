@@ -3,7 +3,7 @@ description: Inventario de cobertura vs app PrimeNG — checklist de demanda, no
 globs:
   - "projects/components/**"
   - "docs/coverage-inventory.md"
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Inventario de cobertura

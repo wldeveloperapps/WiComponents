@@ -4,6 +4,9 @@ export { WiInputComponent } from './wi-input.component';
 export type { WiCheckboxSize } from './wi-checkbox.types';
 export { WiCheckboxComponent } from './wi-checkbox.component';
 
+export type { WiSwitchSize } from './wi-switch.types';
+export { WiSwitchComponent } from './wi-switch.component';
+
 export type {
   WiSelectCompareWith,
   WiSelectItemContext,

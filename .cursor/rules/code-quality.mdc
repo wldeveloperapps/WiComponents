@@ -1,13 +1,14 @@
 ---
 description: Reglas de calidad, linting, formato y hooks Git para wiComponents
 globs:
-  - "**/*.ts"
-  - "**/*.html"
-  - "**/*.scss"
-  - "**/*.css"
-  - "**/*.json"
-  - "**/*.md"
-alwaysApply: true
+  - "eslint.config.*"
+  - ".prettierrc*"
+  - ".prettierignore"
+  - ".husky/**"
+  - "package.json"
+  - "**/lint-staged*"
+  - "angular.json"
+alwaysApply: false
 ---
 
 # Calidad de código de wiComponents

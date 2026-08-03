@@ -4,7 +4,7 @@ globs:
   - "package.json"
   - "angular.json"
   - "projects/components/**"
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Estructura de la librería Angular

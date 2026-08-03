@@ -1,11 +1,8 @@
 ---
 description: Convención de nombres en inglés y clases estructurales wi-* para componentes
 globs:
-  - "**/*.ts"
-  - "**/*.html"
-  - "**/*.scss"
-  - "**/*.css"
-alwaysApply: true
+  - "projects/components/**/*.{ts,html,scss,css}"
+alwaysApply: false
 ---
 
 # Convención de nombres

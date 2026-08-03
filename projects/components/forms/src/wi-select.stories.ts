@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { applicationConfig, moduleMetadata } from '@storybook/angular-vite';
 import { JsonPipe } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { fn } from 'storybook/test';
 
 import { provideWiIcons } from '../../icon/src/public-api';
 import { WI_HEROICONS_CURATED } from '../../icon/heroicons/src/curated';
@@ -15,7 +16,12 @@ const siteOptions = [
   { id: 'east', name: 'East operations center with a very long label' },
 ];
 
-const meta: Meta<WiSelectComponent> = {
+type WiSelectStoryArgs = WiSelectComponent & {
+  valueChange: ReturnType<typeof fn>;
+  touch: ReturnType<typeof fn>;
+};
+
+const meta: Meta<WiSelectStoryArgs> = {
   title: 'Forms/WiSelect',
   component: WiSelectComponent,
   tags: ['autodocs'],
@@ -24,7 +30,7 @@ const meta: Meta<WiSelectComponent> = {
     docs: {
       description: {
         component:
-          'Select single/multi sin búsqueda. En `multiple`, los valores se muestran como chips con aspa para quitarlos. Icono de trigger con input `icon` (nombre en `provideWiIcons`). Textos (`placeholder`, `emptyText`, `clearLabel`, `removeChipLabel`, `ariaLabel`) los provee la app — ver Documentation/I18n. Requiere CSS de overlays CDK/Spartan.',
+          'Select single/multi sin búsqueda. En `multiple`, los valores se muestran como chips con aspa para quitarlos. Icono de trigger con input `icon` (nombre en `provideWiIcons`). Textos (`placeholder`, `emptyText`, `clearLabel`, `removeChipLabel`, `ariaLabel`) los provee la app — ver Documentation/I18n. Requiere CSS de overlays CDK/Spartan. Events: `valueChange`, `touch`.',
       },
     },
   },
@@ -62,6 +68,18 @@ const meta: Meta<WiSelectComponent> = {
       description:
         'Nombre de cualquier icono registrado con provideWiIcons (p. ej. funnel, clock, calendar)',
     },
+    valueChange: {
+      action: 'valueChange',
+      description: 'Se emite al cambiar el valor',
+      table: { category: 'Events' },
+      control: false,
+    },
+    touch: {
+      action: 'touch',
+      description: 'Se emite al cerrar el panel (Signal Forms / touched)',
+      table: { category: 'Events' },
+      control: false,
+    },
   },
   args: {
     size: 'md',
@@ -76,11 +94,13 @@ const meta: Meta<WiSelectComponent> = {
     removeChipLabel: 'Quitar',
     ariaLabel: 'Fruta',
     icon: '',
+    valueChange: fn(),
+    touch: fn(),
   },
 };
 
 export default meta;
-type Story = StoryObj<WiSelectComponent>;
+type Story = StoryObj<WiSelectStoryArgs>;
 
 export const Default: Story = {
   render: (args) => ({
@@ -92,7 +112,9 @@ export const Default: Story = {
     template: `
       <div style="width:20rem;">
         <wi-select
-          [(value)]="value"
+          [value]="value"
+          (valueChange)="value = $event; valueChange($event)"
+          (touch)="touch()"
           [options]="options"
           [size]="size"
           [multiple]="multiple"
@@ -112,8 +134,9 @@ export const Default: Story = {
 };
 
 export const Multiple: Story = {
-  render: () => ({
+  render: (args) => ({
     props: {
+      ...args,
       options: fruitOptions,
       value: ['Apple', 'Banana'] as string[],
     },
@@ -121,7 +144,9 @@ export const Multiple: Story = {
       <div style="width:20rem;">
         <wi-select
           multiple
-          [(value)]="value"
+          [value]="value"
+          (valueChange)="value = $event; valueChange($event)"
+          (touch)="touch()"
           [options]="options"
           placeholder="Selecciona frutas"
           ariaLabel="Frutas"
@@ -135,15 +160,18 @@ export const Multiple: Story = {
 };
 
 export const Objects: Story = {
-  render: () => ({
+  render: (args) => ({
     props: {
+      ...args,
       options: siteOptions,
       value: null as string | null,
     },
     template: `
       <div style="width:20rem;">
         <wi-select
-          [(value)]="value"
+          [value]="value"
+          (valueChange)="value = $event; valueChange($event)"
+          (touch)="touch()"
           [options]="options"
           optionLabel="name"
           optionValue="id"
@@ -158,15 +186,18 @@ export const Objects: Story = {
 };
 
 export const Clearable: Story = {
-  render: () => ({
+  render: (args) => ({
     props: {
+      ...args,
       options: fruitOptions,
       value: 'Banana',
     },
     template: `
       <div style="width:20rem;">
         <wi-select
-          [(value)]="value"
+          [value]="value"
+          (valueChange)="value = $event; valueChange($event)"
+          (touch)="touch()"
           [options]="options"
           clearable
           clearLabel="Limpiar selección"
@@ -178,15 +209,18 @@ export const Clearable: Story = {
 };
 
 export const Disabled: Story = {
-  render: () => ({
+  render: (args) => ({
     props: {
+      ...args,
       options: fruitOptions,
       value: 'Apple',
     },
     template: `
       <div style="width:20rem;">
         <wi-select
-          [(value)]="value"
+          [value]="value"
+          (valueChange)="value = $event; valueChange($event)"
+          (touch)="touch()"
           [options]="options"
           disabled
           ariaLabel="Fruta"
@@ -197,15 +231,18 @@ export const Disabled: Story = {
 };
 
 export const Invalid: Story = {
-  render: () => ({
+  render: (args) => ({
     props: {
+      ...args,
       options: fruitOptions,
       value: null as string | null,
     },
     template: `
       <div style="width:20rem;">
         <wi-select
-          [(value)]="value"
+          [value]="value"
+          (valueChange)="value = $event; valueChange($event)"
+          (touch)="touch()"
           [options]="options"
           invalid
           required
@@ -218,28 +255,34 @@ export const Invalid: Story = {
 };
 
 export const Sizes: Story = {
-  render: () => ({
-    props: { options: fruitOptions },
+  render: (args) => ({
+    props: {
+      ...args,
+      options: fruitOptions,
+    },
     template: `
       <div style="display:flex;flex-direction:column;gap:0.75rem;width:20rem;">
-        <wi-select size="sm" [options]="options" placeholder="Small" ariaLabel="Small" />
-        <wi-select size="md" [options]="options" placeholder="Medium" ariaLabel="Medium" />
-        <wi-select size="lg" [options]="options" placeholder="Large" ariaLabel="Large" />
+        <wi-select size="sm" [options]="options" placeholder="Small" ariaLabel="Small" (valueChange)="valueChange($event)" (touch)="touch()" />
+        <wi-select size="md" [options]="options" placeholder="Medium" ariaLabel="Medium" (valueChange)="valueChange($event)" (touch)="touch()" />
+        <wi-select size="lg" [options]="options" placeholder="Large" ariaLabel="Large" (valueChange)="valueChange($event)" (touch)="touch()" />
       </div>
     `,
   }),
 };
 
 export const LongLabels: Story = {
-  render: () => ({
+  render: (args) => ({
     props: {
+      ...args,
       options: siteOptions,
       value: 'east',
     },
     template: `
       <div style="width:16rem;">
         <wi-select
-          [(value)]="value"
+          [value]="value"
+          (valueChange)="value = $event; valueChange($event)"
+          (touch)="touch()"
           [options]="options"
           optionLabel="name"
           optionValue="id"
@@ -251,15 +294,18 @@ export const LongLabels: Story = {
 };
 
 export const CustomTemplates: Story = {
-  render: () => ({
+  render: (args) => ({
     props: {
+      ...args,
       options: siteOptions,
       value: null as string | null,
     },
     template: `
       <div style="width:22rem;">
         <wi-select
-          [(value)]="value"
+          [value]="value"
+          (valueChange)="value = $event; valueChange($event)"
+          (touch)="touch()"
           [options]="options"
           optionLabel="name"
           optionValue="id"
@@ -280,7 +326,8 @@ export const CustomTemplates: Story = {
 };
 
 export const EmptyOptions: Story = {
-  render: () => ({
+  render: (args) => ({
+    props: args,
     template: `
       <div style="width:20rem;">
         <wi-select
@@ -288,6 +335,8 @@ export const EmptyOptions: Story = {
           placeholder="Sin datos"
           emptyText="No hay opciones disponibles"
           ariaLabel="Vacío"
+          (valueChange)="valueChange($event)"
+          (touch)="touch()"
         />
       </div>
     `,
@@ -298,15 +347,18 @@ export const DarkMode: Story = {
   globals: {
     theme: 'dark',
   },
-  render: () => ({
+  render: (args) => ({
     props: {
+      ...args,
       options: fruitOptions,
       value: 'Grapes',
     },
     template: `
       <div style="width:20rem;padding:1.5rem;">
         <wi-select
-          [(value)]="value"
+          [value]="value"
+          (valueChange)="value = $event; valueChange($event)"
+          (touch)="touch()"
           [options]="options"
           clearable
           clearLabel="Limpiar"
@@ -318,10 +370,11 @@ export const DarkMode: Story = {
 };
 
 export const ReactiveForms: Story = {
-  render: () => {
+  render: (args) => {
     const control = new FormControl<string | null>(null);
     return {
       props: {
+        ...args,
         control,
         options: siteOptions,
       },
@@ -336,6 +389,8 @@ export const ReactiveForms: Story = {
             ariaLabel="Sitio"
             clearable
             clearLabel="Limpiar"
+            (valueChange)="valueChange($event)"
+            (touch)="touch()"
           />
           <pre style="margin:0;font-size:0.75rem;">value: {{ control.value | json }}</pre>
         </div>

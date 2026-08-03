@@ -3,7 +3,7 @@ description: Obligatorio crear tests unitarios Vitest al crear o modificar compo
 globs:
   - "projects/components/**/*.ts"
   - "projects/components/**/*.html"
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Tests unitarios de componentes

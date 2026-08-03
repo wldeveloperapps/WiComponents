@@ -5,7 +5,7 @@ globs:
   - "projects/components/**/*.stories.ts"
   - "docs/icons-prime-migration.md"
   - "scripts/generate-heroicons.mjs"
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Iconos (`@wiloc/ui/icon`)

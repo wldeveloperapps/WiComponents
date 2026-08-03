@@ -1,0 +1,933 @@
+# Guía completa @wiloc/ui
+
+# Contexto del proyecto
+
+Este repositorio contiene `wiComponents`, la librería de componentes UI de Wiloc.
+
+La librería está construida con:
+
+- Angular moderno;
+- TypeScript estricto;
+- standalone components;
+- signals;
+- Tailwind CSS;
+- Spartan;
+- Storybook;
+- Playwright;
+- Angular Package Format;
+- ng-packagr.
+
+El paquete se publica en npm bajo el scope:
+
+```text
+@wiloc/ui
+```
+
+El objetivo es crear un sistema de diseño mantenible y accesible para las aplicaciones de Wiloc.
+
+Spartan debe tratarse como una dependencia interna para comportamiento y accesibilidad, no como la API pública de la librería.
+
+---
+
+# Objetivo arquitectónico
+
+La dependencia debe seguir esta dirección:
+
+```text
+Spartan Brain
+      ↓
+Implementación interna de wiComponents
+      ↓
+API pública @wiloc/ui
+      ↓
+Aplicaciones consumidoras
+```
+
+Las aplicaciones consumidoras deben depender de `@wiloc/ui`.
+
+No deben depender directamente de Spartan cuando exista un componente equivalente en `wiComponents`.
+
+---
+
+# Reglas obligatorias
+
+## 1. No exponer Spartan en la API pública
+
+No utilizar tipos de Spartan en:
+
+- inputs públicos;
+- outputs públicos;
+- interfaces exportadas;
+- servicios públicos;
+- tipos exportados;
+- funciones públicas.
+
+Evitar:
+
+```ts
+export interface WiDialogConfig extends BrnDialogConfig {}
+```
+
+Evitar:
+
+```ts
+readonly config = input<BrnDialogConfig>();
+```
+
+Preferir:
+
+```ts
+export interface WiDialogConfig {
+  closeOnBackdrop?: boolean;
+  closeOnEscape?: boolean;
+  size?: WiDialogSize;
+}
+```
+
+La implementación interna puede transformar esta configuración al formato necesario para Spartan.
+
+No reexportar paquetes completos de Spartan.
+
+Evitar:
+
+```ts
+export * from '@spartan-ng/brain';
+```
+
+---
+
+## 2. No crear wrappers sin valor añadido
+
+No crear componentes cuya única función sea cambiar el nombre de una directiva o componente de Spartan.
+
+Un componente debe aportar al menos una de estas capacidades:
+
+- API simplificada;
+- tokens corporativos;
+- variantes controladas;
+- tamaños estandarizados;
+- estado loading;
+- integración con formularios;
+- accesibilidad adicional;
+- documentación;
+- pruebas;
+- comportamiento común;
+- compatibilidad con las aplicaciones Wiloc.
+
+Antes de crear un componente nuevo, comprobar si puede resolverse:
+
+- extendiendo un componente existente;
+- mediante composición;
+- mediante una directiva;
+- mediante un pattern;
+- utilizando una utilidad interna.
+
+---
+
+## 3. Utilizar Angular moderno
+
+Los componentes deben ser standalone.
+
+```ts
+@Component({
+  standalone: true,
+})
+```
+
+Utilizar preferentemente:
+
+```ts
+input();
+output();
+model();
+signal();
+computed();
+effect();
+```
+
+No utilizar decoradores antiguos salvo que exista una razón técnica clara.
+
+Preferir:
+
+```ts
+readonly disabled = input(false);
+```
+
+Evitar:
+
+```ts
+@Input() disabled = false;
+```
+
+Utilizar control flow moderno:
+
+```html
+@if (loading()) {
+<wi-spinner />
+}
+```
+
+Evitar nuevas implementaciones con:
+
+```html
+<div *ngIf="loading"></div>
+```
+
+No introducir dependencias innecesarias de Zone.js.
+
+Los componentes deben ser compatibles con aplicaciones zoneless.
+
+---
+
+## 4. Mantener compatibilidad con SSR
+
+No acceder directamente a APIs del navegador durante la inicialización.
+
+Evitar:
+
+```ts
+window.addEventListener(...);
+document.querySelector(...);
+localStorage.getItem(...);
+```
+
+Cuando sea necesario:
+
+- utilizar inyección;
+- utilizar `DOCUMENT`;
+- utilizar comprobaciones de plataforma;
+- ejecutar el código solo en navegador;
+- encapsular APIs del navegador en servicios;
+- limpiar listeners y observers.
+
+No asumir que `window`, `document`, `navigator` o `localStorage` existen.
+
+---
+
+## 5. Utilizar TypeScript estricto
+
+No utilizar `any`.
+
+Evitar:
+
+```ts
+function update(value: any): any {}
+```
+
+Preferir tipos concretos o genéricos:
+
+```ts
+function update<T>(value: T): T {}
+```
+
+Utilizar uniones literales para variantes:
+
+```ts
+export type WiButtonVariant = 'primary' | 'secondary' | 'danger' | 'ghost';
+```
+
+Evitar parámetros booleanos ambiguos cuando representen varios estados.
+
+Preferir:
+
+```ts
+readonly variant = input<WiButtonVariant>('primary');
+```
+
+Frente a:
+
+```ts
+readonly primary = input(false);
+readonly secondary = input(false);
+readonly danger = input(false);
+```
+
+No utilizar type assertions salvo que sean necesarias y estén justificadas.
+
+---
+
+## 6. Diseñar APIs pequeñas y estables
+
+No añadir inputs por anticipación.
+
+Cada input público aumenta el coste de mantenimiento y compatibilidad.
+
+Preferir:
+
+```ts
+readonly size = input<WiButtonSize>('md');
+readonly variant = input<WiButtonVariant>('primary');
+```
+
+Evitar componentes con decenas de inputs para cubrir todos los posibles casos.
+
+Cuando un componente necesite demasiada configuración:
+
+- dividir responsabilidades;
+- utilizar composición;
+- utilizar templates;
+- crear subcomponentes;
+- crear un pattern específico.
+
+No utilizar configuraciones gigantes como sustituto de una API bien diseñada.
+
+---
+
+## 7. Favorecer composición sobre configuración
+
+Preferir:
+
+```html
+<wi-dialog>
+  <wi-dialog-header>
+    <wi-dialog-title>Eliminar elemento</wi-dialog-title>
+  </wi-dialog-header>
+
+  <wi-dialog-content> Esta acción no se puede deshacer. </wi-dialog-content>
+
+  <wi-dialog-footer>
+    <wi-button variant="secondary">Cancelar</wi-button>
+    <wi-button variant="danger">Eliminar</wi-button>
+  </wi-dialog-footer>
+</wi-dialog>
+```
+
+Evitar:
+
+```html
+<wi-dialog
+  title="Eliminar elemento"
+  description="Esta acción no se puede deshacer"
+  cancelText="Cancelar"
+  confirmText="Eliminar"
+  confirmColor="red"
+  footerAlign="right"
+/>
+```
+
+La configuración compacta puede utilizarse en patterns concretos como `WiConfirmDialog`, pero no debe limitar la flexibilidad del componente base.
+
+---
+
+## 8. Utilizar tokens de diseño
+
+No introducir colores arbitrarios directamente.
+
+Evitar:
+
+```html
+class="bg-blue-600 text-white border-gray-300"
+```
+
+Preferir:
+
+```html
+class="bg-primary text-on-primary border-outline"
+```
+
+No introducir alturas, radios o sombras arbitrarias cuando exista un token.
+
+Evitar:
+
+```html
+class="h-[42px] rounded-[7px]"
+```
+
+Preferir:
+
+```html
+class="h-control-md rounded-control"
+```
+
+Los tokens deben ser semánticos.
+
+Preferir:
+
+```css
+--wi-color-primary;
+--wi-color-on-primary;
+--wi-color-error;
+--wi-color-surface;
+--wi-color-on-surface;
+```
+
+Evitar:
+
+```css
+--wi-blue;
+--wi-red;
+--wi-gray-500;
+```
+
+Cuando se necesite un token nuevo:
+
+1. comprobar si ya existe uno equivalente;
+2. justificar su uso general;
+3. añadirlo al sistema de tokens;
+4. documentarlo;
+5. probarlo en light y dark mode.
+
+---
+
+## 9. No generar clases Tailwind dinámicamente
+
+Tailwind debe poder detectar las clases estáticamente.
+
+Evitar:
+
+```ts
+const classes = `bg-${variant}-600`;
+```
+
+Preferir:
+
+```ts
+const variantClasses: Record<WiButtonVariant, string> = {
+  primary: 'bg-primary text-on-primary',
+  secondary: 'bg-secondary text-on-secondary',
+  danger: 'bg-error text-on-error',
+  ghost: 'bg-transparent hover:bg-surface-variant',
+};
+```
+
+Las variantes deben declararse mediante mapas estáticos o utilidades compatibles con el proceso de build.
+
+No introducir clases arbitrarias sin comprobar que se incluyen correctamente en el paquete final.
+
+---
+
+## 10. Accesibilidad obligatoria
+
+Cada componente interactivo debe funcionar con teclado.
+
+Comprobar, cuando corresponda:
+
+- Tab;
+- Shift + Tab;
+- Enter;
+- Space;
+- Escape;
+- Arrow Up;
+- Arrow Down;
+- Arrow Left;
+- Arrow Right;
+- Home;
+- End.
+
+Cada control debe tener un nombre accesible.
+
+No utilizar solamente iconos sin:
+
+- `aria-label`;
+- texto oculto;
+- tooltip complementario cuando corresponda.
+
+Ejemplo:
+
+```html
+<button type="button" aria-label="Cerrar diálogo">
+  <wi-icon name="x-mark" />
+</button>
+```
+
+Los errores de formulario deben estar asociados al control mediante `aria-describedby`.
+
+Los diálogos deben:
+
+- mover el foco al abrirse;
+- contener el foco cuando corresponda;
+- cerrarse con Escape si está habilitado;
+- devolver el foco al elemento activador;
+- tener título accesible.
+
+Los tooltips no deben contener información imprescindible que no esté disponible de otra forma.
+
+No asumir que Spartan garantiza por sí solo la accesibilidad del componente final.
+
+---
+
+## 11. Formularios
+
+Los controles de formulario reutilizables deben ser compatibles con Reactive Forms.
+
+Implementar `ControlValueAccessor` únicamente cuando el componente represente realmente un control.
+
+No implementar `ControlValueAccessor` en contenedores visuales.
+
+Los componentes deben contemplar:
+
+- label;
+- hint;
+- error;
+- disabled;
+- readonly;
+- required;
+- invalid;
+- touched;
+- `aria-describedby`;
+- identificadores únicos cuando sean necesarios.
+
+No duplicar el estado del formulario de manera innecesaria.
+
+El formulario Angular debe ser la fuente de verdad.
+
+---
+
+## 12. Evitar lógica de negocio
+
+La librería UI no debe contener reglas específicas de una aplicación concreta.
+
+Evitar dentro de componentes base:
+
+```ts
+if (site.status === 'EVACUATION_ACTIVE') {
+  // lógica específica de SRMS
+}
+```
+
+La lógica de negocio debe permanecer en la aplicación consumidora.
+
+Puede incorporarse un pattern específico cuando:
+
+- sea reutilizable entre aplicaciones;
+- tenga una API genérica;
+- esté claramente separado de los componentes base.
+
+---
+
+## 13. Mantener los componentes pequeños
+
+Un componente debe tener una responsabilidad clara.
+
+Cuando un archivo sea excesivamente grande o mezcle:
+
+- estado;
+- presentación;
+- adaptación de datos;
+- lógica de negocio;
+- overlay;
+- formularios;
+- comunicación remota;
+
+dividirlo en:
+
+- componente contenedor;
+- componentes presentacionales;
+- servicios internos;
+- utilidades;
+- patterns.
+
+No extraer código únicamente para reducir líneas. La división debe mejorar responsabilidades y reutilización.
+
+---
+
+## 14. Imports públicos y privados
+
+Los componentes deben importar desde entry points públicos.
+
+Preferir:
+
+```ts
+import { WiButtonComponent } from '@wiloc/ui/button';
+```
+
+Evitar en aplicaciones consumidoras:
+
+```ts
+import { WiButtonComponent } from '@wiloc/ui/src/lib/button/wi-button.component';
+```
+
+**Entre entry points de la propia librería** (p. ej. `forms` → `icon`): usar también `@wiloc/ui/{entry}`, nunca `../../icon/src/...`. Detalle obligatorio (exports + Storybook): regla `angular-library-structure`.
+
+No depender de rutas internas de Spartan o Angular CDK no documentadas.
+
+---
+
+## 15. Entry points
+
+Agrupar componentes por dominio.
+
+Entry points previstos:
+
+```text
+@wiloc/ui/core
+@wiloc/ui/icon
+@wiloc/ui/button
+@wiloc/ui/forms
+@wiloc/ui/overlays
+@wiloc/ui/navigation
+@wiloc/ui/data-display
+@wiloc/ui/table
+@wiloc/ui/patterns
+```
+
+No crear un entry point nuevo sin comprobar:
+
+- si el dominio ya existe;
+- si tendrá varios exports;
+- si mejora el árbol de dependencias;
+- si aporta una frontera arquitectónica clara;
+- si se actualizaron `exports` del `package.json` fuente, aliases de Storybook y `paths` del `tsconfig` (ver `angular-library-structure`).
+
+---
+
+# Estructura recomendada de un componente
+
+```text
+button/
+├── src/
+│   ├── wi-button.component.ts
+│   ├── wi-button.component.html
+│   ├── wi-button.component.spec.ts
+│   ├── wi-button.stories.ts
+│   ├── wi-button.types.ts
+│   └── public-api.ts
+├── ng-package.json
+└── package.json
+```
+
+Para componentes sencillos puede utilizarse template inline.
+
+No crear archivos vacíos o separados sin una necesidad real.
+
+---
+
+# Plantilla recomendada
+
+```ts
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+
+export type WiButtonVariant = 'primary' | 'secondary' | 'danger' | 'ghost';
+
+export type WiButtonSize = 'sm' | 'md' | 'lg';
+
+@Component({
+  selector: 'wi-button',
+  standalone: true,
+  template: `
+    <button
+      type="button"
+      [class]="classes()"
+      [disabled]="disabled() || loading()"
+      [attr.aria-busy]="loading() || null"
+    >
+      @if (loading()) {
+        <span aria-hidden="true">
+          <!-- Spinner -->
+        </span>
+      }
+
+      <ng-content />
+    </button>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class WiButtonComponent {
+  readonly variant = input<WiButtonVariant>('primary');
+  readonly size = input<WiButtonSize>('md');
+  readonly loading = input(false);
+  readonly disabled = input(false);
+
+  protected readonly classes = computed(() => {
+    return [BASE_CLASSES, VARIANT_CLASSES[this.variant()], SIZE_CLASSES[this.size()]].join(' ');
+  });
+}
+
+const BASE_CLASSES = [
+  'inline-flex',
+  'items-center',
+  'justify-center',
+  'transition-colors',
+  'focus-visible:outline-none',
+  'focus-visible:ring-2',
+  'disabled:pointer-events-none',
+  'disabled:opacity-50',
+].join(' ');
+
+const VARIANT_CLASSES: Record<WiButtonVariant, string> = {
+  primary: 'bg-primary text-on-primary',
+  secondary: 'bg-secondary text-on-secondary',
+  danger: 'bg-error text-on-error',
+  ghost: 'bg-transparent hover:bg-surface-variant',
+};
+
+const SIZE_CLASSES: Record<WiButtonSize, string> = {
+  sm: 'h-control-sm px-3 text-sm',
+  md: 'h-control-md px-4 text-sm',
+  lg: 'h-control-lg px-6 text-base',
+};
+```
+
+Adaptar esta estructura cuando el componente utilice Spartan Brain.
+
+---
+
+# Storybook
+
+Cada componente público debe incluir historias. Detalle (actions, mínimas, responsive, i18n): skill `storybook` (`.agents/skills/storybook`).
+
+Mínimo orientativo: Default, Variants, Sizes, Disabled, Loading, long content, Dark mode, a11y, Responsive (regla `responsive`). No usar Storybook solo como escaparate visual.
+
+---
+
+# Tests
+
+## Tests unitarios
+
+Comprobar:
+
+- valores por defecto;
+- inputs;
+- outputs;
+- clases por variante;
+- estado disabled;
+- estado loading;
+- renderizado condicional;
+- integración con formularios.
+
+## Tests de interacción
+
+Comprobar:
+
+- navegación mediante teclado;
+- foco;
+- Escape;
+- selección;
+- apertura y cierre;
+- restauración del foco;
+- eventos emitidos.
+
+## Tests E2E
+
+Utilizar Playwright para:
+
+- overlays;
+- diálogos;
+- menus;
+- selects;
+- tabs;
+- data tables;
+- formularios;
+- comportamiento responsive.
+
+No basar las pruebas únicamente en selectores CSS frágiles.
+
+Preferir:
+
+- roles;
+- labels;
+- texto accesible;
+- `data-testid` solo cuando no exista una alternativa semántica.
+
+---
+
+# Criterios para generar un componente nuevo
+
+Antes de escribir código, Cursor debe analizar:
+
+1. Qué necesidad resuelve.
+2. Si ya existe un componente equivalente.
+3. Si debe ser componente base o pattern.
+4. Qué parte puede delegarse en Spartan.
+5. Cuál será la API pública.
+6. Qué tokens utilizará.
+7. Qué comportamiento de teclado necesita.
+8. Cómo se probará.
+9. Qué historias requiere.
+10. Qué se exportará desde el entry point.
+11. Cómo se registrará en el MCP de `@wiloc/ui` (metadatos públicos para agentes).
+
+Cuando falte información, hacer supuestos mínimos y dejar claramente identificadas las decisiones pendientes.
+
+No generar diez componentes a la vez.
+
+Implementar primero el componente mínimo completo, incluyendo tests, Storybook y actualización del registry MCP.
+
+---
+
+# Proceso para implementar componentes basados en Spartan
+
+1. Identificar la primitive de Spartan Brain adecuada.
+2. Revisar su comportamiento accesible.
+3. No copiar automáticamente toda la API de Spartan.
+4. Diseñar una API propia para Wiloc.
+5. Adaptar eventos y configuraciones internamente.
+6. Aplicar tokens y variantes de `wiComponents`.
+7. Añadir soporte de teclado y ARIA necesario.
+8. Crear historias.
+9. Crear tests.
+10. Actualizar el registry del MCP (`@wiloc/ui-mcp`) con la API pública.
+11. Verificar el paquete mediante `pnpm pack`.
+
+Cuando se adapte código de Spartan Helm:
+
+- tratarlo como punto de partida;
+- eliminar APIs innecesarias;
+- adaptar nombres y tokens;
+- conservar atribuciones y licencias;
+- documentar cambios relevantes;
+- no copiar componentes enteros sin revisión.
+
+---
+
+# Reglas para refactorizaciones
+
+No cambiar la API pública sin identificar el impacto.
+
+Antes de renombrar o eliminar:
+
+- inputs;
+- outputs;
+- componentes;
+- selectores;
+- tipos;
+- tokens;
+- entry points;
+
+indicar que se trata de un posible breaking change.
+
+Cuando sea posible:
+
+- introducir una API nueva;
+- marcar la antigua como deprecated;
+- documentar la migración;
+- eliminarla en una major posterior.
+
+No realizar refactorizaciones masivas no solicitadas mientras se implementa una funcionalidad concreta.
+
+---
+
+# Publicación
+
+Antes de considerar terminado un cambio:
+
+```bash
+pnpm lint
+pnpm test
+pnpm build
+pnpm pack
+```
+
+Verificar el `.tgz` generado en la aplicación `e2e-consumer`.
+
+Comprobar:
+
+- imports;
+- estilos;
+- tokens;
+- assets;
+- peer dependencies;
+- tree shaking;
+- SSR;
+- dark mode;
+- teclado;
+- aplicación showcase.
+
+No asumir que un componente funciona como paquete npm únicamente porque funciona dentro del workspace.
+
+---
+
+# Semantic Versioning
+
+Considerar breaking change:
+
+- eliminar una exportación pública;
+- renombrar selector;
+- renombrar input u output;
+- modificar tipos públicos de manera incompatible;
+- cambiar comportamiento documentado;
+- eliminar una variante;
+- cambiar un token público;
+- modificar un entry point;
+- aumentar requisitos de Angular de manera incompatible.
+
+Clasificación:
+
+```text
+fix compatible       → patch
+feature compatible   → minor
+breaking change      → major
+```
+
+Durante la fase inicial pueden utilizarse versiones prerelease.
+
+---
+
+# Documentación
+
+Cada componente público debe documentar:
+
+- objetivo;
+- import;
+- ejemplo básico;
+- inputs;
+- outputs;
+- variantes;
+- comportamiento de teclado;
+- accesibilidad;
+- limitaciones;
+- casos recomendados;
+- casos que deben evitarse.
+
+No documentar APIs internas.
+
+Los ejemplos deben utilizar únicamente imports públicos.
+
+---
+
+# Checklist final para Cursor
+
+Antes de entregar código, comprobar:
+
+- [ ] El componente es standalone.
+- [ ] Utiliza signals y APIs Angular modernas.
+- [ ] No utiliza `any`.
+- [ ] No expone tipos de Spartan.
+- [ ] No contiene lógica de negocio.
+- [ ] Utiliza tokens semánticos.
+- [ ] No genera clases Tailwind dinámicamente.
+- [ ] Es compatible con teclado.
+- [ ] Tiene nombre accesible.
+- [ ] Gestiona correctamente disabled.
+- [ ] Es compatible con SSR.
+- [ ] Es compatible con zoneless.
+- [ ] Incluye tests.
+- [ ] Incluye historias de Storybook (seguir skill `storybook`; actions para outputs).
+
+- [ ] Layouts / recipes verificados en viewport estrecho (~320px); regla `responsive`.
+- [ ] Utiliza imports públicos (`@wiloc/ui/...`; cruzados sin rutas relativas).
+- [ ] Está exportado desde el entry point correcto.
+- [ ] Si hay entry/subpath nuevo o import cruzado: `exports` + Storybook alias + `tsconfig` paths.
+- [ ] Está registrado o actualizado en el MCP (`@wiloc/ui-mcp`).
+
+- [ ] El MCP documenta solo API pública (sin Spartan ni rutas internas).
+- [ ] No introduce breaking changes accidentales.
+- [ ] Funciona después de `pnpm pack`.
+
+---
+
+# Comportamiento esperado de Cursor
+
+Cuando se solicite crear o modificar un componente:
+
+1. Analizar primero la API y las responsabilidades.
+2. Explicar brevemente las decisiones importantes.
+3. Generar una implementación mínima y completa.
+4. Incluir tests.
+5. Incluir Storybook.
+6. Actualizar exports.
+7. Actualizar el registry del MCP.
+8. Evitar cambios no relacionados.
+9. Avisar de posibles breaking changes.
+10. Señalar cualquier supuesto.
+11. Mantener consistencia con los componentes existentes.
+
+No generar código de ejemplo incompleto con comentarios como:
+
+```ts
+// Implementar aquí
+// Añadir lógica
+// TODO
+```
+
+El código entregado debe ser funcional, salvo que se indique expresamente que se está creando únicamente una propuesta o un prototipo.

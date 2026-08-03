@@ -1,12 +1,10 @@
 ---
 description: Convención de tema claro/oscuro con tokens --wi-color-* y clase .wi-dark
 globs:
-  - "**/*.ts"
-  - "**/*.html"
-  - "**/*.scss"
-  - "**/*.css"
-  - "**/*.stories.ts"
-alwaysApply: true
+  - "projects/components/**/*.{ts,html,scss,css}"
+  - "projects/components/**/*.stories.ts"
+  - "projects/components/styles/**"
+alwaysApply: false
 ---
 
 # Tema claro y oscuro

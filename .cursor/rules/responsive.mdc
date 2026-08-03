@@ -1,12 +1,9 @@
 ---
 description: Responsive obligatorio en componentes, layouts de stories y recetas de composición
 globs:
-  - "**/*.ts"
-  - "**/*.html"
-  - "**/*.scss"
-  - "**/*.css"
-  - "**/*.stories.ts"
-alwaysApply: true
+  - "projects/components/**/*.{ts,html,scss,css}"
+  - "projects/components/**/*.stories.ts"
+alwaysApply: false
 ---
 
 # Responsive (obligatorio)

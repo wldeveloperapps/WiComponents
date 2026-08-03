@@ -1,10 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { moduleMetadata } from '@storybook/angular-vite';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { fn } from 'storybook/test';
 
 import { WiCheckboxComponent } from './public-api';
 
-const meta: Meta<WiCheckboxComponent> = {
+type WiCheckboxStoryArgs = WiCheckboxComponent & {
+  valueChange: ReturnType<typeof fn>;
+  touch: ReturnType<typeof fn>;
+};
+
+const meta: Meta<WiCheckboxStoryArgs> = {
   title: 'Forms/WiCheckbox',
   component: WiCheckboxComponent,
   tags: ['autodocs'],
@@ -13,7 +19,7 @@ const meta: Meta<WiCheckboxComponent> = {
     docs: {
       description: {
         component:
-          'Checkbox booleano con soporte indeterminate. `ariaLabel` / textos de label vía la app (ver Documentation/I18n). Compatible con Reactive Forms y Signal Forms. En viewport estrecho se apila con el label en una fila flex con wrap.',
+          'Checkbox booleano con soporte indeterminate. `ariaLabel` / textos de label vía la app (ver Documentation/I18n). Compatible con Reactive Forms y Signal Forms. En viewport estrecho se apila con el label en una fila flex con wrap. Events: `valueChange`, `touch`.',
       },
     },
   },
@@ -32,6 +38,18 @@ const meta: Meta<WiCheckboxComponent> = {
     required: { control: 'boolean' },
     indeterminate: { control: 'boolean' },
     ariaLabel: { control: 'text' },
+    valueChange: {
+      action: 'valueChange',
+      description: 'Se emite al cambiar el valor',
+      table: { category: 'Events' },
+      control: false,
+    },
+    touch: {
+      action: 'touch',
+      description: 'Se emite en blur / toggle (Signal Forms / touched)',
+      table: { category: 'Events' },
+      control: false,
+    },
   },
   args: {
     size: 'md',
@@ -40,18 +58,26 @@ const meta: Meta<WiCheckboxComponent> = {
     required: false,
     indeterminate: false,
     ariaLabel: 'Aceptar términos',
+    valueChange: fn(),
+    touch: fn(),
   },
 };
 
 export default meta;
-type Story = StoryObj<WiCheckboxComponent>;
+type Story = StoryObj<WiCheckboxStoryArgs>;
 
 export const Default: Story = {
   render: (args) => ({
-    props: args,
+    props: {
+      ...args,
+      value: false,
+    },
     template: `
       <label class="flex min-w-0 max-w-xs items-center gap-2 text-sm text-on-surface">
         <wi-checkbox
+          [value]="value"
+          (valueChange)="value = $event; valueChange($event)"
+          (touch)="touch()"
           [size]="size"
           [disabled]="disabled"
           [invalid]="invalid"
@@ -66,19 +92,20 @@ export const Default: Story = {
 };
 
 export const Sizes: Story = {
-  render: () => ({
+  render: (args) => ({
+    props: args,
     template: `
       <div class="flex min-w-0 max-w-xs flex-col gap-3">
         <label class="flex items-center gap-2 text-sm text-on-surface">
-          <wi-checkbox size="sm" ariaLabel="Small" />
+          <wi-checkbox size="sm" ariaLabel="Small" (valueChange)="valueChange($event)" (touch)="touch()" />
           <span>Small</span>
         </label>
         <label class="flex items-center gap-2 text-sm text-on-surface">
-          <wi-checkbox size="md" ariaLabel="Medium" />
+          <wi-checkbox size="md" ariaLabel="Medium" (valueChange)="valueChange($event)" (touch)="touch()" />
           <span>Medium</span>
         </label>
         <label class="flex items-center gap-2 text-sm text-on-surface">
-          <wi-checkbox size="lg" ariaLabel="Large" />
+          <wi-checkbox size="lg" ariaLabel="Large" (valueChange)="valueChange($event)" (touch)="touch()" />
           <span>Large</span>
         </label>
       </div>
@@ -87,10 +114,19 @@ export const Sizes: Story = {
 };
 
 export const Checked: Story = {
-  render: () => ({
+  render: (args) => ({
+    props: {
+      ...args,
+      value: true,
+    },
     template: `
       <label class="flex min-w-0 max-w-xs items-center gap-2 text-sm text-on-surface">
-        <wi-checkbox [value]="true" ariaLabel="Activado" />
+        <wi-checkbox
+          [value]="value"
+          (valueChange)="value = $event; valueChange($event)"
+          (touch)="touch()"
+          ariaLabel="Activado"
+        />
         <span>Activado</span>
       </label>
     `,
@@ -98,10 +134,16 @@ export const Checked: Story = {
 };
 
 export const Indeterminate: Story = {
-  render: () => ({
+  render: (args) => ({
+    props: args,
     template: `
       <label class="flex min-w-0 max-w-xs items-center gap-2 text-sm text-on-surface">
-        <wi-checkbox indeterminate ariaLabel="Selección parcial" />
+        <wi-checkbox
+          indeterminate
+          ariaLabel="Selección parcial"
+          (valueChange)="valueChange($event)"
+          (touch)="touch()"
+        />
         <span>Seleccionar todo (parcial)</span>
       </label>
     `,
@@ -109,15 +151,16 @@ export const Indeterminate: Story = {
 };
 
 export const Disabled: Story = {
-  render: () => ({
+  render: (args) => ({
+    props: args,
     template: `
       <div class="flex min-w-0 max-w-xs flex-col gap-3">
         <label class="flex items-center gap-2 text-sm text-on-surface">
-          <wi-checkbox disabled ariaLabel="Deshabilitado off" />
+          <wi-checkbox disabled ariaLabel="Deshabilitado off" (valueChange)="valueChange($event)" (touch)="touch()" />
           <span>Deshabilitado (off)</span>
         </label>
         <label class="flex items-center gap-2 text-sm text-on-surface">
-          <wi-checkbox disabled [value]="true" ariaLabel="Deshabilitado on" />
+          <wi-checkbox disabled [value]="true" ariaLabel="Deshabilitado on" (valueChange)="valueChange($event)" (touch)="touch()" />
           <span>Deshabilitado (on)</span>
         </label>
       </div>
@@ -126,7 +169,8 @@ export const Disabled: Story = {
 };
 
 export const Invalid: Story = {
-  render: () => ({
+  render: (args) => ({
+    props: args,
     template: `
       <div class="flex min-w-0 max-w-xs flex-col gap-2">
         <label class="flex items-center gap-2 text-sm text-on-surface">
@@ -135,6 +179,8 @@ export const Invalid: Story = {
             required
             ariaLabel="Aceptar términos"
             ariaDescribedBy="checkbox-error"
+            (valueChange)="valueChange($event)"
+            (touch)="touch()"
           />
           <span>Acepto los términos</span>
         </label>
@@ -147,20 +193,21 @@ export const Invalid: Story = {
 };
 
 export const Group: Story = {
-  render: () => ({
+  render: (args) => ({
+    props: args,
     template: `
       <fieldset class="m-0 flex min-w-0 max-w-xs flex-col gap-2 border-0 p-0">
         <legend class="mb-1 text-sm font-medium text-on-surface">Canales</legend>
         <label class="flex items-center gap-2 text-sm text-on-surface">
-          <wi-checkbox ariaLabel="Email" />
+          <wi-checkbox ariaLabel="Email" (valueChange)="valueChange($event)" (touch)="touch()" />
           <span>Email</span>
         </label>
         <label class="flex items-center gap-2 text-sm text-on-surface">
-          <wi-checkbox [value]="true" ariaLabel="SMS" />
+          <wi-checkbox [value]="true" ariaLabel="SMS" (valueChange)="valueChange($event)" (touch)="touch()" />
           <span>SMS</span>
         </label>
         <label class="flex items-center gap-2 text-sm text-on-surface">
-          <wi-checkbox ariaLabel="Push" />
+          <wi-checkbox ariaLabel="Push" (valueChange)="valueChange($event)" (touch)="touch()" />
           <span>Push</span>
         </label>
       </fieldset>
@@ -169,7 +216,7 @@ export const Group: Story = {
 };
 
 export const WithReactiveForms: Story = {
-  render: () => {
+  render: (args) => {
     const form = new FormGroup({
       terms: new FormControl(false, {
         nonNullable: true,
@@ -179,6 +226,7 @@ export const WithReactiveForms: Story = {
 
     return {
       props: {
+        ...args,
         form,
         submit: () => {
           form.controls.terms.markAsTouched();
@@ -196,6 +244,8 @@ export const WithReactiveForms: Story = {
               required
               [invalid]="form.controls.terms.invalid && form.controls.terms.touched"
               ariaDescribedBy="terms-error"
+              (valueChange)="valueChange($event)"
+              (touch)="touch()"
             />
             <span>Acepto los términos</span>
           </label>
@@ -225,11 +275,16 @@ export const ResponsiveNarrow: Story = {
       },
     },
   },
-  render: () => ({
+  render: (args) => ({
+    props: args,
     template: `
       <div class="w-full max-w-[20rem] min-w-0">
         <label class="flex min-w-0 flex-wrap items-center gap-2 text-sm text-on-surface">
-          <wi-checkbox ariaLabel="Newsletter" />
+          <wi-checkbox
+            ariaLabel="Newsletter"
+            (valueChange)="valueChange($event)"
+            (touch)="touch()"
+          />
           <span class="min-w-0 flex-1">
             Quiero recibir novedades del producto y avisos de mantenimiento programado
           </span>
@@ -243,27 +298,28 @@ export const DarkMode: Story = {
   globals: {
     theme: 'dark',
   },
-  render: () => ({
+  render: (args) => ({
+    props: args,
     template: `
       <div class="flex min-w-0 max-w-xs flex-col gap-3 p-6">
         <label class="flex items-center gap-2 text-sm text-on-surface">
-          <wi-checkbox ariaLabel="Default" />
+          <wi-checkbox ariaLabel="Default" (valueChange)="valueChange($event)" (touch)="touch()" />
           <span>Default</span>
         </label>
         <label class="flex items-center gap-2 text-sm text-on-surface">
-          <wi-checkbox [value]="true" ariaLabel="Checked" />
+          <wi-checkbox [value]="true" ariaLabel="Checked" (valueChange)="valueChange($event)" (touch)="touch()" />
           <span>Checked</span>
         </label>
         <label class="flex items-center gap-2 text-sm text-on-surface">
-          <wi-checkbox indeterminate ariaLabel="Indeterminate" />
+          <wi-checkbox indeterminate ariaLabel="Indeterminate" (valueChange)="valueChange($event)" (touch)="touch()" />
           <span>Indeterminate</span>
         </label>
         <label class="flex items-center gap-2 text-sm text-on-surface">
-          <wi-checkbox invalid ariaLabel="Invalid" />
+          <wi-checkbox invalid ariaLabel="Invalid" (valueChange)="valueChange($event)" (touch)="touch()" />
           <span>Invalid</span>
         </label>
         <label class="flex items-center gap-2 text-sm text-on-surface">
-          <wi-checkbox disabled [value]="true" ariaLabel="Disabled" />
+          <wi-checkbox disabled [value]="true" ariaLabel="Disabled" (valueChange)="valueChange($event)" (touch)="touch()" />
           <span>Disabled</span>
         </label>
       </div>
