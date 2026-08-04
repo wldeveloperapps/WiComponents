@@ -14,9 +14,9 @@ pnpm e2e-consumer:serve    # http://localhost:4200
 ## Qué valida
 
 - `exports` del paquete (button, forms, icon, styles)
-- peers (`@angular/*`, `@spartan-ng/brain`, …)
+- peers (`@angular/*`, `@angular/aria`, `@spartan-ng/brain`, …)
 - tokens CSS + Tailwind + `.wi-dark`
 - locale de app (`provideWiCalendarI18n` + textos ES/EN)
-- smoke: button, input, select, datepicker, iconos
+- smoke: button, input, checkbox, switch, select, listbox, datepicker, dialog, iconos
 
 No publica a npm; solo comprueba el artefacto local.

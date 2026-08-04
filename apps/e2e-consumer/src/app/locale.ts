@@ -78,10 +78,15 @@ interface UiMessages {
   terms: string;
   yes: string;
   no: string;
+  switch: string;
+  notifications: string;
   select: string;
   fruitPlaceholder: string;
   fruitAria: string;
   clear: string;
+  listbox: string;
+  roleAria: string;
+  emptyRoles: string;
   datepicker: string;
   dateAria: string;
   openCalendar: string;
@@ -92,6 +97,7 @@ interface UiMessages {
   dialogBody: string;
   closeDialog: string;
   fruits: readonly [string, string, string];
+  roles: readonly [string, string, string];
 }
 
 const MESSAGES: Record<AppLocale, UiMessages> = {
@@ -115,10 +121,15 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     terms: 'Acepto los términos y condiciones',
     yes: 'sí',
     no: 'no',
+    switch: 'Switch',
+    notifications: 'Notificaciones',
     select: 'Select',
     fruitPlaceholder: 'Selecciona una fruta',
     fruitAria: 'Fruta',
     clear: 'Limpiar',
+    listbox: 'Listbox',
+    roleAria: 'Rol',
+    emptyRoles: 'Sin roles',
     datepicker: 'Datepicker',
     dateAria: 'Fecha',
     openCalendar: 'Abrir calendario',
@@ -129,6 +140,7 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     dialogBody: 'Contenido de ejemplo del dialog en el smoke del paquete.',
     closeDialog: 'Cerrar',
     fruits: ['Manzana', 'Naranja', 'Plátano'],
+    roles: ['Admin', 'Editor', 'Viewer'],
   },
   en: {
     subtitle: 'Packaged library smoke test',
@@ -150,10 +162,15 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     terms: 'I accept the terms and conditions',
     yes: 'yes',
     no: 'no',
+    switch: 'Switch',
+    notifications: 'Notifications',
     select: 'Select',
     fruitPlaceholder: 'Select a fruit',
     fruitAria: 'Fruit',
     clear: 'Clear',
+    listbox: 'Listbox',
+    roleAria: 'Role',
+    emptyRoles: 'No roles',
     datepicker: 'Datepicker',
     dateAria: 'Date',
     openCalendar: 'Open calendar',
@@ -164,6 +181,7 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     dialogBody: 'Sample dialog content in the packaged library smoke test.',
     closeDialog: 'Close',
     fruits: ['Apple', 'Orange', 'Banana'],
+    roles: ['Admin', 'Editor', 'Viewer'],
   },
 };
 

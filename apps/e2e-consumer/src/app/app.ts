@@ -14,7 +14,9 @@ import {
   WiCheckboxComponent,
   WiDatepickerComponent,
   WiInputComponent,
+  WiListboxComponent,
   WiSelectComponent,
+  WiSwitchComponent,
 } from '@wiloc/ui/forms';
 import { WiIconComponent } from '@wiloc/ui/icon';
 import {
@@ -56,7 +58,9 @@ import { appLocale, toggleAppLocale, uiMessages } from './locale';
     WiCheckboxComponent,
     WiIconComponent,
     WiInputComponent,
+    WiListboxComponent,
     WiSelectComponent,
+    WiSwitchComponent,
     WiTooltipDirective,
   ],
   templateUrl: './app.html',
@@ -73,7 +77,9 @@ export class App {
 
   protected readonly nameControl = new FormControl('Wiloc', { nonNullable: true });
   protected readonly termsControl = new FormControl(false, { nonNullable: true });
+  protected readonly notificationsControl = new FormControl(false, { nonNullable: true });
   protected readonly fruit = signal<string | null>(null);
+  protected readonly role = signal<string | null>(null);
   protected readonly date = signal<Date | null>(null);
 
   constructor() {
@@ -91,6 +97,7 @@ export class App {
   protected toggleLanguage(): void {
     toggleAppLocale();
     this.fruit.set(null);
+    this.role.set(null);
   }
 
   protected simulateLoading(): void {

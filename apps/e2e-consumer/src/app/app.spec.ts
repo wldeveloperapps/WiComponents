@@ -24,6 +24,12 @@ beforeAll(() => {
     configurable: true,
     value: ResizeObserverStub,
   });
+
+  Object.defineProperty(Element.prototype, 'scrollIntoView', {
+    writable: true,
+    configurable: true,
+    value: () => undefined,
+  });
 });
 
 describe('App', () => {
@@ -95,5 +101,47 @@ describe('App', () => {
 
     expect(checkbox?.getAttribute('aria-checked')).toBe('true');
     expect(root.textContent).toContain('Valor: sí');
+  });
+
+  it('should toggle switch via reactive forms', async () => {
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const root = fixture.nativeElement as HTMLElement;
+    const toggle = root.querySelector(
+      'wi-switch button[role="switch"]',
+    ) as HTMLButtonElement | null;
+    expect(toggle).toBeTruthy();
+    expect(toggle?.getAttribute('aria-checked')).toBe('false');
+
+    toggle?.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(toggle?.getAttribute('aria-checked')).toBe('true');
+    expect(root.textContent).toContain('Notificaciones');
+    expect(root.textContent).toMatch(/Valor:\s*sí/);
+  });
+
+  it('should select a listbox option', async () => {
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const root = fixture.nativeElement as HTMLElement;
+    expect(root.querySelector('wi-listbox [role="listbox"]')).toBeTruthy();
+
+    const options = Array.from(
+      root.querySelectorAll('wi-listbox [role="option"]'),
+    ) as HTMLElement[];
+    expect(options.length).toBe(3);
+
+    options[1]?.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(options[1]?.getAttribute('aria-selected')).toBe('true');
+    expect(root.textContent).toContain('Valor: Editor');
   });
 });

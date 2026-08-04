@@ -83,6 +83,21 @@
         </p>
       </section>
 
+      <section class="flex flex-col gap-3" aria-labelledby="switch-heading">
+        <h2 id="switch-heading" class="text-sm font-medium text-on-surface">{{ t().switch }}</h2>
+        <div class="flex min-w-0 items-center justify-between gap-3 text-sm text-on-surface">
+          <span id="notifications-label" class="min-w-0">{{ t().notifications }}</span>
+          <wi-switch
+            id="notifications"
+            [formControl]="notificationsControl"
+            ariaLabelledBy="notifications-label"
+          />
+        </div>
+        <p class="text-sm text-on-surface-variant">
+          {{ t().value }}: {{ notificationsControl.value ? t().yes : t().no }}
+        </p>
+      </section>
+
       <section class="flex flex-col gap-3" aria-labelledby="select-heading">
         <h2 id="select-heading" class="text-sm font-medium text-on-surface">{{ t().select }}</h2>
         <wi-select
@@ -95,6 +110,17 @@
           [clearLabel]="t().clear"
         />
         <p class="text-sm text-on-surface-variant">{{ t().value }}: {{ fruit() ?? '—' }}</p>
+      </section>
+
+      <section class="flex flex-col gap-3" aria-labelledby="listbox-heading">
+        <h2 id="listbox-heading" class="text-sm font-medium text-on-surface">{{ t().listbox }}</h2>
+        <wi-listbox
+          [(value)]="role"
+          [options]="t().roles"
+          [emptyText]="t().emptyRoles"
+          [ariaLabel]="t().roleAria"
+        />
+        <p class="text-sm text-on-surface-variant">{{ t().value }}: {{ role() ?? '—' }}</p>
       </section>
 
       <section class="flex flex-col gap-3" aria-labelledby="datepicker-heading">
