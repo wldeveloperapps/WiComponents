@@ -10,3 +10,4 @@ export { wiDatepickerRegistryEntry } from './datepicker';
 export { wiTooltipRegistryEntry } from './tooltip';
 export { wiMenuRegistryEntry } from './menu';
 export { wiTableRegistryEntry } from './table';
+export { wiListboxRegistryEntry } from './listbox';

@@ -20,6 +20,9 @@ export {
   WiSelectTriggerIconDirective,
 } from './wi-select.component';
 
+export type { WiListboxCompareWith, WiListboxItemContext, WiListboxSize } from './wi-listbox.types';
+export { WiListboxComponent, WiListboxItemDirective } from './wi-listbox.component';
+
 export type {
   WiDateDisabled,
   WiDatepickerSize,
