@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { WiButtonComponent } from '@wiloc/ui/button';
 import {
@@ -9,6 +9,10 @@ import {
   WiCardFooterComponent,
   WiCardHeaderComponent,
   WiCardTitleComponent,
+  type WiColumnDef,
+  type WiColumnFilter,
+  WiTableCellDirective,
+  WiTableComponent,
 } from '@wiloc/ui/data-display';
 import {
   WiCheckboxComponent,
@@ -61,6 +65,8 @@ import { appLocale, toggleAppLocale, uiMessages } from './locale';
     WiListboxComponent,
     WiSelectComponent,
     WiSwitchComponent,
+    WiTableCellDirective,
+    WiTableComponent,
     WiTooltipDirective,
   ],
   templateUrl: './app.html',
@@ -81,6 +87,42 @@ export class App {
   protected readonly fruit = signal<string | null>(null);
   protected readonly role = signal<string | null>(null);
   protected readonly date = signal<Date | null>(null);
+  protected readonly tableFilters = signal<readonly WiColumnFilter[]>([]);
+  protected readonly tablePageIndex = signal(0);
+
+  protected readonly tableColumns = computed((): WiColumnDef[] => {
+    const m = this.t();
+    return [
+      {
+        id: 'name',
+        header: m.tableColName,
+        field: 'name',
+        sortable: true,
+        filterable: true,
+        filterPlaceholder: m.tableFilterName,
+      },
+      {
+        id: 'city',
+        header: m.tableColCity,
+        field: 'city',
+        sortable: true,
+        filterable: true,
+        filterPlaceholder: m.tableFilterCity,
+      },
+      {
+        id: 'status',
+        header: m.tableColStatus,
+        field: 'status',
+        sortable: true,
+        filterable: true,
+        filterType: 'select',
+        filterPlaceholder: m.tableFilterStatus,
+        filterOptions: m.tableStatusOptions,
+      },
+    ];
+  });
+
+  protected readonly tableRows = computed(() => this.t().tableRows);
 
   constructor() {
     effect(() => {
@@ -98,6 +140,8 @@ export class App {
     toggleAppLocale();
     this.fruit.set(null);
     this.role.set(null);
+    this.tableFilters.set([]);
+    this.tablePageIndex.set(0);
   }
 
   protected simulateLoading(): void {

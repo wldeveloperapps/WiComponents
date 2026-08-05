@@ -1,4 +1,4 @@
-<main class="mx-auto flex min-h-dvh max-w-lg flex-col gap-8 p-6">
+<main class="mx-auto flex min-h-dvh max-w-3xl flex-col gap-8 p-6">
   <header class="flex items-start justify-between gap-4">
     <div>
       <p class="text-sm text-on-surface-variant">{{ t().subtitle }}</p>
@@ -161,6 +161,29 @@
             </wi-dialog-content>
           </ng-template>
         </wi-dialog>
+      </section>
+
+      <section class="flex min-w-0 flex-col gap-3" aria-labelledby="table-heading">
+        <h2 id="table-heading" class="text-sm font-medium text-on-surface">{{ t().table }}</h2>
+        <wi-table
+          class="w-full min-w-0"
+          [columns]="tableColumns()"
+          [data]="tableRows()"
+          [(filters)]="tableFilters"
+          [(pageIndex)]="tablePageIndex"
+          [pageSize]="3"
+          showResultCount
+          [ariaLabel]="t().tableAria"
+          [emptyMessage]="t().tableEmpty"
+          trackBy="id"
+        >
+          <span wiTableSummary>{{ t().tableSummary }}</span>
+          <ng-template [wiTableCell]="'status'" let-value="value">
+            {{
+              value === 'active' ? t().tableStatusOptions[0].label : t().tableStatusOptions[1].label
+            }}
+          </ng-template>
+        </wi-table>
       </section>
     </wi-card-content>
     <wi-card-footer class="justify-end">

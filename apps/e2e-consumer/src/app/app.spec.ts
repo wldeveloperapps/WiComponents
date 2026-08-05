@@ -144,4 +144,45 @@ describe('App', () => {
     expect(options[1]?.getAttribute('aria-selected')).toBe('true');
     expect(root.textContent).toContain('Valor: Editor');
   });
+
+  it('should render, paginate and filter the data table', async () => {
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const root = fixture.nativeElement as HTMLElement;
+    const tableHost = root.querySelector('wi-table');
+    expect(tableHost?.getAttribute('aria-label')).toBe('Sitios de ejemplo');
+    expect(root.textContent).toContain('Inventario smoke');
+    expect(root.textContent).toContain('8 resultados');
+    expect(root.querySelectorAll('wi-table tbody tr').length).toBe(3);
+    expect(root.textContent).toContain('Norte');
+    expect(root.textContent).not.toContain('Oeste');
+
+    const next = root.querySelector(
+      'wi-table button[aria-label="Siguiente"]',
+    ) as HTMLButtonElement | null;
+    expect(next).toBeTruthy();
+    next?.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(root.textContent).toContain('Oeste');
+    expect(root.textContent).not.toContain('Norte');
+
+    const cityFilter = root.querySelector(
+      'wi-table input[aria-label="Filtrar Ciudad"]',
+    ) as HTMLInputElement | null;
+    expect(cityFilter).toBeTruthy();
+    cityFilter!.value = 'Madrid';
+    cityFilter!.dispatchEvent(new Event('input', { bubbles: true }));
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(root.textContent).toContain('2 resultados');
+    expect(root.querySelectorAll('wi-table tbody tr').length).toBe(2);
+    expect(root.textContent).toContain('Norte');
+    expect(root.textContent).toContain('Centro');
+    expect(root.textContent).not.toContain('Sevilla');
+  });
 });

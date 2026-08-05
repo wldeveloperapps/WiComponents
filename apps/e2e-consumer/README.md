@@ -17,6 +17,6 @@ pnpm e2e-consumer:serve    # http://localhost:4200
 - peers (`@angular/*`, `@angular/aria`, `@spartan-ng/brain`, …)
 - tokens CSS + Tailwind + `.wi-dark`
 - locale de app (`provideWiCalendarI18n` + textos ES/EN)
-- smoke: button, input, checkbox, switch, select, listbox, datepicker, dialog, iconos
+- smoke: button, input, checkbox, switch, select, listbox, datepicker, dialog, table, iconos
 
 No publica a npm; solo comprueba el artefacto local.

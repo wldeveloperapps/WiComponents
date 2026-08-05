@@ -96,8 +96,20 @@ interface UiMessages {
   dialogDescription: string;
   dialogBody: string;
   closeDialog: string;
+  table: string;
+  tableAria: string;
+  tableEmpty: string;
+  tableSummary: string;
+  tableColName: string;
+  tableColCity: string;
+  tableColStatus: string;
+  tableFilterName: string;
+  tableFilterCity: string;
+  tableFilterStatus: string;
   fruits: readonly [string, string, string];
   roles: readonly [string, string, string];
+  tableStatusOptions: readonly { label: string; value: string }[];
+  tableRows: readonly { id: string; name: string; city: string; status: string }[];
 }
 
 const MESSAGES: Record<AppLocale, UiMessages> = {
@@ -139,8 +151,32 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     dialogDescription: 'Los cambios se aplican al guardar.',
     dialogBody: 'Contenido de ejemplo del dialog en el smoke del paquete.',
     closeDialog: 'Cerrar',
+    table: 'Table',
+    tableAria: 'Sitios de ejemplo',
+    tableEmpty: 'Sin sitios',
+    tableSummary: 'Inventario smoke',
+    tableColName: 'Nombre',
+    tableColCity: 'Ciudad',
+    tableColStatus: 'Estado',
+    tableFilterName: 'Buscar nombre',
+    tableFilterCity: 'Buscar ciudad',
+    tableFilterStatus: 'Todos los estados',
     fruits: ['Manzana', 'Naranja', 'Plátano'],
     roles: ['Admin', 'Editor', 'Viewer'],
+    tableStatusOptions: [
+      { label: 'Activo', value: 'active' },
+      { label: 'Inactivo', value: 'inactive' },
+    ],
+    tableRows: [
+      { id: '1', name: 'Norte', city: 'Madrid', status: 'active' },
+      { id: '2', name: 'Sur', city: 'Sevilla', status: 'active' },
+      { id: '3', name: 'Este', city: 'Valencia', status: 'inactive' },
+      { id: '4', name: 'Oeste', city: 'A Coruña', status: 'active' },
+      { id: '5', name: 'Centro', city: 'Madrid', status: 'inactive' },
+      { id: '6', name: 'Puerto', city: 'Barcelona', status: 'active' },
+      { id: '7', name: 'Almacén', city: 'Zaragoza', status: 'inactive' },
+      { id: '8', name: 'Taller', city: 'Bilbao', status: 'active' },
+    ],
   },
   en: {
     subtitle: 'Packaged library smoke test',
@@ -180,8 +216,32 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     dialogDescription: 'Changes apply when you save.',
     dialogBody: 'Sample dialog content in the packaged library smoke test.',
     closeDialog: 'Close',
+    table: 'Table',
+    tableAria: 'Sample sites',
+    tableEmpty: 'No sites',
+    tableSummary: 'Smoke inventory',
+    tableColName: 'Name',
+    tableColCity: 'City',
+    tableColStatus: 'Status',
+    tableFilterName: 'Search name',
+    tableFilterCity: 'Search city',
+    tableFilterStatus: 'All statuses',
     fruits: ['Apple', 'Orange', 'Banana'],
     roles: ['Admin', 'Editor', 'Viewer'],
+    tableStatusOptions: [
+      { label: 'Active', value: 'active' },
+      { label: 'Inactive', value: 'inactive' },
+    ],
+    tableRows: [
+      { id: '1', name: 'North', city: 'Madrid', status: 'active' },
+      { id: '2', name: 'South', city: 'Seville', status: 'active' },
+      { id: '3', name: 'East', city: 'Valencia', status: 'inactive' },
+      { id: '4', name: 'West', city: 'A Coruña', status: 'active' },
+      { id: '5', name: 'Central', city: 'Madrid', status: 'inactive' },
+      { id: '6', name: 'Port', city: 'Barcelona', status: 'active' },
+      { id: '7', name: 'Warehouse', city: 'Zaragoza', status: 'inactive' },
+      { id: '8', name: 'Workshop', city: 'Bilbao', status: 'active' },
+    ],
   },
 };
 
