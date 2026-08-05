@@ -35,7 +35,8 @@
               "projects/components/data-display/src/**/*.ts",
               "projects/components/forms/src/**/*.ts",
               "projects/components/icon/src/**/*.ts",
-              "projects/components/overlays/src/**/*.ts"
+              "projects/components/overlays/src/**/*.ts",
+              "projects/components/navigation/src/**/*.ts"
             ],
             "coverageExclude": [
               "**/*.spec.ts",

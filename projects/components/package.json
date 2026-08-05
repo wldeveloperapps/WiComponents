@@ -32,6 +32,10 @@
       "style": "./styles/tokens.css",
       "default": "./styles/tokens.css"
     },
+    "./styles/tabs.css": {
+      "style": "./styles/tabs.css",
+      "default": "./styles/tabs.css"
+    },
     "./styles/index.css": {
       "style": "./styles/index.css",
       "default": "./styles/index.css"
@@ -63,6 +67,10 @@
     "./overlays": {
       "types": "./overlays/src/public-api.ts",
       "default": "./overlays/src/public-api.ts"
+    },
+    "./navigation": {
+      "types": "./navigation/src/public-api.ts",
+      "default": "./navigation/src/public-api.ts"
     }
   }
 }

@@ -12,6 +12,7 @@
       "@wiloc/ui/icon": ["./projects/components/icon/src/public-api.ts"],
       "@wiloc/ui/icon/heroicons": ["./projects/components/icon/heroicons/src/public-api.ts"],
       "@wiloc/ui/overlays": ["./projects/components/overlays/src/public-api.ts"],
+      "@wiloc/ui/navigation": ["./projects/components/navigation/src/public-api.ts"],
       "@wiloc/ui-internal/helm": ["./projects/components/_internal/helm"],
       "@wiloc/ui-internal/helm/*": ["./projects/components/_internal/helm/*"],
       "components": ["./dist/components"]

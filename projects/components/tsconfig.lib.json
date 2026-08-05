@@ -15,7 +15,8 @@
     "forms/**/*.ts",
     "icon/**/*.ts",
     "core/**/*.ts",
-    "overlays/**/*.ts"
+    "overlays/**/*.ts",
+    "navigation/**/*.ts"
   ],
   "exclude": ["**/*.spec.ts", "**/*.stories.ts"]
 }

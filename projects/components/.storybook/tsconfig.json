@@ -13,7 +13,8 @@
     "../data-display/**/*.spec.ts",
     "../forms/**/*.spec.ts",
     "../icon/**/*.spec.ts",
-    "../overlays/**/*.spec.ts"
+    "../overlays/**/*.spec.ts",
+    "../navigation/**/*.spec.ts"
   ],
   "include": [
     "../src/**/*.ts",
@@ -30,6 +31,8 @@
     "../core/**/*.stories.*",
     "../overlays/**/*.ts",
     "../overlays/**/*.stories.*",
+    "../navigation/**/*.ts",
+    "../navigation/**/*.stories.*",
     "./preview.ts"
   ],
   "files": ["./typings.d.ts"]

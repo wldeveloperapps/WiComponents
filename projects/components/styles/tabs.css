@@ -1,0 +1,79 @@
+/**
+ * Layout + scroll de `@wiloc/ui` tabs (CSS de librería).
+ *
+ * - `wi-tabs` / `wi-tabs-list` siempre ocupan el ancho disponible del padre
+ *   (`width: 100%` + `min-width: 0`) → no empujan scroll al layout exterior
+ * - Track visual compacto en `.wi-tabs__viewport` (`fit-content` + `max-width: 100%`)
+ * - Scroll + scrollbar custom solo en `.wi-tabs__viewport`
+ */
+
+.wi-tabs {
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+}
+
+.wi-tabs__list {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.wi-tabs__viewport {
+  box-sizing: border-box;
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  min-width: 0;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.25rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--wi-color-outline-variant) var(--wi-color-surface-variant);
+}
+
+.wi-tabs__viewport::-webkit-scrollbar {
+  height: 0.375rem;
+}
+
+.wi-tabs__viewport::-webkit-scrollbar-track {
+  background: var(--wi-color-surface-variant);
+  border-radius: var(--wi-radius-sm, 0.25rem);
+}
+
+.wi-tabs__viewport::-webkit-scrollbar-thumb {
+  background: var(--wi-color-outline-variant);
+  border-radius: var(--wi-radius-sm, 0.25rem);
+}
+
+.wi-tabs__viewport::-webkit-scrollbar-thumb:hover {
+  background: var(--wi-color-outline);
+}
+
+.wi-tabs[data-orientation='vertical'] .wi-tabs__list {
+  width: fit-content;
+  max-width: none;
+}
+
+.wi-tabs[data-orientation='vertical'] .wi-tabs__viewport {
+  flex-direction: column;
+  width: auto;
+  max-width: none;
+  overflow-x: visible;
+}
+
+@media (max-width: 40rem) {
+  .wi-tabs__list[data-size='md'] .wi-tabs__trigger {
+    height: 1.75rem;
+    padding-inline: 0.5rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+}

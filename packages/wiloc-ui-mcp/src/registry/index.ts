@@ -11,3 +11,4 @@ export { wiTooltipRegistryEntry } from './tooltip';
 export { wiMenuRegistryEntry } from './menu';
 export { wiTableRegistryEntry } from './table';
 export { wiListboxRegistryEntry } from './listbox';
+export { wiTabsRegistryEntry } from './tabs';
