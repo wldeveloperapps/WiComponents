@@ -110,7 +110,7 @@ export const wiTabsRegistryEntry = {
     'Tab sale del tablist hacia el panel o el siguiente control',
   ],
   a11yNotes:
-    'role=tablist / tab / tabpanel. `wi-tabs` y `wi-tabs-list` a ancho del padre (`min-width: 0`). Track compacto + scroll/scrollbar de tokens solo en `.wi-tabs__viewport` (`fit-content; max-width: 100%`).',
+    'role=tablist / tab / tabpanel. Copy de títulos/paneles: solo la app (proyección). `wi-tabs` / lista a ancho del padre; scroll/scrollbar de tokens en `.wi-tabs__viewport`.',
   example: {
     import: `import {
   WiTabsContentDirective,
@@ -118,13 +118,15 @@ export const wiTabsRegistryEntry = {
   WiTabsListComponent,
   WiTabsTriggerDirective,
 } from '@wiloc/ui/navigation';`,
-    template: `<wi-tabs value="unmanaged" (tabActivated)="onTab($event)">
+    template: `<wi-tabs [(value)]="activeId">
   <wi-tabs-list>
-    <button type="button" wiTabsTrigger="unmanaged">Alertas No Gestionadas</button>
-    <button type="button" wiTabsTrigger="managed">Alertas Gestionadas</button>
+    @for (tab of tabs; track tab.id) {
+      <button type="button" [wiTabsTrigger]="tab.id">{{ tab.label }}</button>
+    }
   </wi-tabs-list>
-  <div wiTabsContent="unmanaged">…</div>
-  <div wiTabsContent="managed">…</div>
+  @for (tab of tabs; track tab.id) {
+    <div [wiTabsContent]="tab.id">{{ tab.body }}</div>
+  }
 </wi-tabs>`,
   },
 };

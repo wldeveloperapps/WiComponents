@@ -14,6 +14,9 @@ export {
   WiDialogTriggerDirective,
 } from './wi-dialog.component';
 
+export type { WiOverlaysI18n } from './wi-overlays.i18n';
+export { provideWiOverlaysI18n } from './wi-overlays.i18n';
+
 export type { WiMenuAlign, WiMenuItemVariant, WiMenuSide } from './wi-menu.types';
 export {
   WiMenuComponent,

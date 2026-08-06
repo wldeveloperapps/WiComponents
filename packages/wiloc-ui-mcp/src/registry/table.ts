@@ -17,6 +17,9 @@ export const wiTableRegistryEntry = {
     'WiColumnFilter',
     'WiSortState',
     'WiPageChangeEvent',
+    'WiDataDisplayI18n',
+    'provideWiDataDisplayI18n',
+    'WI_DEFAULT_FILTER_OPERATORS',
     'wiProcessRows',
     'wiFilterRows',
     'wiSortRows',
@@ -79,6 +82,13 @@ export const wiTableRegistryEntry = {
       default: 'true',
       description: 'Fila de filtros bajo cabeceras',
     },
+    {
+      name: 'emptyMessage / previousLabel / …',
+      type: 'string | undefined',
+      default: 'undefined → provideWiDataDisplayI18n',
+      description:
+        'Overrides opcionales de chrome i18n (vacío, paginación, filtros, columnas). Preferir provideWiDataDisplayI18n a nivel app',
+    },
   ],
   outputs: [
     {
@@ -100,9 +110,20 @@ export const wiTableRegistryEntry = {
   variants: [],
   keyboard: ['Enter/Space en sort y menús; paginación por botones'],
   a11yNotes:
-    'Tabla semántica con aria-sort. Filtros con aria-label por columna. Visibilidad vía wi-menu. La app decide layouts responsive / cards.',
+    'Tabla semántica con aria-sort. Filtros con aria-label por columna vía provideWiDataDisplayI18n.filterAriaLabel. Visibilidad vía wi-menu. Labels de chrome: provideWiDataDisplayI18n (sin copy hardcodeado ES).',
   example: {
-    import: `import { WiTableComponent, type WiColumnDef } from '@wiloc/ui/data-display';`,
+    import: `import {
+  WiTableComponent,
+  provideWiDataDisplayI18n,
+  type WiColumnDef,
+} from '@wiloc/ui/data-display';
+
+provideWiDataDisplayI18n({
+  emptyMessage: () => 'No hay datos',
+  previousLabel: () => 'Anterior',
+  nextLabel: () => 'Siguiente',
+  filterAriaLabel: (header) => \`Filtrar \${header}\`,
+});`,
     template: `<wi-table [columns]="columns" [data]="rows" trackBy="id" [showResultCount]="true">
   <div wiTableActions>…</div>
   <ng-template wiTableRowActions let-row>…</ng-template>

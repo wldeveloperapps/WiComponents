@@ -114,7 +114,7 @@ export const wiDatepickerRegistryEntry = {
       name: 'timeLabel',
       type: 'string',
       default: 'Time',
-      description: 'Etiqueta / aria-label del input de hora',
+      description: 'Etiqueta visible del grupo de hora (si showTime)',
     },
     {
       name: 'id',
@@ -193,7 +193,7 @@ export const wiDatepickerRegistryEntry = {
     'El trigger expone aria-haspopup=dialog y aria-expanded',
     'Días deshabilitados con aria-disabled',
     'Textos de navegación e i18n vía provideWiCalendarI18n (sin copy hardcodeado de producto)',
-    'Plantilla i18n: inputs placeholder/clearLabel/calendarLabel/timeLabel/ariaLabel + provideWiCalendarI18n (months, weekdays, labelPrevious/Next)',
+    'Plantilla i18n: inputs placeholder/clearLabel/calendarLabel/timeLabel/ariaLabel + provideWiCalendarI18n (months, weekdays, labelPrevious/Next, hourPlaceholder/minutePlaceholder/hourAriaLabel/minuteAriaLabel)',
     'Icono calendar debe registrarse con provideWiIcons',
     'Overlays: la app debe incluir CSS de CDK Overlay / Spartan popover',
     'El control captura componentes de fecha/hora; no adivina TZ. Ver docs/datepicker-international.md y helpers toLocalDateString / datepickerValueToUtcIso',
@@ -230,6 +230,10 @@ provideWiCalendarI18n({
     ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'][i % 7] ?? '',
   labelPrevious: () => 'Mes anterior',
   labelNext: () => 'Mes siguiente',
+  hourPlaceholder: () => 'HH',
+  minutePlaceholder: () => 'MM',
+  hourAriaLabel: () => 'Hora',
+  minuteAriaLabel: () => 'Minuto',
 });
 
 // Civil → API

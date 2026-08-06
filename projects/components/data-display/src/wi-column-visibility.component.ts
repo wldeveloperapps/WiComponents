@@ -8,10 +8,12 @@ import {
 } from '@wiloc/ui/overlays';
 
 import type { WiColumnDef } from './wi-column.types';
+import { injectWiDataDisplayI18n } from './wi-data-display.i18n';
 import { wiDefaultVisibleColumnIds } from './wi-data.utils';
 
 /**
  * Menú de visibilidad de columnas (`N de M columnas visibles`).
+ * Labels vía `provideWiDataDisplayI18n` (override opcional por input).
  */
 @Component({
   selector: 'wi-column-visibility',
@@ -24,14 +26,14 @@ import { wiDefaultVisibleColumnIds } from './wi-data.utils';
       type="button"
       class="wi-column-visibility__trigger inline-flex h-control-sm items-center gap-2 rounded-control border border-outline-variant bg-surface px-3 text-sm text-on-surface outline-none hover:bg-surface-variant focus-visible:ring-2 focus-visible:ring-ring"
       [wiMenuTrigger]="menu"
-      [attr.aria-label]="ariaLabel()"
+      [attr.aria-label]="resolvedAriaLabel()"
     >
       {{ summaryLabel() }}
     </button>
 
     <ng-template #menu>
       <wi-menu>
-        <wi-menu-label>{{ menuLabel() }}</wi-menu-label>
+        <wi-menu-label>{{ resolvedMenuLabel() }}</wi-menu-label>
         @for (column of columns(); track column.id) {
           <button
             type="button"
@@ -62,13 +64,16 @@ import { wiDefaultVisibleColumnIds } from './wi-data.utils';
   `,
 })
 export class WiColumnVisibilityComponent {
+  private readonly i18n = injectWiDataDisplayI18n();
+
   readonly columns = input.required<readonly WiColumnDef[]>();
   /** `null` = todas las columnas con `visible !== false`. */
   readonly visibleColumnIds = model<readonly string[] | null>(null);
-  readonly menuLabel = input('Columnas');
-  readonly ariaLabel = input('Visibilidad de columnas');
-  /** Plantilla: `{visible}` y `{total}`. */
-  readonly summaryTemplate = input('{visible} de {total} columnas visibles');
+  /** Override de `provideWiDataDisplayI18n`. */
+  readonly menuLabel = input<string | undefined>(undefined);
+  readonly ariaLabel = input<string | undefined>(undefined);
+  /** Plantilla: `{visible}` y `{total}`. Override de i18n. */
+  readonly summaryTemplate = input<string | undefined>(undefined);
   readonly allowEmpty = input(false, { transform: booleanAttribute });
 
   private readonly effectiveIds = computed(() => {
@@ -79,12 +84,18 @@ export class WiColumnVisibilityComponent {
     return [...ids];
   });
 
+  protected readonly resolvedMenuLabel = computed(
+    () => this.menuLabel() ?? this.i18n.columnVisibilityMenuLabel(),
+  );
+  protected readonly resolvedAriaLabel = computed(
+    () => this.ariaLabel() ?? this.i18n.columnVisibilityAriaLabel(),
+  );
+
   readonly summaryLabel = computed(() => {
     const visible = this.effectiveIds().length;
     const total = this.columns().length;
-    return this.summaryTemplate()
-      .replace('{visible}', String(visible))
-      .replace('{total}', String(total));
+    const template = this.summaryTemplate() ?? this.i18n.columnVisibilitySummary();
+    return template.replace('{visible}', String(visible)).replace('{total}', String(total));
   });
 
   isVisible(columnId: string): boolean {

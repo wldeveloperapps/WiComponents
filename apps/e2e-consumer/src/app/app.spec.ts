@@ -1,10 +1,17 @@
 import { TestBed } from '@angular/core/testing';
+import { provideWiDataDisplayI18n } from '@wiloc/ui/data-display';
 import { provideWiCalendarI18n } from '@wiloc/ui/forms';
 import { provideWiIcons } from '@wiloc/ui/icon';
 import { calendarOutline, xMarkOutline } from '@wiloc/ui/icon/heroicons';
+import { provideWiOverlaysI18n } from '@wiloc/ui/overlays';
 
 import { App } from './app';
-import { createCalendarI18n, setAppLocale } from './locale';
+import {
+  createCalendarI18n,
+  createDataDisplayI18n,
+  createOverlaysI18n,
+  setAppLocale,
+} from './locale';
 
 class ResizeObserverStub {
   observe(): void {
@@ -43,6 +50,8 @@ describe('App', () => {
           'x-mark': { outline: xMarkOutline },
         }),
         provideWiCalendarI18n(createCalendarI18n()),
+        provideWiDataDisplayI18n(createDataDisplayI18n()),
+        provideWiOverlaysI18n(createOverlaysI18n()),
       ],
     }).compileComponents();
   });
@@ -143,6 +152,28 @@ describe('App', () => {
 
     expect(options[1]?.getAttribute('aria-selected')).toBe('true');
     expect(root.textContent).toContain('Valor: Editor');
+  });
+
+  it('should switch tabs and update the active panel', async () => {
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const root = fixture.nativeElement as HTMLElement;
+    expect(root.querySelector('wi-tabs [role="tablist"]')).toBeTruthy();
+    expect(root.textContent).toContain('Lista de alertas no gestionadas');
+    expect(root.textContent).toContain('Valor: alerts-unmanaged');
+
+    const tabs = Array.from(root.querySelectorAll('wi-tabs button[role="tab"]')) as HTMLElement[];
+    expect(tabs.length).toBe(3);
+
+    tabs[1]?.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(tabs[1]?.getAttribute('aria-selected')).toBe('true');
+    expect(root.textContent).toContain('Lista de alertas gestionadas');
+    expect(root.textContent).toContain('Valor: alerts-managed');
   });
 
   it('should render, paginate and filter the data table', async () => {

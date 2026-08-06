@@ -37,6 +37,7 @@ import {
 } from '@spartan-ng/brain/popover';
 
 import { WiIconComponent } from '@wiloc/ui/icon';
+import { injectWiDatepickerTimeI18n } from './wi-datepicker.i18n';
 import type {
   WiDateDisabled,
   WiDatepickerSize,
@@ -359,11 +360,11 @@ function pad2(value: number): string {
                   type="text"
                   inputmode="numeric"
                   maxlength="2"
-                  placeholder="HH"
+                  [placeholder]="timeI18n.hourPlaceholder()"
                   autocomplete="off"
                   [class]="timeInputClasses"
                   [disabled]="isDisabled() || readonly() || !hasValue()"
-                  [attr.aria-label]="timeLabel() + ' (hora)'"
+                  [attr.aria-label]="timeI18n.hourAriaLabel()"
                   (focus)="onTimeFocus()"
                   (blur)="onTimeBlur()"
                   (keydown.enter)="onTimeEnter($event)"
@@ -375,11 +376,11 @@ function pad2(value: number): string {
                   type="text"
                   inputmode="numeric"
                   maxlength="2"
-                  placeholder="MM"
+                  [placeholder]="timeI18n.minutePlaceholder()"
                   autocomplete="off"
                   [class]="timeInputClasses"
                   [disabled]="isDisabled() || readonly() || !hasValue()"
-                  [attr.aria-label]="timeLabel() + ' (minuto)'"
+                  [attr.aria-label]="timeI18n.minuteAriaLabel()"
                   (focus)="onTimeFocus()"
                   (blur)="onTimeBlur()"
                   (keydown.enter)="onTimeEnter($event)"
@@ -395,6 +396,7 @@ function pad2(value: number): string {
 export class WiDatepickerComponent implements ControlValueAccessor, FormValueControl<Date | null> {
   private readonly dateAdapter = injectDateAdapter<Date>();
   private readonly calendarI18n = injectBrnCalendarI18n();
+  protected readonly timeI18n = injectWiDatepickerTimeI18n();
   private readonly popover = viewChild(BrnPopover);
   private readonly calendar = viewChild(BrnCalendar);
   private readonly hourInput = viewChild<ElementRef<HTMLInputElement>>('hourInput');

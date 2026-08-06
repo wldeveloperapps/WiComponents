@@ -17,7 +17,7 @@ También: skill `storybook` (stories), `spartan` (Brain), `angular-developer` (A
 Spartan Brain → implementación interna Wi → API @wiloc/ui → apps
 ```
 
-No exponer Spartan. No wrappers sin valor. No lógica de negocio de producto.
+No exponer Spartan. No wrappers sin valor. No lógica de negocio de producto. Los mockups y capturas son referencias visuales, nunca fuentes de datos.
 
 ## Reglas (resumen)
 
@@ -29,7 +29,8 @@ No exponer Spartan. No wrappers sin valor. No lógica de negocio de producto.
 6. A11y: teclado + nombre accesible; diálogos con foco correcto.
 7. Forms: CVA / FormValueControl solo en controles.
 8. Imports `@wiloc/ui/{entry}`; entry points por dominio.
-9. Tests Vitest + Storybook (skill `storybook`) + MCP registry + inventario.
+9. Componentes data-driven: los mockups definen el diseño, no el contenido. Todo dato, texto, acción, ruta, permiso o estado de negocio debe llegar desde la aplicación consumidora mediante la API pública. Ver "16. Componentes data-driven" en `references/full-guide.md`.
+10. Tests Vitest + Storybook (skill `storybook`) + MCP registry + inventario.
 
 ## Proceso componente nuevo
 

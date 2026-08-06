@@ -38,7 +38,7 @@ const meta: Meta<WiTabsStoryArgs> = {
     docs: {
       description: {
         component:
-          'Pestañas accesibles (Brain). Variante `segmented` (default) / `line`. `wi-tabs` / lista a ancho del padre; track compacto + scroll y scrollbar de tokens en `.wi-tabs__viewport`. Tipografía densa bajo 40rem de viewport. Paneles (`wiTabsContent`) opcionales. Copy vía la app (ver Documentation/I18n). Events: `tabActivated`, `valueChange`.',
+          'Pestañas accesibles (Brain). Variante `segmented` (default) / `line`. Títulos y paneles: copy de la app (proyección en `wiTabsTrigger` / `wiTabsContent`; ver Documentation/I18n). `wi-tabs` / lista a ancho del padre; track compacto + scroll y scrollbar de tokens en `.wi-tabs__viewport`. Tipografía densa bajo 40rem de viewport. Events: `tabActivated`, `valueChange`.',
       },
     },
   },

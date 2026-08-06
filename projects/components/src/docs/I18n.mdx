@@ -4,18 +4,18 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Internacionalización (`@wiloc/ui`)
 
-`@wiloc/ui` **no** incluye diccionarios ES/EN ni copy de producto. La librería expone el **contrato** (inputs de texto + `provideWiCalendarI18n`). Las **traducciones viven en la app**.
+`@wiloc/ui` **no** incluye diccionarios ES/EN ni copy de producto. La librería expone el **contrato** (inputs de texto + providers `provideWi*I18n`). Las **traducciones viven en la app**.
 
-Usar esta página como **plantilla / checklist** al integrar formularios.
+Usar esta página como **plantilla / checklist** al integrar.
 
 ## Principio
 
 | Capa | Responsabilidad |
 | ---- | ---------------- |
-| `@wiloc/ui` | Comportamiento, a11y, inputs para labels, provider de calendario |
+| `@wiloc/ui` | Comportamiento, a11y, inputs de instancia, providers de locale/chrome |
 | App consumidora | Strings, locale, `document.documentElement.lang`, motor i18n (Transloco, etc.) |
 
-Defaults en inglés en algunos inputs (`clearLabel: 'Clear'`) son solo fallback técnico, no un locale oficial.
+Defaults en inglés en providers/inputs son solo fallback técnico, no un locale oficial.
 
 ---
 
@@ -36,15 +36,30 @@ Defaults en inglés en algunos inputs (`clearLabel: 'Clear'`) son solo fallback 
 | Placeholder | `placeholder` |
 | Lista vacía | `emptyText` |
 | Limpiar | `clearLabel` (si `clearable`) |
+| Quitar chip | `removeChipLabel` |
 | Nombre accesible | `ariaLabel` o label asociado |
 | Label visible de opciones | datos de la app (`options` / templates) |
 
-### `wi-checkbox`
+### `wi-listbox`
+
+| Qué | Dónde |
+| --- | ----- |
+| Lista vacía | `emptyText` |
+| Nombre accesible | `ariaLabel` / `ariaLabelledBy` o labels proyectados |
+
+### `wi-checkbox` / `wi-switch`
 
 | Qué | Dónde |
 | --- | ----- |
 | Nombre accesible | `ariaLabel`, `ariaLabelledBy` o `<label>` wrapping / `for`+`id` |
 | Hint / error | texto en la app + `ariaDescribedBy` |
+
+### `wi-button`
+
+| Qué | Dónde |
+| --- | ----- |
+| Texto visible | proyección / contenido de la app |
+| Icon-only | `ariaLabel` obligatorio |
 
 ### `wi-datepicker`
 
@@ -53,7 +68,8 @@ Defaults en inglés en algunos inputs (`clearLabel: 'Clear'`) son solo fallback 
 | Placeholder | `placeholder` |
 | Limpiar | `clearLabel` |
 | Abrir calendario | `calendarLabel` (y/o `ariaLabel`) |
-| Hora | `timeLabel` (si `showTime`) |
+| Hora (etiqueta visible) | `timeLabel` (si `showTime`) |
+| Formato hora / minuto | `provideWiCalendarI18n` (`hourPlaceholder`, `minutePlaceholder`, `hourAriaLabel`, `minuteAriaLabel`) |
 | Meses, días, prev/next | `provideWiCalendarI18n` |
 
 ### `wi-date-range`
@@ -68,6 +84,48 @@ Además de lo anterior (reutilizado en cada picker):
 | Limpiar / hora | `clearLabel`, `timeLabel` |
 
 Demo interactiva: **Forms → WiDatepicker → Locale (app-provided)**.
+
+### `wi-table` / `wi-data-pagination` / `wi-column-visibility`
+
+| Qué | Dónde |
+| --- | ----- |
+| Vacío, paginación, filtros, columnas, operadores | `provideWiDataDisplayI18n` |
+| Override puntual | inputs opcionales (`emptyMessage`, `previousLabel`, …) |
+| Cabeceras / options de filtro | `WiColumnDef` (app) |
+
+### `wi-dialog`
+
+| Qué | Dónde |
+| --- | ----- |
+| Título / descripción / acciones | proyección (`wi-dialog-title`, …) |
+| Aria del botón X | `provideWiOverlaysI18n` (`dialogCloseLabel`) o input `closeLabel` |
+
+### `wi-tabs`
+
+No hay inputs de label en la librería: el copy es **contenido proyectado** de la app.
+
+| Qué | Dónde |
+| --- | ----- |
+| Título visible de cada pestaña | Texto (u otro contenido) dentro de `button[wiTabsTrigger]` |
+| Nombre accesible | Ese mismo texto, o `aria-label` en el `button` si el trigger es solo icono |
+| Contenido del panel | Markup dentro de `[wiTabsContent]` (también de la app) |
+
+Las claves (`wiTabsTrigger` / `wiTabsContent` / `value`) las define la app; la librería no impone IDs ni copy. Solo se localizan títulos y cuerpo.
+
+```html
+<wi-tabs [(value)]="activeTabId">
+  <wi-tabs-list>
+    @for (tab of tabs; track tab.id) {
+      <button type="button" [wiTabsTrigger]="tab.id">{{ tab.label }}</button>
+    }
+  </wi-tabs-list>
+  @for (tab of tabs; track tab.id) {
+    <div [wiTabsContent]="tab.id">{{ tab.body }}</div>
+  }
+</wi-tabs>
+```
+
+Demo smoke: **e2e-consumer** (IDs + copy de la app; toggle ES/EN).
 
 ---
 
@@ -95,6 +153,10 @@ provideWiCalendarI18n({
     ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'][index % 7] ?? '',
   labelPrevious: () => 'Mes anterior',
   labelNext: () => 'Mes siguiente',
+  hourPlaceholder: () => 'HH',
+  minutePlaceholder: () => 'MM',
+  hourAriaLabel: () => 'Hora',
+  minuteAriaLabel: () => 'Minuto',
 });
 ```
 
@@ -105,6 +167,53 @@ Campos de `WiCalendarI18n` (todos opcionales en el `Partial`; completar los que 
 - `formatWeekdayName` / `labelWeekday`
 - `labelPrevious` / `labelNext`
 - `years` (lista de años del selector, si aplica)
+- `hourPlaceholder` / `minutePlaceholder` / `hourAriaLabel` / `minuteAriaLabel` (formato de hora si `showTime`)
+
+---
+
+## Plantilla `provideWiDataDisplayI18n`
+
+```ts
+import { provideWiDataDisplayI18n } from '@wiloc/ui/data-display';
+
+provideWiDataDisplayI18n({
+  emptyMessage: () => 'No hay datos',
+  tableAriaLabel: () => 'Tabla de datos',
+  paginationAriaLabel: () => 'Paginación',
+  previousLabel: () => 'Anterior',
+  nextLabel: () => 'Siguiente',
+  filterPlaceholder: () => 'Escribir para buscar',
+  selectPlaceholder: () => 'Seleccionar uno',
+  filterOperatorAriaLabel: () => 'Operador de filtro',
+  filterAriaLabel: (header) => `Filtrar ${header}`,
+  columnVisibilitySummary: () => '{visible} de {total} columnas visibles',
+  columnVisibilityMenuLabel: () => 'Columnas',
+  columnVisibilityAriaLabel: () => 'Visibilidad de columnas',
+  resultCountTemplate: () => '{count} resultados',
+  rowActionsHeader: () => 'Acciones',
+  filterOperators: () => [
+    { value: 'contains', label: 'Contiene' },
+    { value: 'notContains', label: 'No contiene' },
+    { value: 'startsWith', label: 'Empieza por' },
+    { value: 'endsWith', label: 'Termina en' },
+    { value: 'equals', label: 'Igual a' },
+    { value: 'notEquals', label: 'Distinto de' },
+    { value: 'none', label: 'Sin filtro' },
+  ],
+});
+```
+
+---
+
+## Plantilla `provideWiOverlaysI18n`
+
+```ts
+import { provideWiOverlaysI18n } from '@wiloc/ui/overlays';
+
+provideWiOverlaysI18n({
+  dialogCloseLabel: () => 'Cerrar',
+});
+```
 
 ---
 

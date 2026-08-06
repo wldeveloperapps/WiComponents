@@ -35,8 +35,21 @@ import {
   WiDialogTriggerDirective,
   WiTooltipDirective,
 } from '@wiloc/ui/overlays';
+import {
+  WiTabsComponent,
+  WiTabsContentDirective,
+  WiTabsListComponent,
+  WiTabsTriggerDirective,
+} from '@wiloc/ui/navigation';
 
 import { appLocale, toggleAppLocale, uiMessages } from './locale';
+
+/** IDs de pestaña = dominio de la app (la librería no impone claves). */
+const ALERT_TAB_IDS = {
+  unmanaged: 'alerts-unmanaged',
+  managed: 'alerts-managed',
+  archived: 'alerts-archived',
+} as const;
 
 @Component({
   selector: 'app-root',
@@ -67,6 +80,10 @@ import { appLocale, toggleAppLocale, uiMessages } from './locale';
     WiSwitchComponent,
     WiTableCellDirective,
     WiTableComponent,
+    WiTabsComponent,
+    WiTabsContentDirective,
+    WiTabsListComponent,
+    WiTabsTriggerDirective,
     WiTooltipDirective,
   ],
   templateUrl: './app.html',
@@ -87,8 +104,19 @@ export class App {
   protected readonly fruit = signal<string | null>(null);
   protected readonly role = signal<string | null>(null);
   protected readonly date = signal<Date | null>(null);
+  protected readonly alertsTab = signal<string>(ALERT_TAB_IDS.unmanaged);
   protected readonly tableFilters = signal<readonly WiColumnFilter[]>([]);
   protected readonly tablePageIndex = signal(0);
+
+  /** Tabs de smoke: id + copy los define la app (i18n), no `@wiloc/ui`. */
+  protected readonly alertTabs = computed(() => {
+    const m = this.t();
+    return [
+      { id: ALERT_TAB_IDS.unmanaged, label: m.tabUnmanaged, body: m.tabUnmanagedBody },
+      { id: ALERT_TAB_IDS.managed, label: m.tabManaged, body: m.tabManagedBody },
+      { id: ALERT_TAB_IDS.archived, label: m.tabArchived, body: m.tabArchivedBody },
+    ];
+  });
 
   protected readonly tableColumns = computed((): WiColumnDef[] => {
     const m = this.t();
@@ -140,6 +168,7 @@ export class App {
     toggleAppLocale();
     this.fruit.set(null);
     this.role.set(null);
+    this.alertsTab.set(ALERT_TAB_IDS.unmanaged);
     this.tableFilters.set([]);
     this.tablePageIndex.set(0);
   }

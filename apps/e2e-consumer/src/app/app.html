@@ -163,6 +163,26 @@
         </wi-dialog>
       </section>
 
+      <section class="flex min-w-0 flex-col gap-3" aria-labelledby="tabs-heading">
+        <h2 id="tabs-heading" class="text-sm font-medium text-on-surface">{{ t().tabs }}</h2>
+        <wi-tabs class="w-full min-w-0" [(value)]="alertsTab">
+          <wi-tabs-list>
+            @for (tab of alertTabs(); track tab.id) {
+              <button type="button" [wiTabsTrigger]="tab.id">{{ tab.label }}</button>
+            }
+          </wi-tabs-list>
+          @for (tab of alertTabs(); track tab.id) {
+            <div
+              [wiTabsContent]="tab.id"
+              class="box-border min-h-20 w-full rounded-control border border-outline-variant p-3 text-sm text-on-surface"
+            >
+              {{ tab.body }}
+            </div>
+          }
+        </wi-tabs>
+        <p class="text-sm text-on-surface-variant">{{ t().value }}: {{ alertsTab() }}</p>
+      </section>
+
       <section class="flex min-w-0 flex-col gap-3" aria-labelledby="table-heading">
         <h2 id="table-heading" class="text-sm font-medium text-on-surface">{{ t().table }}</h2>
         <wi-table

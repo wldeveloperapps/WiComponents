@@ -24,6 +24,7 @@ import { WiIconComponent } from '@wiloc/ui/icon';
 
 import { WI_DIALOG_SIZE } from './wi-dialog.tokens';
 import type { WiDialogSize, WiDialogState } from './wi-dialog.types';
+import { injectWiOverlaysI18n } from './wi-overlays.i18n';
 
 const OVERLAY_CLASSES = [
   'wi-dialog__overlay',
@@ -286,7 +287,7 @@ export class WiDialogTriggerDirective {
         iconOnly
         class="wi-dialog__close absolute inset-e-4 top-4"
         wiDialogClose
-        [ariaLabel]="closeLabel()"
+        [ariaLabel]="resolvedCloseLabel()"
       >
         <wi-icon name="x-mark" size="sm" />
       </wi-button>
@@ -296,14 +297,19 @@ export class WiDialogTriggerDirective {
 export class WiDialogContentComponent {
   private readonly dialogRef = inject(BrnDialogRef, { optional: true });
   private readonly sizeFromDialog = inject(WI_DIALOG_SIZE, { optional: true });
+  private readonly overlaysI18n = injectWiOverlaysI18n();
 
   /** Anula el size del root cuando se define en el panel. */
   readonly size = input<WiDialogSize | null>(null);
 
   readonly showCloseButton = input(true, { transform: booleanAttribute });
 
-  /** Nombre accesible del botón cerrar (la app puede i18n). */
-  readonly closeLabel = input('Cerrar');
+  /** Override de `provideWiOverlaysI18n` (`dialogCloseLabel`). */
+  readonly closeLabel = input<string | undefined>(undefined);
+
+  protected readonly resolvedCloseLabel = computed(
+    () => this.closeLabel() ?? this.overlaysI18n.dialogCloseLabel(),
+  );
 
   protected readonly state = computed(() => this.dialogRef?.state() ?? 'closed');
 

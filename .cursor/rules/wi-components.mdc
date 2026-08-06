@@ -11,6 +11,7 @@ Librería Angular (`projects/components`), paquete `@wiloc/ui`. Spartan = intern
 
 - No exponer tipos/APIs de Spartan en la API pública.
 - No wrappers sin valor; no lógica de negocio de producto.
+- Las capturas, mockups y referencias visuales definen el diseño, no el contenido. No hardcodear datos, textos de producto, rutas, permisos, acciones ni estados de negocio; la aplicación consumidora debe proporcionarlos mediante inputs, outputs, modelos tipados, content projection o templates..
 - Angular moderno: standalone, `input`/`output`/`model`/`signal`/`computed`; sin `any`.
 - Tokens semánticos (`bg-primary`, …); no clases Tailwind dinámicas (`bg-${x}`).
 - SSR-safe y zoneless; a11y (teclado + nombre accesible).

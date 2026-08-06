@@ -1,5 +1,7 @@
 import { computed, signal } from '@angular/core';
+import type { WiDataDisplayI18n } from '@wiloc/ui/data-display';
 import type { WiCalendarI18n, WiMonthLabels } from '@wiloc/ui/forms';
+import type { WiOverlaysI18n } from '@wiloc/ui/overlays';
 
 export type AppLocale = 'es' | 'en';
 
@@ -96,6 +98,13 @@ interface UiMessages {
   dialogDescription: string;
   dialogBody: string;
   closeDialog: string;
+  tabs: string;
+  tabUnmanaged: string;
+  tabManaged: string;
+  tabArchived: string;
+  tabUnmanagedBody: string;
+  tabManagedBody: string;
+  tabArchivedBody: string;
   table: string;
   tableAria: string;
   tableEmpty: string;
@@ -151,6 +160,13 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     dialogDescription: 'Los cambios se aplican al guardar.',
     dialogBody: 'Contenido de ejemplo del dialog en el smoke del paquete.',
     closeDialog: 'Cerrar',
+    tabs: 'Tabs',
+    tabUnmanaged: 'Alertas No Gestionadas',
+    tabManaged: 'Alertas Gestionadas',
+    tabArchived: 'Alertas Archivadas',
+    tabUnmanagedBody: 'Lista de alertas no gestionadas',
+    tabManagedBody: 'Lista de alertas gestionadas',
+    tabArchivedBody: 'Lista de alertas archivadas',
     table: 'Table',
     tableAria: 'Sitios de ejemplo',
     tableEmpty: 'Sin sitios',
@@ -216,6 +232,13 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     dialogDescription: 'Changes apply when you save.',
     dialogBody: 'Sample dialog content in the packaged library smoke test.',
     closeDialog: 'Close',
+    tabs: 'Tabs',
+    tabUnmanaged: 'Unmanaged Alerts',
+    tabManaged: 'Managed Alerts',
+    tabArchived: 'Archived Alerts',
+    tabUnmanagedBody: 'List of unmanaged alerts',
+    tabManagedBody: 'List of managed alerts',
+    tabArchivedBody: 'List of archived alerts',
     table: 'Table',
     tableAria: 'Sample sites',
     tableEmpty: 'No sites',
@@ -276,5 +299,58 @@ export function createCalendarI18n(): Partial<WiCalendarI18n> {
     },
     labelPrevious: () => (appLocale() === 'es' ? 'Mes anterior' : 'Previous month'),
     labelNext: () => (appLocale() === 'es' ? 'Mes siguiente' : 'Next month'),
+    hourPlaceholder: () => 'HH',
+    minutePlaceholder: () => 'MM',
+    hourAriaLabel: () => (appLocale() === 'es' ? 'Hora' : 'Hour'),
+    minuteAriaLabel: () => (appLocale() === 'es' ? 'Minuto' : 'Minute'),
+  };
+}
+
+/** Chrome i18n de tabla / paginación / columnas (lee locale en cada llamada). */
+export function createDataDisplayI18n(): Partial<WiDataDisplayI18n> {
+  const es = () => appLocale() === 'es';
+  return {
+    emptyMessage: () => (es() ? 'Sin sitios' : 'No sites'),
+    tableAriaLabel: () => (es() ? 'Sitios de ejemplo' : 'Sample sites'),
+    paginationAriaLabel: () => (es() ? 'Paginación' : 'Pagination'),
+    previousLabel: () => (es() ? 'Anterior' : 'Previous'),
+    nextLabel: () => (es() ? 'Siguiente' : 'Next'),
+    filterPlaceholder: () => (es() ? 'Escribir para buscar' : 'Type to search'),
+    selectPlaceholder: () => (es() ? 'Seleccionar uno' : 'Select one'),
+    filterOperatorAriaLabel: () => (es() ? 'Operador de filtro' : 'Filter operator'),
+    filterAriaLabel: (header) => (es() ? `Filtrar ${header}` : `Filter ${header}`),
+    columnVisibilitySummary: () =>
+      es() ? '{visible} de {total} columnas visibles' : '{visible} of {total} columns visible',
+    columnVisibilityMenuLabel: () => (es() ? 'Columnas' : 'Columns'),
+    columnVisibilityAriaLabel: () => (es() ? 'Visibilidad de columnas' : 'Column visibility'),
+    resultCountTemplate: () => (es() ? '{count} resultados' : '{count} results'),
+    rowActionsHeader: () => (es() ? 'Acciones' : 'Actions'),
+    filterOperators: () =>
+      es()
+        ? [
+            { value: 'contains', label: 'Contiene' },
+            { value: 'notContains', label: 'No contiene' },
+            { value: 'startsWith', label: 'Empieza por' },
+            { value: 'endsWith', label: 'Termina en' },
+            { value: 'equals', label: 'Igual a' },
+            { value: 'notEquals', label: 'Distinto de' },
+            { value: 'none', label: 'Sin filtro' },
+          ]
+        : [
+            { value: 'contains', label: 'Contains' },
+            { value: 'notContains', label: 'Does not contain' },
+            { value: 'startsWith', label: 'Starts with' },
+            { value: 'endsWith', label: 'Ends with' },
+            { value: 'equals', label: 'Equals' },
+            { value: 'notEquals', label: 'Does not equal' },
+            { value: 'none', label: 'No filter' },
+          ],
+  };
+}
+
+/** Chrome i18n de overlays (lee locale en cada llamada). */
+export function createOverlaysI18n(): Partial<WiOverlaysI18n> {
+  return {
+    dialogCloseLabel: () => (appLocale() === 'es' ? 'Cerrar' : 'Close'),
   };
 }

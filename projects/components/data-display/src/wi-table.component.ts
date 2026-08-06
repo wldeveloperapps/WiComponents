@@ -20,8 +20,8 @@ import type {
   WiSortState,
   WiTableCellContext,
 } from './wi-column.types';
-import { WI_DEFAULT_FILTER_OPERATORS } from './wi-column.types';
 import { WiColumnVisibilityComponent } from './wi-column-visibility.component';
+import { injectWiDataDisplayI18n } from './wi-data-display.i18n';
 import { WiDataPaginationComponent } from './wi-data-pagination.component';
 import {
   wiFormatCellValue,
@@ -39,6 +39,7 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
  *
  * - Columnas vía `WiColumnDef` (agnóstico a metadatos de producto).
  * - Sort / filter / page: models + eventos; modo cliente si `totalItems` es `null`.
+ * - Labels de chrome vía `provideWiDataDisplayI18n` (override opcional por input).
  * - Toolbar: `[wiTableSummary]`, visibilidad de columnas, `[wiTableActions]`.
  * - Celdas: `field` o `ng-template [wiTableCell]`; acciones: `wiTableRowActions`.
  */
@@ -47,7 +48,7 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
   host: {
     class: 'wi-table block w-full min-w-0',
     role: 'region',
-    '[attr.aria-label]': 'ariaLabel()',
+    '[attr.aria-label]': 'resolvedAriaLabel()',
   },
   imports: [
     NgTemplateOutlet,
@@ -89,7 +90,7 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
               <th scope="col" class="wi-table__th wi-table__th--actions w-10 px-2 py-2">
                 <span
                   class="absolute h-px w-px overflow-hidden whitespace-nowrap border-0 p-0 [clip:rect(0,0,0,0)]"
-                  >{{ rowActionsHeader() }}</span
+                  >{{ resolvedRowActionsHeader() }}</span
                 >
               </th>
             }
@@ -163,7 +164,7 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
                           (change)="onFilterValue(column, eventValue($event))"
                         >
                           <option value="">
-                            {{ column.filterPlaceholder || selectPlaceholder() }}
+                            {{ column.filterPlaceholder || resolvedSelectPlaceholder() }}
                           </option>
                           @for (option of column.filterOptions ?? []; track option.value) {
                             <option [value]="option.value">{{ option.label }}</option>
@@ -174,7 +175,7 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
                           type="search"
                           class="wi-table__filter-input h-control-sm w-full min-w-0 rounded-control border border-outline bg-surface px-2 text-sm text-on-surface outline-none placeholder:text-on-surface-variant focus-visible:ring-2 focus-visible:ring-ring"
                           [attr.aria-label]="filterAriaLabel(column)"
-                          [placeholder]="column.filterPlaceholder || filterPlaceholder()"
+                          [placeholder]="column.filterPlaceholder || resolvedFilterPlaceholder()"
                           [value]="filterValue(column.id)"
                           (input)="onFilterValue(column, eventValue($event))"
                         />
@@ -182,7 +183,7 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
                           type="button"
                           class="inline-flex size-8 shrink-0 items-center justify-center rounded-control text-on-surface-variant outline-none hover:bg-surface-variant focus-visible:ring-2 focus-visible:ring-ring"
                           [wiMenuTrigger]="opMenu"
-                          [attr.aria-label]="filterOperatorAriaLabel()"
+                          [attr.aria-label]="resolvedFilterOperatorAriaLabel()"
                         >
                           <svg
                             viewBox="0 0 20 20"
@@ -197,7 +198,7 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
                         </button>
                         <ng-template #opMenu>
                           <wi-menu>
-                            @for (op of filterOperators(); track op.value) {
+                            @for (op of resolvedFilterOperators(); track op.value) {
                               <button
                                 type="button"
                                 wiMenuItem
@@ -249,7 +250,7 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
                 class="wi-table__empty px-3 py-6 text-center text-on-surface-variant"
                 [attr.colspan]="colspan()"
               >
-                {{ emptyMessage() }}
+                {{ resolvedEmptyMessage() }}
               </td>
             </tr>
           }
@@ -271,6 +272,8 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
   `,
 })
 export class WiTableComponent<T = unknown> {
+  private readonly i18n = injectWiDataDisplayI18n();
+
   readonly columns = input.required<readonly WiColumnDef[]>();
   readonly data = input.required<readonly T[]>();
   /** Si se define, modo servidor: no filter/sort/page local; `data` es la página actual. */
@@ -283,26 +286,52 @@ export class WiTableComponent<T = unknown> {
   readonly showFilters = input(true, { transform: booleanAttribute });
   readonly columnVisibility = input(true, { transform: booleanAttribute });
   readonly showResultCount = input(false, { transform: booleanAttribute });
-  readonly emptyMessage = input('No hay datos');
-  readonly ariaLabel = input('Tabla de datos');
-  readonly paginationAriaLabel = input('Paginación');
-  readonly previousLabel = input('Anterior');
-  readonly nextLabel = input('Siguiente');
-  readonly filterPlaceholder = input('Escribir para buscar');
-  readonly selectPlaceholder = input('Seleccionar uno');
-  readonly filterOperatorAriaLabel = input('Operador de filtro');
-  readonly columnVisibilityLabel = input('{visible} de {total} columnas visibles');
-  readonly columnVisibilityMenuLabel = input('Columnas');
-  readonly columnVisibilityAriaLabel = input('Visibilidad de columnas');
-  readonly resultCountTemplate = input('{count} resultados');
-  readonly rowActionsHeader = input('Acciones');
+
+  /** Override de `provideWiDataDisplayI18n`. */
+  readonly emptyMessage = input<string | undefined>(undefined);
+  readonly ariaLabel = input<string | undefined>(undefined);
+  readonly paginationAriaLabel = input<string | undefined>(undefined);
+  readonly previousLabel = input<string | undefined>(undefined);
+  readonly nextLabel = input<string | undefined>(undefined);
+  readonly filterPlaceholder = input<string | undefined>(undefined);
+  readonly selectPlaceholder = input<string | undefined>(undefined);
+  readonly filterOperatorAriaLabel = input<string | undefined>(undefined);
+  readonly columnVisibilityLabel = input<string | undefined>(undefined);
+  readonly columnVisibilityMenuLabel = input<string | undefined>(undefined);
+  readonly columnVisibilityAriaLabel = input<string | undefined>(undefined);
+  readonly resultCountTemplate = input<string | undefined>(undefined);
+  readonly rowActionsHeader = input<string | undefined>(undefined);
   readonly trackBy = input<string | ((row: T, index: number) => string | number) | null>(null);
-  readonly filterOperators = input(WI_DEFAULT_FILTER_OPERATORS);
+  readonly filterOperators = input<
+    readonly { value: WiFilterOperator; label: string }[] | undefined
+  >(undefined);
 
   readonly pageChange = output<WiPageChangeEvent>();
 
   private readonly cellDirs = contentChildren(WiTableCellDirective);
   private readonly rowActionDirs = contentChildren(WiTableRowActionsDirective);
+
+  protected readonly resolvedEmptyMessage = computed(
+    () => this.emptyMessage() ?? this.i18n.emptyMessage(),
+  );
+  protected readonly resolvedAriaLabel = computed(
+    () => this.ariaLabel() ?? this.i18n.tableAriaLabel(),
+  );
+  protected readonly resolvedFilterPlaceholder = computed(
+    () => this.filterPlaceholder() ?? this.i18n.filterPlaceholder(),
+  );
+  protected readonly resolvedSelectPlaceholder = computed(
+    () => this.selectPlaceholder() ?? this.i18n.selectPlaceholder(),
+  );
+  protected readonly resolvedFilterOperatorAriaLabel = computed(
+    () => this.filterOperatorAriaLabel() ?? this.i18n.filterOperatorAriaLabel(),
+  );
+  protected readonly resolvedRowActionsHeader = computed(
+    () => this.rowActionsHeader() ?? this.i18n.rowActionsHeader(),
+  );
+  protected readonly resolvedFilterOperators = computed(
+    () => this.filterOperators() ?? this.i18n.filterOperators(),
+  );
 
   readonly displayColumns = computed(() =>
     wiVisibleColumns(this.columns(), this.visibleColumnIds()),
@@ -355,9 +384,10 @@ export class WiTableComponent<T = unknown> {
     () => this.showFilters() && this.displayColumns().some((column) => column.filterable),
   );
 
-  readonly resultCountLabel = computed(() =>
-    this.resultCountTemplate().replace('{count}', String(this.effectiveTotal())),
-  );
+  readonly resultCountLabel = computed(() => {
+    const template = this.resultCountTemplate() ?? this.i18n.resultCountTemplate();
+    return template.replace('{count}', String(this.effectiveTotal()));
+  });
 
   readonly colspan = computed(
     () => this.displayColumns().length + (this.hasRowActions() ? 1 : 0) || 1,
@@ -407,7 +437,7 @@ export class WiTableComponent<T = unknown> {
   }
 
   filterAriaLabel(column: WiColumnDef): string {
-    return `Filtrar ${column.header}`;
+    return this.i18n.filterAriaLabel(column.header);
   }
 
   ariaSort(column: WiColumnDef): 'ascending' | 'descending' | 'none' | null {

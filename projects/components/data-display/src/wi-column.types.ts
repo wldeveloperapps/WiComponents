@@ -81,11 +81,11 @@ export const WI_DEFAULT_FILTER_OPERATORS: readonly {
   value: WiFilterOperator;
   label: string;
 }[] = [
-  { value: 'contains', label: 'Contiene' },
-  { value: 'notContains', label: 'No contiene' },
-  { value: 'startsWith', label: 'Empieza por' },
-  { value: 'endsWith', label: 'Termina en' },
-  { value: 'equals', label: 'Igual a' },
-  { value: 'notEquals', label: 'Distinto de' },
-  { value: 'none', label: 'Sin filtro' },
+  { value: 'contains', label: 'Contains' },
+  { value: 'notContains', label: 'Does not contain' },
+  { value: 'startsWith', label: 'Starts with' },
+  { value: 'endsWith', label: 'Ends with' },
+  { value: 'equals', label: 'Equals' },
+  { value: 'notEquals', label: 'Does not equal' },
+  { value: 'none', label: 'No filter' },
 ];

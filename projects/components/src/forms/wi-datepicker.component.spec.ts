@@ -170,6 +170,68 @@ describe('WiDatepickerComponent', () => {
     expect(value!.getMinutes()).toBe(45);
   });
 
+  it('defaults time format labels from provideWiCalendarI18n', () => {
+    fixture.componentRef.setInput('showTime', true);
+    fixture.componentRef.setInput('value', new Date(2026, 6, 20, 10, 0, 0, 0));
+    fixture.detectChanges();
+
+    trigger().click();
+    fixture.detectChanges();
+
+    const hourInput = document.querySelectorAll(
+      '.wi-datepicker__time-input',
+    )[0] as HTMLInputElement;
+    const minuteInput = document.querySelectorAll(
+      '.wi-datepicker__time-input',
+    )[1] as HTMLInputElement;
+    expect(hourInput.placeholder).toBe('HH');
+    expect(minuteInput.placeholder).toBe('MM');
+    expect(hourInput.getAttribute('aria-label')).toBe('Hour');
+    expect(minuteInput.getAttribute('aria-label')).toBe('Minute');
+  });
+
+  it('applies localized time format labels from provideWiCalendarI18n', async () => {
+    TestBed.resetTestingModule();
+    await TestBed.configureTestingModule({
+      imports: [WiDatepickerComponent],
+      providers: [
+        provideNativeDateAdapter(),
+        provideWiIcons({ calendar: { outline: calendarOutline } }),
+        provideWiCalendarI18n({
+          firstDayOfWeek: () => 1,
+          hourPlaceholder: () => 'hh',
+          minutePlaceholder: () => 'mm',
+          hourAriaLabel: () => 'Hora',
+          minuteAriaLabel: () => 'Minuto',
+        }),
+      ],
+    }).compileComponents();
+
+    const localized = TestBed.createComponent(WiDatepickerComponent);
+    localized.componentRef.setInput('ariaLabel', 'Fecha');
+    localized.componentRef.setInput('showTime', true);
+    localized.componentRef.setInput('value', new Date(2026, 6, 20, 10, 0, 0, 0));
+    localized.detectChanges();
+    await localized.whenStable();
+
+    const localizedTrigger = localized.nativeElement.querySelector(
+      '.wi-datepicker__trigger',
+    ) as HTMLButtonElement;
+    localizedTrigger.click();
+    localized.detectChanges();
+
+    const hourInput = document.querySelectorAll(
+      '.wi-datepicker__time-input',
+    )[0] as HTMLInputElement;
+    const minuteInput = document.querySelectorAll(
+      '.wi-datepicker__time-input',
+    )[1] as HTMLInputElement;
+    expect(hourInput.placeholder).toBe('hh');
+    expect(minuteInput.placeholder).toBe('mm');
+    expect(hourInput.getAttribute('aria-label')).toBe('Hora');
+    expect(minuteInput.getAttribute('aria-label')).toBe('Minuto');
+  });
+
   it('commits time on Enter and closes the popover', () => {
     fixture.componentRef.setInput('showTime', true);
     fixture.componentRef.setInput('value', new Date(2026, 6, 20, 10, 0, 0, 0));

@@ -571,6 +571,88 @@ No crear un entry point nuevo sin comprobar:
 
 ---
 
+## 16. Componentes data-driven
+
+Las capturas, mockups, diseños de Figma o imágenes de referencia deben utilizarse únicamente para reproducir la estructura visual del componente.
+
+Nunca copiar literalmente el contenido mostrado en la referencia.
+
+### La librería define
+
+- Layout y estructura
+- Estilos y design tokens
+- Variantes visuales
+- Estados de presentación
+- Accesibilidad
+- API pública del componente
+
+### La aplicación consumidora define
+
+- Textos
+- Datos
+- Imágenes
+- Iconos concretos
+- Acciones
+- Navegación
+- Permisos
+- Estados de negocio
+- Traducciones
+- Modelos de dominio
+
+### No hardcodear
+
+No introducir en el componente datos obtenidos de la referencia visual como:
+
+- nombres
+- empresas
+- fechas
+- importes
+- porcentajes
+- estados
+- rutas
+- botones de negocio
+- menús
+- datos de tablas
+- datos de gráficas
+
+Todo contenido variable debe recibirse mediante:
+
+- `input()`
+- `output()`
+- `model()`
+- `ng-content`
+- `TemplateRef`
+- interfaces públicas exportadas por `@wiloc/ui`
+
+### Modelos
+
+Los componentes nunca deben depender de modelos del backend.
+
+Incorrecto
+
+```ts
+readonly vm = input.required<AzureVirtualMachine>();
+```
+
+Correcto
+
+```ts
+readonly server = input.required<WiServerCard>();
+```
+
+La aplicación adapta sus modelos de dominio al modelo de presentación de la librería.
+
+### Auto-review
+
+Antes de finalizar un componente comprobar:
+
+- ¿He hardcodeado datos de la referencia?
+- ¿Todo el contenido viene desde la aplicación?
+- ¿La API es reutilizable?
+- ¿El componente desconoce el backend?
+- ¿El componente desconoce rutas y permisos?
+- ¿Podría publicarse en npm y reutilizarse sin modificaciones?
+
 # Estructura recomendada de un componente
 
 ```text

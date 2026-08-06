@@ -88,7 +88,9 @@ export class WiTabsListComponent {
   );
 }
 /**
- * Trigger de pestaña. Debe ser un `button` nativo con nombre accesible (texto o `aria-label`).
+ * Trigger de pestaña. Debe ser un `button` nativo.
+ * El título / nombre accesible lo aporta la app (texto proyectado o `aria-label`);
+ * la librería no define copy de producto.
  */
 @Directive({
   selector: 'button[wiTabsTrigger]',

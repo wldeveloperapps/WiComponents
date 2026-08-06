@@ -23,6 +23,8 @@ export type {
   WiTableCellContext,
 } from './wi-column.types';
 export { WI_DEFAULT_FILTER_OPERATORS } from './wi-column.types';
+export type { WiDataDisplayI18n } from './wi-data-display.i18n';
+export { provideWiDataDisplayI18n } from './wi-data-display.i18n';
 
 export {
   wiCompareValues,

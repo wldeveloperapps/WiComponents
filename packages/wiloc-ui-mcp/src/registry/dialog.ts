@@ -19,6 +19,8 @@ export const wiDialogRegistryEntry = {
     'WiDialogFooterComponent',
     'WiDialogSize',
     'WiDialogState',
+    'WiOverlaysI18n',
+    'provideWiOverlaysI18n',
   ],
   inputs: [
     {
@@ -48,9 +50,9 @@ export const wiDialogRegistryEntry = {
     },
     {
       name: 'closeLabel',
-      type: 'string',
-      default: 'Cerrar',
-      description: 'aria-label del botón X en wi-dialog-content (i18n en la app)',
+      type: 'string | undefined',
+      default: 'undefined → provideWiOverlaysI18n.dialogCloseLabel (Close)',
+      description: 'aria-label del botón X; preferir provideWiOverlaysI18n a nivel app',
     },
   ],
   outputs: [
@@ -81,7 +83,7 @@ export const wiDialogRegistryEntry = {
     'Focus trap y restore focus al cerrar',
   ],
   a11yNotes:
-    'role=dialog + aria-modal. Título vía wi-dialog-title. El botón X es icon-only: closeLabel / aria-label. Registrar provideWiIcons({ "x-mark": … }) si showCloseButton. Overlays portaled heredan .wi-dark del documento.',
+    'role=dialog + aria-modal. Título vía wi-dialog-title. El botón X es icon-only: provideWiOverlaysI18n.dialogCloseLabel o closeLabel. Registrar provideWiIcons({ "x-mark": … }) si showCloseButton. Overlays portaled heredan .wi-dark del documento.',
   example: {
     import: `import {
   WiDialogCloseDirective,
@@ -93,7 +95,10 @@ export const wiDialogRegistryEntry = {
   WiDialogPortalDirective,
   WiDialogTitleComponent,
   WiDialogTriggerDirective,
-} from '@wiloc/ui/overlays';`,
+  provideWiOverlaysI18n,
+} from '@wiloc/ui/overlays';
+
+provideWiOverlaysI18n({ dialogCloseLabel: () => 'Cerrar' });`,
     template: `<wi-dialog size="md">
   <wi-button type="button" wiDialogTrigger>Abrir</wi-button>
   <ng-template wiDialogPortal>
