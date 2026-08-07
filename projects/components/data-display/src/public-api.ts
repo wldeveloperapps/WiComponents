@@ -9,6 +9,9 @@ export {
   WiCardTitleComponent,
 } from './wi-card.component';
 
+export type { WiSkeletonShape } from './wi-skeleton.types';
+export { WiSkeletonComponent } from './wi-skeleton.component';
+
 export type {
   WiColumnDef,
   WiColumnFilter,
