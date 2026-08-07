@@ -63,4 +63,6 @@ Layouts / Recipe: `grid-cols-1 sm:…`. Comprobar canvas ~320–400px (regla `re
 
 ## i18n
 
-Copy de demo en español; en apps el texto viene de i18n. No diccionarios en la librería.
+Copy de demo en español por defecto; en apps el texto viene de i18n. No diccionarios en la librería.
+
+Toolbar **Locale** (ES/EN) en Storybook: simula `provideWi*I18n` de la app (`projects/components/.storybook/locale.ts`). No hardcodear ES/EN en `applicationConfig` de una story si debe reaccionar al selector; usa el preview global o las factories de `.storybook/locale`.

@@ -4,134 +4,206 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Internacionalización (`@wiloc/ui`)
 
-`@wiloc/ui` **no** incluye diccionarios ES/EN ni copy de producto. La librería expone el **contrato** (inputs de texto + providers `provideWi*I18n`). Las **traducciones viven en la app**.
+`@wiloc/ui` **no** trae diccionarios ES/EN. La app traduce; la librería solo expone **dónde** enganchar el copy.
 
-Usar esta página como **plantilla / checklist** al integrar.
+## Cómo se implementa en la app (resumen)
 
-## Principio
+Hay **dos canales**. Ambos los rellena la app con su motor i18n (Transloco, ngx-translate, signals, JSON, …).
 
-| Capa | Responsabilidad |
-| ---- | ---------------- |
-| `@wiloc/ui` | Comportamiento, a11y, inputs de instancia, providers de locale/chrome |
-| App consumidora | Strings, locale, `document.documentElement.lang`, motor i18n (Transloco, etc.) |
+```text
+┌─────────────────────────────────────────────────────────────┐
+│  App consumidora                                            │
+│                                                             │
+│  1. app.config.ts  →  provideWi*I18n({ … })                 │
+│     Chrome compartido (meses del calendario, “Anterior”,    │
+│     aria del botón X del dialog, operadores de filtro, …)   │
+│                                                             │
+│  2. Template       →  [placeholder]="t('…')"                │
+│     Copy de esa instancia (placeholder, ariaLabel, título)  │
+└─────────────────────────────────────────────────────────────┘
+```
 
-Defaults en inglés en providers/inputs son solo fallback técnico, no un locale oficial.
+| Canal | Qué | Dónde se configura | Ejemplo |
+| ----- | --- | ------------------ | ------- |
+| **Provider** | Labels de chrome reutilizados por todos los componentes del dominio | `app.config.ts` → `provideWiCalendarI18n` / `provideWiDataDisplayI18n` / `provideWiOverlaysI18n` | Meses, “Mes anterior”, “Cerrar”, “Anterior/Siguiente” de paginación |
+| **Input** | Copy de **esta** instancia en pantalla | Template / binding | `placeholder`, `clearLabel`, `ariaLabel`, cabeceras de columna, título del dialog |
+
+**Regla práctica**
+
+- Si el texto es del **chrome del control** (navegación del calendario, paginación, botón X) → **provider**.
+- Si el texto es del **caso de uso** (placeholder “Fecha de alta”, título “Editar sitio”) → **input** (o proyección de contenido).
+
+Referencia runnable: `apps/e2e-consumer` (`locale.ts` + `app.config.ts` + bindings en `app.html`).
 
 ---
 
-## Checklist por componente
+## Paso a paso
 
-### `wi-input`
+### 1. Registrar providers en `app.config.ts`
 
-| Qué | Dónde |
+Una vez por app. Las funciones se evalúan al renderizar: pueden leer el locale actual (signal, Transloco, …).
+
+```ts
+// app.config.ts
+import { ApplicationConfig } from '@angular/core';
+import { provideWiDataDisplayI18n } from '@wiloc/ui/data-display';
+import { provideWiCalendarI18n } from '@wiloc/ui/forms';
+import { provideWiOverlaysI18n } from '@wiloc/ui/overlays';
+import { createCalendarI18n, createDataDisplayI18n, createOverlaysI18n } from './locale';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    // …otros providers
+    provideWiCalendarI18n(createCalendarI18n()),
+    provideWiDataDisplayI18n(createDataDisplayI18n()),
+    provideWiOverlaysI18n(createOverlaysI18n()),
+  ],
+};
+```
+
+### 2. Definir las factories (leen el locale en cada llamada)
+
+Patrón mínimo (como en e2e-consumer). Con Transloco, dentro de cada `() =>` llama a `translate('key')`.
+
+```ts
+// locale.ts (app)
+import { signal } from '@angular/core';
+import type { WiCalendarI18n, WiMonthLabels } from '@wiloc/ui/forms';
+import type { WiDataDisplayI18n } from '@wiloc/ui/data-display';
+import type { WiOverlaysI18n } from '@wiloc/ui/overlays';
+
+export type AppLocale = 'es' | 'en';
+export const appLocale = signal<AppLocale>('es');
+
+const MONTHS: Record<AppLocale, WiMonthLabels> = {
+  es: ['Enero', 'Febrero', /* … */ 'Diciembre'],
+  en: ['January', 'February', /* … */ 'December'],
+};
+
+export function createCalendarI18n(): Partial<WiCalendarI18n> {
+  return {
+    firstDayOfWeek: () => 1,
+    months: () => MONTHS[appLocale()],
+    formatMonth: (m) => MONTHS[appLocale()][m],
+    formatYear: (y) => String(y),
+    formatHeader: (m, y) => `${MONTHS[appLocale()][m]} ${y}`,
+    formatWeekdayName: (i) =>
+      (appLocale() === 'es'
+        ? ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá']
+        : ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'])[i % 7] ?? '',
+    labelWeekday: (i) =>
+      (appLocale() === 'es'
+        ? ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
+        : ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'])[i % 7] ?? '',
+    labelPrevious: () => (appLocale() === 'es' ? 'Mes anterior' : 'Previous month'),
+    labelNext: () => (appLocale() === 'es' ? 'Mes siguiente' : 'Next month'),
+    hourPlaceholder: () => 'HH',
+    minutePlaceholder: () => 'MM',
+    hourAriaLabel: () => (appLocale() === 'es' ? 'Hora' : 'Hour'),
+    minuteAriaLabel: () => (appLocale() === 'es' ? 'Minuto' : 'Minute'),
+  };
+}
+
+export function createOverlaysI18n(): Partial<WiOverlaysI18n> {
+  return {
+    dialogCloseLabel: () => (appLocale() === 'es' ? 'Cerrar' : 'Close'),
+  };
+}
+
+// createDataDisplayI18n(): igual — emptyMessage, previousLabel, filterOperators, …
+```
+
+Al cambiar el idioma: actualiza `appLocale` (o el motor i18n) y `document.documentElement.lang`. No hace falta re-registrar los providers.
+
+### 3. Bindings de instancia en el template
+
+El provider **no** traduce el placeholder ni el título del dialog. Eso va en el template:
+
+```html
+<!-- Con tu helper / pipe de i18n -->
+<label [for]="hireDateId">{{ t('hireDate.label') }}</label>
+<wi-datepicker
+  [id]="hireDateId"
+  [(value)]="hireDate"
+  clearable
+  [placeholder]="t('hireDate.placeholder')"
+  [clearLabel]="t('hireDate.clear')"
+  [calendarLabel]="t('hireDate.openCalendar')"
+  [ariaLabel]="t('hireDate.aria')"
+/>
+```
+
+Sin motor i18n (solo para entender el contrato):
+
+```html
+<wi-datepicker
+  [(value)]="hireDate"
+  clearable
+  placeholder="Selecciona una fecha…"
+  clearLabel="Limpiar"
+  calendarLabel="Abrir calendario"
+  ariaLabel="Fecha de alta"
+/>
+```
+
+Con hora:
+
+```html
+<wi-datepicker
+  [(value)]="appointment"
+  showTime
+  [timeLabel]="t('appointment.time')"
+  [placeholder]="t('appointment.placeholder')"
+  [ariaLabel]="t('appointment.aria')"
+/>
+```
+
+---
+
+## Qué va en cada canal (por componente)
+
+### Solo inputs / proyección (sin provider propio)
+
+| Componente | Labels vía input / contenido |
+| ---------- | ---------------------------- |
+| `wi-input` | `placeholder`, `ariaLabel`, hint/error + `ariaDescribedBy` |
+| `wi-select` | `placeholder`, `emptyText`, `clearLabel`, `removeChipLabel`, `ariaLabel` |
+| `wi-listbox` | `emptyText`, `ariaLabel` / `ariaLabelledBy` |
+| `wi-checkbox` / `wi-switch` | `ariaLabel` / label wrapping |
+| `wi-button` | proyección; icon-only → `ariaLabel` |
+| `wi-tabs` | texto dentro de `button[wiTabsTrigger]` y del panel |
+
+### `wi-datepicker` / `wi-date-range`
+
+| Qué | Canal |
 | --- | ----- |
-| Placeholder | input `placeholder` |
-| Nombre accesible | `ariaLabel` o `<label for>` + `id` |
-| Hint / error | texto en la app + `ariaDescribedBy` |
+| Placeholder, clear, abrir calendario, `timeLabel`, aria | **Inputs** |
+| Meses, días, prev/next, placeholders HH/MM | **`provideWiCalendarI18n`** |
 
-### `wi-select`
+`wi-date-range` añade `startPlaceholder` / `endPlaceholder` / `startAriaLabel` / `endAriaLabel` (también inputs).
 
-| Qué | Dónde |
+Demo: **Forms → WiDatepicker** + toolbar **Locale**.
+
+### `wi-table` / paginación / columnas
+
+| Qué | Canal |
 | --- | ----- |
-| Placeholder | `placeholder` |
-| Lista vacía | `emptyText` |
-| Limpiar | `clearLabel` (si `clearable`) |
-| Quitar chip | `removeChipLabel` |
-| Nombre accesible | `ariaLabel` o label asociado |
-| Label visible de opciones | datos de la app (`options` / templates) |
-
-### `wi-listbox`
-
-| Qué | Dónde |
-| --- | ----- |
-| Lista vacía | `emptyText` |
-| Nombre accesible | `ariaLabel` / `ariaLabelledBy` o labels proyectados |
-
-### `wi-checkbox` / `wi-switch`
-
-| Qué | Dónde |
-| --- | ----- |
-| Nombre accesible | `ariaLabel`, `ariaLabelledBy` o `<label>` wrapping / `for`+`id` |
-| Hint / error | texto en la app + `ariaDescribedBy` |
-
-### `wi-button`
-
-| Qué | Dónde |
-| --- | ----- |
-| Texto visible | proyección / contenido de la app |
-| Icon-only | `ariaLabel` obligatorio |
-
-### `wi-datepicker`
-
-| Qué | Dónde |
-| --- | ----- |
-| Placeholder | `placeholder` |
-| Limpiar | `clearLabel` |
-| Abrir calendario | `calendarLabel` (y/o `ariaLabel`) |
-| Hora (etiqueta visible) | `timeLabel` (si `showTime`) |
-| Formato hora / minuto | `provideWiCalendarI18n` (`hourPlaceholder`, `minutePlaceholder`, `hourAriaLabel`, `minuteAriaLabel`) |
-| Meses, días, prev/next | `provideWiCalendarI18n` |
-
-### `wi-date-range`
-
-Además de lo anterior (reutilizado en cada picker):
-
-| Qué | Dónde |
-| --- | ----- |
-| Placeholders | `startPlaceholder`, `endPlaceholder` |
-| Aria | `startAriaLabel`, `endAriaLabel` |
-| Abrir calendarios | `startCalendarLabel`, `endCalendarLabel` |
-| Limpiar / hora | `clearLabel`, `timeLabel` |
-
-Demo interactiva: **Forms → WiDatepicker → Locale (app-provided)**.
-
-### `wi-table` / `wi-data-pagination` / `wi-column-visibility`
-
-| Qué | Dónde |
-| --- | ----- |
-| Vacío, paginación, filtros, columnas, operadores | `provideWiDataDisplayI18n` |
+| Vacío, paginación, filtros, operadores, “Columnas” | **`provideWiDataDisplayI18n`** |
 | Override puntual | inputs opcionales (`emptyMessage`, `previousLabel`, …) |
-| Cabeceras / options de filtro | `WiColumnDef` (app) |
+| Cabeceras y options de filtro | `WiColumnDef` (app) |
 
 ### `wi-dialog`
 
-| Qué | Dónde |
+| Qué | Canal |
 | --- | ----- |
-| Título / descripción / acciones | proyección (`wi-dialog-title`, …) |
-| Aria del botón X | `provideWiOverlaysI18n` (`dialogCloseLabel`) o input `closeLabel` |
-
-### `wi-tabs`
-
-No hay inputs de label en la librería: el copy es **contenido proyectado** de la app.
-
-| Qué | Dónde |
-| --- | ----- |
-| Título visible de cada pestaña | Texto (u otro contenido) dentro de `button[wiTabsTrigger]` |
-| Nombre accesible | Ese mismo texto, o `aria-label` en el `button` si el trigger es solo icono |
-| Contenido del panel | Markup dentro de `[wiTabsContent]` (también de la app) |
-
-Las claves (`wiTabsTrigger` / `wiTabsContent` / `value`) las define la app; la librería no impone IDs ni copy. Solo se localizan títulos y cuerpo.
-
-```html
-<wi-tabs [(value)]="activeTabId">
-  <wi-tabs-list>
-    @for (tab of tabs; track tab.id) {
-      <button type="button" [wiTabsTrigger]="tab.id">{{ tab.label }}</button>
-    }
-  </wi-tabs-list>
-  @for (tab of tabs; track tab.id) {
-    <div [wiTabsContent]="tab.id">{{ tab.body }}</div>
-  }
-</wi-tabs>
-```
-
-Demo smoke: **e2e-consumer** (IDs + copy de la app; toggle ES/EN).
+| Título, descripción, acciones | **Proyección** (`wi-dialog-title`, …) |
+| Aria del botón X | **`provideWiOverlaysI18n`** (`dialogCloseLabel`) o input `closeLabel` |
 
 ---
 
-## Plantilla `provideWiCalendarI18n`
+## Plantillas de providers (checklist de campos)
 
-Registrar en `app.config.ts` (o equivalente). Las funciones se evalúan al renderizar el calendario: pueden leer un signal/locale de la app.
+### `provideWiCalendarI18n`
 
 ```ts
 import { provideWiCalendarI18n } from '@wiloc/ui/forms';
@@ -143,7 +215,7 @@ const MONTHS_ES: WiMonthLabels = [
 ];
 
 provideWiCalendarI18n({
-  firstDayOfWeek: () => 1, // lunes
+  firstDayOfWeek: () => 1,
   months: () => MONTHS_ES,
   formatMonth: (month) => MONTHS_ES[month],
   formatYear: (year) => String(year),
@@ -160,18 +232,9 @@ provideWiCalendarI18n({
 });
 ```
 
-Campos de `WiCalendarI18n` (todos opcionales en el `Partial`; completar los que la app necesite):
+Campos opcionales (`Partial<WiCalendarI18n>`): `firstDayOfWeek`, `months`, `formatMonth`, `formatYear`, `formatHeader`, `formatWeekdayName`, `labelWeekday`, `labelPrevious`, `labelNext`, `years`, `hourPlaceholder`, `minutePlaceholder`, `hourAriaLabel`, `minuteAriaLabel`.
 
-- `firstDayOfWeek`
-- `months` / `formatMonth` / `formatYear` / `formatHeader`
-- `formatWeekdayName` / `labelWeekday`
-- `labelPrevious` / `labelNext`
-- `years` (lista de años del selector, si aplica)
-- `hourPlaceholder` / `minutePlaceholder` / `hourAriaLabel` / `minuteAriaLabel` (formato de hora si `showTime`)
-
----
-
-## Plantilla `provideWiDataDisplayI18n`
+### `provideWiDataDisplayI18n`
 
 ```ts
 import { provideWiDataDisplayI18n } from '@wiloc/ui/data-display';
@@ -203,9 +266,7 @@ provideWiDataDisplayI18n({
 });
 ```
 
----
-
-## Plantilla `provideWiOverlaysI18n`
+### `provideWiOverlaysI18n`
 
 ```ts
 import { provideWiOverlaysI18n } from '@wiloc/ui/overlays';
@@ -217,39 +278,41 @@ provideWiOverlaysI18n({
 
 ---
 
-## Snippet de template (app)
+## Ejemplo `wi-tabs` (solo proyección)
 
 ```html
-<label for="hire-date">Fecha de alta</label>
-<wi-datepicker
-  id="hire-date"
-  [(value)]="hireDate"
-  clearable
-  placeholder="Selecciona una fecha…"
-  clearLabel="Limpiar"
-  calendarLabel="Abrir calendario"
-  ariaLabel="Fecha de alta"
-/>
+<wi-tabs [(value)]="activeTabId">
+  <wi-tabs-list>
+    @for (tab of tabs; track tab.id) {
+      <button type="button" [wiTabsTrigger]="tab.id">{{ tab.label }}</button>
+    }
+  </wi-tabs-list>
+  @for (tab of tabs; track tab.id) {
+    <div [wiTabsContent]="tab.id">{{ tab.body }}</div>
+  }
+</wi-tabs>
 ```
 
-Con hora:
-
-```html
-<wi-datepicker
-  [(value)]="appointment"
-  showTime
-  timeLabel="Hora"
-  placeholder="Fecha y hora…"
-  ariaLabel="Cita"
-/>
-```
+`tabs` sale del i18n de la app; la librería no impone copy.
 
 ---
 
 ## Qué no hacer
 
-- No hardcodear idiomas de producto dentro de `@wiloc/ui`.
-- No asumir que Storybook o el monorepo sustituyen el i18n de la app.
+- No meter diccionarios de producto dentro de `@wiloc/ui`.
+- No esperar que el selector **Locale** de Storybook sustituya el i18n de la app (solo simula providers + demos).
 - No dejar botones solo-icono sin `ariaLabel` / `clearLabel` traducidos.
+- No poner el placeholder del datepicker en el provider: va en el **input** `placeholder`.
 
-Referencia de consumo empaquetado: `apps/e2e-consumer` (toggle ES/EN + `.tgz`).
+---
+
+## Storybook (solo demo)
+
+Toolbar **Locale** (ES / EN) junto a **Tema**:
+
+- Actualiza `document.documentElement.lang`.
+- Simula `provideWi*I18n` (calendario, tabla, dialog).
+- En datepicker, también demos de inputs (`placeholder`, etc.) vía `getDatepickerDemoCopy`.
+
+Código: `projects/components/.storybook/locale.ts` + `preview.ts`.  
+App real de referencia: `apps/e2e-consumer`.

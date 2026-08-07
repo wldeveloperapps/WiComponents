@@ -11,7 +11,6 @@ import {
   WiMenuTriggerDirective,
 } from '../../overlays/src/public-api';
 import type { WiColumnDef } from './wi-column.types';
-import { provideWiDataDisplayI18n } from './wi-data-display.i18n';
 import { WiTableCellDirective } from './wi-table-cell.directive';
 import { WiTableComponent } from './wi-table.component';
 import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
@@ -177,28 +176,6 @@ Tabla declarativa del design system. La app pasa \`WiColumnDef\` + filas (p. ej.
       providers: [
         provideWiIcons({
           'ellipsis-vertical': { outline: ellipsisVerticalOutline },
-        }),
-        provideWiDataDisplayI18n({
-          emptyMessage: () => 'No hay datos',
-          previousLabel: () => 'Anterior',
-          nextLabel: () => 'Siguiente',
-          filterPlaceholder: () => 'Escribir para buscar',
-          selectPlaceholder: () => 'Seleccionar uno',
-          filterAriaLabel: (header) => `Filtrar ${header}`,
-          columnVisibilitySummary: () => '{visible} de {total} columnas visibles',
-          columnVisibilityMenuLabel: () => 'Columnas',
-          columnVisibilityAriaLabel: () => 'Visibilidad de columnas',
-          resultCountTemplate: () => '{count} resultados',
-          rowActionsHeader: () => 'Acciones',
-          filterOperators: () => [
-            { value: 'contains', label: 'Contiene' },
-            { value: 'notContains', label: 'No contiene' },
-            { value: 'startsWith', label: 'Empieza por' },
-            { value: 'endsWith', label: 'Termina en' },
-            { value: 'equals', label: 'Igual a' },
-            { value: 'notEquals', label: 'Distinto de' },
-            { value: 'none', label: 'Sin filtro' },
-          ],
         }),
       ],
     }),

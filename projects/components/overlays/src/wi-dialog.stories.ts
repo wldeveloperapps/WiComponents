@@ -7,7 +7,6 @@ import { WiButtonComponent } from '../../button/src/public-api';
 import { xMarkOutline } from '../../icon/heroicons/src/x-mark';
 import { provideWiIcons, WiIconComponent } from '../../icon/src/public-api';
 import type { WiDialogSize } from './wi-dialog.types';
-import { provideWiOverlaysI18n } from './wi-overlays.i18n';
 import {
   WiDialogCloseDirective,
   WiDialogComponent,
@@ -68,9 +67,6 @@ Dialog modal por composición (\`wi-dialog\` + header / content / footer).
         Directionality,
         provideWiIcons({
           'x-mark': { outline: xMarkOutline },
-        }),
-        provideWiOverlaysI18n({
-          dialogCloseLabel: () => 'Cerrar',
         }),
       ],
     }),

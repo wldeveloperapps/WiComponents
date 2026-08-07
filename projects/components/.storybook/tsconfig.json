@@ -33,7 +33,8 @@
     "../overlays/**/*.stories.*",
     "../navigation/**/*.ts",
     "../navigation/**/*.stories.*",
-    "./preview.ts"
+    "./preview.ts",
+    "./locale.ts"
   ],
   "files": ["./typings.d.ts"]
 }

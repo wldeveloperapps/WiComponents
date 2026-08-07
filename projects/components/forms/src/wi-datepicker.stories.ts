@@ -3,11 +3,11 @@ import { applicationConfig, moduleMetadata } from '@storybook/angular-vite';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { fn } from 'storybook/test';
 
+import { getDatepickerDemoCopy, type StorybookLocale } from '../../.storybook/locale';
 import { provideWiIcons } from '../../icon/src/public-api';
 import { WI_HEROICONS_CURATED } from '../../icon/heroicons/src/curated';
 import { WiDatepickerComponent } from './wi-datepicker.component';
 import { WiDateRangeComponent } from './wi-date-range.component';
-import { provideWiCalendarI18n, type WiMonthLabels } from './wi-datepicker.i18n';
 import { toLocalDateString } from './wi-date';
 
 /** Preview civil (helpers públicos; evitar `toISOString` / `json`). */
@@ -25,31 +25,13 @@ function formatLocalDateTime(date: Date | null | undefined): string {
   return `${toLocalDateString(date)} ${hours}:${minutes}`;
 }
 
-const EN_MONTHS: WiMonthLabels = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
+function localeFromGlobals(globals: { locale?: string } | undefined): StorybookLocale {
+  return globals?.locale === 'en' ? 'en' : 'es';
+}
 
-const EN_WEEKDAYS_SHORT = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'] as const;
-const EN_WEEKDAYS_LONG = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-] as const;
+function datepickerCopy(globals: { locale?: string } | undefined) {
+  return getDatepickerDemoCopy(localeFromGlobals(globals));
+}
 
 type WiDatepickerStoryArgs = WiDatepickerComponent & {
   valueChange: ReturnType<typeof fn>;
@@ -94,24 +76,13 @@ const meta: Meta<WiDatepickerStoryArgs> = {
     docs: {
       description: {
         component:
-          'Selector de fecha (y hora opcional). Locale del calendario vía `provideWiCalendarI18n` (la app provee el copy; ver Documentation/I18n). Rango con `wi-date-range` (dos pickers). Requiere CSS de overlays CDK/Spartan e icono `calendar` registrado. El valor es un `Date` en hora local; no uses `toISOString()` / `json` para mostrar el día civil. Events: `valueChange`, `touch` (datepicker); `startChange` / `endChange`, `startTouch` / `endTouch` (date-range).',
+          'Selector de fecha (y hora opcional). Locale del calendario vía `provideWiCalendarI18n` (toolbar Locale de Storybook; ver Documentation/I18n). Rango con `wi-date-range` (dos pickers). Requiere CSS de overlays CDK/Spartan e icono `calendar` registrado. El valor es un `Date` en hora local; no uses `toISOString()` / `json` para mostrar el día civil. Events: `valueChange`, `touch` (datepicker); `startChange` / `endChange`, `startTouch` / `endTouch` (date-range).',
       },
     },
   },
   decorators: [
     applicationConfig({
-      providers: [
-        provideWiIcons(WI_HEROICONS_CURATED),
-        provideWiCalendarI18n({
-          firstDayOfWeek: () => 1,
-          labelPrevious: () => 'Mes anterior',
-          labelNext: () => 'Mes siguiente',
-          hourPlaceholder: () => 'HH',
-          minutePlaceholder: () => 'MM',
-          hourAriaLabel: () => 'Hora',
-          minuteAriaLabel: () => 'Minuto',
-        }),
-      ],
+      providers: [provideWiIcons(WI_HEROICONS_CURATED)],
     }),
     moduleMetadata({
       imports: [WiDatepickerComponent, WiDateRangeComponent, ReactiveFormsModule],
@@ -194,13 +165,21 @@ export default meta;
 type Story = StoryObj<WiDatepickerStoryArgs>;
 
 export const Default: Story = {
-  render: (args) => ({
-    props: {
-      ...args,
-      value: null as Date | null,
-      formatLocalDate,
-    },
-    template: `
+  render: (args, { globals }) => {
+    const t = datepickerCopy(globals);
+    return {
+      props: {
+        ...args,
+        placeholder: t.placeholder,
+        clearLabel: t.clearLabel,
+        calendarLabel: t.calendarLabel,
+        timeLabel: t.timeLabel,
+        ariaLabel: t.ariaLabel,
+        value: null as Date | null,
+        formatLocalDate,
+        valuePrefix: t.valuePrefix,
+      },
+      template: `
       <div style="width:20rem;">
         <wi-datepicker
           [value]="value"
@@ -219,22 +198,26 @@ export const Default: Story = {
           [ariaLabel]="ariaLabel"
         />
         <p style="margin-top:0.75rem;font-size:0.875rem;opacity:0.7;">
-          Valor: {{ formatLocalDate(value) }}
+          {{ valuePrefix }}: {{ formatLocalDate(value) }}
         </p>
       </div>
     `,
-  }),
+    };
+  },
 };
 
 export const Sizes: Story = {
-  render: (args) => ({
-    props: {
-      ...args,
-      valueSm: null as Date | null,
-      valueMd: null as Date | null,
-      valueLg: null as Date | null,
-    },
-    template: `
+  render: (args, { globals }) => {
+    const t = datepickerCopy(globals);
+    return {
+      props: {
+        ...args,
+        valueSm: null as Date | null,
+        valueMd: null as Date | null,
+        valueLg: null as Date | null,
+        ariaLabel: t.ariaLabel,
+      },
+      template: `
       <div style="display:flex;flex-direction:column;gap:1rem;width:20rem;">
         <wi-datepicker
           [value]="valueSm"
@@ -242,7 +225,7 @@ export const Sizes: Story = {
           (touch)="touch()"
           size="sm"
           placeholder="sm"
-          ariaLabel="Fecha sm"
+          [ariaLabel]="ariaLabel + ' sm'"
         />
         <wi-datepicker
           [value]="valueMd"
@@ -250,7 +233,7 @@ export const Sizes: Story = {
           (touch)="touch()"
           size="md"
           placeholder="md"
-          ariaLabel="Fecha md"
+          [ariaLabel]="ariaLabel + ' md'"
         />
         <wi-datepicker
           [value]="valueLg"
@@ -258,40 +241,49 @@ export const Sizes: Story = {
           (touch)="touch()"
           size="lg"
           placeholder="lg"
-          ariaLabel="Fecha lg"
+          [ariaLabel]="ariaLabel + ' lg'"
         />
       </div>
     `,
-  }),
+    };
+  },
 };
 
 export const Disabled: Story = {
-  render: (args) => ({
-    props: {
-      ...args,
-      value: new Date(2026, 6, 15),
-    },
-    template: `
+  render: (args, { globals }) => {
+    const t = datepickerCopy(globals);
+    return {
+      props: {
+        ...args,
+        value: new Date(2026, 6, 15),
+        ariaLabel: t.ariaLabelDisabled,
+      },
+      template: `
       <div style="width:20rem;">
         <wi-datepicker
           [value]="value"
           (valueChange)="value = $event; valueChange($event)"
           (touch)="touch()"
           disabled
-          ariaLabel="Fecha deshabilitada"
+          [ariaLabel]="ariaLabel"
         />
       </div>
     `,
-  }),
+    };
+  },
 };
 
 export const Invalid: Story = {
-  render: (args) => ({
-    props: {
-      ...args,
-      value: null as Date | null,
-    },
-    template: `
+  render: (args, { globals }) => {
+    const t = datepickerCopy(globals);
+    return {
+      props: {
+        ...args,
+        value: null as Date | null,
+        placeholder: t.requiredPlaceholder,
+        ariaLabel: t.ariaLabelInvalid,
+      },
+      template: `
       <div style="width:20rem;">
         <wi-datepicker
           [value]="value"
@@ -299,43 +291,55 @@ export const Invalid: Story = {
           (touch)="touch()"
           invalid
           required
-          placeholder="Requerido"
-          ariaLabel="Fecha inválida"
+          [placeholder]="placeholder"
+          [ariaLabel]="ariaLabel"
         />
       </div>
     `,
-  }),
+    };
+  },
 };
 
 export const Clearable: Story = {
-  render: (args) => ({
-    props: {
-      ...args,
-      value: new Date(2026, 0, 10),
-    },
-    template: `
+  render: (args, { globals }) => {
+    const t = datepickerCopy(globals);
+    return {
+      props: {
+        ...args,
+        value: new Date(2026, 0, 10),
+        clearLabel: t.clearLabelLong,
+        ariaLabel: t.ariaLabel,
+      },
+      template: `
       <div style="width:20rem;">
         <wi-datepicker
           [value]="value"
           (valueChange)="value = $event; valueChange($event)"
           (touch)="touch()"
           clearable
-          clearLabel="Limpiar fecha"
-          ariaLabel="Fecha"
+          [clearLabel]="clearLabel"
+          [ariaLabel]="ariaLabel"
         />
       </div>
     `,
-  }),
+    };
+  },
 };
 
 export const WithTime: Story = {
-  render: (args) => ({
-    props: {
-      ...args,
-      value: null as Date | null,
-      formatLocalDateTime,
-    },
-    template: `
+  render: (args, { globals }) => {
+    const t = datepickerCopy(globals);
+    return {
+      props: {
+        ...args,
+        value: null as Date | null,
+        formatLocalDateTime,
+        placeholder: t.placeholderDateTime,
+        timeLabel: t.timeLabel,
+        ariaLabel: t.ariaLabelDateTime,
+        valuePrefix: t.valuePrefix,
+      },
+      template: `
       <div style="width:20rem;">
         <wi-datepicker
           [value]="value"
@@ -343,27 +347,34 @@ export const WithTime: Story = {
           (touch)="touch()"
           showTime
           clearable
-          placeholder="Fecha y hora…"
-          timeLabel="Hora"
-          ariaLabel="Fecha y hora"
+          [placeholder]="placeholder"
+          [timeLabel]="timeLabel"
+          [ariaLabel]="ariaLabel"
         />
         <p style="margin-top:0.75rem;font-size:0.875rem;opacity:0.7;">
-          Valor: {{ formatLocalDateTime(value) }}
+          {{ valuePrefix }}: {{ formatLocalDateTime(value) }}
         </p>
       </div>
     `,
-  }),
+    };
+  },
 };
 
 export const Range: Story = {
-  render: (args) => ({
-    props: {
-      ...args,
-      start: null as Date | null,
-      end: null as Date | null,
-      formatLocalDate,
-    },
-    template: `
+  render: (args, { globals }) => {
+    const t = datepickerCopy(globals);
+    return {
+      props: {
+        ...args,
+        start: null as Date | null,
+        end: null as Date | null,
+        formatLocalDate,
+        startPlaceholder: t.startPlaceholder,
+        endPlaceholder: t.endPlaceholder,
+        startAriaLabel: t.startAriaLabel,
+        endAriaLabel: t.endAriaLabel,
+      },
+      template: `
       <div style="width:36rem;">
         <wi-date-range
           [start]="start"
@@ -373,27 +384,34 @@ export const Range: Story = {
           (startTouch)="startTouch()"
           (endTouch)="endTouch()"
           clearable
-          startPlaceholder="Desde…"
-          endPlaceholder="Hasta…"
-          startAriaLabel="Fecha inicio"
-          endAriaLabel="Fecha fin"
+          [startPlaceholder]="startPlaceholder"
+          [endPlaceholder]="endPlaceholder"
+          [startAriaLabel]="startAriaLabel"
+          [endAriaLabel]="endAriaLabel"
         />
         <p style="margin-top:0.75rem;font-size:0.875rem;opacity:0.7;">
           start: {{ formatLocalDate(start) }} — end: {{ formatLocalDate(end) }}
         </p>
       </div>
     `,
-  }),
+    };
+  },
 };
 
 export const RangeWithTime: Story = {
-  render: (args) => ({
-    props: {
-      ...args,
-      start: null as Date | null,
-      end: null as Date | null,
-    },
-    template: `
+  render: (args, { globals }) => {
+    const t = datepickerCopy(globals);
+    return {
+      props: {
+        ...args,
+        start: null as Date | null,
+        end: null as Date | null,
+        startPlaceholder: t.startPlaceholder,
+        endPlaceholder: t.endPlaceholder,
+        startAriaLabel: t.startAriaLabel,
+        endAriaLabel: t.endAriaLabel,
+      },
+      template: `
       <div style="width:36rem;">
         <wi-date-range
           [start]="start"
@@ -404,26 +422,34 @@ export const RangeWithTime: Story = {
           (endTouch)="endTouch()"
           showTime
           clearable
-          startPlaceholder="Desde…"
-          endPlaceholder="Hasta…"
-          startAriaLabel="Inicio"
-          endAriaLabel="Fin"
+          [startPlaceholder]="startPlaceholder"
+          [endPlaceholder]="endPlaceholder"
+          [startAriaLabel]="startAriaLabel"
+          [endAriaLabel]="endAriaLabel"
         />
       </div>
     `,
-  }),
+    };
+  },
 };
 
 export const DarkMode: Story = {
   globals: {
     theme: 'dark',
   },
-  render: (args) => ({
-    props: {
-      ...args,
-      value: new Date(2026, 6, 20, 14, 30),
-    },
-    template: `
+  render: (args, { globals }) => {
+    const t = datepickerCopy(globals);
+    return {
+      props: {
+        ...args,
+        value: new Date(2026, 6, 20, 14, 30),
+        ariaLabel: t.ariaLabelDark,
+        placeholder: t.placeholderDateTime,
+        timeLabel: t.timeLabel,
+        clearLabel: t.clearLabel,
+        calendarLabel: t.calendarLabel,
+      },
+      template: `
       <div style="padding:1.5rem;width:22rem;">
         <wi-datepicker
           [value]="value"
@@ -431,58 +457,51 @@ export const DarkMode: Story = {
           (touch)="touch()"
           showTime
           clearable
-          ariaLabel="Fecha dark"
+          [placeholder]="placeholder"
+          [timeLabel]="timeLabel"
+          [clearLabel]="clearLabel"
+          [calendarLabel]="calendarLabel"
+          [ariaLabel]="ariaLabel"
         />
       </div>
     `,
-  }),
+    };
+  },
 };
 
 /**
- * Ejemplo de copy en inglés provisto por la app (no es un locale de la librería).
+ * Fuerza locale EN vía toolbar globals (misma demo que el selector Locale).
  * Checklist completa: Documentation → I18n.
  */
 export const LocaleAppProvided: Story = {
-  name: 'Locale (app-provided)',
-  decorators: [
-    applicationConfig({
-      providers: [
-        provideWiIcons(WI_HEROICONS_CURATED),
-        provideWiCalendarI18n({
-          firstDayOfWeek: () => 0,
-          months: () => EN_MONTHS,
-          formatMonth: (month) => EN_MONTHS[month],
-          formatYear: (year) => String(year),
-          formatHeader: (month, year) => `${EN_MONTHS[month]} ${year}`,
-          formatWeekdayName: (index) => EN_WEEKDAYS_SHORT[index % 7] ?? '',
-          labelWeekday: (index) => EN_WEEKDAYS_LONG[index % 7] ?? '',
-          labelPrevious: () => 'Previous month',
-          labelNext: () => 'Next month',
-          hourPlaceholder: () => 'HH',
-          minutePlaceholder: () => 'MM',
-          hourAriaLabel: () => 'Hour',
-          minuteAriaLabel: () => 'Minute',
-        }),
-      ],
-    }),
-  ],
+  name: 'Locale (EN)',
+  globals: {
+    locale: 'en',
+  },
   parameters: {
     docs: {
       description: {
         story:
-          'La app inyecta labels y `provideWiCalendarI18n` (aquí en inglés). `@wiloc/ui` no trae diccionarios. Ver **Documentation / I18n**.',
+          'Misma demo con **Locale → EN** en la toolbar (placeholder, labels y calendario). `@wiloc/ui` no trae diccionarios. Ver **Documentation / I18n**.',
       },
     },
   },
-  render: (args) => ({
-    props: {
-      ...args,
-      value: null as Date | null,
-    },
-    template: `
+  render: (args, { globals }) => {
+    const t = datepickerCopy(globals);
+    return {
+      props: {
+        ...args,
+        value: null as Date | null,
+        placeholder: t.placeholder,
+        clearLabel: t.clearLabel,
+        calendarLabel: t.calendarLabel,
+        timeLabel: t.timeLabel,
+        ariaLabel: t.ariaLabel,
+      },
+      template: `
       <div style="width:20rem;display:flex;flex-direction:column;gap:0.75rem;">
         <p style="margin:0;font-size:0.875rem;opacity:0.75;">
-          App-provided English copy (demo). Open the calendar to see month/weekday labels.
+          Toolbar Locale = EN. Placeholder and calendar labels follow the locale.
         </p>
         <wi-datepicker
           [value]="value"
@@ -490,37 +509,47 @@ export const LocaleAppProvided: Story = {
           (touch)="touch()"
           clearable
           showTime
-          placeholder="Select a date…"
-          clearLabel="Clear"
-          calendarLabel="Open calendar"
-          timeLabel="Time"
-          ariaLabel="Date"
+          [placeholder]="placeholder"
+          [clearLabel]="clearLabel"
+          [calendarLabel]="calendarLabel"
+          [timeLabel]="timeLabel"
+          [ariaLabel]="ariaLabel"
         />
       </div>
     `,
-  }),
+    };
+  },
 };
 
 export const ReactiveForms: Story = {
-  render: (args) => ({
-    props: {
-      ...args,
-      control: new FormControl<Date | null>(null),
-      startControl: new FormControl<Date | null>(null),
-      endControl: new FormControl<Date | null>(null),
-      formatLocalDate,
-    },
-    template: `
+  render: (args, { globals }) => {
+    const t = datepickerCopy(globals);
+    return {
+      props: {
+        ...args,
+        control: new FormControl<Date | null>(null),
+        startControl: new FormControl<Date | null>(null),
+        endControl: new FormControl<Date | null>(null),
+        formatLocalDate,
+        placeholder: t.placeholder,
+        startPlaceholder: t.startPlaceholder,
+        endPlaceholder: t.endPlaceholder,
+        ariaLabel: t.ariaLabel,
+        startAriaLabel: t.startAriaLabel,
+        endAriaLabel: t.endAriaLabel,
+        valuePrefix: t.valuePrefix,
+      },
+      template: `
       <div style="display:flex;flex-direction:column;gap:1.5rem;width:36rem;">
         <wi-datepicker
           [formControl]="control"
           clearable
-          placeholder="FormControl"
-          ariaLabel="Fecha form"
+          [placeholder]="placeholder"
+          [ariaLabel]="ariaLabel"
           (valueChange)="valueChange($event)"
           (touch)="touch()"
         />
-        <p style="font-size:0.875rem;opacity:0.7;">Valor: {{ formatLocalDate(control.value) }}</p>
+        <p style="font-size:0.875rem;opacity:0.7;">{{ valuePrefix }}: {{ formatLocalDate(control.value) }}</p>
 
         <div style="display:flex;gap:0.75rem;">
           <wi-datepicker
@@ -528,8 +557,8 @@ export const ReactiveForms: Story = {
             [formControl]="startControl"
             [max]="endControl.value ?? undefined"
             clearable
-            placeholder="Inicio"
-            ariaLabel="Inicio"
+            [placeholder]="startPlaceholder"
+            [ariaLabel]="startAriaLabel"
             (valueChange)="valueChange($event)"
             (touch)="touch()"
           />
@@ -538,13 +567,14 @@ export const ReactiveForms: Story = {
             [formControl]="endControl"
             [min]="startControl.value ?? undefined"
             clearable
-            placeholder="Fin"
-            ariaLabel="Fin"
+            [placeholder]="endPlaceholder"
+            [ariaLabel]="endAriaLabel"
             (valueChange)="valueChange($event)"
             (touch)="touch()"
           />
         </div>
       </div>
     `,
-  }),
+    };
+  },
 };
