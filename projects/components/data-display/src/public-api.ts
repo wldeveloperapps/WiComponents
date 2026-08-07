@@ -12,6 +12,9 @@ export {
 export type { WiSkeletonShape } from './wi-skeleton.types';
 export { WiSkeletonComponent } from './wi-skeleton.component';
 
+export type { WiSpinnerSize } from './wi-spinner.types';
+export { WiSpinnerComponent } from './wi-spinner.component';
+
 export type {
   WiColumnDef,
   WiColumnFilter,

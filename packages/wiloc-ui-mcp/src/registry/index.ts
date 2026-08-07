@@ -13,3 +13,4 @@ export { wiTableRegistryEntry } from './table';
 export { wiListboxRegistryEntry } from './listbox';
 export { wiTabsRegistryEntry } from './tabs';
 export { wiSkeletonRegistryEntry } from './skeleton';
+export { wiSpinnerRegistryEntry } from './spinner';
