@@ -1,6 +1,7 @@
 export { wiButtonRegistryEntry } from './button';
 export { wiCardRegistryEntry } from './card';
 export { wiDialogRegistryEntry } from './dialog';
+export { wiConfirmDialogRegistryEntry } from './confirm-dialog';
 export { wiInputRegistryEntry } from './input';
 export { wiCheckboxRegistryEntry } from './checkbox';
 export { wiSwitchRegistryEntry } from './switch';
