@@ -173,9 +173,36 @@ const meta: Meta<WiSpeedDialStoryArgs> = {
 
 1. **Cerrado:** solo se ve el icono de tres puntos.
 2. **Clic en el icono:** aparecen las acciones de \`items\`.
-3. **Clic en una acción:** se emite \`itemClick\` con \`{ id, icon, label }\`.
+3. **Clic en una acción:** se emite \`itemClick\` con \`{ id, icon, label }\`. El componente **no** ejecuta lógica de negocio: la app escucha el evento y decide qué hacer (por \`id\`).
 
-Labels de demo vía toolbar **Locale** (ES/EN). En la app el copy lo aporta i18n; \`@wiloc/ui\` no trae diccionarios.
+### Uso en la app cliente
+
+\`\`\`html
+<wi-speed-dial
+  [items]="actions"
+  (itemClick)="onAction($event)"
+/>
+\`\`\`
+
+\`\`\`ts
+actions: WiSpeedDialItem[] = [
+  { id: 'edit', icon: 'pencil', label: 'Editar' },
+  { id: 'delete', icon: 'trash', label: 'Eliminar' },
+];
+
+onAction(item: WiSpeedDialItem): void {
+  switch (item.id) {
+    case 'edit':
+      this.edit();
+      break;
+    case 'delete':
+      this.delete();
+      break;
+  }
+}
+\`\`\`
+
+En estas stories, \`(itemClick)\` se registra en el panel **Actions** (\`fn()\`); no hay handlers de producto. Labels de demo vía toolbar **Locale** (ES/EN). En la app el copy lo aporta i18n; \`@wiloc/ui\` no trae diccionarios.
 Por defecto cada acción muestra tooltip con \`item.label\` (\`[tooltips]="false"\` para desactivar).
         `,
       },
@@ -209,6 +236,8 @@ Por defecto cada acción muestra tooltip con \`item.label\` (\`[tooltips]="false
     triggerIcon: { control: 'text' },
     itemClick: {
       action: 'itemClick',
+      description:
+        'Se emite al elegir una acción. Payload: WiSpeedDialItem (`id`, `icon`, `label`). La app discrimina por `id`.',
       table: { category: 'Events' },
       control: false,
     },
