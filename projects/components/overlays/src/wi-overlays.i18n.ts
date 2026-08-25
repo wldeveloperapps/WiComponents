@@ -1,12 +1,12 @@
 import { inject, InjectionToken, type Provider } from '@angular/core';
 
 /**
- * Locale / chrome i18n de overlays (`wi-dialog`, `wi-confirm-dialog`, `wi-toaster`, …).
+ * Locale / chrome i18n de overlays (`wi-dialog`, `wi-confirm-dialog`, `wi-confirm-popup`, `wi-toaster`, …).
  * Sin diccionarios de producto: la app provee el copy.
  */
 export interface WiOverlaysI18n {
   dialogCloseLabel: () => string;
-  /** Label por defecto del botón cancelar en `wi-confirm-dialog`. */
+  /** Label por defecto del botón cancelar en `wi-confirm-dialog` / `wi-confirm-popup`. */
   confirmCancelLabel: () => string;
   /** `aria-label` del botón cerrar de cada toast (`wi-toaster`). */
   toastCloseLabel: () => string;

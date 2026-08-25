@@ -401,6 +401,7 @@ La primera versión debe centrarse en un conjunto pequeño de componentes.
 - Page Header
 - Filter Bar
 - Confirm Dialog
+- Confirm Popup
 
 No se añadirán componentes simplemente para completar un catálogo. Cada componente debe responder a una necesidad real de alguna aplicación.
 
@@ -997,6 +998,7 @@ Añadir composiciones específicas de producto:
 - Empty State
 - Status Badge
 - Confirm Dialog
+- Confirm Popup
 - Site Selector
 - Data Table
 

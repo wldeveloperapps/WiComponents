@@ -24,6 +24,17 @@ export {
   WiConfirmDialogTriggerDirective,
 } from './confirm-dialog/wi-confirm-dialog.component';
 
+export type {
+  WiConfirmPopupAlign,
+  WiConfirmPopupConfirmVariant,
+  WiConfirmPopupSize,
+  WiConfirmPopupState,
+} from './confirm-popup/wi-confirm-popup.types';
+export {
+  WiConfirmPopupComponent,
+  WiConfirmPopupTriggerDirective,
+} from './confirm-popup/wi-confirm-popup.component';
+
 export type { WiOverlaysI18n } from './wi-overlays.i18n';
 export { provideWiOverlaysI18n } from './wi-overlays.i18n';
 
