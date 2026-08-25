@@ -54,3 +54,6 @@ export type {
 export { wiToast } from './wi-toast';
 export { WiToast } from './wi-toast.service';
 export { WiToasterComponent } from './wi-toaster.component';
+
+export type { WiSpeedDialDirection, WiSpeedDialItem } from './speed-dial/wi-speed-dial.types';
+export { WiSpeedDialComponent } from './speed-dial/wi-speed-dial.component';

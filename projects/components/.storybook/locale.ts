@@ -330,3 +330,89 @@ export function getDatepickerDemoCopy(
 ): DatepickerDemoCopy {
   return DATEPICKER_COPY[locale];
 }
+
+/** Copy de demo del speed dial (stories); no va en provider — es producto. */
+export interface SpeedDialDemoCopy {
+  ariaLabel: string;
+  ariaLabelA: string;
+  ariaLabelB: string;
+  ariaLabelLeft: string;
+  ariaLabelRight: string;
+  ariaLabelUp: string;
+  ariaLabelDown: string;
+  hintClick: string;
+  hintCards: string;
+  lastActionPrefix: string;
+  cardATitle: string;
+  cardABody: string;
+  cardBTitle: string;
+  cardBBody: string;
+  updatedLabel: string;
+  actionsA: readonly { id: string; icon: string; label: string }[];
+  actionsB: readonly { id: string; icon: string; label: string }[];
+}
+
+const SPEED_DIAL_COPY: Record<StorybookLocale, SpeedDialDemoCopy> = {
+  es: {
+    ariaLabel: 'Acciones',
+    ariaLabelA: 'Acciones A',
+    ariaLabelB: 'Acciones B',
+    ariaLabelLeft: 'Acciones izquierda',
+    ariaLabelRight: 'Acciones derecha',
+    ariaLabelUp: 'Acciones arriba',
+    ariaLabelDown: 'Acciones abajo',
+    hintClick: 'Haz clic en los tres puntos para ver las acciones',
+    hintCards: 'Clic en los tres puntos para abrir. Cada card pasa su propio items.',
+    lastActionPrefix: 'Última acción',
+    cardATitle: 'Card A (empieza abierta)',
+    cardABody: '4 acciones definidas por la app.',
+    cardBTitle: 'Card B (empieza cerrada)',
+    cardBBody: 'Otro set de acciones (3).',
+    updatedLabel: 'Actualizado',
+    actionsA: [
+      { id: 'history', icon: 'arrow-path', label: 'Historial' },
+      { id: 'schedule', icon: 'calendar', label: 'Calendario' },
+      { id: 'delete', icon: 'trash', label: 'Eliminar' },
+      { id: 'dismiss', icon: 'x-mark', label: 'Cerrar' },
+    ],
+    actionsB: [
+      { id: 'history', icon: 'arrow-path', label: 'Historial' },
+      { id: 'compare', icon: 'squares-2x2', label: 'Comparar' },
+      { id: 'dismiss', icon: 'x-mark', label: 'Cerrar' },
+    ],
+  },
+  en: {
+    ariaLabel: 'Actions',
+    ariaLabelA: 'Actions A',
+    ariaLabelB: 'Actions B',
+    ariaLabelLeft: 'Left actions',
+    ariaLabelRight: 'Right actions',
+    ariaLabelUp: 'Up actions',
+    ariaLabelDown: 'Down actions',
+    hintClick: 'Click the three dots to see the actions',
+    hintCards: 'Click the three dots to open. Each card passes its own items.',
+    lastActionPrefix: 'Last action',
+    cardATitle: 'Card A (starts open)',
+    cardABody: '4 actions defined by the app.',
+    cardBTitle: 'Card B (starts closed)',
+    cardBBody: 'Another set of actions (3).',
+    updatedLabel: 'Updated',
+    actionsA: [
+      { id: 'history', icon: 'arrow-path', label: 'History' },
+      { id: 'schedule', icon: 'calendar', label: 'Calendar' },
+      { id: 'delete', icon: 'trash', label: 'Delete' },
+      { id: 'dismiss', icon: 'x-mark', label: 'Close' },
+    ],
+    actionsB: [
+      { id: 'history', icon: 'arrow-path', label: 'History' },
+      { id: 'compare', icon: 'squares-2x2', label: 'Compare' },
+      { id: 'dismiss', icon: 'x-mark', label: 'Close' },
+    ],
+  },
+};
+
+export function getSpeedDialDemoCopy(
+  locale: StorybookLocale = storybookLocale(),
+): SpeedDialDemoCopy {
+  return SPEED_DIAL_COPY[locale];
+}

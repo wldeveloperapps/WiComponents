@@ -16,3 +16,4 @@ export { wiTabsRegistryEntry } from './tabs';
 export { wiSkeletonRegistryEntry } from './skeleton';
 export { wiSpinnerRegistryEntry } from './spinner';
 export { wiToastRegistryEntry } from './toast';
+export { wiSpeedDialRegistryEntry } from './speed-dial';
