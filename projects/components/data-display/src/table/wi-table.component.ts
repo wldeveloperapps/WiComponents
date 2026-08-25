@@ -21,7 +21,7 @@ import type {
   WiTableCellContext,
 } from './wi-column.types';
 import { WiColumnVisibilityComponent } from './wi-column-visibility.component';
-import { injectWiDataDisplayI18n } from './wi-data-display.i18n';
+import { injectWiDataDisplayI18n } from '../wi-data-display.i18n';
 import { WiDataPaginationComponent } from './wi-data-pagination.component';
 import {
   wiFormatCellValue,

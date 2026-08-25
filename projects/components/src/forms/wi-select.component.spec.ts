@@ -8,8 +8,8 @@ import { funnelOutline } from '../../icon/heroicons/src/funnel';
 import {
   WiSelectComponent,
   WiSelectTriggerIconDirective,
-} from '../../forms/src/wi-select.component';
-import type { WiSelectSize } from '../../forms/src/wi-select.types';
+} from '../../forms/src/select/wi-select.component';
+import type { WiSelectSize } from '../../forms/src/select/wi-select.types';
 
 class ResizeObserverStub {
   observe(): void {

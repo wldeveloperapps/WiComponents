@@ -3,9 +3,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WI_DARK_CLASS } from '../../core/src/wi-theme';
 import { provideWiOverlaysI18n } from '../../overlays/src/wi-overlays.i18n';
-import { wiToast } from '../../overlays/src/wi-toast';
-import { WiToast } from '../../overlays/src/wi-toast.service';
-import { WiToasterComponent } from '../../overlays/src/wi-toaster.component';
+import { wiToast } from '../../overlays/src/toast/wi-toast';
+import { WiToast } from '../../overlays/src/toast/wi-toast.service';
+import { WiToasterComponent } from '../../overlays/src/toast/wi-toaster.component';
 
 @Component({
   imports: [WiToasterComponent],

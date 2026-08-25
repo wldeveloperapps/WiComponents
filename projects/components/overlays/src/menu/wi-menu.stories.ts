@@ -4,22 +4,22 @@ import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { applicationConfig, moduleMetadata } from '@storybook/angular-vite';
 import { fn } from 'storybook/test';
 
-import { WiButtonComponent } from '../../button/src/public-api';
-import { archiveBoxOutline } from '../../icon/heroicons/src/archive-box';
-import { checkCircleOutline } from '../../icon/heroicons/src/check-circle';
-import { cog6ToothOutline } from '../../icon/heroicons/src/cog-6-tooth';
-import { cubeOutline } from '../../icon/heroicons/src/cube';
-import { documentOutline } from '../../icon/heroicons/src/document';
-import { flagOutline } from '../../icon/heroicons/src/flag';
-import { folderOutline } from '../../icon/heroicons/src/folder';
-import { homeOutline } from '../../icon/heroicons/src/home';
-import { identificationOutline } from '../../icon/heroicons/src/identification';
-import { pencilOutline } from '../../icon/heroicons/src/pencil';
-import { squares2x2Outline } from '../../icon/heroicons/src/squares-2x2';
-import { trashOutline } from '../../icon/heroicons/src/trash';
-import { userOutline } from '../../icon/heroicons/src/user';
-import { usersOutline } from '../../icon/heroicons/src/users';
-import { provideWiIcons, WiIconComponent } from '../../icon/src/public-api';
+import { WiButtonComponent } from '../../../button/src/public-api';
+import { archiveBoxOutline } from '../../../icon/heroicons/src/archive-box';
+import { checkCircleOutline } from '../../../icon/heroicons/src/check-circle';
+import { cog6ToothOutline } from '../../../icon/heroicons/src/cog-6-tooth';
+import { cubeOutline } from '../../../icon/heroicons/src/cube';
+import { documentOutline } from '../../../icon/heroicons/src/document';
+import { flagOutline } from '../../../icon/heroicons/src/flag';
+import { folderOutline } from '../../../icon/heroicons/src/folder';
+import { homeOutline } from '../../../icon/heroicons/src/home';
+import { identificationOutline } from '../../../icon/heroicons/src/identification';
+import { pencilOutline } from '../../../icon/heroicons/src/pencil';
+import { squares2x2Outline } from '../../../icon/heroicons/src/squares-2x2';
+import { trashOutline } from '../../../icon/heroicons/src/trash';
+import { userOutline } from '../../../icon/heroicons/src/user';
+import { usersOutline } from '../../../icon/heroicons/src/users';
+import { provideWiIcons, WiIconComponent } from '../../../icon/src/public-api';
 import type { WiMenuAlign, WiMenuItemVariant, WiMenuSide } from './wi-menu.types';
 import {
   WiMenuComponent,
@@ -30,7 +30,7 @@ import {
   WiMenuSeparatorComponent,
   WiMenuTriggerDirective,
   WiTooltipDirective,
-} from './public-api';
+} from '../public-api';
 
 interface AssetTypeOption {
   readonly id: string;

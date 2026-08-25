@@ -6,7 +6,7 @@ import {
   WiCardContentComponent,
   WiCardHeaderComponent,
   WiSkeletonComponent,
-} from './public-api';
+} from '../public-api';
 
 const meta: Meta<WiSkeletonComponent> = {
   title: 'Data display/WiSkeleton',

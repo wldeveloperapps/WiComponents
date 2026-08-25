@@ -4,9 +4,9 @@ import { JsonPipe } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { fn } from 'storybook/test';
 
-import { provideWiIcons } from '../../icon/src/public-api';
-import { WI_HEROICONS_CURATED } from '../../icon/heroicons/src/curated';
-import { WiSelectComponent, WiSelectItemDirective, WiSelectSelectedDirective } from './public-api';
+import { provideWiIcons } from '../../../icon/src/public-api';
+import { WI_HEROICONS_CURATED } from '../../../icon/heroicons/src/curated';
+import { WiSelectComponent, WiSelectItemDirective, WiSelectSelectedDirective } from '../public-api';
 
 const fruitOptions = ['Apple', 'Banana', 'Blueberry', 'Grapes', 'Pineapple'];
 

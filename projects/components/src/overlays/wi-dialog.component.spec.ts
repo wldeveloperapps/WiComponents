@@ -15,7 +15,7 @@ import {
   WiDialogPortalDirective,
   WiDialogTitleComponent,
   WiDialogTriggerDirective,
-} from '../../overlays/src/wi-dialog.component';
+} from '../../overlays/src/dialog/wi-dialog.component';
 
 @Component({
   selector: 'wi-dialog-host',

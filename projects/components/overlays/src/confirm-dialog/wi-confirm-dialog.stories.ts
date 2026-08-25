@@ -3,13 +3,13 @@ import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { applicationConfig, moduleMetadata } from '@storybook/angular-vite';
 import { fn } from 'storybook/test';
 
-import { WiButtonComponent } from '../../button/src/public-api';
+import { WiButtonComponent } from '../../../button/src/public-api';
 import type { WiConfirmDialogConfirmVariant, WiConfirmDialogSize } from './wi-confirm-dialog.types';
 import {
   WiConfirmDialogComponent,
   WiConfirmDialogTriggerDirective,
   provideWiOverlaysI18n,
-} from './public-api';
+} from '../public-api';
 
 interface WiConfirmDialogStoryArgs {
   size: WiConfirmDialogSize;

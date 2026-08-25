@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular-vite';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { fn } from 'storybook/test';
 
-import { WiInputComponent } from './public-api';
+import { WiInputComponent } from '../public-api';
 
 type WiInputStoryArgs = WiInputComponent & {
   valueChange: ReturnType<typeof fn>;

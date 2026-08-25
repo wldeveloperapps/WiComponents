@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import type { WiColumnDef, WiSortState } from '../../data-display/src/wi-column.types';
-import { WiTableCellDirective } from '../../data-display/src/wi-table-cell.directive';
-import { WiTableComponent } from '../../data-display/src/wi-table.component';
-import { WiTableRowActionsDirective } from '../../data-display/src/wi-table-row-actions.directive';
+import type { WiColumnDef, WiSortState } from '../../data-display/src/table/wi-column.types';
+import { WiTableCellDirective } from '../../data-display/src/table/wi-table-cell.directive';
+import { WiTableComponent } from '../../data-display/src/table/wi-table.component';
+import { WiTableRowActionsDirective } from '../../data-display/src/table/wi-table-row-actions.directive';
 
 interface Row {
   id: string;

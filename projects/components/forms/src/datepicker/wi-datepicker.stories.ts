@@ -3,9 +3,9 @@ import { applicationConfig, moduleMetadata } from '@storybook/angular-vite';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { fn } from 'storybook/test';
 
-import { getDatepickerDemoCopy, type StorybookLocale } from '../../.storybook/locale';
-import { provideWiIcons } from '../../icon/src/public-api';
-import { WI_HEROICONS_CURATED } from '../../icon/heroicons/src/curated';
+import { getDatepickerDemoCopy, type StorybookLocale } from '../../../.storybook/locale';
+import { provideWiIcons } from '../../../icon/src/public-api';
+import { WI_HEROICONS_CURATED } from '../../../icon/heroicons/src/curated';
 import { WiDatepickerComponent } from './wi-datepicker.component';
 import { WiDateRangeComponent } from './wi-date-range.component';
 import { toLocalDateString } from './wi-date';

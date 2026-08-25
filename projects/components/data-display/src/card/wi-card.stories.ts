@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { applicationConfig, moduleMetadata } from '@storybook/angular-vite';
 
-import { WiButtonComponent } from '../../button/src/public-api';
-import { bars3Outline } from '../../icon/heroicons/src/bars-3';
-import { documentOutline } from '../../icon/heroicons/src/document';
-import { mapOutline } from '../../icon/heroicons/src/map';
-import { trashOutline } from '../../icon/heroicons/src/trash';
-import { userOutline } from '../../icon/heroicons/src/user';
-import { usersOutline } from '../../icon/heroicons/src/users';
-import { provideWiIcons, WiIconComponent } from '../../icon/src/public-api';
+import { WiButtonComponent } from '../../../button/src/public-api';
+import { bars3Outline } from '../../../icon/heroicons/src/bars-3';
+import { documentOutline } from '../../../icon/heroicons/src/document';
+import { mapOutline } from '../../../icon/heroicons/src/map';
+import { trashOutline } from '../../../icon/heroicons/src/trash';
+import { userOutline } from '../../../icon/heroicons/src/user';
+import { usersOutline } from '../../../icon/heroicons/src/users';
+import { provideWiIcons, WiIconComponent } from '../../../icon/src/public-api';
 import {
   WiCardActionComponent,
   WiCardComponent,
@@ -17,7 +17,7 @@ import {
   WiCardFooterComponent,
   WiCardHeaderComponent,
   WiCardTitleComponent,
-} from './public-api';
+} from '../public-api';
 
 /**
  * Recetas de composición en la app (no son variantes de API).

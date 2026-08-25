@@ -6,11 +6,11 @@ import { WiButtonComponent } from '../../button/src/public-api';
 import {
   WiConfirmDialogComponent,
   WiConfirmDialogTriggerDirective,
-} from '../../overlays/src/wi-confirm-dialog.component';
+} from '../../overlays/src/confirm-dialog/wi-confirm-dialog.component';
 import type {
   WiConfirmDialogConfirmVariant,
   WiConfirmDialogSize,
-} from '../../overlays/src/wi-confirm-dialog.types';
+} from '../../overlays/src/confirm-dialog/wi-confirm-dialog.types';
 import { provideWiOverlaysI18n } from '../../overlays/src/wi-overlays.i18n';
 
 @Component({

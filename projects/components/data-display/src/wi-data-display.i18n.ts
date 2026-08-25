@@ -1,7 +1,7 @@
 import { inject, InjectionToken, type Provider } from '@angular/core';
 
-import type { WiFilterOperator } from './wi-column.types';
-import { WI_DEFAULT_FILTER_OPERATORS } from './wi-column.types';
+import type { WiFilterOperator } from './table/wi-column.types';
+import { WI_DEFAULT_FILTER_OPERATORS } from './table/wi-column.types';
 
 /**
  * Locale / chrome i18n de data-display (`wi-table`, paginación, columnas).

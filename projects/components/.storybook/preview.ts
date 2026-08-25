@@ -4,7 +4,7 @@ import { setCompodocJson } from '@storybook/addon-docs/angular';
 import docJson from '../documentation.json';
 import { WI_DARK_CLASS } from '../core/src/wi-theme';
 import { provideWiDataDisplayI18n } from '../data-display/src/wi-data-display.i18n';
-import { provideWiCalendarI18n } from '../forms/src/wi-datepicker.i18n';
+import { provideWiCalendarI18n } from '../forms/src/datepicker/wi-datepicker.i18n';
 import { provideWiOverlaysI18n } from '../overlays/src/wi-overlays.i18n';
 
 import {

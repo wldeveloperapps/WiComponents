@@ -1,7 +1,7 @@
-export type { WiTooltipGroupOptions, WiTooltipPosition } from './wi-tooltip.types';
-export { provideWiTooltipGroup, WiTooltipDirective } from './wi-tooltip.directive';
+export type { WiTooltipGroupOptions, WiTooltipPosition } from './tooltip/wi-tooltip.types';
+export { provideWiTooltipGroup, WiTooltipDirective } from './tooltip/wi-tooltip.directive';
 
-export type { WiDialogSize, WiDialogState } from './wi-dialog.types';
+export type { WiDialogSize, WiDialogState } from './dialog/wi-dialog.types';
 export {
   WiDialogCloseDirective,
   WiDialogComponent,
@@ -12,22 +12,22 @@ export {
   WiDialogPortalDirective,
   WiDialogTitleComponent,
   WiDialogTriggerDirective,
-} from './wi-dialog.component';
+} from './dialog/wi-dialog.component';
 
 export type {
   WiConfirmDialogConfirmVariant,
   WiConfirmDialogSize,
   WiConfirmDialogState,
-} from './wi-confirm-dialog.types';
+} from './confirm-dialog/wi-confirm-dialog.types';
 export {
   WiConfirmDialogComponent,
   WiConfirmDialogTriggerDirective,
-} from './wi-confirm-dialog.component';
+} from './confirm-dialog/wi-confirm-dialog.component';
 
 export type { WiOverlaysI18n } from './wi-overlays.i18n';
 export { provideWiOverlaysI18n } from './wi-overlays.i18n';
 
-export type { WiMenuAlign, WiMenuItemVariant, WiMenuSide } from './wi-menu.types';
+export type { WiMenuAlign, WiMenuItemVariant, WiMenuSide } from './menu/wi-menu.types';
 export {
   WiMenuComponent,
   /** @internal hostDirective — no usar en apps */
@@ -40,7 +40,7 @@ export {
   WiMenuRadioDirective,
   WiMenuSeparatorComponent,
   WiMenuTriggerDirective,
-} from './wi-menu.component';
+} from './menu/wi-menu.component';
 
 export type {
   WiToastAction,
@@ -50,10 +50,10 @@ export type {
   WiToastPosition,
   WiToastPromiseMessages,
   WiToastTheme,
-} from './wi-toast.types';
-export { wiToast } from './wi-toast';
-export { WiToast } from './wi-toast.service';
-export { WiToasterComponent } from './wi-toaster.component';
+} from './toast/wi-toast.types';
+export { wiToast } from './toast/wi-toast';
+export { WiToast } from './toast/wi-toast.service';
+export { WiToasterComponent } from './toast/wi-toaster.component';
 
 export type { WiSpeedDialDirection, WiSpeedDialItem } from './speed-dial/wi-speed-dial.types';
 export { WiSpeedDialComponent } from './speed-dial/wi-speed-dial.component';

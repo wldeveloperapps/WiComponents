@@ -1,39 +1,47 @@
-export type { WiInputSize, WiInputType } from './wi-input.types';
-export { WiInputComponent } from './wi-input.component';
+export type { WiInputSize, WiInputType } from './input/wi-input.types';
+export { WiInputComponent } from './input/wi-input.component';
 
-export type { WiCheckboxSize } from './wi-checkbox.types';
-export { WiCheckboxComponent } from './wi-checkbox.component';
+export type { WiCheckboxSize } from './checkbox/wi-checkbox.types';
+export { WiCheckboxComponent } from './checkbox/wi-checkbox.component';
 
-export type { WiSwitchSize } from './wi-switch.types';
-export { WiSwitchComponent } from './wi-switch.component';
+export type { WiSwitchSize } from './switch/wi-switch.types';
+export { WiSwitchComponent } from './switch/wi-switch.component';
 
 export type {
   WiSelectCompareWith,
   WiSelectItemContext,
   WiSelectSelectedContext,
   WiSelectSize,
-} from './wi-select.types';
+} from './select/wi-select.types';
 export {
   WiSelectComponent,
   WiSelectItemDirective,
   WiSelectSelectedDirective,
   WiSelectTriggerIconDirective,
-} from './wi-select.component';
+} from './select/wi-select.component';
 
-export type { WiListboxCompareWith, WiListboxItemContext, WiListboxSize } from './wi-listbox.types';
-export { WiListboxComponent, WiListboxItemDirective } from './wi-listbox.component';
+export type {
+  WiListboxCompareWith,
+  WiListboxItemContext,
+  WiListboxSize,
+} from './listbox/wi-listbox.types';
+export { WiListboxComponent, WiListboxItemDirective } from './listbox/wi-listbox.component';
 
 export type {
   WiDateDisabled,
   WiDatepickerSize,
   WiFormatDate,
   WiWeekday,
-} from './wi-datepicker.types';
-export type { WiCalendarI18n, WiDatepickerTimeI18n, WiMonthLabels } from './wi-datepicker.i18n';
-export { provideWiCalendarI18n } from './wi-datepicker.i18n';
-export { WiDatepickerComponent } from './wi-datepicker.component';
-export { WiDateRangeComponent } from './wi-date-range.component';
-export type { WiLocalDateString, WiTimeZoneId, WiZonedDateTimeParts } from './wi-date';
+} from './datepicker/wi-datepicker.types';
+export type {
+  WiCalendarI18n,
+  WiDatepickerTimeI18n,
+  WiMonthLabels,
+} from './datepicker/wi-datepicker.i18n';
+export { provideWiCalendarI18n } from './datepicker/wi-datepicker.i18n';
+export { WiDatepickerComponent } from './datepicker/wi-datepicker.component';
+export { WiDateRangeComponent } from './datepicker/wi-date-range.component';
+export type { WiLocalDateString, WiTimeZoneId, WiZonedDateTimeParts } from './datepicker/wi-date';
 export {
   datepickerValueToUtcDate,
   datepickerValueToUtcIso,
@@ -45,4 +53,4 @@ export {
   utcDateToZonedParts,
   utcIsoToDatepickerValue,
   zonedPartsToUtcDate,
-} from './wi-date';
+} from './datepicker/wi-date';

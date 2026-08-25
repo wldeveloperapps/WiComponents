@@ -9,7 +9,7 @@ import {
   WiTabsComponent,
   WiTabsListComponent,
   WiTabsTriggerDirective,
-} from './public-api';
+} from '../public-api';
 
 interface WiTabsStoryArgs {
   value: string;

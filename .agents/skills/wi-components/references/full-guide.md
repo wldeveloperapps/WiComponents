@@ -558,8 +558,9 @@ Entry points previstos:
 @wiloc/ui/navigation
 @wiloc/ui/data-display
 @wiloc/ui/table
-@wiloc/ui/patterns
 ```
+
+En entries multi-componente, una carpeta por componente bajo `{entry}/src/{nombre}/` (stories y types incluidos); `public-api.ts` reexporta. Shared del entry (p. ej. i18n) puede vivir en `{entry}/src/`. Detalle: regla `angular-library-structure`.
 
 No crear un entry point nuevo sin comprobar:
 

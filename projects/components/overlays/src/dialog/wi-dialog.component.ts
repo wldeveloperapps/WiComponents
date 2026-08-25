@@ -24,7 +24,7 @@ import { WiIconComponent } from '@wiloc/ui/icon';
 
 import { WI_DIALOG_SIZE } from './wi-dialog.tokens';
 import type { WiDialogSize, WiDialogState } from './wi-dialog.types';
-import { injectWiOverlaysI18n } from './wi-overlays.i18n';
+import { injectWiOverlaysI18n } from '../wi-overlays.i18n';
 
 const OVERLAY_CLASSES = [
   'wi-dialog__overlay',

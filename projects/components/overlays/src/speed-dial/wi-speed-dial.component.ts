@@ -13,7 +13,7 @@ import {
 import { WiIconComponent } from '@wiloc/ui/icon';
 
 import type { WiSpeedDialDirection, WiSpeedDialItem } from './wi-speed-dial.types';
-import { WiTooltipDirective } from '../wi-tooltip.directive';
+import { WiTooltipDirective } from '../tooltip/wi-tooltip.directive';
 
 const TRIGGER_CLASSES = [
   'inline-flex',

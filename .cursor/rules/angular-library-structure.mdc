@@ -26,6 +26,27 @@ alwaysApply: false
 
 Los dominios viven en carpetas con `ng-package.json` (`button/`, `icon/`, `forms/`, …) y se importan como `@wiloc/ui/{entry}`.
 
+### Layout interno de un entry multi-componente
+
+En entries con varios componentes (`forms`, `overlays`, `data-display`, `navigation`, …), cada componente vive en su subcarpeta bajo `src/`:
+
+```text
+overlays/src/
+  public-api.ts
+  wi-overlays.i18n.ts          # shared del entry (si aplica)
+  tooltip/
+  dialog/
+  speed-dial/
+    wi-speed-dial.component.ts
+    wi-speed-dial.types.ts
+    wi-speed-dial.stories.ts
+```
+
+- `public-api.ts` reexporta desde `./{componente}/…`.
+- Stories y CSS del componente van en la misma subcarpeta.
+- Shared del entry (i18n, tokens cruzados) puede quedar en `src/` raíz.
+- Entries de un solo componente (`button`, …) pueden seguir planos en `src/`.
+
 ### Imports entre entry points
 
 Dentro de la librería, **no** usar rutas relativas a otro entry (`../../icon/src/...`). Usar siempre el subpath público:

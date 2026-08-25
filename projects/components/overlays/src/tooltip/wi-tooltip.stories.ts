@@ -2,10 +2,10 @@ import { Directionality } from '@angular/cdk/bidi';
 import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { applicationConfig, moduleMetadata } from '@storybook/angular-vite';
 
-import { WiButtonComponent } from '../../button/src/public-api';
-import { trashOutline } from '../../icon/heroicons/src/trash';
-import { provideWiIcons, WiIconComponent } from '../../icon/src/public-api';
-import { provideWiTooltipGroup, WiTooltipDirective } from './public-api';
+import { WiButtonComponent } from '../../../button/src/public-api';
+import { trashOutline } from '../../../icon/heroicons/src/trash';
+import { provideWiIcons, WiIconComponent } from '../../../icon/src/public-api';
+import { provideWiTooltipGroup, WiTooltipDirective } from '../public-api';
 
 const meta: Meta = {
   title: 'Overlays/WiTooltip',

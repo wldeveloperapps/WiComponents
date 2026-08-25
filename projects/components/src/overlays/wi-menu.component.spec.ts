@@ -11,7 +11,7 @@ import {
   WiMenuRadioDirective,
   WiMenuSeparatorComponent,
   WiMenuTriggerDirective,
-} from '../../overlays/src/wi-menu.component';
+} from '../../overlays/src/menu/wi-menu.component';
 
 @Component({
   selector: 'wi-menu-host',

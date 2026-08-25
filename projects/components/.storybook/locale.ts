@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 
 import type { WiDataDisplayI18n } from '../data-display/src/wi-data-display.i18n';
-import type { WiCalendarI18n, WiMonthLabels } from '../forms/src/wi-datepicker.i18n';
+import type { WiCalendarI18n, WiMonthLabels } from '../forms/src/datepicker/wi-datepicker.i18n';
 import type { WiOverlaysI18n } from '../overlays/src/wi-overlays.i18n';
 
 /** Locale de demo en Storybook (no es un diccionario de la librería). */

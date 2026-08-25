@@ -2,8 +2,11 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
-import { WiListboxComponent, WiListboxItemDirective } from '../../forms/src/wi-listbox.component';
-import type { WiListboxSize } from '../../forms/src/wi-listbox.types';
+import {
+  WiListboxComponent,
+  WiListboxItemDirective,
+} from '../../forms/src/listbox/wi-listbox.component';
+import type { WiListboxSize } from '../../forms/src/listbox/wi-listbox.types';
 
 class ResizeObserverStub {
   observe(): void {

@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WiSkeletonComponent } from '../../data-display/src/wi-skeleton.component';
-import type { WiSkeletonShape } from '../../data-display/src/wi-skeleton.types';
+import { WiSkeletonComponent } from '../../data-display/src/skeleton/wi-skeleton.component';
+import type { WiSkeletonShape } from '../../data-display/src/skeleton/wi-skeleton.types';
 
 @Component({
   imports: [WiSkeletonComponent],

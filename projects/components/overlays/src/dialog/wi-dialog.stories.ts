@@ -3,9 +3,9 @@ import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { applicationConfig, moduleMetadata } from '@storybook/angular-vite';
 import { fn } from 'storybook/test';
 
-import { WiButtonComponent } from '../../button/src/public-api';
-import { xMarkOutline } from '../../icon/heroicons/src/x-mark';
-import { provideWiIcons, WiIconComponent } from '../../icon/src/public-api';
+import { WiButtonComponent } from '../../../button/src/public-api';
+import { xMarkOutline } from '../../../icon/heroicons/src/x-mark';
+import { provideWiIcons, WiIconComponent } from '../../../icon/src/public-api';
 import type { WiDialogSize } from './wi-dialog.types';
 import {
   WiDialogCloseDirective,
@@ -17,7 +17,7 @@ import {
   WiDialogPortalDirective,
   WiDialogTitleComponent,
   WiDialogTriggerDirective,
-} from './public-api';
+} from '../public-api';
 
 interface WiDialogStoryArgs {
   size: WiDialogSize;

@@ -26,7 +26,7 @@ import type {
   WiConfirmDialogSize,
   WiConfirmDialogState,
 } from './wi-confirm-dialog.types';
-import { injectWiOverlaysI18n } from './wi-overlays.i18n';
+import { injectWiOverlaysI18n } from '../wi-overlays.i18n';
 
 const OVERLAY_CLASSES = [
   'wi-confirm-dialog__overlay',

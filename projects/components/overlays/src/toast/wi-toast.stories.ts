@@ -8,7 +8,7 @@ import {
   getToastDemoCopy,
   type StorybookLocale,
   type ToastDemoCopy,
-} from '../../.storybook/locale';
+} from '../../../.storybook/locale';
 import { wiToast } from './wi-toast';
 import type { WiToastPosition, WiToastTheme } from './wi-toast.types';
 import { WiToasterComponent } from './wi-toaster.component';

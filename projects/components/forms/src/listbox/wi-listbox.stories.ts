@@ -4,7 +4,7 @@ import { JsonPipe } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { fn } from 'storybook/test';
 
-import { WiListboxComponent, WiListboxItemDirective } from './public-api';
+import { WiListboxComponent, WiListboxItemDirective } from '../public-api';
 
 const fruitOptions = [
   'Apple',

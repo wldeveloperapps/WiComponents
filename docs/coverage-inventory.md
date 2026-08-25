@@ -10,12 +10,12 @@ Checklist de **demanda** extraído del uso real de PrimeNG en la app consumidora
 
 **Cubos:**
 
-| Cubo         | Significado                                      |
-| ------------ | ------------------------------------------------ |
-| base         | Componente / API pública del design system       |
-| pattern      | Composición reutilizable en `@wiloc/ui/patterns` |
-| app-only     | Queda en la app (adapter, feature o migración)   |
-| out-of-scope | No se replica (acoplamiento Prime / no aporta)   |
+| Cubo         | Significado                                                                                                  |
+| ------------ | ------------------------------------------------------------------------------------------------------------ |
+| base         | Componente / API pública del design system                                                                   |
+| pattern      | Composición reutilizable (vive en el dominio adecuado, p. ej. `overlays`; no hay entry `@wiloc/ui/patterns`) |
+| app-only     | Queda en la app (adapter, feature o migración)                                                               |
+| out-of-scope | No se replica (acoplamiento Prime / no aporta)                                                               |
 
 ---
 

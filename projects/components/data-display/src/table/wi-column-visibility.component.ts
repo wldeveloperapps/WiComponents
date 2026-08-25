@@ -8,7 +8,7 @@ import {
 } from '@wiloc/ui/overlays';
 
 import type { WiColumnDef } from './wi-column.types';
-import { injectWiDataDisplayI18n } from './wi-data-display.i18n';
+import { injectWiDataDisplayI18n } from '../wi-data-display.i18n';
 import { wiDefaultVisibleColumnIds } from './wi-data.utils';
 
 /**

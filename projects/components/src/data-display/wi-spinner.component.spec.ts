@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WiSpinnerComponent } from '../../data-display/src/wi-spinner.component';
-import type { WiSpinnerSize } from '../../data-display/src/wi-spinner.types';
+import { WiSpinnerComponent } from '../../data-display/src/spinner/wi-spinner.component';
+import type { WiSpinnerSize } from '../../data-display/src/spinner/wi-spinner.types';
 
 @Component({
   imports: [WiSpinnerComponent],

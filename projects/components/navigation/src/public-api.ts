@@ -3,7 +3,7 @@ export type {
   WiTabsListVariant,
   WiTabsOrientation,
   WiTabsSize,
-} from './wi-tabs.types';
+} from './tabs/wi-tabs.types';
 
 export {
   WiTabsComponent,
@@ -11,4 +11,4 @@ export {
   WiTabsContentLazyDirective,
   WiTabsListComponent,
   WiTabsTriggerDirective,
-} from './wi-tabs.component';
+} from './tabs/wi-tabs.component';

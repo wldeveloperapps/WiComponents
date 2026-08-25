@@ -1,4 +1,4 @@
-import type { WiColumnDef, WiColumnFilter } from '../../data-display/src/wi-column.types';
+import type { WiColumnDef, WiColumnFilter } from '../../data-display/src/table/wi-column.types';
 import {
   wiDefaultVisibleColumnIds,
   wiFilterRows,
@@ -10,7 +10,7 @@ import {
   wiSortRows,
   wiUpsertColumnFilter,
   wiVisibleColumns,
-} from '../../data-display/src/wi-data.utils';
+} from '../../data-display/src/table/wi-data.utils';
 
 describe('wi-data.utils', () => {
   const columns: WiColumnDef[] = [

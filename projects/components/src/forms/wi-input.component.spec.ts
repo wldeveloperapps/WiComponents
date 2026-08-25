@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { WiInputComponent } from '../../forms/src/wi-input.component';
-import type { WiInputSize, WiInputType } from '../../forms/src/wi-input.types';
+import { WiInputComponent } from '../../forms/src/input/wi-input.component';
+import type { WiInputSize, WiInputType } from '../../forms/src/input/wi-input.types';
 
 @Component({
   imports: [WiInputComponent, ReactiveFormsModule],

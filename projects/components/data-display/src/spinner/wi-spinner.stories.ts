@@ -9,7 +9,7 @@ import {
   WiCardHeaderComponent,
   WiCardTitleComponent,
   WiSpinnerComponent,
-} from './public-api';
+} from '../public-api';
 
 const meta: Meta<WiSpinnerComponent> = {
   title: 'Data display/WiSpinner',

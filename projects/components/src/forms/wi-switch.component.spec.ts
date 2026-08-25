@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { WiSwitchComponent } from '../../forms/src/wi-switch.component';
-import type { WiSwitchSize } from '../../forms/src/wi-switch.types';
+import { WiSwitchComponent } from '../../forms/src/switch/wi-switch.component';
+import type { WiSwitchSize } from '../../forms/src/switch/wi-switch.types';
 
 @Component({
   imports: [WiSwitchComponent, ReactiveFormsModule],

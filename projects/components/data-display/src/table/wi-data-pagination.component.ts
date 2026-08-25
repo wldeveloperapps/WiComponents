@@ -1,6 +1,6 @@
 import { Component, computed, input, output } from '@angular/core';
 
-import { injectWiDataDisplayI18n } from './wi-data-display.i18n';
+import { injectWiDataDisplayI18n } from '../wi-data-display.i18n';
 import { wiPageWindow } from './wi-data.utils';
 
 /**

@@ -6,7 +6,7 @@ import {
   toLocalDateString,
   utcIsoToDatepickerValue,
   zonedPartsToUtcDate,
-} from '../../forms/src/wi-date';
+} from '../../forms/src/datepicker/wi-date';
 
 describe('wi-date helpers', () => {
   describe('civil local date', () => {

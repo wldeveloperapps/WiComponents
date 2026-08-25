@@ -2,7 +2,7 @@ import { Directionality } from '@angular/cdk/bidi';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WiTooltipDirective } from '../../overlays/src/wi-tooltip.directive';
+import { WiTooltipDirective } from '../../overlays/src/tooltip/wi-tooltip.directive';
 
 @Component({
   selector: 'wi-tooltip-host',

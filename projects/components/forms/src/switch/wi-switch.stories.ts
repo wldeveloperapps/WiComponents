@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular-vite';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { fn } from 'storybook/test';
 
-import { WiSwitchComponent } from './public-api';
+import { WiSwitchComponent } from '../public-api';
 
 type WiSwitchStoryArgs = WiSwitchComponent & {
   valueChange: ReturnType<typeof fn>;

@@ -9,8 +9,8 @@ import {
   WiCardFooterComponent,
   WiCardHeaderComponent,
   WiCardTitleComponent,
-} from '../../data-display/src/wi-card.component';
-import type { WiCardSize } from '../../data-display/src/wi-card.types';
+} from '../../data-display/src/card/wi-card.component';
+import type { WiCardSize } from '../../data-display/src/card/wi-card.types';
 
 @Component({
   imports: [

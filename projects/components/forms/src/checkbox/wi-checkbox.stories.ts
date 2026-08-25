@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular-vite';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { fn } from 'storybook/test';
 
-import { WiCheckboxComponent } from './public-api';
+import { WiCheckboxComponent } from '../public-api';
 
 type WiCheckboxStoryArgs = WiCheckboxComponent & {
   valueChange: ReturnType<typeof fn>;

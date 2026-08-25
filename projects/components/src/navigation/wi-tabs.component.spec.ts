@@ -6,7 +6,7 @@ import {
   WiTabsComponent,
   WiTabsListComponent,
   WiTabsTriggerDirective,
-} from '../../navigation/src/wi-tabs.component';
+} from '../../navigation/src/tabs/wi-tabs.component';
 
 @Component({
   selector: 'wi-tabs-host',

@@ -6,9 +6,9 @@ import { provideNativeDateAdapter } from '@spartan-ng/brain/date-time';
 
 import { provideWiIcons } from '../../icon/src/public-api';
 import { calendarOutline } from '../../icon/heroicons/src/calendar';
-import { WiDatepickerComponent } from '../../forms/src/wi-datepicker.component';
-import type { WiDatepickerSize } from '../../forms/src/wi-datepicker.types';
-import { provideWiCalendarI18n } from '../../forms/src/wi-datepicker.i18n';
+import { WiDatepickerComponent } from '../../forms/src/datepicker/wi-datepicker.component';
+import type { WiDatepickerSize } from '../../forms/src/datepicker/wi-datepicker.types';
+import { provideWiCalendarI18n } from '../../forms/src/datepicker/wi-datepicker.i18n';
 
 class ResizeObserverStub {
   observe(): void {
