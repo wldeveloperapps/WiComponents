@@ -352,5 +352,8 @@ export function createDataDisplayI18n(): Partial<WiDataDisplayI18n> {
 export function createOverlaysI18n(): Partial<WiOverlaysI18n> {
   return {
     dialogCloseLabel: () => (appLocale() === 'es' ? 'Cerrar' : 'Close'),
+    confirmCancelLabel: () => (appLocale() === 'es' ? 'Cancelar' : 'Cancel'),
+    toastCloseLabel: () => (appLocale() === 'es' ? 'Cerrar notificación' : 'Close toast'),
+    toastRegionLabel: () => (appLocale() === 'es' ? 'Notificaciones' : 'Notifications'),
   };
 }

@@ -63,16 +63,16 @@ Checklist de **demanda** extraído del uso real de PrimeNG en la app consumidora
 
 ## Overlays & feedback
 
-| Capacidad Wi (objetivo) | Origen Prime (referencia)        | Dominio    | Cubo    | Estado  | Notas                                                                                                                               |
-| ----------------------- | -------------------------------- | ---------- | ------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| Dialog                  | `dialog`                         | `overlays` | base    | done    | composición header/content/footer (`@wiloc/ui/overlays`)                                                                            |
-| Toast service           | `toast` + `MessageService`       | `overlays` | base    | planned | API propia `WiToast*` (no clonar Prime)                                                                                             |
-| Confirm dialog/popup    | `confirmdialog` / `confirmpopup` | `overlays` | base    | done    | `@wiloc/ui/overlays` (`wi-confirm-dialog`); API compacta title/description/confirmLabel; `role=alertdialog`; confirm popup → futuro |
-| Menu                    | `menu`                           | `overlays` | base    | done    | `@wiloc/ui/overlays` (`wi-menu` + `[wiMenuTrigger]` / item / radio); story Asset Types                                              |
-| Context menu            | `contextmenu`                    | `overlays` | base    | planned | p. ej. asset-table                                                                                                                  |
-| Popover                 | `popover`                        | `overlays` | base    | planned | menú de usuario                                                                                                                     |
-| Tooltip                 | `tooltip`                        | `overlays` | base    | done    | `@wiloc/ui/overlays` (`[wiTooltip]`); host con caja CSS; `wi-button` es `inline-flex` (compatible); ver story HostMustHaveBox       |
-| Speed dial              | `speeddial`                      | `patterns` | pattern | planned | acciones por fila                                                                                                                   |
+| Capacidad Wi (objetivo) | Origen Prime (referencia)        | Dominio    | Cubo    | Estado  | Notas                                                                                                                                                           |
+| ----------------------- | -------------------------------- | ---------- | ------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Dialog                  | `dialog`                         | `overlays` | base    | done    | composición header/content/footer (`@wiloc/ui/overlays`)                                                                                                        |
+| Toast service           | `toast` + `MessageService`       | `overlays` | base    | done    | `@wiloc/ui/overlays` (`wi-toaster`→body, `wiToast`/`WiToast`; i18n producto vía API, chrome vía `provideWiOverlaysI18n`: `toastCloseLabel`, `toastRegionLabel`) |
+| Confirm dialog/popup    | `confirmdialog` / `confirmpopup` | `overlays` | base    | done    | `@wiloc/ui/overlays` (`wi-confirm-dialog`); API compacta title/description/confirmLabel; `role=alertdialog`; confirm popup → futuro                             |
+| Menu                    | `menu`                           | `overlays` | base    | done    | `@wiloc/ui/overlays` (`wi-menu` + `[wiMenuTrigger]` / item / radio); story Asset Types                                                                          |
+| Context menu            | `contextmenu`                    | `overlays` | base    | planned | p. ej. asset-table                                                                                                                                              |
+| Popover                 | `popover`                        | `overlays` | base    | planned | menú de usuario                                                                                                                                                 |
+| Tooltip                 | `tooltip`                        | `overlays` | base    | done    | `@wiloc/ui/overlays` (`[wiTooltip]`); host con caja CSS; `wi-button` es `inline-flex` (compatible); ver story HostMustHaveBox                                   |
+| Speed dial              | `speeddial`                      | `patterns` | pattern | planned | acciones por fila                                                                                                                                               |
 
 ## Infraestructura (no clonar)
 

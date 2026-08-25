@@ -36,6 +36,10 @@
       "style": "./styles/tabs.css",
       "default": "./styles/tabs.css"
     },
+    "./styles/toast.css": {
+      "style": "./styles/toast.css",
+      "default": "./styles/toast.css"
+    },
     "./styles/index.css": {
       "style": "./styles/index.css",
       "default": "./styles/index.css"

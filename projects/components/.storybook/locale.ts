@@ -141,7 +141,126 @@ export function createStorybookDataDisplayI18n(): Partial<WiDataDisplayI18n> {
 export function createStorybookOverlaysI18n(): Partial<WiOverlaysI18n> {
   return {
     dialogCloseLabel: () => (isEs() ? 'Cerrar' : 'Close'),
+    confirmCancelLabel: () => (isEs() ? 'Cancelar' : 'Cancel'),
+    toastCloseLabel: () => (isEs() ? 'Cerrar notificación' : 'Close toast'),
+    toastRegionLabel: () => (isEs() ? 'Notificaciones' : 'Notifications'),
   };
+}
+
+/** Copy de demo del toast (stories); no va en el provider — es producto. */
+export interface ToastDemoCopy {
+  showButton: string;
+  eventCreated: string;
+  defaultMessage: string;
+  success: string;
+  info: string;
+  warning: string;
+  error: string;
+  loading: string;
+  loadingDone: string;
+  loadingButton: string;
+  withActionButton: string;
+  changesSaved: string;
+  changesDescription: string;
+  undo: string;
+  undone: string;
+  close: string;
+  positionPrefix: string;
+  stackedButton: string;
+  first: string;
+  second: string;
+  third: string;
+  fourth: string;
+  promiseButton: string;
+  promiseLoading: string;
+  promiseSuccess: string;
+  promiseError: string;
+  lightTitle: string;
+  lightDescription: string;
+  lightButton: string;
+  darkTitle: string;
+  darkDescription: string;
+  darkButton: string;
+  docsNotice: string;
+}
+
+const TOAST_COPY: Record<StorybookLocale, ToastDemoCopy> = {
+  es: {
+    showButton: 'Mostrar toast (arriba derecha)',
+    eventCreated: 'Evento creado',
+    defaultMessage: 'Mensaje neutro',
+    success: 'Guardado correctamente',
+    info: 'Hay una actualización disponible',
+    warning: 'Revisa los datos antes de continuar',
+    error: 'No se pudo completar la operación',
+    loading: 'Procesando…',
+    loadingDone: 'Listo',
+    loadingButton: 'Loading → success',
+    withActionButton: 'Toast con acción',
+    changesSaved: 'Cambios guardados',
+    changesDescription: 'Puedes deshacer esta acción durante unos segundos.',
+    undo: 'Deshacer',
+    undone: 'Acción deshecha',
+    close: 'Cerrar',
+    positionPrefix: 'Posición',
+    stackedButton: 'Mostrar 4 toasts',
+    first: 'Primero',
+    second: 'Segundo',
+    third: 'Tercero',
+    fourth: 'Cuarto',
+    promiseButton: 'Ejecutar promesa',
+    promiseLoading: 'Guardando…',
+    promiseSuccess: 'Guardado',
+    promiseError: 'Error al guardar',
+    lightTitle: 'Tema claro',
+    lightDescription: 'Toolbar Light + theme auto → tokens claros',
+    lightButton: 'Toast light',
+    darkTitle: 'Tema oscuro',
+    darkDescription: 'Toolbar Dark + theme auto → .wi-dark',
+    darkButton: 'Toast dark',
+    docsNotice:
+      'En Docs no se demuestran toasts en vivo: el preview de documentación está contenido y no refleja el anclaje al viewport. Abre cualquier historia en la pestaña Canvas (Default, Variants, Light/Dark mode, …) para probar posición y tema.',
+  },
+  en: {
+    showButton: 'Show toast (top right)',
+    eventCreated: 'Event created',
+    defaultMessage: 'Neutral message',
+    success: 'Saved successfully',
+    info: 'An update is available',
+    warning: 'Review the data before continuing',
+    error: 'The operation could not be completed',
+    loading: 'Processing…',
+    loadingDone: 'Done',
+    loadingButton: 'Loading → success',
+    withActionButton: 'Toast with action',
+    changesSaved: 'Changes saved',
+    changesDescription: 'You can undo this action for a few seconds.',
+    undo: 'Undo',
+    undone: 'Action undone',
+    close: 'Close',
+    positionPrefix: 'Position',
+    stackedButton: 'Show 4 toasts',
+    first: 'First',
+    second: 'Second',
+    third: 'Third',
+    fourth: 'Fourth',
+    promiseButton: 'Run promise',
+    promiseLoading: 'Saving…',
+    promiseSuccess: 'Saved',
+    promiseError: 'Failed to save',
+    lightTitle: 'Light theme',
+    lightDescription: 'Toolbar Light + theme auto → light tokens',
+    lightButton: 'Toast light',
+    darkTitle: 'Dark theme',
+    darkDescription: 'Toolbar Dark + theme auto → .wi-dark',
+    darkButton: 'Toast dark',
+    docsNotice:
+      'Docs does not run live toasts: the documentation preview is contained and does not reflect viewport anchoring. Open any story in the Canvas tab (Default, Variants, Light/Dark mode, …) to try position and theme.',
+  },
+};
+
+export function getToastDemoCopy(locale: StorybookLocale = storybookLocale()): ToastDemoCopy {
+  return TOAST_COPY[locale];
 }
 
 /** Inputs de demo del datepicker (placeholder / labels); no van en el provider. */

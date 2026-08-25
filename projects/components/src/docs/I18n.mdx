@@ -25,7 +25,7 @@ Hay **dos canales**. Ambos los rellena la app con su motor i18n (Transloco, ngx-
 
 | Canal | Qué | Dónde se configura | Ejemplo |
 | ----- | --- | ------------------ | ------- |
-| **Provider** | Labels de chrome reutilizados por todos los componentes del dominio | `app.config.ts` → `provideWiCalendarI18n` / `provideWiDataDisplayI18n` / `provideWiOverlaysI18n` | Meses, “Mes anterior”, “Cerrar”, “Anterior/Siguiente” de paginación |
+| **Provider** | Labels de chrome reutilizados por todos los componentes del dominio | `app.config.ts` → `provideWiCalendarI18n` / `provideWiDataDisplayI18n` / `provideWiOverlaysI18n` | Meses, “Mes anterior”, “Cerrar” (dialog), “Cerrar notificación” / “Notificaciones” (toast), “Anterior/Siguiente” de paginación |
 | **Input** | Copy de **esta** instancia en pantalla | Template / binding | `placeholder`, `clearLabel`, `ariaLabel`, cabeceras de columna, título del dialog |
 
 **Regla práctica**
@@ -107,6 +107,9 @@ export function createCalendarI18n(): Partial<WiCalendarI18n> {
 export function createOverlaysI18n(): Partial<WiOverlaysI18n> {
   return {
     dialogCloseLabel: () => (appLocale() === 'es' ? 'Cerrar' : 'Close'),
+    confirmCancelLabel: () => (appLocale() === 'es' ? 'Cancelar' : 'Cancel'),
+    toastCloseLabel: () => (appLocale() === 'es' ? 'Cerrar notificación' : 'Close toast'),
+    toastRegionLabel: () => (appLocale() === 'es' ? 'Notificaciones' : 'Notifications'),
   };
 }
 
@@ -199,6 +202,15 @@ Demo: **Forms → WiDatepicker** + toolbar **Locale**.
 | Título, descripción, acciones | **Proyección** (`wi-dialog-title`, …) |
 | Aria del botón X | **`provideWiOverlaysI18n`** (`dialogCloseLabel`) o input `closeLabel` |
 
+### `wi-toast` / `wi-toaster`
+
+| Qué | Canal |
+| --- | ----- |
+| Título, descripción, action/cancel, promise | **API** (`wiToast` / `WiToast` — la app) |
+| Aria botón cerrar / región | **`provideWiOverlaysI18n`** (`toastCloseLabel`, `toastRegionLabel`) |
+
+Demo: **Overlays → WiToast** (Canvas) + toolbar **Locale**.
+
 ---
 
 ## Plantillas de providers (checklist de campos)
@@ -273,8 +285,13 @@ import { provideWiOverlaysI18n } from '@wiloc/ui/overlays';
 
 provideWiOverlaysI18n({
   dialogCloseLabel: () => 'Cerrar',
+  confirmCancelLabel: () => 'Cancelar',
+  toastCloseLabel: () => 'Cerrar notificación',
+  toastRegionLabel: () => 'Notificaciones',
 });
 ```
+
+Campos opcionales (`Partial<WiOverlaysI18n>`): `dialogCloseLabel`, `confirmCancelLabel`, `toastCloseLabel`, `toastRegionLabel`.
 
 ---
 
@@ -311,8 +328,9 @@ provideWiOverlaysI18n({
 Toolbar **Locale** (ES / EN) junto a **Tema**:
 
 - Actualiza `document.documentElement.lang`.
-- Simula `provideWi*I18n` (calendario, tabla, dialog).
+- Simula `provideWi*I18n` (calendario, tabla, dialog, toast).
 - En datepicker, también demos de inputs (`placeholder`, etc.) vía `getDatepickerDemoCopy`.
+- En toast (Canvas), copy de producto vía `getToastDemoCopy` + chrome vía `createStorybookOverlaysI18n` (`toastCloseLabel`, `toastRegionLabel`).
 
 Código: `projects/components/.storybook/locale.ts` + `preview.ts`.  
 App real de referencia: `apps/e2e-consumer`.

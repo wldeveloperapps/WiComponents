@@ -41,3 +41,16 @@ export {
   WiMenuSeparatorComponent,
   WiMenuTriggerDirective,
 } from './wi-menu.component';
+
+export type {
+  WiToastAction,
+  WiToastCancel,
+  WiToastId,
+  WiToastOptions,
+  WiToastPosition,
+  WiToastPromiseMessages,
+  WiToastTheme,
+} from './wi-toast.types';
+export { wiToast } from './wi-toast';
+export { WiToast } from './wi-toast.service';
+export { WiToasterComponent } from './wi-toaster.component';

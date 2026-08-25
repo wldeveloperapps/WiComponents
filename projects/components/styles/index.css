@@ -17,6 +17,7 @@
 @import '@spartan-ng/brain/hlm-tailwind-preset.css';
 @import './tokens.css';
 @import './tabs.css';
+@import './toast.css';
 
 /* Contrato público Wiloc: override del `.dark` del preset de Spartan. */
 @custom-variant dark (&:where(.wi-dark, .wi-dark *));
