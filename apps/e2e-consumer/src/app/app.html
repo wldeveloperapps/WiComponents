@@ -139,6 +139,39 @@
         </p>
       </section>
 
+      <section class="flex min-w-0 flex-col gap-3" aria-labelledby="file-upload-heading">
+        <h2 id="file-upload-heading" class="text-sm font-medium text-on-surface">
+          {{ t().fileUpload }}
+        </h2>
+        <wi-file-upload
+          id="smoke-file"
+          accept=".xlsx,.csv,text/csv"
+          [maxFileSize]="maxUploadBytes"
+          [chooseLabel]="t().chooseFile"
+          [emptyLabel]="t().noFileChosen"
+          [uploadLabel]="t().upload"
+          [ariaLabel]="t().fileAria"
+          [(files)]="uploadFiles"
+          [uploadLoading]="uploadLoading()"
+          [invalid]="!!uploadError()"
+          [ariaDescribedBy]="uploadError() ? 'file-upload-error' : null"
+          (filesChange)="onUploadFilesChange($event)"
+          (upload)="onUpload($event)"
+          (reject)="onUploadReject($event)"
+        />
+        @if (uploadError()) {
+          <p id="file-upload-error" class="text-sm text-error" role="alert">
+            {{ uploadError() }}
+          </p>
+        }
+        <p class="text-sm text-on-surface-variant">
+          {{ t().value }}: {{ uploadFileNames() ?? '—' }}
+        </p>
+        @if (uploadStatus()) {
+          <p class="text-sm text-on-surface-variant">{{ uploadStatus() }}</p>
+        }
+      </section>
+
       <section class="flex flex-col gap-3" aria-labelledby="dialog-heading">
         <h2 id="dialog-heading" class="text-sm font-medium text-on-surface">{{ t().dialog }}</h2>
         <wi-dialog size="md">

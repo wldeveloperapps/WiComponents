@@ -17,6 +17,8 @@ import {
 import {
   WiCheckboxComponent,
   WiDatepickerComponent,
+  WiFileUploadComponent,
+  type WiFileUploadRejection,
   WiInputComponent,
   WiListboxComponent,
   WiSelectComponent,
@@ -80,6 +82,7 @@ const ALERT_TAB_IDS = {
     WiDialogPortalDirective,
     WiDialogTitleComponent,
     WiDialogTriggerDirective,
+    WiFileUploadComponent,
     WiPopoverCloseDirective,
     WiPopoverComponent,
     WiPopoverContentComponent,
@@ -120,6 +123,16 @@ export class App {
   protected readonly fruit = signal<string | null>(null);
   protected readonly role = signal<string | null>(null);
   protected readonly date = signal<Date | null>(null);
+  protected readonly uploadFiles = signal<readonly File[]>([]);
+  protected readonly uploadLoading = signal(false);
+  protected readonly uploadStatus = signal<string | null>(null);
+  protected readonly uploadError = signal<string | null>(null);
+  /** 1 MiB — límite de smoke; la app decide la política. */
+  protected readonly maxUploadBytes = 1024 * 1024;
+  protected readonly uploadFileNames = computed(() => {
+    const files = this.uploadFiles();
+    return files.length ? files.map((file) => file.name).join(', ') : null;
+  });
   protected readonly alertsTab = signal<string>(ALERT_TAB_IDS.unmanaged);
   protected readonly tableFilters = signal<readonly WiColumnFilter[]>([]);
   protected readonly tablePageIndex = signal(0);
@@ -184,9 +197,41 @@ export class App {
     toggleAppLocale();
     this.fruit.set(null);
     this.role.set(null);
+    this.uploadFiles.set([]);
+    this.uploadStatus.set(null);
+    this.uploadError.set(null);
     this.alertsTab.set(ALERT_TAB_IDS.unmanaged);
     this.tableFilters.set([]);
     this.tablePageIndex.set(0);
+  }
+
+  protected onUploadFilesChange(files: readonly File[]): void {
+    this.uploadStatus.set(null);
+    if (files.length > 0) {
+      this.uploadError.set(null);
+    }
+  }
+
+  protected onUploadReject(rejections: readonly WiFileUploadRejection[]): void {
+    const first = rejections[0];
+    if (!first) {
+      this.uploadError.set(null);
+      return;
+    }
+    this.uploadStatus.set(null);
+    this.uploadError.set(
+      first.reason === 'size' ? this.t().fileRejectSize : this.t().fileRejectType,
+    );
+  }
+
+  protected onUpload(files: readonly File[]): void {
+    this.uploadError.set(null);
+    this.uploadLoading.set(true);
+    globalThis.setTimeout(() => {
+      this.uploadLoading.set(false);
+      const names = files.map((file) => file.name).join(', ');
+      this.uploadStatus.set(`${this.t().fileUploaded}: ${names || '—'}`);
+    }, 800);
   }
 
   protected simulateLoading(): void {

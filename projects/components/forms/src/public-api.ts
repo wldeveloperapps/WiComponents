@@ -1,6 +1,14 @@
 export type { WiInputSize, WiInputType } from './input/wi-input.types';
 export { WiInputComponent } from './input/wi-input.component';
 
+export type {
+  WiFileUploadRejectReason,
+  WiFileUploadRejection,
+  WiFileUploadSize,
+} from './file-upload/wi-file-upload.types';
+export { isFileAccepted, isFileWithinSize } from './file-upload/wi-file-upload.types';
+export { WiFileUploadComponent } from './file-upload/wi-file-upload.component';
+
 export type { WiCheckboxSize } from './checkbox/wi-checkbox.types';
 export { WiCheckboxComponent } from './checkbox/wi-checkbox.component';
 

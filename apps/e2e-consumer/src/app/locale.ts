@@ -92,6 +92,14 @@ interface UiMessages {
   datepicker: string;
   dateAria: string;
   openCalendar: string;
+  fileUpload: string;
+  chooseFile: string;
+  noFileChosen: string;
+  upload: string;
+  fileAria: string;
+  fileRejectType: string;
+  fileRejectSize: string;
+  fileUploaded: string;
   dialog: string;
   openDialog: string;
   dialogTitle: string;
@@ -160,6 +168,14 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     datepicker: 'Datepicker',
     dateAria: 'Fecha',
     openCalendar: 'Abrir calendario',
+    fileUpload: 'File upload',
+    chooseFile: 'Elegir archivo',
+    noFileChosen: 'Ningún archivo seleccionado',
+    upload: 'Subir',
+    fileAria: 'Archivo de importación',
+    fileRejectType: 'Tipo de archivo no permitido (solo .xlsx / .csv).',
+    fileRejectSize: 'El archivo supera el tamaño máximo (1 MiB).',
+    fileUploaded: 'Subida simulada',
     dialog: 'Dialog',
     openDialog: 'Abrir dialog',
     dialogTitle: 'Editar sitio',
@@ -238,6 +254,14 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     datepicker: 'Datepicker',
     dateAria: 'Date',
     openCalendar: 'Open calendar',
+    fileUpload: 'File upload',
+    chooseFile: 'Choose file',
+    noFileChosen: 'No file chosen',
+    upload: 'Upload',
+    fileAria: 'Import file',
+    fileRejectType: 'File type not allowed (.xlsx / .csv only).',
+    fileRejectSize: 'File exceeds the maximum size (1 MiB).',
+    fileUploaded: 'Upload simulated',
     dialog: 'Dialog',
     openDialog: 'Open dialog',
     dialogTitle: 'Edit site',
