@@ -89,6 +89,16 @@ interface UiMessages {
   listbox: string;
   roleAria: string;
   emptyRoles: string;
+  picklist: string;
+  picklistAria: string;
+  picklistAvailable: string;
+  picklistAssigned: string;
+  picklistEmptyAvailable: string;
+  picklistEmptyAssigned: string;
+  picklistMoveToTarget: string;
+  picklistMoveAllToTarget: string;
+  picklistMoveToSource: string;
+  picklistMoveAllToSource: string;
   datepicker: string;
   dateAria: string;
   openCalendar: string;
@@ -131,6 +141,7 @@ interface UiMessages {
   tableFilterStatus: string;
   fruits: readonly [string, string, string];
   roles: readonly [string, string, string];
+  members: readonly { id: string; name: string }[];
   tableStatusOptions: readonly { label: string; value: string }[];
   tableRows: readonly { id: string; name: string; city: string; status: string }[];
 }
@@ -165,6 +176,16 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     listbox: 'Listbox',
     roleAria: 'Rol',
     emptyRoles: 'Sin roles',
+    picklist: 'Picklist',
+    picklistAria: 'Miembros del grupo',
+    picklistAvailable: 'Disponibles',
+    picklistAssigned: 'Asignados',
+    picklistEmptyAvailable: 'Sin disponibles',
+    picklistEmptyAssigned: 'Sin asignados',
+    picklistMoveToTarget: 'Mover a asignados',
+    picklistMoveAllToTarget: 'Mover todos a asignados',
+    picklistMoveToSource: 'Quitar de asignados',
+    picklistMoveAllToSource: 'Quitar todos de asignados',
     datepicker: 'Datepicker',
     dateAria: 'Fecha',
     openCalendar: 'Abrir calendario',
@@ -207,6 +228,11 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     tableFilterStatus: 'Todos los estados',
     fruits: ['Manzana', 'Naranja', 'Plátano'],
     roles: ['Admin', 'Editor', 'Viewer'],
+    members: [
+      { id: 'ana', name: 'Ana' },
+      { id: 'bruno', name: 'Bruno' },
+      { id: 'carla', name: 'Carla' },
+    ],
     tableStatusOptions: [
       { label: 'Activo', value: 'active' },
       { label: 'Inactivo', value: 'inactive' },
@@ -251,6 +277,16 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     listbox: 'Listbox',
     roleAria: 'Role',
     emptyRoles: 'No roles',
+    picklist: 'Picklist',
+    picklistAria: 'Group members',
+    picklistAvailable: 'Available',
+    picklistAssigned: 'Assigned',
+    picklistEmptyAvailable: 'None available',
+    picklistEmptyAssigned: 'None assigned',
+    picklistMoveToTarget: 'Move to assigned',
+    picklistMoveAllToTarget: 'Move all to assigned',
+    picklistMoveToSource: 'Remove from assigned',
+    picklistMoveAllToSource: 'Remove all from assigned',
     datepicker: 'Datepicker',
     dateAria: 'Date',
     openCalendar: 'Open calendar',
@@ -293,6 +329,11 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     tableFilterStatus: 'All statuses',
     fruits: ['Apple', 'Orange', 'Banana'],
     roles: ['Admin', 'Editor', 'Viewer'],
+    members: [
+      { id: 'ana', name: 'Ana' },
+      { id: 'bruno', name: 'Bruno' },
+      { id: 'carla', name: 'Carla' },
+    ],
     tableStatusOptions: [
       { label: 'Active', value: 'active' },
       { label: 'Inactive', value: 'inactive' },

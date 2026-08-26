@@ -21,6 +21,7 @@ import {
   type WiFileUploadRejection,
   WiInputComponent,
   WiListboxComponent,
+  WiPicklistComponent,
   WiSelectComponent,
   WiSwitchComponent,
 } from '@wiloc/ui/forms';
@@ -95,6 +96,7 @@ const ALERT_TAB_IDS = {
     WiIconComponent,
     WiInputComponent,
     WiListboxComponent,
+    WiPicklistComponent,
     WiSelectComponent,
     WiSwitchComponent,
     WiTableCellDirective,
@@ -122,6 +124,7 @@ export class App {
   protected readonly notificationsControl = new FormControl(false, { nonNullable: true });
   protected readonly fruit = signal<string | null>(null);
   protected readonly role = signal<string | null>(null);
+  protected readonly assignedMembers = signal<string[]>([]);
   protected readonly date = signal<Date | null>(null);
   protected readonly uploadFiles = signal<readonly File[]>([]);
   protected readonly uploadLoading = signal(false);
@@ -197,6 +200,7 @@ export class App {
     toggleAppLocale();
     this.fruit.set(null);
     this.role.set(null);
+    this.assignedMembers.set([]);
     this.uploadFiles.set([]);
     this.uploadStatus.set(null);
     this.uploadError.set(null);

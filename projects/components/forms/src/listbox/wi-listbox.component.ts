@@ -58,7 +58,6 @@ const OPTION_BASE_CLASSES = [
   'w-full',
   'min-w-0',
   'cursor-default',
-  'items-center',
   'gap-2',
   'rounded-control',
   'outline-none',
@@ -150,23 +149,25 @@ export class WiListboxItemDirective {
           [value]="resolveOptionValue(option)"
           [label]="resolveOptionLabel(option)"
         >
-          <span class="min-w-0 flex-1 truncate">
+          <span [class]="itemSlotClasses()">
             @if (resolvedItemTemplate(); as itemTpl) {
               <ng-container *ngTemplateOutlet="itemTpl; context: itemContext(option)" />
             } @else {
               {{ resolveOptionLabel(option) }}
             }
           </span>
-          <svg
-            [class]="optionCheckClasses"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.5"
-            aria-hidden="true"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-          </svg>
+          @if (!resolvedItemTemplate()) {
+            <svg
+              [class]="optionCheckClasses"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              aria-hidden="true"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+            </svg>
+          }
         </li>
       } @empty {
         <li class="wi-listbox__empty px-2 py-1.5 text-on-surface-variant" aria-hidden="true">
@@ -224,7 +225,15 @@ export class WiListboxComponent implements ControlValueAccessor, FormValueContro
   );
 
   protected readonly optionClasses = computed(() =>
-    [OPTION_BASE_CLASSES, OPTION_SIZE_CLASSES[this.size()]].join(' '),
+    [
+      OPTION_BASE_CLASSES,
+      this.resolvedItemTemplate() ? 'items-start' : 'items-center',
+      OPTION_SIZE_CLASSES[this.size()],
+    ].join(' '),
+  );
+
+  protected readonly itemSlotClasses = computed(() =>
+    this.resolvedItemTemplate() ? 'min-w-0 flex-1' : 'min-w-0 flex-1 truncate',
   );
 
   protected readonly resolvedItemTemplate = computed(

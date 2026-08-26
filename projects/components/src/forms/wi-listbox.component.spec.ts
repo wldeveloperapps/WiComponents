@@ -127,6 +127,10 @@ describe('WiListboxComponent', () => {
     },
   );
 
+  it('applies default option alignment for text items', () => {
+    expect(options()[0]?.className).toContain('items-center');
+  });
+
   it('renders options from input', () => {
     expect(options()).toHaveLength(3);
     expect(options()[0]?.textContent).toContain('One');
@@ -226,6 +230,9 @@ describe('WiListboxComponent', () => {
     const custom = hostFixture.nativeElement.querySelectorAll('[data-testid="custom-item"]');
     expect(custom).toHaveLength(2);
     expect(custom[1]?.textContent).toContain('Two *');
+    expect(custom[0]?.closest('.wi-listbox__option')?.className).toContain('items-start');
+    expect(custom[0]?.parentElement?.className).not.toContain('truncate');
+    expect(hostFixture.nativeElement.querySelector('.wi-listbox__check')).toBeNull();
   });
 
   it('writeValue normalizes null for multiple', () => {

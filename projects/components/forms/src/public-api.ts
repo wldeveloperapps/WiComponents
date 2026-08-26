@@ -36,6 +36,13 @@ export type {
 export { WiListboxComponent, WiListboxItemDirective } from './listbox/wi-listbox.component';
 
 export type {
+  WiPicklistCompareWith,
+  WiPicklistItemContext,
+  WiPicklistSize,
+} from './picklist/wi-picklist.types';
+export { WiPicklistComponent, WiPicklistItemDirective } from './picklist/wi-picklist.component';
+
+export type {
   WiDateDisabled,
   WiDatepickerSize,
   WiFormatDate,

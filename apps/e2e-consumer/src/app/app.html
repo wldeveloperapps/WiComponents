@@ -123,6 +123,28 @@
         <p class="text-sm text-on-surface-variant">{{ t().value }}: {{ role() ?? '—' }}</p>
       </section>
 
+      <section class="flex min-w-0 flex-col gap-3" aria-labelledby="picklist-heading">
+        <h2 id="picklist-heading" class="text-sm font-medium text-on-surface">{{ t().picklist }}</h2>
+        <wi-picklist
+          [(value)]="assignedMembers"
+          [options]="t().members"
+          optionLabel="name"
+          optionValue="id"
+          [sourceHeader]="t().picklistAvailable"
+          [targetHeader]="t().picklistAssigned"
+          [sourceEmptyText]="t().picklistEmptyAvailable"
+          [targetEmptyText]="t().picklistEmptyAssigned"
+          [moveToTargetLabel]="t().picklistMoveToTarget"
+          [moveAllToTargetLabel]="t().picklistMoveAllToTarget"
+          [moveToSourceLabel]="t().picklistMoveToSource"
+          [moveAllToSourceLabel]="t().picklistMoveAllToSource"
+          [ariaLabel]="t().picklistAria"
+        />
+        <p class="text-sm text-on-surface-variant">
+          {{ t().value }}: {{ assignedMembers().join(', ') || '—' }}
+        </p>
+      </section>
+
       <section class="flex flex-col gap-3" aria-labelledby="datepicker-heading">
         <h2 id="datepicker-heading" class="text-sm font-medium text-on-surface">
           {{ t().datepicker }}

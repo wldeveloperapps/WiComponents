@@ -15,6 +15,7 @@ export { wiTooltipRegistryEntry } from './tooltip';
 export { wiMenuRegistryEntry } from './menu';
 export { wiTableRegistryEntry } from './table';
 export { wiListboxRegistryEntry } from './listbox';
+export { wiPicklistRegistryEntry } from './picklist';
 export { wiTabsRegistryEntry } from './tabs';
 export { wiSkeletonRegistryEntry } from './skeleton';
 export { wiSpinnerRegistryEntry } from './spinner';

@@ -139,10 +139,11 @@ describe('App', () => {
     await fixture.whenStable();
 
     const root = fixture.nativeElement as HTMLElement;
-    expect(root.querySelector('wi-listbox [role="listbox"]')).toBeTruthy();
+    const listboxSection = root.querySelector('section[aria-labelledby="listbox-heading"]');
+    expect(listboxSection?.querySelector('wi-listbox [role="listbox"]')).toBeTruthy();
 
     const options = Array.from(
-      root.querySelectorAll('wi-listbox [role="option"]'),
+      listboxSection?.querySelectorAll('wi-listbox [role="option"]') ?? [],
     ) as HTMLElement[];
     expect(options.length).toBe(3);
 
@@ -152,6 +153,38 @@ describe('App', () => {
 
     expect(options[1]?.getAttribute('aria-selected')).toBe('true');
     expect(root.textContent).toContain('Valor: Editor');
+  });
+
+  it('should transfer a picklist item to assigned', async () => {
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const root = fixture.nativeElement as HTMLElement;
+    const section = root.querySelector('section[aria-labelledby="picklist-heading"]');
+    expect(section?.querySelector('wi-picklist')).toBeTruthy();
+
+    const sourceOptions = Array.from(
+      section?.querySelectorAll('.wi-picklist__source [role="option"]') ?? [],
+    ) as HTMLElement[];
+    expect(sourceOptions.length).toBe(3);
+
+    sourceOptions[0]?.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const move = section?.querySelector(
+      '.wi-picklist__move-to-target button',
+    ) as HTMLButtonElement | null;
+    expect(move).toBeTruthy();
+    move?.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(section?.querySelector('.wi-picklist__target [role="option"]')?.textContent).toContain(
+      'Ana',
+    );
+    expect(root.textContent).toContain('Valor: ana');
   });
 
   it('should render the popover section', async () => {
