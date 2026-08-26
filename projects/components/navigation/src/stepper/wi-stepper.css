@@ -1,0 +1,93 @@
+/**
+ * Layout del stepper: container queries sobre el host (no el viewport).
+ * En vertical, nav + panel se apilan bajo 36rem de ancho del propio componente.
+ *
+ * Conectores alineados al centro del indicador (--wi-stepper-indicator = size-10).
+ * El círculo opaco (z-index) tapa la línea.
+ */
+:host {
+  --wi-stepper-indicator: 2.5rem;
+  --wi-stepper-count: 1;
+  container-name: wi-stepper;
+  container-type: inline-size;
+}
+
+.wi-stepper__layout {
+  display: flex;
+  min-width: 0;
+  gap: 1.5rem;
+}
+
+.wi-stepper__layout--vertical,
+.wi-stepper__layout--horizontal {
+  flex-direction: column;
+}
+
+@container wi-stepper (min-width: 36rem) {
+  .wi-stepper__layout--vertical {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 2rem;
+  }
+
+  .wi-stepper__layout--vertical .wi-stepper__nav {
+    width: 13rem;
+  }
+}
+
+.wi-stepper__list {
+  position: relative;
+  overflow: visible;
+}
+
+.wi-stepper__item {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+.wi-stepper__indicator {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+/* Vertical: del centro de este círculo al borde inferior del item (siguiente círculo). */
+:host([data-orientation='vertical']) .wi-stepper__item:not(:last-child) {
+  padding-bottom: 2rem;
+}
+
+:host([data-orientation='vertical']) .wi-stepper__item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  inset-inline-start: calc(var(--wi-stepper-indicator) / 2);
+  top: calc(var(--wi-stepper-indicator) / 2);
+  bottom: 0;
+  width: 1px;
+  margin-inline-start: -0.5px;
+  background-color: var(--wi-color-outline-variant);
+}
+
+/* Horizontal: un solo carril del centro del primero al centro del último. */
+:host([data-orientation='horizontal']) .wi-stepper__item {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  align-items: center;
+}
+
+:host([data-orientation='horizontal'])
+  .wi-stepper__list:has(.wi-stepper__item:nth-child(2))::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  top: calc(var(--wi-stepper-indicator) / 2);
+  height: 1px;
+  margin-top: -0.5px;
+  inset-inline-start: calc(100% / var(--wi-stepper-count) / 2);
+  inset-inline-end: calc(100% / var(--wi-stepper-count) / 2);
+  background-color: var(--wi-color-outline-variant);
+}

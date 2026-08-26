@@ -48,6 +48,9 @@ import {
   WiTooltipDirective,
 } from '@wiloc/ui/overlays';
 import {
+  WiStepperComponent,
+  WiStepperPanelDirective,
+  type WiStepperStep,
   WiTabsComponent,
   WiTabsContentDirective,
   WiTabsListComponent,
@@ -103,6 +106,8 @@ const ALERT_TAB_IDS = {
     WiSwitchComponent,
     WiTableCellDirective,
     WiTableComponent,
+    WiStepperComponent,
+    WiStepperPanelDirective,
     WiTabsComponent,
     WiTabsContentDirective,
     WiTabsListComponent,
@@ -140,6 +145,7 @@ export class App {
     return files.length ? files.map((file) => file.name).join(', ') : null;
   });
   protected readonly alertsTab = signal<string>(ALERT_TAB_IDS.unmanaged);
+  protected readonly signupStep = signal('details');
   protected readonly tableFilters = signal<readonly WiColumnFilter[]>([]);
   protected readonly tablePageIndex = signal(0);
 
@@ -150,6 +156,15 @@ export class App {
       { id: ALERT_TAB_IDS.unmanaged, label: m.tabUnmanaged, body: m.tabUnmanagedBody },
       { id: ALERT_TAB_IDS.managed, label: m.tabManaged, body: m.tabManagedBody },
       { id: ALERT_TAB_IDS.archived, label: m.tabArchived, body: m.tabArchivedBody },
+    ];
+  });
+
+  protected readonly signupSteps = computed((): readonly WiStepperStep[] => {
+    const m = this.t();
+    return [
+      { id: 'details', label: m.stepperDetails, icon: 'user' },
+      { id: 'apps', label: m.stepperApps, icon: 'squares-2x2' },
+      { id: 'summary', label: m.stepperSummary, icon: 'list-bullet' },
     ];
   });
 
@@ -208,6 +223,7 @@ export class App {
     this.uploadStatus.set(null);
     this.uploadError.set(null);
     this.alertsTab.set(ALERT_TAB_IDS.unmanaged);
+    this.signupStep.set('details');
     this.tableFilters.set([]);
     this.tablePageIndex.set(0);
   }

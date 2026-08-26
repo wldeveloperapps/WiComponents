@@ -240,6 +240,30 @@ describe('App', () => {
     expect(root.textContent).toContain('Valor: alerts-managed');
   });
 
+  it('should advance the stepper with Next', async () => {
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const root = fixture.nativeElement as HTMLElement;
+    const section = root.querySelector('section[aria-labelledby="stepper-heading"]');
+    expect(section?.querySelector('wi-stepper')).toBeTruthy();
+    expect(section?.textContent).toContain('Datos');
+    expect(section?.textContent).toContain('Contenido del paso Datos');
+    expect(section?.textContent).toContain('Valor: details');
+
+    const next = Array.from(section?.querySelectorAll('button') ?? []).find((button) =>
+      button.textContent?.includes('Siguiente'),
+    );
+    expect(next).toBeTruthy();
+    next?.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(section?.textContent).toContain('Contenido del paso Aplicaciones');
+    expect(section?.textContent).toContain('Valor: apps');
+  });
+
   it('should render, paginate and filter the data table', async () => {
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();

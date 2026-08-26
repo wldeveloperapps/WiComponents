@@ -18,6 +18,7 @@ export { wiTableRegistryEntry } from './table';
 export { wiListboxRegistryEntry } from './listbox';
 export { wiPicklistRegistryEntry } from './picklist';
 export { wiTabsRegistryEntry } from './tabs';
+export { wiStepperRegistryEntry } from './stepper';
 export { wiSkeletonRegistryEntry } from './skeleton';
 export { wiSpinnerRegistryEntry } from './spinner';
 export { wiToastRegistryEntry } from './toast';

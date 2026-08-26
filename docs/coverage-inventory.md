@@ -54,12 +54,12 @@ Checklist de **demanda** extraído del uso real de PrimeNG en la app consumidora
 
 ## Navigation
 
-| Capacidad Wi (objetivo) | Origen Prime (referencia) | Dominio                   | Cubo    | Estado  | Notas                                                                                                                              |
-| ----------------------- | ------------------------- | ------------------------- | ------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| Tabs                    | `tabs`                    | `navigation`              | base    | done    | `@wiloc/ui/navigation` (`wi-tabs` + list/trigger/content); `segmented`/`line`; scroll+scrollbar+container queries en `wi-tabs.css` |
-| Stepper                 | `stepper`                 | `navigation` / `patterns` | pattern | planned | alta de usuario                                                                                                                    |
-| Breadcrumb              | `breadcrumb`              | `navigation`              | base    | planned |                                                                                                                                    |
-| Divider                 | `divider`                 | `core` / layout           | base    | planned |                                                                                                                                    |
+| Capacidad Wi (objetivo) | Origen Prime (referencia) | Dominio         | Cubo    | Estado  | Notas                                                                                                                                                      |
+| ----------------------- | ------------------------- | --------------- | ------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Tabs                    | `tabs`                    | `navigation`    | base    | done    | `@wiloc/ui/navigation` (`wi-tabs` + list/trigger/content); `segmented`/`line`; scroll+scrollbar+container queries en `wi-tabs.css`                         |
+| Stepper                 | `stepper`                 | `navigation`    | pattern | done    | `@wiloc/ui/navigation` (`wi-stepper` + `[wiStepperPanel]`); `steps` data-driven (label+icon de la app); vertical/horizontal; `linear`; Back/Next en la app |
+| Breadcrumb              | `breadcrumb`              | `navigation`    | base    | planned |                                                                                                                                                            |
+| Divider                 | `divider`                 | `core` / layout | base    | planned |                                                                                                                                                            |
 
 ## Overlays & feedback
 

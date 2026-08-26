@@ -132,6 +132,16 @@ interface UiMessages {
   tabUnmanagedBody: string;
   tabManagedBody: string;
   tabArchivedBody: string;
+  stepper: string;
+  stepperAria: string;
+  stepperNext: string;
+  stepperBack: string;
+  stepperDetails: string;
+  stepperApps: string;
+  stepperSummary: string;
+  stepperDetailsBody: string;
+  stepperAppsBody: string;
+  stepperSummaryBody: string;
   table: string;
   tableAria: string;
   tableEmpty: string;
@@ -222,6 +232,16 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     tabUnmanagedBody: 'Lista de alertas no gestionadas',
     tabManagedBody: 'Lista de alertas gestionadas',
     tabArchivedBody: 'Lista de alertas archivadas',
+    stepper: 'Stepper',
+    stepperAria: 'Pasos de alta',
+    stepperNext: 'Siguiente',
+    stepperBack: 'Atrás',
+    stepperDetails: 'Datos',
+    stepperApps: 'Aplicaciones',
+    stepperSummary: 'Resumen',
+    stepperDetailsBody: 'Contenido del paso Datos',
+    stepperAppsBody: 'Contenido del paso Aplicaciones',
+    stepperSummaryBody: 'Contenido del paso Resumen',
     table: 'Table',
     tableAria: 'Sitios de ejemplo',
     tableEmpty: 'Sin sitios',
@@ -326,6 +346,16 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     tabUnmanagedBody: 'List of unmanaged alerts',
     tabManagedBody: 'List of managed alerts',
     tabArchivedBody: 'List of archived alerts',
+    stepper: 'Stepper',
+    stepperAria: 'Sign-up steps',
+    stepperNext: 'Next',
+    stepperBack: 'Back',
+    stepperDetails: 'Details',
+    stepperApps: 'Applications',
+    stepperSummary: 'Summary',
+    stepperDetailsBody: 'Details step content',
+    stepperAppsBody: 'Applications step content',
+    stepperSummaryBody: 'Summary step content',
     table: 'Table',
     tableAria: 'Sample sites',
     tableEmpty: 'No sites',

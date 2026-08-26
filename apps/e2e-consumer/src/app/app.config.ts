@@ -7,10 +7,14 @@ import { provideWiOverlaysI18n } from '@wiloc/ui/overlays';
 import {
   calendarOutline,
   funnelOutline,
+  keyOutline,
+  listBulletOutline,
   moonOutline,
   plusOutline,
+  squares2x2Outline,
   sunOutline,
   trashOutline,
+  userOutline,
   xMarkOutline,
 } from '@wiloc/ui/icon/heroicons';
 
@@ -24,10 +28,14 @@ export const appConfig: ApplicationConfig = {
     provideWiIcons({
       calendar: { outline: calendarOutline },
       funnel: { outline: funnelOutline },
+      key: { outline: keyOutline },
+      'list-bullet': { outline: listBulletOutline },
       moon: { outline: moonOutline },
       plus: { outline: plusOutline },
+      'squares-2x2': { outline: squares2x2Outline },
       sun: { outline: sunOutline },
       trash: { outline: trashOutline },
+      user: { outline: userOutline },
       'x-mark': { outline: xMarkOutline },
     }),
     provideWiCalendarI18n(createCalendarI18n()),

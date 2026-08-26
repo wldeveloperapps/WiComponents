@@ -416,3 +416,89 @@ export function getSpeedDialDemoCopy(
 ): SpeedDialDemoCopy {
   return SPEED_DIAL_COPY[locale];
 }
+
+/** Copy de demo del stepper (stories); no va en la librería — lo aporta la app. */
+export interface StepperDemoCopy {
+  ariaLabel: string;
+  next: string;
+  back: string;
+  hint: string;
+  linearHint: string;
+  longLabel: string;
+  steps: readonly { id: string; icon: string; label: string; body: string }[];
+}
+
+const STEPPER_COPY: Record<StorybookLocale, StepperDemoCopy> = {
+  es: {
+    ariaLabel: 'Pasos',
+    next: 'Siguiente',
+    back: 'Atrás',
+    hint: 'Label e icono los pasa la app en `steps`. Back / Next viven en el panel.',
+    linearHint: 'Lineal: la nav no salta a pasos futuros. Siguiente sí avanza.',
+    longLabel: 'Configuración avanzada de notificaciones y preferencias del espacio de trabajo',
+    steps: [
+      {
+        id: 'details',
+        icon: 'user',
+        label: 'Datos',
+        body: 'Contenido del paso Datos (lo aporta la app).',
+      },
+      {
+        id: 'apps',
+        icon: 'squares-2x2',
+        label: 'Aplicaciones',
+        body: 'Contenido del paso Aplicaciones (lo aporta la app).',
+      },
+      {
+        id: 'perms',
+        icon: 'key',
+        label: 'Permisos',
+        body: 'Contenido del paso Permisos (lo aporta la app).',
+      },
+      {
+        id: 'summary',
+        icon: 'list-bullet',
+        label: 'Resumen',
+        body: 'Contenido del paso Resumen (lo aporta la app).',
+      },
+    ],
+  },
+  en: {
+    ariaLabel: 'Steps',
+    next: 'Next',
+    back: 'Back',
+    hint: 'Label and icon come from the app via `steps`. Back / Next live in the panel.',
+    linearHint: 'Linear: the nav cannot skip ahead. Next still advances.',
+    longLabel: 'Advanced notification settings and workspace preferences',
+    steps: [
+      {
+        id: 'details',
+        icon: 'user',
+        label: 'Details',
+        body: 'Details step content (provided by the app).',
+      },
+      {
+        id: 'apps',
+        icon: 'squares-2x2',
+        label: 'Applications',
+        body: 'Applications step content (provided by the app).',
+      },
+      {
+        id: 'perms',
+        icon: 'key',
+        label: 'Permissions',
+        body: 'Permissions step content (provided by the app).',
+      },
+      {
+        id: 'summary',
+        icon: 'list-bullet',
+        label: 'Summary',
+        body: 'Summary step content (provided by the app).',
+      },
+    ],
+  },
+};
+
+export function getStepperDemoCopy(locale: StorybookLocale = storybookLocale()): StepperDemoCopy {
+  return STEPPER_COPY[locale];
+}

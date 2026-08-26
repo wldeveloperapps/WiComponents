@@ -275,6 +275,60 @@
         <p class="text-sm text-on-surface-variant">{{ t().value }}: {{ alertsTab() }}</p>
       </section>
 
+      <section class="flex min-w-0 flex-col gap-3" aria-labelledby="stepper-heading">
+        <h2 id="stepper-heading" class="text-sm font-medium text-on-surface">{{ t().stepper }}</h2>
+        <wi-stepper
+          #signupStepper="wiStepper"
+          class="w-full min-w-0"
+          [steps]="signupSteps()"
+          [(value)]="signupStep"
+          orientation="vertical"
+          linear
+          [aria-label]="t().stepperAria"
+        >
+          <div
+            wiStepperPanel="details"
+            class="flex min-h-24 min-w-0 flex-col justify-between gap-4"
+          >
+            <p class="text-sm text-on-surface">{{ t().stepperDetailsBody }}</p>
+            <wi-button type="button" size="sm" (click)="signupStepper.selectNext()">
+              {{ t().stepperNext }}
+            </wi-button>
+          </div>
+          <div wiStepperPanel="apps" class="flex min-h-24 min-w-0 flex-col justify-between gap-4">
+            <p class="text-sm text-on-surface">{{ t().stepperAppsBody }}</p>
+            <div class="flex flex-wrap gap-2">
+              <wi-button
+                type="button"
+                variant="outline"
+                size="sm"
+                (click)="signupStepper.selectPrevious()"
+              >
+                {{ t().stepperBack }}
+              </wi-button>
+              <wi-button type="button" size="sm" (click)="signupStepper.selectNext()">
+                {{ t().stepperNext }}
+              </wi-button>
+            </div>
+          </div>
+          <div
+            wiStepperPanel="summary"
+            class="flex min-h-24 min-w-0 flex-col justify-between gap-4"
+          >
+            <p class="text-sm text-on-surface">{{ t().stepperSummaryBody }}</p>
+            <wi-button
+              type="button"
+              variant="outline"
+              size="sm"
+              (click)="signupStepper.selectPrevious()"
+            >
+              {{ t().stepperBack }}
+            </wi-button>
+          </div>
+        </wi-stepper>
+        <p class="text-sm text-on-surface-variant">{{ t().value }}: {{ signupStep() }}</p>
+      </section>
+
       <section class="flex min-w-0 flex-col gap-3" aria-labelledby="table-heading">
         <h2 id="table-heading" class="text-sm font-medium text-on-surface">{{ t().table }}</h2>
         <wi-table

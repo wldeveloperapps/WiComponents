@@ -1,4 +1,12 @@
 export type {
+  WiStepperOrientation,
+  WiStepperStep,
+  WiStepperStepState,
+} from './stepper/wi-stepper.types';
+
+export { WiStepperComponent, WiStepperPanelDirective } from './stepper/wi-stepper.component';
+
+export type {
   WiTabsActivationMode,
   WiTabsListVariant,
   WiTabsOrientation,
