@@ -98,6 +98,12 @@ interface UiMessages {
   dialogDescription: string;
   dialogBody: string;
   closeDialog: string;
+  popover: string;
+  openPopover: string;
+  popoverTitle: string;
+  popoverDescription: string;
+  popoverBody: string;
+  closePopover: string;
   tabs: string;
   tabUnmanaged: string;
   tabManaged: string;
@@ -160,6 +166,12 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     dialogDescription: 'Los cambios se aplican al guardar.',
     dialogBody: 'Contenido de ejemplo del dialog en el smoke del paquete.',
     closeDialog: 'Cerrar',
+    popover: 'Popover',
+    openPopover: 'Abrir popover',
+    popoverTitle: 'Detalles del sitio',
+    popoverDescription: 'Contenido anclado al trigger.',
+    popoverBody: 'Contenido de ejemplo del popover en el smoke del paquete.',
+    closePopover: 'Cerrar',
     tabs: 'Tabs',
     tabUnmanaged: 'Alertas No Gestionadas',
     tabManaged: 'Alertas Gestionadas',
@@ -232,6 +244,12 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     dialogDescription: 'Changes apply when you save.',
     dialogBody: 'Sample dialog content in the packaged library smoke test.',
     closeDialog: 'Close',
+    popover: 'Popover',
+    openPopover: 'Open popover',
+    popoverTitle: 'Site details',
+    popoverDescription: 'Content anchored to the trigger.',
+    popoverBody: 'Sample popover content in the packaged library smoke test.',
+    closePopover: 'Close',
     tabs: 'Tabs',
     tabUnmanaged: 'Unmanaged Alerts',
     tabManaged: 'Managed Alerts',

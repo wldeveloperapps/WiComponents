@@ -35,6 +35,18 @@ export {
   WiConfirmPopupTriggerDirective,
 } from './confirm-popup/wi-confirm-popup.component';
 
+export type { WiPopoverAlign, WiPopoverSize, WiPopoverState } from './popover/wi-popover.types';
+export {
+  WiPopoverCloseDirective,
+  WiPopoverComponent,
+  WiPopoverContentComponent,
+  WiPopoverDescriptionComponent,
+  WiPopoverHeaderComponent,
+  WiPopoverPortalDirective,
+  WiPopoverTitleComponent,
+  WiPopoverTriggerDirective,
+} from './popover/wi-popover.component';
+
 export type { WiOverlaysI18n } from './wi-overlays.i18n';
 export { provideWiOverlaysI18n } from './wi-overlays.i18n';
 

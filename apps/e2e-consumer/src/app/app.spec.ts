@@ -154,6 +154,16 @@ describe('App', () => {
     expect(root.textContent).toContain('Valor: Editor');
   });
 
+  it('should render the popover section', async () => {
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const root = fixture.nativeElement as HTMLElement;
+    expect(root.querySelector('wi-popover')).toBeTruthy();
+    expect(root.textContent).toContain('Abrir popover');
+  });
+
   it('should switch tabs and update the active panel', async () => {
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();

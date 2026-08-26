@@ -163,6 +163,30 @@
         </wi-dialog>
       </section>
 
+      <section class="flex flex-col gap-3" aria-labelledby="popover-heading">
+        <h2 id="popover-heading" class="text-sm font-medium text-on-surface">{{ t().popover }}</h2>
+        <wi-popover>
+          <wi-button type="button" variant="outline" wiPopoverTrigger>{{
+            t().openPopover
+          }}</wi-button>
+          <ng-template wiPopoverPortal>
+            <wi-popover-content>
+              <wi-popover-header>
+                <wi-popover-title>{{ t().popoverTitle }}</wi-popover-title>
+                <wi-popover-description>{{ t().popoverDescription }}</wi-popover-description>
+              </wi-popover-header>
+              <p class="min-w-0 text-sm text-on-surface">{{ t().popoverBody }}</p>
+              <div class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+                <wi-button type="button" variant="secondary" size="sm" wiPopoverClose>
+                  {{ t().closePopover }}
+                </wi-button>
+                <wi-button type="button" size="sm" wiPopoverClose>{{ t().primary }}</wi-button>
+              </div>
+            </wi-popover-content>
+          </ng-template>
+        </wi-popover>
+      </section>
+
       <section class="flex min-w-0 flex-col gap-3" aria-labelledby="tabs-heading">
         <h2 id="tabs-heading" class="text-sm font-medium text-on-surface">{{ t().tabs }}</h2>
         <wi-tabs class="w-full min-w-0" [(value)]="alertsTab">

@@ -3,6 +3,7 @@ export { wiCardRegistryEntry } from './card';
 export { wiDialogRegistryEntry } from './dialog';
 export { wiConfirmDialogRegistryEntry } from './confirm-dialog';
 export { wiConfirmPopupRegistryEntry } from './confirm-popup';
+export { wiPopoverRegistryEntry } from './popover';
 export { wiInputRegistryEntry } from './input';
 export { wiCheckboxRegistryEntry } from './checkbox';
 export { wiSwitchRegistryEntry } from './switch';
