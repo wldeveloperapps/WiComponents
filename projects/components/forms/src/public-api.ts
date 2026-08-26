@@ -1,6 +1,9 @@
 export type { WiInputSize, WiInputType } from './input/wi-input.types';
 export { WiInputComponent } from './input/wi-input.component';
 
+export type { WiOtpAutocomplete, WiOtpInputMode, WiOtpSize } from './otp/wi-otp.types';
+export { WiOtpComponent } from './otp/wi-otp.component';
+
 export type {
   WiFileUploadRejectReason,
   WiFileUploadRejection,

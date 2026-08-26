@@ -91,6 +91,27 @@ describe('App', () => {
     );
   });
 
+  it('should type an OTP code via reactive forms', async () => {
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const root = fixture.nativeElement as HTMLElement;
+    const section = root.querySelector('section[aria-labelledby="otp-heading"]');
+    expect(section?.querySelector('wi-otp')).toBeTruthy();
+
+    const input = section?.querySelector('input[data-slot="input-otp"]') as HTMLInputElement | null;
+    expect(input).toBeTruthy();
+    expect(input?.getAttribute('autocomplete')).toBe('one-time-code');
+
+    input!.value = '123456';
+    input!.dispatchEvent(new Event('input', { bubbles: true }));
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(section?.textContent).toContain('Valor: 123456');
+  });
+
   it('should toggle checkbox via reactive forms', async () => {
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();

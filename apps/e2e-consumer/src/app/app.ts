@@ -21,6 +21,7 @@ import {
   type WiFileUploadRejection,
   WiInputComponent,
   WiListboxComponent,
+  WiOtpComponent,
   WiPicklistComponent,
   WiSelectComponent,
   WiSwitchComponent,
@@ -96,6 +97,7 @@ const ALERT_TAB_IDS = {
     WiIconComponent,
     WiInputComponent,
     WiListboxComponent,
+    WiOtpComponent,
     WiPicklistComponent,
     WiSelectComponent,
     WiSwitchComponent,
@@ -120,6 +122,7 @@ export class App {
   protected readonly t = uiMessages;
 
   protected readonly nameControl = new FormControl('Wiloc', { nonNullable: true });
+  protected readonly otpControl = new FormControl('', { nonNullable: true });
   protected readonly termsControl = new FormControl(false, { nonNullable: true });
   protected readonly notificationsControl = new FormControl(false, { nonNullable: true });
   protected readonly fruit = signal<string | null>(null);

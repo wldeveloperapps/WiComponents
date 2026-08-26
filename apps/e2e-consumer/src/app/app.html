@@ -70,6 +70,17 @@
         <p class="text-sm text-on-surface-variant">{{ t().value }}: {{ nameControl.value }}</p>
       </section>
 
+      <section class="flex flex-col gap-3" aria-labelledby="otp-heading">
+        <h2 id="otp-heading" class="text-sm font-medium text-on-surface">{{ t().otp }}</h2>
+        <label class="flex flex-col gap-1 text-sm text-on-surface-variant" for="otp">
+          {{ t().otpLabel }}
+          <wi-otp id="otp" [formControl]="otpControl" [ariaLabel]="t().otpAria" />
+        </label>
+        <p class="text-sm text-on-surface-variant">
+          {{ t().value }}: {{ otpControl.value || '—' }}
+        </p>
+      </section>
+
       <section class="flex flex-col gap-3" aria-labelledby="checkbox-heading">
         <h2 id="checkbox-heading" class="text-sm font-medium text-on-surface">
           {{ t().checkbox }}
@@ -124,7 +135,9 @@
       </section>
 
       <section class="flex min-w-0 flex-col gap-3" aria-labelledby="picklist-heading">
-        <h2 id="picklist-heading" class="text-sm font-medium text-on-surface">{{ t().picklist }}</h2>
+        <h2 id="picklist-heading" class="text-sm font-medium text-on-surface">
+          {{ t().picklist }}
+        </h2>
         <wi-picklist
           [(value)]="assignedMembers"
           [options]="t().members"

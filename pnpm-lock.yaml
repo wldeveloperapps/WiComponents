@@ -3843,7 +3843,7 @@ packages:
     resolution: {integrity: sha512-6aN99yL695Hi9SuIk1oC88l9o0gmxL1nGWWQ/kNy81HigJ0FoaoTXpytCj6ItzgyCEwA9kF1wixsTuv5cjsgng==}
 
   '@wiloc/ui@file:dist/wiloc-ui-0.0.1.tgz':
-    resolution: {integrity: sha512-jUZ7CraQ7Ga4gkKZXo7s0YNtjWTAbid3LENCTo3+cswuH3/92Qvij3hvJ4fyeKws9fSQlRmpY6x95mJYH2PhNg==, tarball: file:dist/wiloc-ui-0.0.1.tgz}
+    resolution: {integrity: sha512-ynIGhYKEAqkK2tSLDn7C2AHKr+FKUAx7ExkBd9iqpFplvXUIwMS6ONiHBD9/4Ns5Kb0kjTfvjJO+b2xuyQwMiw==, tarball: file:dist/wiloc-ui-0.0.1.tgz}
     version: 0.0.1
     peerDependencies:
       '@angular/aria': ^22.1.0

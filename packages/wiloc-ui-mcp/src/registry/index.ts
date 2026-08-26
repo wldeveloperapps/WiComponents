@@ -5,6 +5,7 @@ export { wiConfirmDialogRegistryEntry } from './confirm-dialog';
 export { wiConfirmPopupRegistryEntry } from './confirm-popup';
 export { wiPopoverRegistryEntry } from './popover';
 export { wiInputRegistryEntry } from './input';
+export { wiOtpRegistryEntry } from './otp';
 export { wiFileUploadRegistryEntry } from './file-upload';
 export { wiCheckboxRegistryEntry } from './checkbox';
 export { wiSwitchRegistryEntry } from './switch';

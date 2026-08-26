@@ -75,6 +75,9 @@ interface UiMessages {
   input: string;
   name: string;
   namePlaceholder: string;
+  otp: string;
+  otpLabel: string;
+  otpAria: string;
   value: string;
   checkbox: string;
   terms: string;
@@ -162,6 +165,9 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     input: 'Input',
     name: 'Nombre',
     namePlaceholder: 'Escribe un nombre',
+    otp: 'OTP',
+    otpLabel: 'Código de verificación',
+    otpAria: 'Código de verificación',
     value: 'Valor',
     checkbox: 'Checkbox',
     terms: 'Acepto los términos y condiciones',
@@ -263,6 +269,9 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     input: 'Input',
     name: 'Name',
     namePlaceholder: 'Type a name',
+    otp: 'OTP',
+    otpLabel: 'Verification code',
+    otpAria: 'Verification code',
     value: 'Value',
     checkbox: 'Checkbox',
     terms: 'I accept the terms and conditions',
