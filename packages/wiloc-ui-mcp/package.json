@@ -1,0 +1,33 @@
+{
+  "name": "@wiloc/ui-mcp",
+  "version": "0.1.0-alpha.1",
+  "description": "Servidor MCP del catálogo público de @wiloc/ui (API Wi, no Spartan).",
+  "type": "module",
+  "bin": {
+    "wiloc-ui-mcp": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "^2.0.0",
+    "zod": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "typescript": "~6.0.2",
+    "vitest": "^4.0.8"
+  }
+}

@@ -44,7 +44,7 @@ status        # stable | experimental | deprecated
 | `wi_view` | API + ejemplos + a11y de un componente |
 | `wi_docs` | Temas: instalación, tokens, dark mode, SSR |
 | `wi_usage` | Snippet canónico de import y template |
-| `wi_audit` | Detectar uso de Spartan donde debería usarse `@wiloc/ui` |
+| `wi_audit` | Detectar uso de Spartan donde debería usarse `@wiloc/ui` (no implementado en 0.1.0-alpha.1) |
 
 ## Prohibido en el MCP
 

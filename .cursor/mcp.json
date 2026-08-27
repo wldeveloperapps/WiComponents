@@ -8,6 +8,10 @@
       "command": "npx",
       "args": ["-y", "tailwindcss-mcp-server"]
     },
+    "wiloc-ui": {
+      "command": "node",
+      "args": ["./packages/wiloc-ui-mcp/dist/index.js"]
+    },
     "spartan-ng": {
       "command": "npx",
       "args": ["-y", "spartan-ng-mcp"]

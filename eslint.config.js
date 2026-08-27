@@ -9,7 +9,11 @@ import tseslint from 'typescript-eslint';
 
 export default defineConfig([
   {
-    files: ['**/*.ts'],
+    files: ['packages/**/*.ts'],
+    extends: [eslint.configs.recommended, tseslint.configs.recommended, tseslint.configs.stylistic],
+  },
+  {
+    files: ['projects/**/*.ts', 'apps/**/*.ts'],
     extends: [
       eslint.configs.recommended,
       tseslint.configs.recommended,

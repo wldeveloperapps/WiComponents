@@ -6,6 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "build:lib": "ng build components",
+    "build:mcp": "pnpm --filter @wiloc/ui-mcp build",
+    "test:mcp": "pnpm --filter @wiloc/ui-mcp test",
     "pack:lib": "node scripts/pack-lib.mjs",
     "e2e-consumer:sync": "node scripts/sync-e2e-consumer.mjs",
     "e2e-consumer:serve": "pnpm --dir apps/e2e-consumer start",

@@ -29,7 +29,7 @@ Las aplicaciones consumidoras deben utilizar los componentes públicos de `wiCom
 
 ```ts
 import { WiButtonComponent } from '@wiloc/ui/button';
-import { WiDialogComponent } from '@wiloc/ui/dialog';
+import { WiDialogComponent } from '@wiloc/ui/overlays';
 ```
 
 Las aplicaciones no deben depender directamente de los componentes internos de Spartan cuando exista una alternativa dentro de la librería.
@@ -125,10 +125,9 @@ wi-components/
 │       └── package.json
 │
 ├── packages/
-│   └── wiloc-ui-mcp/        # servidor MCP @wiloc/ui-mcp (previsto)
+│   └── wiloc-ui-mcp/        # servidor MCP @wiloc/ui-mcp
 │
 ├── apps/
-│   ├── showcase/
 │   └── e2e-consumer/
 │
 ├── scripts/
@@ -158,23 +157,26 @@ Las aplicaciones Wiloc deben consumir `@wiloc/ui`, no Spartan. El servidor MCP d
 ### Estado
 
 ```text
-Estado: previsto / en preparación
-Paquete previsto: @wiloc/ui-mcp
-Ubicación prevista: packages/wiloc-ui-mcp/
+Estado: usable en 0.1.0-alpha.1
+Paquete: @wiloc/ui-mcp
+Ubicación: packages/wiloc-ui-mcp/
 ```
 
-El contrato de tools y el proceso de registro ya están definidos. La implementación del servidor se completará cuando existan los primeros componentes públicos estables.
+Alinear la versión del MCP con la de `@wiloc/ui`. En este corte ambas son `0.1.0-alpha.1`.
 
-### Tools previstas
+### Tools
 
-| Tool        | Descripción                                                  |
-| ----------- | ------------------------------------------------------------ |
-| `wi_list`   | Listar componentes, patterns y entry points                  |
-| `wi_search` | Búsqueda fuzzy en el catálogo y la documentación             |
-| `wi_view`   | Detalle de un componente: API, variantes, a11y, ejemplos     |
-| `wi_docs`   | Temas transversales: instalación, tokens, dark mode, SSR     |
-| `wi_usage`  | Snippet canónico de import y uso                             |
-| `wi_audit`  | Detectar imports de Spartan donde debería usarse `@wiloc/ui` |
+| Tool        | Descripción                                                    |
+| ----------- | -------------------------------------------------------------- |
+| `wi_list`   | Listar componentes, patterns y entry points                    |
+| `wi_search` | Búsqueda fuzzy en el catálogo                                  |
+| `wi_view`   | Detalle de un componente: API, variantes, a11y, ejemplos       |
+| `wi_docs`   | Temas: instalación, tokens, dark-mode, icons, ssr, i18n, forms |
+| `wi_usage`  | Snippet canónico de import y uso                               |
+
+`wi_audit` (detectar Spartan en la app) queda para un corte posterior.
+
+Build local: `pnpm build:mcp` → `packages/wiloc-ui-mcp/dist/index.js`.
 
 El MCP **no** debe exponer tipos de Spartan ni APIs internas no publicadas.
 
@@ -370,9 +372,9 @@ Composiciones orientadas a casos de uso frecuentes:
 
 ## Componentes iniciales
 
-La primera versión debe centrarse en un conjunto pequeño de componentes.
+La demanda viva y el estado de cada capacidad están en [`docs/coverage-inventory.md`](docs/coverage-inventory.md). El corte actual es `0.1.0-alpha.1` (API experimental).
 
-### Fase 1
+### Fase 1 (histórico / roadmap)
 
 - Button
 - Icon Button
@@ -552,10 +554,10 @@ La librería debe proporcionar entry points secundarios para organizar los impor
 import { WiButtonComponent } from '@wiloc/ui/button';
 import { WiInputComponent } from '@wiloc/ui/forms';
 import { WiDialogComponent } from '@wiloc/ui/overlays';
-import { WiDataTableComponent } from '@wiloc/ui/table';
+import { WiTableComponent } from '@wiloc/ui/data-display';
 ```
 
-Entry points previstos:
+Entry points actuales:
 
 ```text
 @wiloc/ui/core
@@ -564,8 +566,8 @@ Entry points previstos:
 @wiloc/ui/overlays
 @wiloc/ui/navigation
 @wiloc/ui/data-display
-@wiloc/ui/table
-@wiloc/ui/patterns
+@wiloc/ui/icon
+@wiloc/ui/icon/heroicons
 ```
 
 No se debe crear un entry point para cada helper interno.
@@ -1020,11 +1022,11 @@ Cuando se adapte código procedente de Spartan u otras librerías:
 
 ## Estado del proyecto
 
-`wiComponents` se encuentra en fase inicial de diseño y prueba de concepto.
-
-Durante esta fase, la API puede cambiar sin mantener compatibilidad hacia atrás.
+Corte interno `0.1.0-alpha.1`. La API es experimental y puede cambiar sin semver estable.
 
 ```text
-Versión actual: 0.x
-Estado: experimental
+Versión actual: 0.1.0-alpha.1
+Estado: experimental / alpha
 ```
+
+Ver [`CHANGELOG.md`](CHANGELOG.md).
