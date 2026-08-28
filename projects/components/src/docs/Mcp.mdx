@@ -1,0 +1,219 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta
+  title="Documentation/MCP"
+  parameters={{
+    viewMode: 'docs',
+    previewTabs: {
+      canvas: { hidden: true },
+    },
+    docs: {
+      toc: true,
+    },
+  }}
+/>
+
+# MCP (`@wiloc/ui-mcp`)
+
+Servidor MCP del **catálogo público** de `@wiloc/ui`. Lo usa Cursor (u otro agente) para no inventar imports, selectores ni APIs de Spartan.
+
+Alinea la versión del MCP con la de `@wiloc/ui`. Corte actual: **`0.1.0-alpha.1`**.
+
+Storybook documenta visualmente. El MCP documenta la API para agentes. Instalación de la librería: **Instalación**.
+
+---
+
+## Qué hace
+
+| Tool | Para qué |
+| ---- | -------- |
+| `wi_list` | Listar componentes, patterns o entry points |
+| `wi_search` | Búsqueda fuzzy (`table`, `toast`, `confirmación`, …) |
+| `wi_view` | API completa: inputs, outputs, variantes, a11y, ejemplo (`button` o `wi-button`) |
+| `wi_usage` | Snippet canónico de import + template |
+| `wi_docs` | Temas: `installation`, `tokens` (CSS/`@theme`), `dark-mode`, `icons`, `ssr`, `i18n` (Transloco + JSON), `forms` |
+
+`wi_audit` (detectar Spartan en la app) aún no está.
+
+El MCP **no** expone tipos `Brn*` ni Helm.
+
+---
+
+## App consumidora (Cursor)
+
+El MCP se configura **en la app**, no dentro de `@wiloc/ui`.
+
+### 1. Paquete
+
+Cuando `@wiloc/ui-mcp` esté en el registry (misma versión que `@wiloc/ui`):
+
+```bash
+pnpm add -D @wiloc/ui-mcp
+```
+
+En alpha, si aún no hay registry, usa el artefacto local del repo de la librería:
+
+```bash
+# en wi-components
+pnpm build:mcp
+
+# en la app (ruta al dist o a un .tgz si lo empaquetáis)
+```
+
+### 2. `.cursor/mcp.json` en la raíz de la app
+
+```json
+{
+  "mcpServers": {
+    "wiloc-ui": {
+      "command": "npx",
+      "args": ["-y", "@wiloc/ui-mcp"]
+    }
+  }
+}
+```
+
+Si el paquete está instalado en `node_modules` (más predecible que `npx` en CI/offline):
+
+```json
+{
+  "mcpServers": {
+    "wiloc-ui": {
+      "command": "node",
+      "args": ["./node_modules/@wiloc/ui-mcp/dist/index.js"]
+    }
+  }
+}
+```
+
+Requisitos: **Node ≥ 20**.
+
+### 3. Recargar servidores MCP
+
+1. Cursor → **Settings → MCP**.
+2. Recargar MCP servers (o reiniciar Cursor).
+3. Aprobar el servidor `wiloc-ui` si Cursor lo pide.
+4. El indicador debe estar en verde / ready.
+
+### 4. Comprobar que responde
+
+En el chat del agente, pide algo que obligue a consultar el catálogo, p. ej. “lista los componentes de `@wiloc/ui`” o “cómo se usa `wi-dialog`”.
+
+Debe llamar a `wi_list` / `wi_view` / `wi_usage` y devolver imports `@wiloc/ui/{entry}`, no Spartan.
+
+---
+
+## Que el agente lo use de verdad
+
+Configurar el servidor no basta: el agente tiene que **preferirlo**. En la app, una rule de Cursor (`.cursor/rules/wiloc-ui.mdc` o similar):
+
+```text
+Antes de crear o modificar UI, consulta el MCP wiloc-ui:
+- wi_list / wi_search para descubrir
+- wi_view / wi_usage para API e imports
+- wi_docs para instalación, tokens, dark-mode, i18n
+
+Usa solo @wiloc/ui/{entry}. No importes @spartan-ng/brain, Helm ni PrimeNG
+cuando exista equivalente Wi.
+```
+
+No actives el MCP de Spartan como fuente de UI en apps de producto (eso vale en el repo `wi-components`, no en la app).
+
+---
+
+## VS Code (Copilot)
+
+`.vscode/mcp.json` en la raíz de la app:
+
+```json
+{
+  "servers": {
+    "wiloc-ui": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@wiloc/ui-mcp"]
+    }
+  }
+}
+```
+
+---
+
+## Monorepo `wi-components` (desarrollo de la librería)
+
+Este repo ya apunta al binario local en `.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "wiloc-ui": {
+      "command": "node",
+      "args": ["./packages/wiloc-ui-mcp/dist/index.js"]
+    }
+  }
+}
+```
+
+Tras clonar o cambiar el registry:
+
+```bash
+pnpm build:mcp
+```
+
+Sin `dist/index.js` el servidor no arranca. Tests: `pnpm test:mcp`.
+
+Al **añadir o cambiar un componente público**, hay que actualizar `packages/wiloc-ui-mcp/src/registry/` (nombre, selector, entry, inputs/outputs, ejemplo). Si no, `wi_view` miente.
+
+---
+
+## Flujo típico del agente
+
+```text
+1. wi_search  →  "dialog" / "tabla"
+2. wi_view    →  API + a11y
+3. wi_usage   →  import + template
+4. wi_docs    →  installation | i18n | dark-mode  (si falta setup)
+```
+
+Ejemplo de lo que debe salir de `wi_usage` para button:
+
+```ts
+import { WiButtonComponent } from '@wiloc/ui/button';
+```
+
+```html
+<wi-button>Guardar</wi-button>
+```
+
+---
+
+## Checklist
+
+- [ ] Versión de `@wiloc/ui-mcp` = versión de `@wiloc/ui`
+- [ ] Node ≥ 20
+- [ ] `.cursor/mcp.json` (o `.vscode/mcp.json`) en la **app**
+- [ ] Servidor `wiloc-ui` en verde en Settings → MCP
+- [ ] `wi_list` / `wi_view` responden
+- [ ] Rule de la app que obliga a usar el MCP
+- [ ] Sin MCP de Spartan como fuente de UI en la app de producto
+
+---
+
+## Si no arranca
+
+| Síntoma | Qué mirar |
+| ------- | --------- |
+| Rojo / error al conectar | Node 20+, comando y `args`; en Windows `node` + ruta al `index.js` suele ser más estable que el bin |
+| `Cannot find module` | `pnpm build:mcp` (monorepo) o reinstalar `@wiloc/ui-mcp` |
+| `npx` cuelga o coge otra versión | Instala el paquete en la app y apunta a `node_modules/.../dist/index.js` |
+| El agente usa Spartan / Prime | Quita el MCP de Spartan de la app; añade la rule; pide explícitamente `wi_view` |
+| API desactualizada | El registry del MCP no se actualizó con el componente; o MCP y `@wiloc/ui` están en versiones distintas |
+
+---
+
+## Qué no hacer
+
+- Apuntar el MCP de la app al source TypeScript (`src/index.ts`); hace falta el `dist`.
+- Usar el MCP de Spartan o de Storybook como catálogo de API de producto.
+- Documentar en el registry tipos internos o Spartan.
+- Asumir que Storybook sustituye al MCP (el agente no “lee” las stories salvo que tenga otro servidor).

@@ -171,7 +171,7 @@ Alinear la versión del MCP con la de `@wiloc/ui`. En este corte ambas son `0.1.
 | `wi_list`   | Listar componentes, patterns y entry points                    |
 | `wi_search` | Búsqueda fuzzy en el catálogo                                  |
 | `wi_view`   | Detalle de un componente: API, variantes, a11y, ejemplos       |
-| `wi_docs`   | Temas: instalación, tokens, dark-mode, icons, ssr, i18n, forms |
+| `wi_docs`   | Temas: instalación, tokens (CSS/`@theme`), dark-mode, icons, ssr, i18n (Transloco), forms |
 | `wi_usage`  | Snippet canónico de import y uso                               |
 
 `wi_audit` (detectar Spartan en la app) queda para un corte posterior.

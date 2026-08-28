@@ -72,6 +72,11 @@ const preview: Preview = {
     },
   ],
   parameters: {
+    options: {
+      storySort: {
+        order: ['Documentation', ['Instalación', 'Tema', 'I18n', 'MCP'], '*'],
+      },
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,

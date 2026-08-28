@@ -26,7 +26,12 @@ import { provideWiIcons, WiIconComponent } from '@wiloc/ui/icon';
 import { WI_DARK_CLASS } from '@wiloc/ui/core';
 \`\`\`
 
-CSS en la app (patrón del consumidor de prueba):
+CSS en la app (NO uses \`@wiloc/ui/styles/index.css\`; es Storybook).
+
+Archivos:
+- CSS global de la app (\`src/styles.css\` o \`styles.scss\`) registrado en \`angular.json\` → styles.
+- \`postcss.config.json\` en la raíz: \`{ "plugins": { "@tailwindcss/postcss": {} } }\`.
+- Si la app ya tiene hoja global (PrimeNG, etc.): AÑADE los @import; no dupliques Tailwind.
 
 \`\`\`css
 @layer theme, base, components, utilities;
@@ -37,10 +42,42 @@ CSS en la app (patrón del consumidor de prueba):
 @import '@wiloc/ui/styles/tokens.css';
 @custom-variant dark (&:where(.wi-dark, .wi-dark *));
 @source '../node_modules/@wiloc/ui/**/*.mjs';
+@theme inline {
+  --color-on-primary: var(--wi-color-on-primary);
+  --color-primary-container: var(--wi-color-primary-container);
+  --color-on-primary-container: var(--wi-color-on-primary-container);
+  --color-on-secondary: var(--wi-color-on-secondary);
+  --color-secondary-container: var(--wi-color-secondary-container);
+  --color-on-secondary-container: var(--wi-color-on-secondary-container);
+  --color-surface: var(--wi-color-surface);
+  --color-on-surface: var(--wi-color-on-surface);
+  --color-surface-variant: var(--wi-color-surface-variant);
+  --color-on-surface-variant: var(--wi-color-on-surface-variant);
+  --color-inverse-surface: var(--wi-color-inverse-surface);
+  --color-inverse-on-surface: var(--wi-color-inverse-on-surface);
+  --color-on-background: var(--wi-color-on-background);
+  --color-outline: var(--wi-color-outline);
+  --color-outline-variant: var(--wi-color-outline-variant);
+  --color-error: var(--wi-color-error);
+  --color-on-error: var(--wi-color-on-error);
+  --color-error-container: var(--wi-color-error-container);
+  --color-on-error-container: var(--wi-color-on-error-container);
+  --color-warning: var(--wi-color-warning);
+  --color-on-warning: var(--wi-color-on-warning);
+  --color-success: var(--wi-color-success);
+  --color-on-success: var(--wi-color-on-success);
+  --radius-control: var(--wi-radius-md);
+  --radius-control-sm: var(--wi-radius-sm);
+  --radius-control-lg: var(--wi-radius-lg);
+  --height-control-sm: var(--wi-control-height-sm);
+  --height-control-md: var(--wi-control-height-md);
+  --height-control-lg: var(--wi-control-height-lg);
+}
 \`\`\`
 
-Si usas tabs o toast, importa también \`@wiloc/ui/styles/tabs.css\` y \`@wiloc/ui/styles/toast.css\`.
-No uses \`@wiloc/ui/styles/index.css\` en la app (es el bundle de Storybook).
+\`@source\` es relativo al archivo CSS. Con \`src/styles.css\`: \`../node_modules/@wiloc/ui/**/*.mjs\`.
+Sin \`@theme inline\` las clases \`bg-primary\` / \`text-on-surface\` no existen.
+Si usas tabs o toast: \`@import '@wiloc/ui/styles/tabs.css'\` y \`@import '@wiloc/ui/styles/toast.css'\`.
 No importes \`@spartan-ng/brain\` ni Helm en plantillas de producto.`,
   },
   {
@@ -48,12 +85,16 @@ No importes \`@spartan-ng/brain\` ni Helm en plantillas de producto.`,
     title: 'Tokens semánticos',
     body: `Prefijo público: \`--wi-color-*\`. Constantes: \`WI_COLOR_TOKEN_PREFIX\`, \`WI_DARK_CLASS\` desde \`@wiloc/ui/core\`.
 
-Usa clases Tailwind estáticas ligadas a tokens (\`bg-primary\`, \`text-on-surface\`, \`border-outline\`).
-Prohibido: \`bg-\${color}\`, colores hex sueltos en componentes, clases \`.p-*\` de Prime.
+Dónde: importar \`@wiloc/ui/styles/tokens.css\` en el CSS global de la app + \`@theme inline\` (mapeo a Tailwind) + \`@custom-variant dark (&:where(.wi-dark, .wi-dark *));\` + \`@source\` a \`node_modules/@wiloc/ui/**/*.mjs\`.
+NO uses \`@wiloc/ui/styles/index.css\`. PostCSS: \`postcss.config.json\` con \`@tailwindcss/postcss\`.
 
-Roles: primary, on-primary, secondary, background, surface, on-surface, outline, error, warning, success.
+Usa clases Tailwind estáticas ligadas a tokens (\`bg-primary\`, \`text-on-surface\`, \`border-outline\`, \`rounded-control\`).
+Prohibido: \`bg-\${color}\`, colores hex sueltos en componentes Wi, clases \`.p-*\` de Prime, \`.dark\` / \`data-theme\`.
 
-La librería no muta el DOM. La app aplica tema y tokens vía CSS importado.`,
+Roles: primary, on-primary, primary-container, secondary, background, on-background, surface, on-surface, surface-variant, inverse-surface, outline, error, warning, success.
+
+La librería no muta el DOM. La app aplica tema (\`WI_DARK_CLASS\` en \`<html>\`) y tokens vía CSS importado.
+Tabs/toast: CSS extra \`@wiloc/ui/styles/tabs.css\` / \`toast.css\` si los usas.`,
   },
   {
     id: 'dark-mode',
@@ -103,14 +144,27 @@ La librería no llama a \`NgZone\`. La app debe usar APIs de plataforma si hidra
   {
     id: 'i18n',
     title: 'i18n',
-    body: `La librería no hardcodea copy de producto. Labels, placeholders, mensajes de error y acciones los aporta la app (p. ej. Transloco).
+    body: `La librería no trae diccionarios. Dos canales:
+- Provider (\`provideWiCalendarI18n\` / \`provideWiDataDisplayI18n\` / \`provideWiOverlaysI18n\`): chrome (meses, paginación, aria del botón X, toast).
+- Input / proyección / pipe Transloco: copy de esa pantalla (placeholder, título del dialog, cabeceras).
 
-Chrome de overlays/calendario/tabla:
-- \`provideWiOverlaysI18n\` (\`toastCloseLabel\`, \`toastRegionLabel\`, …)
-- \`provideWiCalendarI18n\` (meses, weekdays, previous/next)
-- \`provideWiDataDisplayI18n\` (paginación, visibilidad de columnas, …)
+Apps Wiloc con Transloco (recomendado):
+- JSON: añadir claves \`wi.*\` a \`src/assets/i18n/es.json\` y \`en.json\` (los archivos que ya carga Transloco). No crear carpeta aparte.
+- TypeScript: \`src/app/locale.ts\` con \`provideAppWiI18n()\` (factories que llaman a \`transloco.translate\` en cada \`() =>\`). NO poner \`.ts\` en \`assets/i18n\`.
+- \`app.config.ts\`: \`provideTransloco(...)\` ANTES que \`provideAppWiI18n()\`.
+- \`provideWi*I18n(createX())\` se evalúa al cargar el config (sin \`inject()\`). Captura \`TranslocoService\` en \`ENVIRONMENT_INITIALIZER\`.
+- Al cambiar idioma (\`setActiveLang\`) no re-registrar providers. Placeholders de producto: \`{{ 'clave' | transloco }}\` en el template.
 
-Ver \`wi_view\` de toast, datepicker y table para los campos concretos.`,
+Claves ES (espejo en en.json):
+- wi.calendar: months[12], weekdaysShort[7], weekdaysLong[7], previous, next, hour, minute (HH/MM pueden quedar en código)
+- wi.table: empty, aria, paginationAria, previous, next, filterPlaceholder, selectPlaceholder, filterOperatorAria, filterAria (Transloco \`{{header}}\`), columnSummary (\`{visible}\`/\`{total}\` los sustituye Wi), columnMenu, columnAria, resultCount (\`{count}\` lo sustituye Wi), rowActions, operators.contains|notContains|startsWith|endsWith|equals|notEquals|none
+- wi.overlays: dialogClose, confirmCancel, toastClose, toastRegion
+
+EN: January…; Su/Mo…; Previous month; Next month; Hour; Minute; No data; Data table; Pagination; Previous; Next; Type to search; Select one; Filter operator; Filter {{header}}; {visible} of {total} columns visible; Columns; Column visibility; {count} results; Actions; Contains / Does not contain / …; Close; Cancel; Close toast; Notifications.
+
+Sin Transloco: signal \`appLocale\` + ternarios ES/EN (ver \`apps/e2e-consumer\`). Storybook toolbar Locale solo simula providers; no es el i18n de la app.
+
+Ver \`wi_view\` de toast, datepicker y table para campos concretos.`,
   },
   {
     id: 'forms',

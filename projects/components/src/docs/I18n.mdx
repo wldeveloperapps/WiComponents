@@ -1,8 +1,21 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 
-<Meta title="Documentation/I18n" />
+<Meta
+  title="Documentation/I18n"
+  parameters={{
+    viewMode: 'docs',
+    previewTabs: {
+      canvas: { hidden: true },
+    },
+    docs: {
+      toc: true,
+    },
+  }}
+/>
 
 # Internacionalización (`@wiloc/ui`)
+
+Instalación del paquete, CSS y providers de iconos: **Instalación**.
 
 `@wiloc/ui` **no** trae diccionarios ES/EN. La app traduce; la librería solo expone **dónde** enganchar el copy.
 
@@ -33,11 +46,208 @@ Hay **dos canales**. Ambos los rellena la app con su motor i18n (Transloco, ngx-
 - Si el texto es del **chrome del control** (navegación del calendario, paginación, botón X) → **provider**.
 - Si el texto es del **caso de uso** (placeholder “Fecha de alta”, título “Editar sitio”) → **input** (o proyección de contenido).
 
-Referencia runnable: `apps/e2e-consumer` (`locale.ts` + `app.config.ts` + bindings en `app.html`).
+Referencia runnable sin Transloco: `apps/e2e-consumer` (`locale.ts` + `app.config.ts` + bindings en `app.html`).  
+Apps Wiloc con Transloco: sección **Transloco** más abajo.
 
 ---
 
-## Paso a paso
+## Transloco (recomendado en apps de producto)
+
+Las apps Wiloc ya usan Transloco. **No dupliques** ES/EN en TypeScript: el chrome de Wi llama a `translate()` al pintar.
+
+### Dónde va cada cosa
+
+| Qué | Dónde | No |
+| --- | ----- | -- |
+| Claves `wi.calendar` / `wi.table` / `wi.overlays` | `src/assets/i18n/es.json` y `en.json` (los JSON que ya carga Transloco) | No crear una carpeta aparte ni meter `.ts` ahí |
+| Factories `create*I18n` + `provideAppWiI18n()` | `src/app/locale.ts` (o similar) | No pongas este archivo en `assets/i18n/` |
+| Copy de pantalla (placeholder, título de dialog, cabeceras) | Template: `{{ 'clave' \| transloco }}` | No va en `provideWi*I18n` |
+
+`assets/i18n` solo sirve JSON. Transloco no ejecuta TypeScript.
+
+`provideWi*I18n(createX())` se evalúa al cargar `app.config.ts`, **sin** `inject()`. Captura `TranslocoService` en un `ENVIRONMENT_INITIALIZER`; las funciones `() => t('…')` se ejecutan al renderizar, con el idioma activo.
+
+### Claves (`es.json`)
+
+Añade este árbol a los JSON existentes (no sustituyas el resto del diccionario de producto):
+
+```json
+{
+  "wi": {
+    "calendar": {
+      "months": ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+      "weekdaysShort": ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sá"],
+      "weekdaysLong": ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+      "previous": "Mes anterior",
+      "next": "Mes siguiente",
+      "hour": "Hora",
+      "minute": "Minuto"
+    },
+    "table": {
+      "empty": "No hay datos",
+      "aria": "Tabla de datos",
+      "paginationAria": "Paginación",
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "filterPlaceholder": "Escribir para buscar",
+      "selectPlaceholder": "Seleccionar uno",
+      "filterOperatorAria": "Operador de filtro",
+      "filterAria": "Filtrar {{header}}",
+      "columnSummary": "{visible} de {total} columnas visibles",
+      "columnMenu": "Columnas",
+      "columnAria": "Visibilidad de columnas",
+      "resultCount": "{count} resultados",
+      "rowActions": "Acciones",
+      "operators": {
+        "contains": "Contiene",
+        "notContains": "No contiene",
+        "startsWith": "Empieza por",
+        "endsWith": "Termina en",
+        "equals": "Igual a",
+        "notEquals": "Distinto de",
+        "none": "Sin filtro"
+      }
+    },
+    "overlays": {
+      "dialogClose": "Cerrar",
+      "confirmCancel": "Cancelar",
+      "toastClose": "Cerrar notificación",
+      "toastRegion": "Notificaciones"
+    }
+  }
+}
+```
+
+`en.json` (mismas claves): January…December; Su/Mo/Tu/We/Th/Fr/Sa; Sunday…Saturday; Previous month; Next month; Hour; Minute; No data; Data table; Pagination; Previous; Next; Type to search; Select one; Filter operator; `Filter {{header}}`; `{visible} of {total} columns visible`; Columns; Column visibility; `{count} results`; Actions; Contains / Does not contain / Starts with / Ends with / Equals / Does not equal / No filter; Close; Cancel; Close toast; Notifications.
+
+`hourPlaceholder` / `minutePlaceholder` pueden quedar `'HH'` / `'MM'` en código (igual en ambos idiomas).
+
+`filterAria` usa interpolación de Transloco (`{{header}}`). `columnSummary` y `resultCount` dejan `{visible}` / `{total}` / `{count}`: los sustituye **la librería**, no Transloco.
+
+### `src/app/locale.ts`
+
+El import de Transloco es el de la app (`@jsverse/transloco` o `@ngneat/transloco`).
+
+```ts
+import { ENVIRONMENT_INITIALIZER, inject, type Provider } from '@angular/core';
+import { TranslocoService } from '@jsverse/transloco';
+import {
+  provideWiDataDisplayI18n,
+  type WiDataDisplayI18n,
+} from '@wiloc/ui/data-display';
+import {
+  provideWiCalendarI18n,
+  type WiCalendarI18n,
+  type WiMonthLabels,
+} from '@wiloc/ui/forms';
+import { provideWiOverlaysI18n, type WiOverlaysI18n } from '@wiloc/ui/overlays';
+
+let transloco: TranslocoService;
+
+function t(key: string, params?: Record<string, unknown>): string {
+  return transloco.translate(key, params);
+}
+
+export function provideAppWiI18n(): Provider[] {
+  return [
+    {
+      provide: ENVIRONMENT_INITIALIZER,
+      multi: true,
+      useFactory: () => {
+        const service = inject(TranslocoService);
+        return () => {
+          transloco = service;
+        };
+      },
+    },
+    ...provideWiCalendarI18n(createCalendarI18n()),
+    provideWiDataDisplayI18n(createDataDisplayI18n()),
+    provideWiOverlaysI18n(createOverlaysI18n()),
+  ];
+}
+
+function createCalendarI18n(): Partial<WiCalendarI18n> {
+  return {
+    firstDayOfWeek: () => 1,
+    months: () =>
+      Array.from({ length: 12 }, (_, i) => t(`wi.calendar.months.${i}`)) as WiMonthLabels,
+    formatMonth: (month) => t(`wi.calendar.months.${month}`),
+    formatYear: (year) => String(year),
+    formatHeader: (month, year) => `${t(`wi.calendar.months.${month}`)} ${year}`,
+    formatWeekdayName: (index) => t(`wi.calendar.weekdaysShort.${index % 7}`),
+    labelWeekday: (index) => t(`wi.calendar.weekdaysLong.${index % 7}`),
+    labelPrevious: () => t('wi.calendar.previous'),
+    labelNext: () => t('wi.calendar.next'),
+    years: (startYear, endYear) => {
+      const start = startYear ?? new Date().getFullYear() - 10;
+      const end = endYear ?? new Date().getFullYear() + 10;
+      return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+    },
+    hourPlaceholder: () => 'HH',
+    minutePlaceholder: () => 'MM',
+    hourAriaLabel: () => t('wi.calendar.hour'),
+    minuteAriaLabel: () => t('wi.calendar.minute'),
+  };
+}
+
+function createDataDisplayI18n(): Partial<WiDataDisplayI18n> {
+  return {
+    emptyMessage: () => t('wi.table.empty'),
+    tableAriaLabel: () => t('wi.table.aria'),
+    paginationAriaLabel: () => t('wi.table.paginationAria'),
+    previousLabel: () => t('wi.table.previous'),
+    nextLabel: () => t('wi.table.next'),
+    filterPlaceholder: () => t('wi.table.filterPlaceholder'),
+    selectPlaceholder: () => t('wi.table.selectPlaceholder'),
+    filterOperatorAriaLabel: () => t('wi.table.filterOperatorAria'),
+    filterAriaLabel: (header) => t('wi.table.filterAria', { header }),
+    columnVisibilitySummary: () => t('wi.table.columnSummary'),
+    columnVisibilityMenuLabel: () => t('wi.table.columnMenu'),
+    columnVisibilityAriaLabel: () => t('wi.table.columnAria'),
+    resultCountTemplate: () => t('wi.table.resultCount'),
+    rowActionsHeader: () => t('wi.table.rowActions'),
+    filterOperators: () => [
+      { value: 'contains', label: t('wi.table.operators.contains') },
+      { value: 'notContains', label: t('wi.table.operators.notContains') },
+      { value: 'startsWith', label: t('wi.table.operators.startsWith') },
+      { value: 'endsWith', label: t('wi.table.operators.endsWith') },
+      { value: 'equals', label: t('wi.table.operators.equals') },
+      { value: 'notEquals', label: t('wi.table.operators.notEquals') },
+      { value: 'none', label: t('wi.table.operators.none') },
+    ],
+  };
+}
+
+function createOverlaysI18n(): Partial<WiOverlaysI18n> {
+  return {
+    dialogCloseLabel: () => t('wi.overlays.dialogClose'),
+    confirmCancelLabel: () => t('wi.overlays.confirmCancel'),
+    toastCloseLabel: () => t('wi.overlays.toastClose'),
+    toastRegionLabel: () => t('wi.overlays.toastRegion'),
+  };
+}
+```
+
+### `app.config.ts`
+
+`provideTransloco(...)` **antes** que `provideAppWiI18n()`:
+
+```ts
+import { provideAppWiI18n } from './locale';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideTransloco({ /* config existente de la app */ }),
+    provideAppWiI18n(),
+  ],
+};
+```
+
+Al cambiar idioma (`setActiveLang('en')`) no hace falta re-registrar providers. Opcional: `document.documentElement.lang = lang`.
+
+---
+
+## Sin Transloco (signals / e2e-consumer)
 
 ### 1. Registrar providers en `app.config.ts`
 
@@ -63,7 +273,7 @@ export const appConfig: ApplicationConfig = {
 
 ### 2. Definir las factories (leen el locale en cada llamada)
 
-Patrón mínimo (como en e2e-consumer). Con Transloco, dentro de cada `() =>` llama a `translate('key')`.
+Patrón de `e2e-consumer` (sin Transloco). Si la app usa Transloco, usa la sección anterior, no este diccionario en TS.
 
 ```ts
 // locale.ts (app)
@@ -317,6 +527,8 @@ Campos opcionales (`Partial<WiOverlaysI18n>`): `dialogCloseLabel`, `confirmCance
 ## Qué no hacer
 
 - No meter diccionarios de producto dentro de `@wiloc/ui`.
+- No poner `locale.ts` en `src/assets/i18n/` (solo JSON de Transloco).
+- No duplicar ES/EN en TypeScript si la app ya tiene Transloco: las claves `wi.*` van en `es.json` / `en.json`.
 - No esperar que el selector **Locale** de Storybook sustituya el i18n de la app (solo simula providers + demos).
 - No dejar botones solo-icono sin `ariaLabel` / `clearLabel` traducidos.
 - No poner el placeholder del datepicker en el provider: va en el **input** `placeholder`.

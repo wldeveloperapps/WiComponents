@@ -1,0 +1,214 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta
+  title="Documentation/Tema"
+  parameters={{
+    viewMode: 'docs',
+    previewTabs: {
+      canvas: { hidden: true },
+    },
+    docs: {
+      toc: true,
+    },
+  }}
+/>
+
+# Estilos, tokens y tema
+
+Contrato visual de `@wiloc/ui`. Demo: **Foundation → Tokens** (toolbar **Tema**).  
+Instalación del paquete y peers: **Instalación**.
+
+La librería **no** toca `document.documentElement`. La app importa CSS y aplica `wi-dark`.
+
+---
+
+## Dónde va cada cosa
+
+| Qué | Dónde | No |
+| --- | ----- | -- |
+| Tokens + Tailwind + `@theme` | El CSS global de la app (`src/styles.css` o `src/styles.scss`) | No `@wiloc/ui/styles/index.css` (Storybook / monorepo) |
+| Registro de ese archivo | `angular.json` → `architect.build.options.styles` | No un CSS suelto sin registrar |
+| PostCSS Tailwind v4 | `postcss.config.json` en la **raíz de la app Angular** | No hace falta `tailwind.config.js` |
+| Tabs | `@import '@wiloc/ui/styles/tabs.css'` en el CSS global | Solo si usas `wi-tabs` |
+| Toast | `@import '@wiloc/ui/styles/toast.css'` + `<wi-toaster />` en el root | Solo si usas toast |
+| Dark mode | Clase `wi-dark` en `<html>` (`WI_DARK_CLASS`) | No `.dark` ni `data-theme` |
+
+Si la app **ya tiene** hoja global (PrimeNG, etc.): **añade** los `@import` de Wiloc ahí. No sustituyas el tema de Prime de golpe ni dupliques `@import 'tailwindcss/...'` si ya está.
+
+`@source` es **relativo al archivo CSS**, no a la raíz del repo. Con `src/styles.css`:
+
+```css
+@source '../node_modules/@wiloc/ui/**/*.mjs';
+```
+
+---
+
+## Peers y PostCSS
+
+```bash
+pnpm add @spartan-ng/brain
+pnpm add -D tailwindcss @tailwindcss/postcss
+```
+
+`postcss.config.json` (raíz de la app):
+
+```json
+{
+  "plugins": {
+    "@tailwindcss/postcss": {}
+  }
+}
+```
+
+---
+
+## CSS global (completo)
+
+Patrón validado en `apps/e2e-consumer`. **No** uses `index.css` del paquete.
+
+```css
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/preflight.css' layer(base);
+@import 'tailwindcss/utilities.css';
+
+@import '@spartan-ng/brain/hlm-tailwind-preset.css';
+@import '@wiloc/ui/styles/tokens.css';
+
+/* El preset de Spartan usa `.dark`; el contrato público Wiloc es `.wi-dark`. */
+@custom-variant dark (&:where(.wi-dark, .wi-dark *));
+
+/* Escaneo de clases empaquetadas en FESM. */
+@source '../node_modules/@wiloc/ui/**/*.mjs';
+
+@theme inline {
+  --color-on-primary: var(--wi-color-on-primary);
+  --color-primary-container: var(--wi-color-primary-container);
+  --color-on-primary-container: var(--wi-color-on-primary-container);
+
+  --color-on-secondary: var(--wi-color-on-secondary);
+  --color-secondary-container: var(--wi-color-secondary-container);
+  --color-on-secondary-container: var(--wi-color-on-secondary-container);
+
+  --color-surface: var(--wi-color-surface);
+  --color-on-surface: var(--wi-color-on-surface);
+  --color-surface-variant: var(--wi-color-surface-variant);
+  --color-on-surface-variant: var(--wi-color-on-surface-variant);
+  --color-inverse-surface: var(--wi-color-inverse-surface);
+  --color-inverse-on-surface: var(--wi-color-inverse-on-surface);
+  --color-on-background: var(--wi-color-on-background);
+
+  --color-outline: var(--wi-color-outline);
+  --color-outline-variant: var(--wi-color-outline-variant);
+
+  --color-error: var(--wi-color-error);
+  --color-on-error: var(--wi-color-on-error);
+  --color-error-container: var(--wi-color-error-container);
+  --color-on-error-container: var(--wi-color-on-error-container);
+
+  --color-warning: var(--wi-color-warning);
+  --color-on-warning: var(--wi-color-on-warning);
+  --color-success: var(--wi-color-success);
+  --color-on-success: var(--wi-color-on-success);
+
+  --radius-control: var(--wi-radius-md);
+  --radius-control-sm: var(--wi-radius-sm);
+  --radius-control-lg: var(--wi-radius-lg);
+
+  --height-control-sm: var(--wi-control-height-sm);
+  --height-control-md: var(--wi-control-height-md);
+  --height-control-lg: var(--wi-control-height-lg);
+}
+```
+
+Opcional (solo los componentes que uses):
+
+```css
+@import '@wiloc/ui/styles/tabs.css';
+@import '@wiloc/ui/styles/toast.css';
+```
+
+`tokens.css` define light en `:root` y dark en `.wi-dark`. `@theme inline` enlaza esas variables a utilidades Tailwind (`bg-primary`, `text-on-surface`, `rounded-control`, …). Sin ese bloque, los componentes se ven sin color de marca.
+
+---
+
+## Quién hace qué
+
+| Quién | Responsabilidad |
+| ----- | --------------- |
+| `@wiloc/ui` | Publica `--wi-color-*` en `:root` y `.wi-dark` |
+| Componentes | Clases semánticas; ciegos al tema |
+| App | Posee `<html>`, importa CSS, aplica/quita `wi-dark` |
+
+---
+
+## Activar dark mode
+
+Recomendado: clase en `<html>` para que overlays portaled a `body` hereden el tema.
+
+```ts
+import { WI_DARK_CLASS } from '@wiloc/ui/core';
+
+document.documentElement.classList.toggle(WI_DARK_CLASS, isDark);
+```
+
+```html
+<html class="wi-dark" lang="es">
+```
+
+Valores de producto de la app: `'light' | 'dark' | 'system'`. Persistencia, `matchMedia` y anti-flash SSR son de la app.
+
+Toast: `<wi-toaster theme="auto" />` sigue `.wi-dark`.
+
+---
+
+## Clases semánticas
+
+```html
+<div class="bg-primary text-on-primary">Acción</div>
+<div class="bg-surface text-on-surface border border-outline">Panel</div>
+```
+
+Prohibido junto a Wi:
+
+```html
+<div class="bg-blue-600 dark:bg-zinc-900"></div>
+```
+
+No generar clases Tailwind dinámicas (`bg-${color}`). No uses clases `.p-*` de Prime en componentes `@wiloc/ui`.
+
+---
+
+## Roles públicos
+
+Prefijo CSS: `--wi-color-*`. Constante: `WI_COLOR_TOKEN_PREFIX` (`@wiloc/ui/core`).
+
+| Token | Uso |
+| ----- | --- |
+| `primary` / `on-primary` | Acción principal |
+| `primary-container` / `on-primary-container` | Superficie tintada |
+| `secondary` / `on-secondary` | Secundario |
+| `background` / `on-background` | Fondo de página |
+| `surface` / `on-surface` | Paneles |
+| `surface-variant` / `on-surface-variant` | Superficie secundaria |
+| `inverse-surface` / `inverse-on-surface` | Contraste (tooltips, chips) |
+| `outline` / `outline-variant` | Bordes |
+| `error` / `on-error` | Error |
+| `warning` / `on-warning` | Aviso |
+| `success` / `on-success` | Éxito |
+
+---
+
+## Qué no hacer
+
+- Importar `@wiloc/ui/styles/index.css` (apunta a fuentes del monorepo / Storybook).
+- Activar dark mode con `.dark` o `data-theme`.
+- Olvidar `@theme inline` (los tokens existen pero Tailwind no genera `bg-primary`, etc.).
+- Olvidar `@source` hacia `node_modules/@wiloc/ui` (los componentes salen sin utilidades).
+- Importar Helm o escribir CSS contra clases internas de Spartan.
+
+---
+
+## Storybook
+
+La toolbar **Tema** añade o quita `wi-dark` en `<html>` para simular la app. No es un API de los componentes.
