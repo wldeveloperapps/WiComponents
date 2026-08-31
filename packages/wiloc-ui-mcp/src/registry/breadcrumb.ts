@@ -39,7 +39,7 @@ export const wiBreadcrumbRegistryEntry = {
     { selector: 'nav.wi-breadcrumb__nav', description: 'Landmark de navegación' },
     {
       selector: 'ol.wi-breadcrumb__list',
-      description: 'Cápsula: border-outline + bg-surface; lista ordenada de segmentos',
+      description: 'Cápsula: border-outline + bg-surface-container; lista ordenada de segmentos',
     },
     { selector: 'a.wi-breadcrumb__link', description: 'Ancestro con href' },
     {

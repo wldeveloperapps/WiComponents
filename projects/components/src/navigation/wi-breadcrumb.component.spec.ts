@@ -78,7 +78,7 @@ describe('WiBreadcrumbComponent', () => {
     expect(list).toBeTruthy();
     expect(list?.className).toContain('border-outline');
     expect(list?.className).toContain('rounded-full');
-    expect(list?.className).toContain('bg-surface');
+    expect(list?.className).toContain('bg-surface-container');
   });
 
   it('renders ancestors as links and the last item as the current page', () => {

@@ -43,7 +43,7 @@ const meta: Meta<WiBreadcrumbStoryArgs> = {
         component: `
 Migas de pan. **Textos, rutas e iconos los pasa la app** en \`items: { id, label, href?, icon?, iconOnly? }[]\`.
 El último ítem es la página actual (pastilla \`bg-primary\`, \`aria-current="page"\`).
-La lista es una cápsula con \`border-outline\` + \`bg-surface\`.
+La lista es una cápsula con \`border-outline\` + \`bg-surface-container\`.
 
 - \`href\` en ancestros: enlace. Clic izquierdo sin modificadores emite \`itemClick\` (SPA / Router en la app).
 - \`iconOnly\`: icono visible y \`label\` como nombre accesible (home).
@@ -212,7 +212,7 @@ export const DarkMode: Story = {
     docs: {
       description: {
         story:
-          'Cápsula `border-outline` + pastilla `bg-primary` / `text-on-primary` vía tokens en `.wi-dark`.',
+          'Cápsula `border-outline` + `bg-surface-container`; pastilla `bg-primary` / `text-on-primary` vía tokens en `.wi-dark`.',
       },
     },
   },

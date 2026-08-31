@@ -27,15 +27,16 @@
   --wi-color-on-background: #191c20;
   --wi-color-surface: #f8f9ff;
   --wi-color-on-surface: #191c20;
-  --wi-color-surface-variant: #dfe2eb;
-  --wi-color-on-surface-variant: #43474e;
+  --wi-color-surface-container: #eceef4;
+  --wi-color-surface-variant: #dee3eb;
+  --wi-color-on-surface-variant: #42474e;
 
   /* Superficie invertida (tooltips, chips de contraste): se mantiene oscura en ambos temas */
   --wi-color-inverse-surface: #191c20;
   --wi-color-inverse-on-surface: #f8f9ff;
 
   --wi-color-outline: #73777f;
-  --wi-color-outline-variant: #c3c6cf;
+  --wi-color-outline-variant: #c2c7cf;
 
   --wi-color-error: #ba1a1a;
   --wi-color-on-error: #ffffff;
@@ -95,8 +96,8 @@
 
   --wi-color-primary: #48586c;
   --wi-color-on-primary: #dce0e8;
-  --wi-color-primary-container: #3a4a5c;
-  --wi-color-on-primary-container: #cfe4ff;
+  --wi-color-primary-container: #2c3442;
+  --wi-color-on-primary-container: #bac2d0;
 
   --wi-color-secondary: #bbc7db;
   --wi-color-on-secondary: #253140;
@@ -107,14 +108,15 @@
   --wi-color-on-background: #c4c9d2;
   --wi-color-surface: #10161f;
   --wi-color-on-surface: #c4c9d2;
-  --wi-color-surface-variant: #43474e;
-  --wi-color-on-surface-variant: #c3c6cf;
+  --wi-color-surface-container: #1c222e;
+  --wi-color-surface-variant: #3a4250;
+  --wi-color-on-surface-variant: #848c9a;
 
   --wi-color-inverse-surface: #2a3140;
   --wi-color-inverse-on-surface: #f8f9ff;
 
   --wi-color-outline: #525a68;
-  --wi-color-outline-variant: #43474e;
+  --wi-color-outline-variant: #2c3440;
 
   --wi-color-error: #ffb4ab;
   --wi-color-on-error: #690005;

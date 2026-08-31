@@ -24,6 +24,7 @@ export const SemanticColors: Story = {
         <div class="flex flex-wrap gap-3">
           <div class="rounded-control bg-primary px-4 py-2 text-sm text-on-primary">primary</div>
           <div class="rounded-control bg-secondary px-4 py-2 text-sm text-on-secondary">secondary</div>
+          <div class="rounded-control bg-surface-container px-4 py-2 text-sm text-on-surface">surface-container</div>
           <div class="rounded-control bg-surface-variant px-4 py-2 text-sm text-on-surface-variant">surface-variant</div>
           <div class="rounded-control bg-inverse-surface px-4 py-2 text-sm text-inverse-on-surface">inverse-surface</div>
           <div class="rounded-control bg-error px-4 py-2 text-sm text-on-error">error</div>

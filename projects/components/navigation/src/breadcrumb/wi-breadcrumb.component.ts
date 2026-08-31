@@ -18,7 +18,7 @@ const LIST_CLASSES = [
   'rounded-full',
   'border',
   'border-outline',
-  'bg-surface',
+  'bg-surface-container',
   'p-0.5',
   'ps-2.5',
 ].join(' ');

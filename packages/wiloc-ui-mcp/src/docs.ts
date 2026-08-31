@@ -51,6 +51,7 @@ Archivos:
   --color-on-secondary-container: var(--wi-color-on-secondary-container);
   --color-surface: var(--wi-color-surface);
   --color-on-surface: var(--wi-color-on-surface);
+  --color-surface-container: var(--wi-color-surface-container);
   --color-surface-variant: var(--wi-color-surface-variant);
   --color-on-surface-variant: var(--wi-color-on-surface-variant);
   --color-inverse-surface: var(--wi-color-inverse-surface);
@@ -91,7 +92,7 @@ NO uses \`@wiloc/ui/styles/index.css\`. PostCSS: \`postcss.config.json\` con \`@
 Usa clases Tailwind estáticas ligadas a tokens (\`bg-primary\`, \`text-on-surface\`, \`border-outline\`, \`rounded-control\`).
 Prohibido: \`bg-\${color}\`, colores hex sueltos en componentes Wi, clases \`.p-*\` de Prime, \`.dark\` / \`data-theme\`.
 
-Roles: primary, on-primary, primary-container, secondary, background, on-background, surface, on-surface, surface-variant, inverse-surface, outline, error, warning, success.
+Roles: primary, on-primary, primary-container, secondary, background, on-background, surface, on-surface, surface-container, surface-variant, inverse-surface, outline, error, warning, success.
 
 La librería no muta el DOM. La app aplica tema (\`WI_DARK_CLASS\` en \`<html>\`) y tokens vía CSS importado.
 Tabs/toast: CSS extra \`@wiloc/ui/styles/tabs.css\` / \`toast.css\` si los usas.`,
