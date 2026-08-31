@@ -16,11 +16,8 @@ const LIST_CLASSES = [
   'items-center',
   'gap-1',
   'rounded-full',
-  'border',
-  'border-outline',
-  'bg-surface-container',
-  'p-0.5',
-  'ps-2.5',
+  'px-4',
+  'py-1',
 ].join(' ');
 
 const ITEM_CLASSES = 'wi-breadcrumb__item inline-flex min-w-0 max-w-full items-center gap-1';
@@ -100,6 +97,7 @@ function isExternalHref(href: string): boolean {
   selector: 'wi-breadcrumb',
   exportAs: 'wiBreadcrumb',
   imports: [WiIconComponent],
+  styleUrl: './wi-breadcrumb.css',
   host: {
     'data-slot': 'breadcrumb',
     class: HOST_CLASSES,

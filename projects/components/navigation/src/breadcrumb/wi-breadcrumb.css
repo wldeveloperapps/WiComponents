@@ -1,0 +1,13 @@
+/**
+ * Chrome de la cápsula: mismo trazo y degradado que el breadcrumb de producto
+ * (`1px solid #e2e8f0`, `linear-gradient(180deg, #fff, #e8edf6)` en claro).
+ * Valores vía tokens; fallback a `--color-*` de la app consumidora.
+ */
+.wi-breadcrumb__list {
+  border: 1px solid var(--wi-color-outline-variant, var(--color-outline-variant, #e2e8f0));
+  background: linear-gradient(
+    180deg,
+    var(--wi-color-surface-container-lowest, var(--color-surface-container-lowest, #ffffff)),
+    var(--wi-color-surface-container-low, var(--color-surface-container-low, #e8edf6))
+  );
+}

@@ -76,9 +76,7 @@ describe('WiBreadcrumbComponent', () => {
     expect(nav().getAttribute('aria-label')).toBe('Migas');
     const list = el.querySelector('ol.wi-breadcrumb__list');
     expect(list).toBeTruthy();
-    expect(list?.className).toContain('border-outline');
     expect(list?.className).toContain('rounded-full');
-    expect(list?.className).toContain('bg-surface-container');
   });
 
   it('renders ancestors as links and the last item as the current page', () => {
