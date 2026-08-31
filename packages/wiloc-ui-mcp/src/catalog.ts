@@ -28,7 +28,7 @@ export const WI_ENTRY_POINTS: readonly WiEntryPointInfo[] = [
     entryPoint: '@wiloc/ui/overlays',
     description: 'Dialog, toast, confirm, menu, popover, tooltip, speed-dial',
   },
-  { entryPoint: '@wiloc/ui/navigation', description: 'Tabs, stepper' },
+  { entryPoint: '@wiloc/ui/navigation', description: 'Tabs, stepper, breadcrumb' },
   {
     entryPoint: '@wiloc/ui/styles/tokens.css',
     description: 'Variables CSS --wi-color-* y .wi-dark',

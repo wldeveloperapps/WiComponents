@@ -502,3 +502,38 @@ const STEPPER_COPY: Record<StorybookLocale, StepperDemoCopy> = {
 export function getStepperDemoCopy(locale: StorybookLocale = storybookLocale()): StepperDemoCopy {
   return STEPPER_COPY[locale];
 }
+
+/** Copy de demo del breadcrumb (stories); no va en la librería — lo aporta la app. */
+export interface BreadcrumbDemoCopy {
+  ariaLabel: string;
+  home: string;
+  section: string;
+  current: string;
+  longCurrent: string;
+  extra: string;
+}
+
+const BREADCRUMB_COPY: Record<StorybookLocale, BreadcrumbDemoCopy> = {
+  es: {
+    ariaLabel: 'Migas de pan',
+    home: 'Inicio',
+    section: 'Administración',
+    current: 'Gestión de usuarios',
+    longCurrent: 'Configuración avanzada de notificaciones y preferencias del espacio de trabajo',
+    extra: 'Detalle',
+  },
+  en: {
+    ariaLabel: 'Breadcrumb',
+    home: 'Home',
+    section: 'Administration',
+    current: 'User management',
+    longCurrent: 'Advanced notification settings and workspace preferences',
+    extra: 'Detail',
+  },
+};
+
+export function getBreadcrumbDemoCopy(
+  locale: StorybookLocale = storybookLocale(),
+): BreadcrumbDemoCopy {
+  return BREADCRUMB_COPY[locale];
+}

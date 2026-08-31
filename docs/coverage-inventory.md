@@ -58,7 +58,7 @@ Checklist de **demanda** extraído del uso real de PrimeNG en la app consumidora
 | ----------------------- | ------------------------- | --------------- | ------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Tabs                    | `tabs`                    | `navigation`    | base    | done    | `@wiloc/ui/navigation` (`wi-tabs` + list/trigger/content); `segmented`/`line`; scroll+scrollbar+container queries en `wi-tabs.css`                         |
 | Stepper                 | `stepper`                 | `navigation`    | pattern | done    | `@wiloc/ui/navigation` (`wi-stepper` + `[wiStepperPanel]`); `steps` data-driven (label+icon de la app); vertical/horizontal; `linear`; Back/Next en la app |
-| Breadcrumb              | `breadcrumb`              | `navigation`    | base    | planned |                                                                                                                                                            |
+| Breadcrumb              | `breadcrumb`              | `navigation`    | base    | done    | `@wiloc/ui/navigation` (`wi-breadcrumb`); `items` data-driven (label+href+icon de la app); último ítem pastilla `aria-current=page`; `itemClick` para Router |
 | Divider                 | `divider`                 | `core` / layout | base    | planned |                                                                                                                                                            |
 
 ## Overlays & feedback

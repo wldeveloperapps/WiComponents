@@ -1,3 +1,7 @@
+export type { WiBreadcrumbItem } from './breadcrumb/wi-breadcrumb.types';
+
+export { WiBreadcrumbComponent } from './breadcrumb/wi-breadcrumb.component';
+
 export type {
   WiStepperOrientation,
   WiStepperStep,

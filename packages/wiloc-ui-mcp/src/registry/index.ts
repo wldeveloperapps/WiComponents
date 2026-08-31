@@ -18,6 +18,7 @@ export { wiListboxRegistryEntry } from './listbox.js';
 export { wiPicklistRegistryEntry } from './picklist.js';
 export { wiTabsRegistryEntry } from './tabs.js';
 export { wiStepperRegistryEntry } from './stepper.js';
+export { wiBreadcrumbRegistryEntry } from './breadcrumb.js';
 export { wiChipRegistryEntry } from './chip.js';
 export { wiSkeletonRegistryEntry } from './skeleton.js';
 export { wiSpinnerRegistryEntry } from './spinner.js';

@@ -17,6 +17,7 @@ describe('@wiloc/ui-mcp catalog', () => {
     expect(names).toContain('button');
     expect(names).toContain('table');
     expect(names).toContain('toast');
+    expect(names).toContain('breadcrumb');
     expect(names.length).toBeGreaterThanOrEqual(26);
   });
 
