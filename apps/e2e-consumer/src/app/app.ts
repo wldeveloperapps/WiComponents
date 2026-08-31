@@ -48,6 +48,8 @@ import {
   WiTooltipDirective,
 } from '@wiloc/ui/overlays';
 import {
+  WiBreadcrumbComponent,
+  type WiBreadcrumbItem,
   WiStepperComponent,
   WiStepperPanelDirective,
   type WiStepperStep,
@@ -106,6 +108,7 @@ const ALERT_TAB_IDS = {
     WiSwitchComponent,
     WiTableCellDirective,
     WiTableComponent,
+    WiBreadcrumbComponent,
     WiStepperComponent,
     WiStepperPanelDirective,
     WiTabsComponent,
@@ -158,6 +161,21 @@ export class App {
       { id: ALERT_TAB_IDS.archived, label: m.tabArchived, body: m.tabArchivedBody },
     ];
   });
+
+  protected readonly crumbClick = signal<string | null>(null);
+
+  protected readonly crumbs = computed((): readonly WiBreadcrumbItem[] => {
+    const m = this.t();
+    return [
+      { id: 'home', label: m.breadcrumbHome, href: '/', icon: 'home', iconOnly: true },
+      { id: 'admin', label: m.breadcrumbSection, href: '/administration' },
+      { id: 'users', label: m.breadcrumbCurrent },
+    ];
+  });
+
+  protected onCrumb(item: WiBreadcrumbItem): void {
+    this.crumbClick.set(item.id);
+  }
 
   protected readonly signupSteps = computed((): readonly WiStepperStep[] => {
     const m = this.t();

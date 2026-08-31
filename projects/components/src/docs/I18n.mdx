@@ -385,6 +385,7 @@ Con hora:
 | `wi-checkbox` / `wi-switch` | `ariaLabel` / label wrapping |
 | `wi-button` | proyección; icon-only → `ariaLabel` |
 | `wi-tabs` | texto dentro de `button[wiTabsTrigger]` y del panel |
+| `wi-breadcrumb` | `items[].label`, `ariaLabel` |
 
 ### `wi-datepicker` / `wi-date-range`
 
@@ -420,6 +421,25 @@ Demo: **Forms → WiDatepicker** + toolbar **Locale**.
 | Aria botón cerrar / región | **`provideWiOverlaysI18n`** (`toastCloseLabel`, `toastRegionLabel`) |
 
 Demo: **Overlays → WiToast** (Canvas) + toolbar **Locale**.
+
+### `wi-breadcrumb`
+
+| Qué | Canal |
+| --- | ----- |
+| Labels, rutas, iconos | **`items`** (`label`, `href?`, `icon?`) |
+| Nombre del landmark | **Input** `ariaLabel` |
+
+```html
+<wi-breadcrumb
+  [items]="crumbs"
+  [ariaLabel]="t('breadcrumb.aria')"
+  (itemClick)="onCrumb($event)"
+/>
+```
+
+`crumbs[].label` y `ariaLabel` salen del i18n de la app; la librería no impone copy.
+
+Demo: **Navigation → WiBreadcrumb** + toolbar **Locale**.
 
 ---
 
@@ -542,6 +562,7 @@ Toolbar **Locale** (ES / EN) junto a **Tema**:
 - Actualiza `document.documentElement.lang`.
 - Simula `provideWi*I18n` (calendario, tabla, dialog, toast).
 - En datepicker, también demos de inputs (`placeholder`, etc.) vía `getDatepickerDemoCopy`.
+- En breadcrumb, copy de demo (`ariaLabel`, labels de `items`) vía `getBreadcrumbDemoCopy`.
 - En toast (Canvas), copy de producto vía `getToastDemoCopy` + chrome vía `createStorybookOverlaysI18n` (`toastCloseLabel`, `toastRegionLabel`).
 
 Código: `projects/components/.storybook/locale.ts` + `preview.ts`.  

@@ -126,6 +126,11 @@ interface UiMessages {
   popoverBody: string;
   closePopover: string;
   tabs: string;
+  breadcrumb: string;
+  breadcrumbAria: string;
+  breadcrumbHome: string;
+  breadcrumbSection: string;
+  breadcrumbCurrent: string;
   tabUnmanaged: string;
   tabManaged: string;
   tabArchived: string;
@@ -226,6 +231,11 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     popoverBody: 'Contenido de ejemplo del popover en el smoke del paquete.',
     closePopover: 'Cerrar',
     tabs: 'Tabs',
+    breadcrumb: 'Breadcrumb',
+    breadcrumbAria: 'Migas de pan',
+    breadcrumbHome: 'Inicio',
+    breadcrumbSection: 'Administración',
+    breadcrumbCurrent: 'Gestión de usuarios',
     tabUnmanaged: 'Alertas No Gestionadas',
     tabManaged: 'Alertas Gestionadas',
     tabArchived: 'Alertas Archivadas',
@@ -340,6 +350,11 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     popoverBody: 'Sample popover content in the packaged library smoke test.',
     closePopover: 'Close',
     tabs: 'Tabs',
+    breadcrumb: 'Breadcrumb',
+    breadcrumbAria: 'Breadcrumb',
+    breadcrumbHome: 'Home',
+    breadcrumbSection: 'Administration',
+    breadcrumbCurrent: 'User management',
     tabUnmanaged: 'Unmanaged Alerts',
     tabManaged: 'Managed Alerts',
     tabArchived: 'Archived Alerts',

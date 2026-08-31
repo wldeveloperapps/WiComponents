@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideWiDataDisplayI18n } from '@wiloc/ui/data-display';
 import { provideWiCalendarI18n } from '@wiloc/ui/forms';
 import { provideWiIcons } from '@wiloc/ui/icon';
-import { calendarOutline, xMarkOutline } from '@wiloc/ui/icon/heroicons';
+import { calendarOutline, homeOutline, xMarkOutline } from '@wiloc/ui/icon/heroicons';
 import { provideWiOverlaysI18n } from '@wiloc/ui/overlays';
 
 import { App } from './app';
@@ -47,6 +47,7 @@ describe('App', () => {
       providers: [
         provideWiIcons({
           calendar: { outline: calendarOutline },
+          home: { outline: homeOutline },
           'x-mark': { outline: xMarkOutline },
         }),
         provideWiCalendarI18n(createCalendarI18n()),
@@ -216,6 +217,27 @@ describe('App', () => {
     const root = fixture.nativeElement as HTMLElement;
     expect(root.querySelector('wi-popover')).toBeTruthy();
     expect(root.textContent).toContain('Abrir popover');
+  });
+
+  it('should emit breadcrumb itemClick for an ancestor', async () => {
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const root = fixture.nativeElement as HTMLElement;
+    const section = root.querySelector('section[aria-labelledby="breadcrumb-heading"]');
+    expect(section?.querySelector('wi-breadcrumb')).toBeTruthy();
+    expect(section?.textContent).toContain('Gestión de usuarios');
+
+    const admin = Array.from(section?.querySelectorAll('a') ?? []).find((link) =>
+      link.textContent?.includes('Administración'),
+    );
+    expect(admin).toBeTruthy();
+    admin?.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, button: 0 }));
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(section?.textContent).toContain('Valor: admin');
   });
 
   it('should switch tabs and update the active panel', async () => {

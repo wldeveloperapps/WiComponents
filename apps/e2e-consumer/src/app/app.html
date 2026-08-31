@@ -255,6 +255,18 @@
         </wi-popover>
       </section>
 
+      <section class="flex min-w-0 flex-col gap-3" aria-labelledby="breadcrumb-heading">
+        <h2 id="breadcrumb-heading" class="text-sm font-medium text-on-surface">
+          {{ t().breadcrumb }}
+        </h2>
+        <wi-breadcrumb
+          [items]="crumbs()"
+          [aria-label]="t().breadcrumbAria"
+          (itemClick)="onCrumb($event)"
+        />
+        <p class="text-sm text-on-surface-variant">{{ t().value }}: {{ crumbClick() ?? '—' }}</p>
+      </section>
+
       <section class="flex min-w-0 flex-col gap-3" aria-labelledby="tabs-heading">
         <h2 id="tabs-heading" class="text-sm font-medium text-on-surface">{{ t().tabs }}</h2>
         <wi-tabs class="w-full min-w-0" [(value)]="alertsTab">

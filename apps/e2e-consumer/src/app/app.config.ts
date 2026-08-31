@@ -7,6 +7,7 @@ import { provideWiOverlaysI18n } from '@wiloc/ui/overlays';
 import {
   calendarOutline,
   funnelOutline,
+  homeOutline,
   keyOutline,
   listBulletOutline,
   moonOutline,
@@ -28,6 +29,7 @@ export const appConfig: ApplicationConfig = {
     provideWiIcons({
       calendar: { outline: calendarOutline },
       funnel: { outline: funnelOutline },
+      home: { outline: homeOutline },
       key: { outline: keyOutline },
       'list-bullet': { outline: listBulletOutline },
       moon: { outline: moonOutline },
