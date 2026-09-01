@@ -34,6 +34,65 @@ describe('@wiloc/ui-mcp catalog', () => {
     expect(getCatalogItem('wi-button')?.entryPoint).toBe('@wiloc/ui/button');
   });
 
+  it('documents wi-table public API used by consumer apps', () => {
+    const table = getCatalogItem('table');
+    expect(table).toBeDefined();
+    const inputNames = table!.inputs.map((field) => field.name);
+    expect(inputNames).toEqual(
+      expect.arrayContaining([
+        'columns',
+        'data',
+        'totalItems',
+        'visibleColumnIds',
+        'sort',
+        'filters',
+        'pageIndex',
+        'pageSize',
+        'showFilters',
+        'columnVisibility',
+        'showResultCount',
+        'compact',
+        'trackBy',
+        'filterOperators',
+        'emptyMessage',
+        'ariaLabel',
+        'expandRowAriaLabel',
+        'collapseRowAriaLabel',
+      ]),
+    );
+    const outputNames = table!.outputs.map((field) => field.name);
+    expect(outputNames).toEqual(
+      expect.arrayContaining([
+        'sortChange',
+        'filtersChange',
+        'visibleColumnIdsChange',
+        'pageIndexChange',
+        'pageChange',
+      ]),
+    );
+    expect(table!.exports).toEqual(
+      expect.arrayContaining([
+        'WiColumnShowFrom',
+        'WiTableCellDirective',
+        'WiTableRowActionsDirective',
+        'WiTableCellContext',
+        'wiUpsertColumnFilter',
+      ]),
+    );
+    expect(table!.parts?.map((part) => part.selector)).toEqual(
+      expect.arrayContaining([
+        '[wiTableSummary]',
+        '[wiTableActions]',
+        'ng-template[wiTableCell]',
+        'ng-template[wiTableRowActions]',
+      ]),
+    );
+    expect(table!.example.template).toContain('[(filters)]');
+    expect(table!.example.template).toContain('trackBy="id"');
+    expect(table!.example.template).toContain('wiTableSummary');
+    expect(table!.example.import).toContain("showFrom: 'always'");
+  });
+
   it('search ranks table above unrelated hits', () => {
     const hits = searchCatalog('table');
     expect(hits[0]?.item.name).toBe('table');

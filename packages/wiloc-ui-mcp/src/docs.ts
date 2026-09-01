@@ -160,7 +160,7 @@ Apps Wiloc con Transloco (recomendado):
 
 Claves ES (espejo en en.json):
 - wi.calendar: months[12], weekdaysShort[7], weekdaysLong[7], previous, next, hour, minute (HH/MM pueden quedar en código)
-- wi.table: empty, aria, paginationAria, previous, next, filterPlaceholder, selectPlaceholder, filterOperatorAria, filterAria (Transloco \`{{header}}\`), columnSummary (\`{visible}\`/\`{total}\` los sustituye Wi), columnMenu, columnAria, resultCount (\`{count}\` lo sustituye Wi), rowActions, operators.contains|notContains|startsWith|endsWith|equals|notEquals|none
+- wi.table: empty, aria, paginationAria, previous, next, filterPlaceholder, selectPlaceholder, filterOperatorAria, filterAria (Transloco \`{{header}}\`), columnSummary (\`{visible}\`/\`{total}\` los sustituye Wi), columnMenu, columnAria, resultCount (\`{count}\` lo sustituye Wi), rowActions, expandHeader, expandRow, collapseRow, operators.contains|notContains|startsWith|endsWith|equals|notEquals|none
 - wi.overlays: dialogClose, confirmCancel, toastClose, toastRegion
 
 EN: January…; Su/Mo…; Previous month; Next month; Hour; Minute; No data; Data table; Pagination; Previous; Next; Type to search; Select one; Filter operator; Filter {{header}}; {visible} of {total} columns visible; Columns; Column visibility; {count} results; Actions; Contains / Does not contain / …; Close; Cancel; Close toast; Notifications.
