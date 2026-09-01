@@ -113,7 +113,7 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
               </th>
             }
             @if (hasRowActions()) {
-              <th scope="col" class="wi-table__th wi-table__th--actions w-10 px-2 py-2">
+              <th scope="col" class="wi-table__th wi-table__th--actions w-24 px-2 py-2">
                 <span
                   class="absolute h-px w-px overflow-hidden whitespace-nowrap border-0 p-0 [clip:rect(0,0,0,0)]"
                   >{{ resolvedRowActionsHeader() }}</span
@@ -310,7 +310,7 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
                 </td>
               }
               @if (rowActionsTemplate(); as actionsTpl) {
-                <td class="wi-table__td wi-table__td--actions px-2 py-2 align-middle">
+                <td class="wi-table__td wi-table__td--actions w-24 px-2 py-2 align-middle whitespace-nowrap">
                   <ng-container
                     [ngTemplateOutlet]="actionsTpl"
                     [ngTemplateOutletContext]="{ $implicit: row, row: row }"
