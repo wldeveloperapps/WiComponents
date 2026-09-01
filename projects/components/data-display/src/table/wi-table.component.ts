@@ -310,7 +310,7 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
                 </td>
               }
               @if (rowActionsTemplate(); as actionsTpl) {
-                <td class="wi-table__td wi-table__td--actions w-24 px-2 py-2 align-middle whitespace-nowrap">
+                <td class="wi-table__td wi-table__td--actions w-32 px-2 py-2 align-middle whitespace-nowrap">
                   <ng-container
                     [ngTemplateOutlet]="actionsTpl"
                     [ngTemplateOutletContext]="{ $implicit: row, row: row }"

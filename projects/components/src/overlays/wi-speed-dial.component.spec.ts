@@ -100,6 +100,10 @@ describe('WiSpeedDialComponent', () => {
     expect(host.open()).toBe(true);
     expect(dial().getAttribute('data-state')).toBe('open');
     expect(trigger()).toBeNull();
+    const closeBtn = dial().querySelector('[data-speed-dial-close]') as HTMLButtonElement | null;
+    expect(closeBtn).toBeTruthy();
+    expect(closeBtn?.getAttribute('aria-expanded')).toBe('true');
+    expect(closeBtn?.getAttribute('aria-label')).toBe('Close');
 
     const bar = toolbar();
     expect(bar).toBeTruthy();
@@ -123,6 +127,21 @@ describe('WiSpeedDialComponent', () => {
     expect(host.lastClicked()?.id).toBe('schedule');
     expect(host.open()).toBe(false);
     expect(trigger()).toBeTruthy();
+  });
+
+  it('closes when the close button is clicked', async () => {
+    trigger()?.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const closeBtn = dial().querySelector('[data-speed-dial-close]') as HTMLButtonElement;
+    closeBtn.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(host.open()).toBe(false);
+    expect(trigger()).toBeTruthy();
+    expect(toolbar()).toBeNull();
   });
 
   it('keeps open when closeOnSelect is false', async () => {

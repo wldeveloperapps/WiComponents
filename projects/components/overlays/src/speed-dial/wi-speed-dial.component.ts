@@ -123,6 +123,7 @@ const DIRECTION_TOOLBAR_CLASSES: Record<WiSpeedDialDirection, string> = {
           [attr.aria-expanded]="true"
           [attr.aria-haspopup]="'true'"
           data-speed-dial-close
+          tabindex="-1"
           [wiTooltip]="tooltips() ? resolvedCloseLabel() : null"
           position="top"
           (click)="closeDial($event)"

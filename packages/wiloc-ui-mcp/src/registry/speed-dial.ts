@@ -53,6 +53,12 @@ export const wiSpeedDialRegistryEntry = {
       description: 'Nombre accesible (alias aria-label). Localizable desde la app',
     },
     {
+      name: 'closeLabel',
+      type: 'string | undefined',
+      default: 'undefined → provideWiOverlaysI18n().dialogCloseLabel',
+      description: 'aria-label del botón X que cierra el dial',
+    },
+    {
       name: 'triggerIcon',
       type: 'string',
       default: 'ellipsis-vertical',
@@ -73,8 +79,9 @@ export const wiSpeedDialRegistryEntry = {
   ],
   variants: [],
   parts: [
-    { selector: 'button[aria-expanded]', description: 'Trigger cerrado (icon-only)' },
-    { selector: '[role=toolbar]', description: 'Barra de acciones abierta' },
+    { selector: 'button[aria-expanded="false"]', description: 'Trigger cerrado (icon-only)' },
+    { selector: 'button[data-speed-dial-close]', description: 'Botón X para cerrar el dial abierto' },
+    { selector: '[role=toolbar]', description: 'Barra de acciones abierta (X + items)' },
   ],
   keyboard: [
     { key: 'Enter / Space', description: 'Abre el dial desde el trigger' },
@@ -86,7 +93,7 @@ export const wiSpeedDialRegistryEntry = {
     { key: 'Home / End', description: 'Primera / última acción' },
   ],
   a11yNotes:
-    'Trigger con aria-expanded + aria-haspopup. Toolbar con aria-label. Cada acción es botón con aria-label (item.label). Tooltip complementario vía wiTooltip (no sustituye aria-label). Cierre por Escape y clic fuera. Iconos decorativos vía wi-icon sin label.',
+    'Trigger con aria-expanded + aria-haspopup. Abierto: botón X (closeLabel / dialogCloseLabel) + acciones. Cada acción es botón con aria-label (item.label). Tooltip complementario vía wiTooltip (no sustituye aria-label). Cierre por X, Escape y clic fuera. Iconos decorativos vía wi-icon sin label.',
   example: {
     import: `import { WiSpeedDialComponent, type WiSpeedDialItem } from '@wiloc/ui/overlays';
 import { provideWiIcons } from '@wiloc/ui/icon';`,
