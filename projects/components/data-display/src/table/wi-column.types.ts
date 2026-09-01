@@ -30,7 +30,8 @@ export interface WiColumnDef {
   visible?: boolean;
   /**
    * Comportamiento en layout compacto (contenedor < 960px).
-   * `always` (default) permanece en la fila; `collapse` pasa al panel expandible.
+   * `collapse` (default) pasa al panel expandible; `always` permanece en la fila.
+   * Si ninguna es `always`, se deja la primera columna visible en la fila.
    */
   priority?: WiColumnPriority;
 }

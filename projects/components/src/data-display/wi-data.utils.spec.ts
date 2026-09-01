@@ -59,15 +59,22 @@ describe('wi-data.utils', () => {
   });
 
   it('splits inline vs collapse columns in compact mode', () => {
-    const withPriority: WiColumnDef[] = [
+    const unmarked: WiColumnDef[] = [
       { id: 'name', header: 'Name', field: 'name' },
-      { id: 'city', header: 'City', field: 'city', priority: 'collapse' },
-      { id: 'age', header: 'Age', field: 'age', priority: 'collapse' },
+      { id: 'city', header: 'City', field: 'city' },
+      { id: 'age', header: 'Age', field: 'age' },
     ];
-    expect(wiInlineColumns(withPriority, false).map((c) => c.id)).toEqual(['name', 'city', 'age']);
-    expect(wiInlineColumns(withPriority, true).map((c) => c.id)).toEqual(['name']);
-    expect(wiCollapseColumns(withPriority, true).map((c) => c.id)).toEqual(['city', 'age']);
-    expect(wiCollapseColumns(withPriority, false)).toEqual([]);
+    expect(wiInlineColumns(unmarked, true).map((c) => c.id)).toEqual(['name']);
+    expect(wiCollapseColumns(unmarked, true).map((c) => c.id)).toEqual(['city', 'age']);
+
+    const withAlways: WiColumnDef[] = [
+      { id: 'name', header: 'Name', field: 'name', priority: 'always' },
+      { id: 'city', header: 'City', field: 'city' },
+      { id: 'age', header: 'Age', field: 'age', priority: 'always' },
+    ];
+    expect(wiInlineColumns(withAlways, true).map((c) => c.id)).toEqual(['name', 'age']);
+    expect(wiCollapseColumns(withAlways, true).map((c) => c.id)).toEqual(['city']);
+    expect(wiCollapseColumns(withAlways, false)).toEqual([]);
   });
 
   it('keeps the first column inline when every column is collapse', () => {

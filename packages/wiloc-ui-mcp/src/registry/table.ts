@@ -37,7 +37,7 @@ export const wiTableRegistryEntry = {
       type: 'readonly WiColumnDef[]',
       default: 'required',
       description:
-        'Definición declarativa (sortable, filterable, filterType text|select, priority always|collapse). Agnóstica a metadatos; la app adapta y compone la vista',
+        'Definición declarativa. priority omitido = collapse: en compacto va a la tarjeta y el chevron aparece si hay columnas extra. priority always = se queda en la fila. Agnóstica a metadatos; la app adapta',
     },
     {
       name: 'data',
@@ -92,7 +92,7 @@ export const wiTableRegistryEntry = {
       type: 'boolean | null',
       default: 'null',
       description:
-        'Layout compacto: columnas priority collapse en panel expandible, sin scroll horizontal. null = contenedor < 960px (WI_TABLE_COMPACT_BREAKPOINT)',
+        'null (default) = compacto automático si el contenedor < 960px (WI_TABLE_COMPACT_BREAKPOINT): sin scroll lateral ni menú de visibilidad. El chevron/tarjeta aparecen cuando hay columnas que no quedan en la fila (priority omitido = collapse). true/false fuerzan el modo (false = nunca chevron)',
     },
     {
       name: 'emptyMessage / previousLabel / …',
@@ -122,13 +122,18 @@ export const wiTableRegistryEntry = {
   variants: [],
   keyboard: ['Enter/Space en sort, expand de fila y menús; paginación por botones'],
   a11yNotes:
-    'Tabla semántica con aria-sort. Chevron de fila con aria-expanded y aria-label vía provideWiDataDisplayI18n.expandRowAriaLabel / collapseRowAriaLabel. Filtros con aria-label por columna vía provideWiDataDisplayI18n.filterAriaLabel. Visibilidad vía wi-menu. Labels de chrome: provideWiDataDisplayI18n (sin copy hardcodeado ES).',
+    'Chevron de fila en compacto cuando hay columnas fuera de la fila (priority default collapse) con aria-expanded y aria-label vía provideWiDataDisplayI18n.expandRowAriaLabel / collapseRowAriaLabel. Tabla semántica con aria-sort. Filtros con aria-label por columna. Visibilidad vía wi-menu (oculto en compacto). Labels de chrome: provideWiDataDisplayI18n (sin copy hardcodeado ES).',
   example: {
     import: `import {
   WiTableComponent,
   provideWiDataDisplayI18n,
   type WiColumnDef,
 } from '@wiloc/ui/data-display';
+
+const columns: WiColumnDef[] = [
+  { id: 'name', header: 'Nombre', field: 'name', priority: 'always' },
+  { id: 'email', header: 'Email', field: 'email' },
+];
 
 provideWiDataDisplayI18n({
   emptyMessage: () => 'No hay datos',
@@ -139,6 +144,7 @@ provideWiDataDisplayI18n({
     template: `<wi-table [columns]="columns" [data]="rows" trackBy="id" [showResultCount]="true">
   <div wiTableActions>…</div>
   <ng-template wiTableRowActions let-row>…</ng-template>
-</wi-table>`,
+</wi-table>
+<!-- compact null = automático < 960px. Email va al panel (default collapse). Chevron sin [compact]="true". -->`,
   },
 } as const;

@@ -196,6 +196,7 @@ export class App {
         sortable: true,
         filterable: true,
         filterPlaceholder: m.tableFilterName,
+        priority: 'always',
       },
       {
         id: 'city',
@@ -214,7 +215,6 @@ export class App {
         filterType: 'select',
         filterPlaceholder: m.tableFilterStatus,
         filterOptions: m.tableStatusOptions,
-        priority: 'collapse',
       },
     ];
   });

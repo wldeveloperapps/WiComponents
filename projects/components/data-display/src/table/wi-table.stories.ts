@@ -32,6 +32,7 @@ const COLUMNS: WiColumnDef[] = [
     sortable: true,
     filterable: true,
     filterPlaceholder: 'Escribir para buscar',
+    priority: 'always',
   },
   {
     id: 'eid',
@@ -49,6 +50,7 @@ const COLUMNS: WiColumnDef[] = [
     sortable: true,
     filterable: true,
     filterPlaceholder: 'Escribir para buscar',
+    priority: 'always',
   },
   {
     id: 'discipline',
@@ -168,7 +170,13 @@ Tabla declarativa del design system. La app pasa \`WiColumnDef\` + filas (p. ej.
 
 **Default** = API mínima. **Recipe /** = composición de producto (toolbar, menú de fila) — no son inputs nuevos.
 
-- Compacto: contenedor &lt; 960px → columnas \`priority: 'collapse'\` en una tarjeta por fila (sin scroll horizontal ni menú de visibilidad). \`[compact]\` fuerza el modo.
+**Compacto (automático) y desplegable:**
+
+- \`[compact]\` \`null\` (default) = si el contenedor &lt; 960px, layout compacto (sin scroll horizontal ni menú de visibilidad).
+- Las columnas que no caben en la fila van a una tarjeta con chevron. \`priority\` omitido = \`'collapse'\` (al panel). Marca \`priority: 'always'\` las que deben quedarse visibles (en esta demo: Última posición y Nombre).
+- Si hay más de una columna, el chevron sale solo; no hace falta \`[compact]="true"\`.
+- \`[compact]="true|false"\` fuerza el modo (\`false\` = nunca chevron).
+
 - Cliente: sin \`totalItems\` → filter / sort / page locales.
 - Servidor: con \`totalItems\` + página en \`data\`; reaccionar a \`(filtersChange)\` / \`(sortChange)\` / \`(pageChange)\`.
         `,
@@ -202,10 +210,22 @@ Tabla declarativa del design system. La app pasa \`WiColumnDef\` + filas (p. ej.
     columnVisibility: { control: 'boolean' },
     showResultCount: { control: 'boolean' },
     compact: {
-      control: 'inline-radio',
-      options: [null, true, false],
+      options: ['auto', 'on', 'off'],
+      mapping: {
+        auto: null,
+        on: true,
+        off: false,
+      },
+      control: {
+        type: 'inline-radio',
+        labels: {
+          auto: 'Auto',
+          on: 'Compacto',
+          off: 'Ancho',
+        },
+      },
       description:
-        'Layout compacto. null = según ancho del contenedor (< 960px). true/false fuerzan el modo.',
+        'Auto (null): compacto si el contenedor < 960px. Compacto/Ancho fuerzan el modo. En compacto el chevron sale si hay columnas que no quedan en la fila (default collapse; always las mantiene visibles).',
     },
     emptyMessage: { control: 'text' },
     columns: { table: { disable: true } },
@@ -246,6 +266,14 @@ type Story = StoryObj<StoryArgs>;
 
 /** API mínima: columnas + datos + paginación. */
 export const Default: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Estrecha el canvas por debajo de 960px (compact = Auto): el chevron aparece solo. EID, Disciplina y Empresa van al panel (default `collapse`); Última posición y Nombre se quedan porque tienen `priority: \'always\'`.',
+      },
+    },
+  },
   render: (args) => ({
     props: args,
     template: `
@@ -371,7 +399,7 @@ export const RecipeResultsToolbar: Story = {
     docs: {
       description: {
         story:
-          'Ejemplo de composición en la app: contador, acciones globales y menú de fila con `wi-menu` + `wi-icon`.',
+          'Ejemplo de composición en la app: contador, acciones globales y menú de fila. Al estrechar el canvas (compact Auto) el chevron sale solo: las columnas sin `priority: \'always\'` pasan a la tarjeta.',
       },
     },
   },
@@ -434,7 +462,7 @@ export const NarrowCompact: Story = {
     docs: {
       description: {
         story:
-          "Contenedor < 960px: sin scroll horizontal ni contador de columnas. Las columnas `priority: 'collapse'` se muestran en una tarjeta al expandir la fila.",
+          '`[compact]="true"` solo fuerza el demo a 360px; en la app el compacto es automático (< 960px). El chevron sale porque hay columnas que no caben en la fila (default `collapse`). `priority: \'always\'` deja Última posición y Nombre visibles.',
       },
     },
   },

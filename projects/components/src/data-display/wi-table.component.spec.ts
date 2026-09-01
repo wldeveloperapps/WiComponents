@@ -172,6 +172,19 @@ describe('WiTableComponent', () => {
     expect(table().querySelectorAll('tbody tr.wi-table__row').length).toBe(4);
   });
 
+  it('shows a row expander in compact when extra columns have default collapse', async () => {
+    host.compact.set(true);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const el = table();
+    expect(el.querySelector('.wi-table__expand')).toBeTruthy();
+    const grid = el.querySelector('.wi-table__table') as HTMLElement;
+    expect(grid.textContent).toContain('Nombre');
+    expect(grid.textContent).not.toContain('Empresa');
+    expect(grid.textContent).not.toContain('Puntos');
+  });
+
   it('does not render a row expander when compact is off', async () => {
     host.columns.set([
       ...COLUMNS,

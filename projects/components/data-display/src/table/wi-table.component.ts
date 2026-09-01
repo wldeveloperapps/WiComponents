@@ -51,7 +51,8 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
  * - Labels de chrome vía `provideWiDataDisplayI18n` (override opcional por input).
  * - Toolbar: `[wiTableSummary]`, visibilidad de columnas, `[wiTableActions]`.
  * - Celdas: `field` o `ng-template [wiTableCell]`; acciones: `wiTableRowActions`.
- * - Compacto (< 960px de contenedor): columnas `priority: 'collapse'` en una tarjeta por fila; sin menú de visibilidad.
+ * - Compacto (< 960px de contenedor): columnas extra en una tarjeta por fila (chevron);
+ *   `priority: 'always'` las deja en la fila. Sin menú de visibilidad.
  */
 @Component({
   selector: 'wi-table',
@@ -423,7 +424,7 @@ export class WiTableComponent<T = unknown> {
   readonly columnVisibility = input(true, { transform: booleanAttribute });
   readonly showResultCount = input(false, { transform: booleanAttribute });
   /**
-   * Layout compacto (columnas `collapse` en panel).
+   * Layout compacto (columnas extra en panel expandible; `always` se quedan en la fila).
    * `null` (default) = según ancho del contenedor (< 960px).
    */
   readonly compact = input<boolean | null>(null);

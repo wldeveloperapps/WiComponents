@@ -23,14 +23,15 @@ export function wiDefaultVisibleColumnIds(columns: readonly WiColumnDef[]): stri
   return columns.filter((column) => column.visible !== false).map((column) => column.id);
 }
 
-/** Prioridad efectiva (`always` si se omite). */
+/** Prioridad efectiva (`collapse` si se omite). */
 export function wiColumnPriority(column: WiColumnDef): WiColumnPriority {
-  return column.priority ?? 'always';
+  return column.priority ?? 'collapse';
 }
 
 /**
  * Columnas que permanecen en la fila.
- * En compacto, solo `priority: 'always'`; si no hay ninguna, se deja la primera visible.
+ * En compacto, solo `priority: 'always'`; si ninguna lo es, se deja la primera visible
+ * y el resto van al panel (chevron por defecto).
  */
 export function wiInlineColumns(columns: readonly WiColumnDef[], compact: boolean): WiColumnDef[] {
   if (!compact) {
