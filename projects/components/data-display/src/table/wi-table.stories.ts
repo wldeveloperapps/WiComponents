@@ -40,6 +40,7 @@ const COLUMNS: WiColumnDef[] = [
     sortable: true,
     filterable: true,
     filterPlaceholder: 'Escribir para buscar',
+    priority: 'collapse',
   },
   {
     id: 'name',
@@ -57,6 +58,7 @@ const COLUMNS: WiColumnDef[] = [
     filterable: true,
     filterType: 'select',
     filterPlaceholder: 'Seleccionar uno',
+    priority: 'collapse',
     filterOptions: [
       { label: 'Civil', value: 'CIVIL' },
       { label: 'Other', value: 'OTHER' },
@@ -71,6 +73,7 @@ const COLUMNS: WiColumnDef[] = [
     filterable: true,
     filterType: 'select',
     filterPlaceholder: 'Seleccionar uno',
+    priority: 'collapse',
     filterOptions: [
       { label: 'JV', value: 'JV' },
       { label: 'NMDC', value: 'NMDC' },
@@ -165,6 +168,7 @@ Tabla declarativa del design system. La app pasa \`WiColumnDef\` + filas (p. ej.
 
 **Default** = API mínima. **Recipe /** = composición de producto (toolbar, menú de fila) — no son inputs nuevos.
 
+- Compacto: contenedor &lt; 960px → columnas \`priority: 'collapse'\` en una tarjeta por fila (sin scroll horizontal ni menú de visibilidad). \`[compact]\` fuerza el modo.
 - Cliente: sin \`totalItems\` → filter / sort / page locales.
 - Servidor: con \`totalItems\` + página en \`data\`; reaccionar a \`(filtersChange)\` / \`(sortChange)\` / \`(pageChange)\`.
         `,
@@ -197,6 +201,12 @@ Tabla declarativa del design system. La app pasa \`WiColumnDef\` + filas (p. ej.
     showFilters: { control: 'boolean' },
     columnVisibility: { control: 'boolean' },
     showResultCount: { control: 'boolean' },
+    compact: {
+      control: 'inline-radio',
+      options: [null, true, false],
+      description:
+        'Layout compacto. null = según ancho del contenedor (< 960px). true/false fuerzan el modo.',
+    },
     emptyMessage: { control: 'text' },
     columns: { table: { disable: true } },
     data: { table: { disable: true } },
@@ -223,6 +233,7 @@ Tabla declarativa del design system. La app pasa \`WiColumnDef\` + filas (p. ej.
     showFilters: true,
     columnVisibility: true,
     showResultCount: false,
+    compact: null,
     emptyMessage: 'No hay datos',
     sortChange: fn(),
     pageChange: fn(),
@@ -247,6 +258,7 @@ export const Default: Story = {
           [showFilters]="showFilters"
           [columnVisibility]="columnVisibility"
           [showResultCount]="showResultCount"
+          [compact]="compact"
           [emptyMessage]="emptyMessage"
           trackBy="id"
           (sortChange)="sortChange($event)"
@@ -276,6 +288,7 @@ export const Plain: Story = {
           [pageSize]="pageSize"
           [showFilters]="showFilters"
           [columnVisibility]="columnVisibility"
+          [compact]="compact"
           trackBy="id"
           (sortChange)="sortChange($event)"
           (pageChange)="pageChange($event)"
@@ -303,6 +316,7 @@ export const WithCellTemplate: Story = {
           [pageSize]="pageSize"
           [showFilters]="showFilters"
           [columnVisibility]="columnVisibility"
+          [compact]="compact"
           trackBy="id"
           (sortChange)="sortChange($event)"
           (pageChange)="pageChange($event)"
@@ -336,6 +350,7 @@ export const Empty: Story = {
           [emptyMessage]="emptyMessage"
           [showFilters]="showFilters"
           [columnVisibility]="columnVisibility"
+          [compact]="compact"
         />
       </div>
     `,
@@ -376,6 +391,7 @@ export const RecipeResultsToolbar: Story = {
           [columnVisibility]="columnVisibility"
           [showResultCount]="showResultCount"
           [resultCountTemplate]="resultCountTemplate"
+          [compact]="compact"
           trackBy="id"
           (sortChange)="sortChange($event)"
           (pageChange)="pageChange($event)"
@@ -412,22 +428,26 @@ export const RecipeResultsToolbar: Story = {
   }),
 };
 
-export const NarrowScroll: Story = {
-  name: 'Narrow (scroll horizontal)',
+export const NarrowCompact: Story = {
+  name: 'Narrow (columnas colapsadas)',
   parameters: {
     docs: {
       description: {
         story:
-          'Viewport estrecho: la tabla hace scroll horizontal. Una vista cards la compone la app.',
+          "Contenedor < 960px: sin scroll horizontal ni contador de columnas. Las columnas `priority: 'collapse'` se muestran en una tarjeta al expandir la fila.",
       },
     },
   },
   args: {
     columnVisibility: false,
     pageSize: 4,
+    compact: true,
   },
   render: (args) => ({
-    props: args,
+    props: {
+      ...args,
+      onRowAction: fn(),
+    },
     template: `
       <div class="bg-background p-4 text-on-background">
         <div class="w-[360px] max-w-full rounded-control border border-outline-variant p-3">
@@ -438,10 +458,29 @@ export const NarrowScroll: Story = {
             [pageSize]="pageSize"
             [showFilters]="showFilters"
             [columnVisibility]="columnVisibility"
+            [compact]="compact"
             trackBy="id"
             (pageChange)="pageChange($event)"
             (filtersChange)="filtersChange($event)"
-          />
+          >
+            <ng-template wiTableRowActions let-row>
+              <button
+                type="button"
+                class="inline-flex size-8 items-center justify-center rounded-control text-on-surface outline-none hover:bg-surface-variant focus-visible:ring-2 focus-visible:ring-ring"
+                [wiMenuTrigger]="rowMenu"
+                [attr.aria-label]="'Acciones de ' + row.name"
+              >
+                <wi-icon name="ellipsis-vertical" />
+              </button>
+              <ng-template #rowMenu>
+                <wi-menu>
+                  <button type="button" wiMenuItem (triggered)="onRowAction({ action: 'detail', row })">
+                    Ver detalle
+                  </button>
+                </wi-menu>
+              </ng-template>
+            </ng-template>
+          </wi-table>
         </div>
       </div>
     `,

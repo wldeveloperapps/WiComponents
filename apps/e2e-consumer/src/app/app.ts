@@ -214,6 +214,7 @@ export class App {
         filterType: 'select',
         filterPlaceholder: m.tableFilterStatus,
         filterOptions: m.tableStatusOptions,
+        priority: 'collapse',
       },
     ];
   });

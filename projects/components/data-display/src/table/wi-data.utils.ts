@@ -1,4 +1,10 @@
-import type { WiColumnDef, WiColumnFilter, WiFilterOperator, WiSortState } from './wi-column.types';
+import type {
+  WiColumnDef,
+  WiColumnFilter,
+  WiColumnPriority,
+  WiFilterOperator,
+  WiSortState,
+} from './wi-column.types';
 
 /** Columnas visibles (default `visible !== false`). */
 export function wiVisibleColumns(
@@ -15,6 +21,36 @@ export function wiVisibleColumns(
 /** Ids visibles por defecto según `column.visible`. */
 export function wiDefaultVisibleColumnIds(columns: readonly WiColumnDef[]): string[] {
   return columns.filter((column) => column.visible !== false).map((column) => column.id);
+}
+
+/** Prioridad efectiva (`always` si se omite). */
+export function wiColumnPriority(column: WiColumnDef): WiColumnPriority {
+  return column.priority ?? 'always';
+}
+
+/**
+ * Columnas que permanecen en la fila.
+ * En compacto, solo `priority: 'always'`; si no hay ninguna, se deja la primera visible.
+ */
+export function wiInlineColumns(columns: readonly WiColumnDef[], compact: boolean): WiColumnDef[] {
+  if (!compact) {
+    return [...columns];
+  }
+  const inline = columns.filter((column) => wiColumnPriority(column) === 'always');
+  return inline.length > 0 ? inline : columns.slice(0, 1);
+}
+
+/** Columnas que van al panel expandible en compacto. */
+export function wiCollapseColumns(
+  columns: readonly WiColumnDef[],
+  compact: boolean,
+): WiColumnDef[] {
+  if (!compact) {
+    return [];
+  }
+  const inline = wiInlineColumns(columns, true);
+  const inlineIds = new Set(inline.map((column) => column.id));
+  return columns.filter((column) => !inlineIds.has(column.id));
 }
 
 export function wiReadCellValue(row: unknown, field: string | undefined): unknown {

@@ -23,6 +23,7 @@ export type {
   WiColumnFilter,
   WiColumnFilterOption,
   WiColumnFilterType,
+  WiColumnPriority,
   WiFilterOperator,
   WiFiltersChangeEvent,
   WiPageChangeEvent,
@@ -31,16 +32,19 @@ export type {
   WiSortState,
   WiTableCellContext,
 } from './table/wi-column.types';
-export { WI_DEFAULT_FILTER_OPERATORS } from './table/wi-column.types';
+export { WI_DEFAULT_FILTER_OPERATORS, WI_TABLE_COMPACT_BREAKPOINT } from './table/wi-column.types';
 export type { WiDataDisplayI18n } from './wi-data-display.i18n';
 export { provideWiDataDisplayI18n } from './wi-data-display.i18n';
 
 export {
+  wiCollapseColumns,
+  wiColumnPriority,
   wiCompareValues,
   wiDefaultVisibleColumnIds,
   wiFilterRows,
   wiFormatCellValue,
   wiGetColumnFilter,
+  wiInlineColumns,
   wiMatchFilter,
   wiPageRows,
   wiPageWindow,

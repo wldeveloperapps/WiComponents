@@ -114,6 +114,9 @@ export function createStorybookDataDisplayI18n(): Partial<WiDataDisplayI18n> {
     columnVisibilityAriaLabel: () => (isEs() ? 'Visibilidad de columnas' : 'Column visibility'),
     resultCountTemplate: () => (isEs() ? '{count} resultados' : '{count} results'),
     rowActionsHeader: () => (isEs() ? 'Acciones' : 'Actions'),
+    expandColumnHeader: () => (isEs() ? 'Más' : 'More'),
+    expandRowAriaLabel: () => (isEs() ? 'Mostrar columnas ocultas' : 'Show hidden columns'),
+    collapseRowAriaLabel: () => (isEs() ? 'Ocultar columnas extra' : 'Hide extra columns'),
     filterOperators: () =>
       isEs()
         ? [

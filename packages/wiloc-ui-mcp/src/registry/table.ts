@@ -14,17 +14,22 @@ export const wiTableRegistryEntry = {
     'WiColumnVisibilityComponent',
     'WiDataPaginationComponent',
     'WiColumnDef',
+    'WiColumnPriority',
     'WiColumnFilter',
     'WiSortState',
     'WiPageChangeEvent',
     'WiDataDisplayI18n',
     'provideWiDataDisplayI18n',
     'WI_DEFAULT_FILTER_OPERATORS',
+    'WI_TABLE_COMPACT_BREAKPOINT',
     'wiProcessRows',
     'wiFilterRows',
     'wiSortRows',
     'wiPageRows',
     'wiVisibleColumns',
+    'wiInlineColumns',
+    'wiCollapseColumns',
+    'wiColumnPriority',
   ],
   inputs: [
     {
@@ -32,7 +37,7 @@ export const wiTableRegistryEntry = {
       type: 'readonly WiColumnDef[]',
       default: 'required',
       description:
-        'Definición declarativa (sortable, filterable, filterType text|select). Agnóstica a metadatos; la app adapta y compone la vista',
+        'Definición declarativa (sortable, filterable, filterType text|select, priority always|collapse). Agnóstica a metadatos; la app adapta y compone la vista',
     },
     {
       name: 'data',
@@ -74,13 +79,20 @@ export const wiTableRegistryEntry = {
       name: 'columnVisibility',
       type: 'boolean',
       default: 'true',
-      description: 'Muestra el menú N de M columnas visibles',
+      description: 'Muestra el menú N de M columnas visibles. Oculto en layout compacto',
     },
     {
       name: 'showFilters',
       type: 'boolean',
       default: 'true',
       description: 'Fila de filtros bajo cabeceras',
+    },
+    {
+      name: 'compact',
+      type: 'boolean | null',
+      default: 'null',
+      description:
+        'Layout compacto: columnas priority collapse en panel expandible, sin scroll horizontal. null = contenedor < 960px (WI_TABLE_COMPACT_BREAKPOINT)',
     },
     {
       name: 'emptyMessage / previousLabel / …',
@@ -108,9 +120,9 @@ export const wiTableRegistryEntry = {
     },
   ],
   variants: [],
-  keyboard: ['Enter/Space en sort y menús; paginación por botones'],
+  keyboard: ['Enter/Space en sort, expand de fila y menús; paginación por botones'],
   a11yNotes:
-    'Tabla semántica con aria-sort. Filtros con aria-label por columna vía provideWiDataDisplayI18n.filterAriaLabel. Visibilidad vía wi-menu. Labels de chrome: provideWiDataDisplayI18n (sin copy hardcodeado ES).',
+    'Tabla semántica con aria-sort. Chevron de fila con aria-expanded y aria-label vía provideWiDataDisplayI18n.expandRowAriaLabel / collapseRowAriaLabel. Filtros con aria-label por columna vía provideWiDataDisplayI18n.filterAriaLabel. Visibilidad vía wi-menu. Labels de chrome: provideWiDataDisplayI18n (sin copy hardcodeado ES).',
   example: {
     import: `import {
   WiTableComponent,

@@ -28,7 +28,18 @@ export interface WiColumnDef {
    * hasta que la app la reactive vía `visibleColumnIds`.
    */
   visible?: boolean;
+  /**
+   * Comportamiento en layout compacto (contenedor < 960px).
+   * `always` (default) permanece en la fila; `collapse` pasa al panel expandible.
+   */
+  priority?: WiColumnPriority;
 }
+
+/** Prioridad de columna en viewport / contenedor estrecho. */
+export type WiColumnPriority = 'always' | 'collapse';
+
+/** Ancho del contenedor (px) por debajo del cual `wi-table` entra en compacto. */
+export const WI_TABLE_COMPACT_BREAKPOINT = 960;
 
 export type WiColumnFilterType = 'text' | 'select';
 

@@ -25,6 +25,12 @@ export interface WiDataDisplayI18n {
   /** Plantilla: `{count}`. */
   resultCountTemplate: () => string;
   rowActionsHeader: () => string;
+  /** Cabecera oculta visualmente de la columna chevron. */
+  expandColumnHeader: () => string;
+  /** Aria del botón para abrir el panel de columnas colapsadas. */
+  expandRowAriaLabel: () => string;
+  /** Aria del botón para cerrar el panel. */
+  collapseRowAriaLabel: () => string;
   filterOperators: () => readonly { value: WiFilterOperator; label: string }[];
 }
 
@@ -43,6 +49,9 @@ const defaultDataDisplayI18n: WiDataDisplayI18n = {
   columnVisibilityAriaLabel: () => 'Column visibility',
   resultCountTemplate: () => '{count} results',
   rowActionsHeader: () => 'Actions',
+  expandColumnHeader: () => 'More',
+  expandRowAriaLabel: () => 'Show hidden columns',
+  collapseRowAriaLabel: () => 'Hide extra columns',
   filterOperators: () => WI_DEFAULT_FILTER_OPERATORS,
 };
 

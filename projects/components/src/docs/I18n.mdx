@@ -206,6 +206,9 @@ function createDataDisplayI18n(): Partial<WiDataDisplayI18n> {
     columnVisibilityAriaLabel: () => t('wi.table.columnAria'),
     resultCountTemplate: () => t('wi.table.resultCount'),
     rowActionsHeader: () => t('wi.table.rowActions'),
+    expandColumnHeader: () => t('wi.table.expandColumn'),
+    expandRowAriaLabel: () => t('wi.table.expandRow'),
+    collapseRowAriaLabel: () => t('wi.table.collapseRow'),
     filterOperators: () => [
       { value: 'contains', label: t('wi.table.operators.contains') },
       { value: 'notContains', label: t('wi.table.operators.notContains') },
@@ -402,7 +405,7 @@ Demo: **Forms → WiDatepicker** + toolbar **Locale**.
 
 | Qué | Canal |
 | --- | ----- |
-| Vacío, paginación, filtros, operadores, “Columnas” | **`provideWiDataDisplayI18n`** |
+| Vacío, paginación, filtros, operadores, “Columnas”, expand compacto | **`provideWiDataDisplayI18n`** |
 | Override puntual | inputs opcionales (`emptyMessage`, `previousLabel`, …) |
 | Cabeceras y options de filtro | `WiColumnDef` (app) |
 
@@ -496,6 +499,9 @@ provideWiDataDisplayI18n({
   columnVisibilityAriaLabel: () => 'Visibilidad de columnas',
   resultCountTemplate: () => '{count} resultados',
   rowActionsHeader: () => 'Acciones',
+  expandColumnHeader: () => 'Más',
+  expandRowAriaLabel: () => 'Mostrar columnas ocultas',
+  collapseRowAriaLabel: () => 'Ocultar columnas extra',
   filterOperators: () => [
     { value: 'contains', label: 'Contiene' },
     { value: 'notContains', label: 'No contiene' },

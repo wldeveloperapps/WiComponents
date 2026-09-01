@@ -462,6 +462,9 @@ export function createDataDisplayI18n(): Partial<WiDataDisplayI18n> {
     columnVisibilityAriaLabel: () => (es() ? 'Visibilidad de columnas' : 'Column visibility'),
     resultCountTemplate: () => (es() ? '{count} resultados' : '{count} results'),
     rowActionsHeader: () => (es() ? 'Acciones' : 'Actions'),
+    expandColumnHeader: () => (es() ? 'Más' : 'More'),
+    expandRowAriaLabel: () => (es() ? 'Mostrar columnas ocultas' : 'Show hidden columns'),
+    collapseRowAriaLabel: () => (es() ? 'Ocultar columnas extra' : 'Hide extra columns'),
     filterOperators: () =>
       es()
         ? [

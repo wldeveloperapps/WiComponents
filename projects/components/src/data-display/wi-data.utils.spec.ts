@@ -1,8 +1,10 @@
 import type { WiColumnDef, WiColumnFilter } from '../../data-display/src/table/wi-column.types';
 import {
+  wiCollapseColumns,
   wiDefaultVisibleColumnIds,
   wiFilterRows,
   wiFormatCellValue,
+  wiInlineColumns,
   wiPageRows,
   wiPageWindow,
   wiProcessRows,
@@ -54,6 +56,27 @@ describe('wi-data.utils', () => {
     });
     expect(processed.total).toBe(2);
     expect(processed.rows[0]?.name).toBe('ab');
+  });
+
+  it('splits inline vs collapse columns in compact mode', () => {
+    const withPriority: WiColumnDef[] = [
+      { id: 'name', header: 'Name', field: 'name' },
+      { id: 'city', header: 'City', field: 'city', priority: 'collapse' },
+      { id: 'age', header: 'Age', field: 'age', priority: 'collapse' },
+    ];
+    expect(wiInlineColumns(withPriority, false).map((c) => c.id)).toEqual(['name', 'city', 'age']);
+    expect(wiInlineColumns(withPriority, true).map((c) => c.id)).toEqual(['name']);
+    expect(wiCollapseColumns(withPriority, true).map((c) => c.id)).toEqual(['city', 'age']);
+    expect(wiCollapseColumns(withPriority, false)).toEqual([]);
+  });
+
+  it('keeps the first column inline when every column is collapse', () => {
+    const allCollapse: WiColumnDef[] = [
+      { id: 'a', header: 'A', field: 'a', priority: 'collapse' },
+      { id: 'b', header: 'B', field: 'b', priority: 'collapse' },
+    ];
+    expect(wiInlineColumns(allCollapse, true).map((c) => c.id)).toEqual(['a']);
+    expect(wiCollapseColumns(allCollapse, true).map((c) => c.id)).toEqual(['b']);
   });
 
   it('upserts filters and builds page windows', () => {

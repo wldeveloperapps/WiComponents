@@ -1,12 +1,18 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
+  afterNextRender,
   booleanAttribute,
   Component,
   computed,
   contentChildren,
+  DestroyRef,
+  ElementRef,
+  inject,
   input,
+  linkedSignal,
   model,
   output,
+  signal,
 } from '@angular/core';
 
 import { WiMenuComponent, WiMenuItemDirective, WiMenuTriggerDirective } from '@wiloc/ui/overlays';
@@ -20,12 +26,15 @@ import type {
   WiSortState,
   WiTableCellContext,
 } from './wi-column.types';
+import { WI_TABLE_COMPACT_BREAKPOINT } from './wi-column.types';
 import { WiColumnVisibilityComponent } from './wi-column-visibility.component';
 import { injectWiDataDisplayI18n } from '../wi-data-display.i18n';
 import { WiDataPaginationComponent } from './wi-data-pagination.component';
 import {
+  wiCollapseColumns,
   wiFormatCellValue,
   wiGetColumnFilter,
+  wiInlineColumns,
   wiProcessRows,
   wiReadCellValue,
   wiUpsertColumnFilter,
@@ -42,12 +51,14 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
  * - Labels de chrome vía `provideWiDataDisplayI18n` (override opcional por input).
  * - Toolbar: `[wiTableSummary]`, visibilidad de columnas, `[wiTableActions]`.
  * - Celdas: `field` o `ng-template [wiTableCell]`; acciones: `wiTableRowActions`.
+ * - Compacto (< 960px de contenedor): columnas `priority: 'collapse'` en una tarjeta por fila; sin menú de visibilidad.
  */
 @Component({
   selector: 'wi-table',
   host: {
     class: 'wi-table block w-full min-w-0',
     role: 'region',
+    '[class.wi-table--compact]': 'isCompact()',
     '[attr.aria-label]': 'resolvedAriaLabel()',
   },
   imports: [
@@ -69,7 +80,7 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
         }
       </div>
       <div class="wi-table__toolbar-end flex flex-wrap items-center gap-2">
-        @if (columnVisibility()) {
+        @if (columnVisibility() && !isCompact()) {
           <wi-column-visibility
             [columns]="columns()"
             [(visibleColumnIds)]="visibleColumnIds"
@@ -82,10 +93,25 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
       </div>
     </div>
 
-    <div class="wi-table__scroll w-full min-w-0 overflow-x-auto">
-      <table class="wi-table__table w-full border-collapse text-left text-sm text-on-surface">
+    <div
+      class="wi-table__scroll w-full min-w-0"
+      [class.overflow-x-auto]="!isCompact()"
+      [class.overflow-x-hidden]="isCompact()"
+    >
+      <table
+        class="wi-table__table w-full border-collapse text-left text-sm text-on-surface"
+        [class.table-fixed]="isCompact()"
+      >
         <thead class="wi-table__head border-b border-outline-variant bg-surface-variant/40">
           <tr>
+            @if (showRowExpand()) {
+              <th scope="col" class="wi-table__th wi-table__th--expand w-10 px-2 py-2">
+                <span
+                  class="absolute h-px w-px overflow-hidden whitespace-nowrap border-0 p-0 [clip:rect(0,0,0,0)]"
+                  >{{ resolvedExpandColumnHeader() }}</span
+                >
+              </th>
+            }
             @if (hasRowActions()) {
               <th scope="col" class="wi-table__th wi-table__th--actions w-10 px-2 py-2">
                 <span
@@ -94,19 +120,30 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
                 >
               </th>
             }
-            @for (column of displayColumns(); track column.id) {
+            @for (column of inlineColumns(); track column.id) {
               <th
                 scope="col"
-                class="wi-table__th px-3 py-2 font-semibold whitespace-nowrap"
+                class="wi-table__th px-3 py-2 font-semibold"
+                [class.min-w-0]="isCompact()"
+                [class.overflow-hidden]="isCompact()"
+                [class.align-top]="isCompact()"
+                [class.whitespace-nowrap]="!isCompact()"
                 [attr.aria-sort]="ariaSort(column)"
               >
                 @if (column.sortable) {
                   <button
                     type="button"
-                    class="wi-table__sort inline-flex max-w-full items-center gap-1 rounded-control text-left outline-none hover:text-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                    class="wi-table__sort inline-flex max-w-full gap-1 rounded-control text-left outline-none hover:text-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                    [class.items-center]="!isCompact()"
+                    [class.items-start]="isCompact()"
                     (click)="onSortClick(column)"
                   >
-                    <span class="truncate">{{ column.header }}</span>
+                    <span
+                      [class.truncate]="!isCompact()"
+                      [class.whitespace-normal]="isCompact()"
+                      [class.break-words]="isCompact()"
+                      >{{ column.header }}</span
+                    >
                     <span
                       class="wi-table__sort-icon inline-flex size-4 shrink-0"
                       aria-hidden="true"
@@ -141,7 +178,12 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
                     </span>
                   </button>
                 } @else {
-                  <span class="truncate">{{ column.header }}</span>
+                  <span
+                    [class.truncate]="!isCompact()"
+                    [class.whitespace-normal]="isCompact()"
+                    [class.break-words]="isCompact()"
+                    >{{ column.header }}</span
+                  >
                 }
               </th>
             }
@@ -149,13 +191,23 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
 
           @if (showFilterRow()) {
             <tr class="wi-table__filters border-b border-outline-variant">
+              @if (showRowExpand()) {
+                <th class="px-2 py-1.5"></th>
+              }
               @if (hasRowActions()) {
                 <th class="px-2 py-1.5"></th>
               }
-              @for (column of displayColumns(); track column.id) {
-                <th class="wi-table__filter-cell px-2 py-1.5 font-normal">
+              @for (column of inlineColumns(); track column.id) {
+                <th
+                  class="wi-table__filter-cell px-2 py-1.5 font-normal"
+                  [class.min-w-0]="isCompact()"
+                  [class.overflow-hidden]="isCompact()"
+                >
                   @if (column.filterable) {
-                    <div class="flex min-w-[8rem] items-center gap-1">
+                    <div
+                      class="flex min-w-0 items-center gap-1"
+                      [class.min-w-[8rem]]="!isCompact()"
+                    >
                       @if (column.filterType === 'select') {
                         <select
                           class="wi-table__filter-select h-control-sm w-full min-w-0 rounded-control border border-outline bg-surface px-2 text-sm text-on-surface outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -218,11 +270,45 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
           }
         </thead>
         <tbody class="wi-table__body">
-          @for (row of displayRows(); track trackRow(row, $index); let odd = $odd) {
+          @for (
+            row of displayRows();
+            track trackRow(row, $index);
+            let odd = $odd;
+            let index = $index
+          ) {
             <tr
               class="wi-table__row border-b border-outline-variant/60"
               [class.bg-surface-variant/20]="odd"
             >
+              @if (showRowExpand()) {
+                <td class="wi-table__td wi-table__td--expand px-2 py-2 align-middle">
+                  <button
+                    type="button"
+                    class="wi-table__expand inline-flex size-8 items-center justify-center rounded-control text-on-surface outline-none hover:bg-surface-variant focus-visible:ring-2 focus-visible:ring-ring"
+                    [attr.aria-expanded]="isRowExpanded(row, index)"
+                    [attr.aria-label]="
+                      isRowExpanded(row, index)
+                        ? resolvedCollapseRowAriaLabel()
+                        : resolvedExpandRowAriaLabel()
+                    "
+                    (click)="toggleRowExpand(row, index)"
+                  >
+                    <svg
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      class="size-4 transition-transform"
+                      [class.rotate-180]="isRowExpanded(row, index)"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.22 8.22a.75.75 0 011.06 0L10 11.94l3.72-3.72a.75.75 0 111.06 1.06l-4.25 4.25a.75.75 0 01-1.06 0L5.22 9.28a.75.75 0 010-1.06z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </td>
+              }
               @if (rowActionsTemplate(); as actionsTpl) {
                 <td class="wi-table__td wi-table__td--actions px-2 py-2 align-middle">
                   <ng-container
@@ -231,19 +317,48 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
                   />
                 </td>
               }
-              @for (column of displayColumns(); track column.id) {
-                <td class="wi-table__td px-3 py-2 align-middle">
-                  @if (cellTemplate(column.id); as template) {
-                    <ng-container
-                      [ngTemplateOutlet]="template"
-                      [ngTemplateOutletContext]="cellContext(row, column)"
-                    />
-                  } @else {
-                    <span class="truncate">{{ cellText(row, column) }}</span>
-                  }
+              @for (column of inlineColumns(); track column.id) {
+                <td
+                  class="wi-table__td px-3 py-2"
+                  [class.min-w-0]="isCompact()"
+                  [class.overflow-hidden]="isCompact()"
+                  [class.align-top]="isCompact()"
+                  [class.align-middle]="!isCompact()"
+                >
+                  <ng-container
+                    [ngTemplateOutlet]="cellOutlet"
+                    [ngTemplateOutletContext]="cellOutletContext(row, column, !isCompact())"
+                  />
                 </td>
               }
             </tr>
+            @if (showRowExpand() && isRowExpanded(row, index)) {
+              <tr class="wi-table__expand-row border-b border-outline-variant/60">
+                <td class="wi-table__expand-cell px-3 py-3" [attr.colspan]="colspan()">
+                  <div
+                    class="wi-table__expand-card @container rounded-control-lg border border-outline-variant bg-surface p-4 text-on-surface shadow-sm"
+                  >
+                    <dl
+                      class="wi-table__expand-list grid grid-cols-1 gap-x-8 gap-y-4 @min-[24rem]:grid-cols-2"
+                    >
+                      @for (column of collapseColumns(); track column.id) {
+                        <div class="wi-table__expand-item min-w-0">
+                          <dt class="text-xs font-medium text-on-surface-variant">
+                            {{ column.header }}
+                          </dt>
+                          <dd class="mt-1 min-w-0 break-words text-sm font-medium text-on-surface">
+                            <ng-container
+                              [ngTemplateOutlet]="cellOutlet"
+                              [ngTemplateOutletContext]="cellOutletContext(row, column, false)"
+                            />
+                          </dd>
+                        </div>
+                      }
+                    </dl>
+                  </div>
+                </td>
+              </tr>
+            }
           } @empty {
             <tr>
               <td
@@ -257,6 +372,24 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
         </tbody>
       </table>
     </div>
+
+    <ng-template #cellOutlet let-row="row" let-column="column" let-clamp="clamp">
+      @if (cellTemplate(column.id); as template) {
+        <div class="min-w-0" [class.overflow-hidden]="clamp !== false">
+          <ng-container
+            [ngTemplateOutlet]="template"
+            [ngTemplateOutletContext]="cellContext(row, column)"
+          />
+        </div>
+      } @else {
+        <span
+          class="block min-w-0"
+          [class.truncate]="clamp !== false"
+          [class.break-words]="clamp === false"
+          >{{ cellText(row, column) }}</span
+        >
+      }
+    </ng-template>
 
     @if (showPagination()) {
       <wi-data-pagination
@@ -273,6 +406,9 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
 })
 export class WiTableComponent<T = unknown> {
   private readonly i18n = injectWiDataDisplayI18n();
+  private readonly host = inject(ElementRef<HTMLElement>);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly compactFromWidth = signal(false);
 
   readonly columns = input.required<readonly WiColumnDef[]>();
   readonly data = input.required<readonly T[]>();
@@ -286,6 +422,11 @@ export class WiTableComponent<T = unknown> {
   readonly showFilters = input(true, { transform: booleanAttribute });
   readonly columnVisibility = input(true, { transform: booleanAttribute });
   readonly showResultCount = input(false, { transform: booleanAttribute });
+  /**
+   * Layout compacto (columnas `collapse` en panel).
+   * `null` (default) = según ancho del contenedor (< 960px).
+   */
+  readonly compact = input<boolean | null>(null);
 
   /** Override de `provideWiDataDisplayI18n`. */
   readonly emptyMessage = input<string | undefined>(undefined);
@@ -301,6 +442,9 @@ export class WiTableComponent<T = unknown> {
   readonly columnVisibilityAriaLabel = input<string | undefined>(undefined);
   readonly resultCountTemplate = input<string | undefined>(undefined);
   readonly rowActionsHeader = input<string | undefined>(undefined);
+  readonly expandColumnHeader = input<string | undefined>(undefined);
+  readonly expandRowAriaLabel = input<string | undefined>(undefined);
+  readonly collapseRowAriaLabel = input<string | undefined>(undefined);
   readonly trackBy = input<string | ((row: T, index: number) => string | number) | null>(null);
   readonly filterOperators = input<
     readonly { value: WiFilterOperator; label: string }[] | undefined
@@ -310,6 +454,29 @@ export class WiTableComponent<T = unknown> {
 
   private readonly cellDirs = contentChildren(WiTableCellDirective);
   private readonly rowActionDirs = contentChildren(WiTableRowActionsDirective);
+
+  constructor() {
+    afterNextRender(() => {
+      const element = this.host.nativeElement;
+      const applyWidth = (): void => {
+        const width = element.clientWidth;
+        if (width <= 0) {
+          return;
+        }
+        this.compactFromWidth.set(width < WI_TABLE_COMPACT_BREAKPOINT);
+      };
+
+      applyWidth();
+
+      if (typeof ResizeObserver === 'undefined') {
+        return;
+      }
+
+      const observer = new ResizeObserver(() => applyWidth());
+      observer.observe(element);
+      this.destroyRef.onDestroy(() => observer.disconnect());
+    });
+  }
 
   protected readonly resolvedEmptyMessage = computed(
     () => this.emptyMessage() ?? this.i18n.emptyMessage(),
@@ -329,6 +496,15 @@ export class WiTableComponent<T = unknown> {
   protected readonly resolvedRowActionsHeader = computed(
     () => this.rowActionsHeader() ?? this.i18n.rowActionsHeader(),
   );
+  protected readonly resolvedExpandColumnHeader = computed(
+    () => this.expandColumnHeader() ?? this.i18n.expandColumnHeader(),
+  );
+  protected readonly resolvedExpandRowAriaLabel = computed(
+    () => this.expandRowAriaLabel() ?? this.i18n.expandRowAriaLabel(),
+  );
+  protected readonly resolvedCollapseRowAriaLabel = computed(
+    () => this.collapseRowAriaLabel() ?? this.i18n.collapseRowAriaLabel(),
+  );
   protected readonly resolvedFilterOperators = computed(
     () => this.filterOperators() ?? this.i18n.filterOperators(),
   );
@@ -336,6 +512,16 @@ export class WiTableComponent<T = unknown> {
   readonly displayColumns = computed(() =>
     wiVisibleColumns(this.columns(), this.visibleColumnIds()),
   );
+
+  readonly isCompact = computed(() => this.compact() ?? this.compactFromWidth());
+
+  readonly inlineColumns = computed(() => wiInlineColumns(this.displayColumns(), this.isCompact()));
+
+  readonly collapseColumns = computed(() =>
+    wiCollapseColumns(this.displayColumns(), this.isCompact()),
+  );
+
+  readonly showRowExpand = computed(() => this.collapseColumns().length > 0);
 
   readonly rowActionsTemplate = computed(() => this.rowActionDirs()[0]?.templateRef ?? null);
 
@@ -381,7 +567,7 @@ export class WiTableComponent<T = unknown> {
   readonly showPagination = computed(() => this.effectiveTotal() > this.pageSize());
 
   readonly showFilterRow = computed(
-    () => this.showFilters() && this.displayColumns().some((column) => column.filterable),
+    () => this.showFilters() && this.inlineColumns().some((column) => column.filterable),
   );
 
   readonly resultCountLabel = computed(() => {
@@ -390,8 +576,16 @@ export class WiTableComponent<T = unknown> {
   });
 
   readonly colspan = computed(
-    () => this.displayColumns().length + (this.hasRowActions() ? 1 : 0) || 1,
+    () =>
+      this.inlineColumns().length +
+        (this.hasRowActions() ? 1 : 0) +
+        (this.showRowExpand() ? 1 : 0) || 1,
   );
+
+  private readonly expandedRowKeys = linkedSignal({
+    source: this.pageIndex,
+    computation: () => new Set<string | number>(),
+  });
 
   eventValue(event: Event): string {
     const target = event.target;
@@ -418,6 +612,14 @@ export class WiTableComponent<T = unknown> {
     return { $implicit: row, row, column, value };
   }
 
+  cellOutletContext(
+    row: T,
+    column: WiColumnDef,
+    clamp: boolean,
+  ): WiTableCellContext<T> & { clamp: boolean } {
+    return { ...this.cellContext(row, column), clamp };
+  }
+
   trackRow(row: T, index: number): string | number {
     const trackBy = this.trackBy();
     if (typeof trackBy === 'function') {
@@ -430,6 +632,21 @@ export class WiTableComponent<T = unknown> {
       }
     }
     return index;
+  }
+
+  isRowExpanded(row: T, index: number): boolean {
+    return this.expandedRowKeys().has(this.trackRow(row, index));
+  }
+
+  toggleRowExpand(row: T, index: number): void {
+    const key = this.trackRow(row, index);
+    const next = new Set(this.expandedRowKeys());
+    if (next.has(key)) {
+      next.delete(key);
+    } else {
+      next.add(key);
+    }
+    this.expandedRowKeys.set(next);
   }
 
   filterValue(columnId: string): string {

@@ -74,6 +74,11 @@ export class WiColumnVisibilityComponent {
   readonly ariaLabel = input<string | undefined>(undefined);
   /** Plantilla: `{visible}` y `{total}`. Override de i18n. */
   readonly summaryTemplate = input<string | undefined>(undefined);
+  /**
+   * Número que sustituye a `{visible}` (p. ej. columnas en cabecera en compacto).
+   * `null` = ids efectivos del menú.
+   */
+  readonly displayedCount = input<number | null>(null);
   readonly allowEmpty = input(false, { transform: booleanAttribute });
 
   private readonly effectiveIds = computed(() => {
@@ -92,7 +97,7 @@ export class WiColumnVisibilityComponent {
   );
 
   readonly summaryLabel = computed(() => {
-    const visible = this.effectiveIds().length;
+    const visible = this.displayedCount() ?? this.effectiveIds().length;
     const total = this.columns().length;
     const template = this.summaryTemplate() ?? this.i18n.columnVisibilitySummary();
     return template.replace('{visible}', String(visible)).replace('{total}', String(total));

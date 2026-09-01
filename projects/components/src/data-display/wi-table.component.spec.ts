@@ -46,6 +46,7 @@ const ROWS: Row[] = [
       [totalItems]="totalItems()"
       [columnVisibility]="true"
       [showResultCount]="true"
+      [compact]="compact()"
       [(sort)]="sort"
       [(pageIndex)]="pageIndex"
       trackBy="id"
@@ -74,6 +75,7 @@ class WiTableHostComponent {
   readonly totalItems = signal<number | null>(null);
   readonly useTemplate = signal(false);
   readonly withActions = signal(false);
+  readonly compact = signal<boolean | null>(null);
   readonly sort = signal<WiSortState | null>(null);
   readonly pageIndex = signal(0);
   lastSort: unknown;
@@ -167,6 +169,64 @@ describe('WiTableComponent', () => {
     host.pageSize.set(2);
     fixture.detectChanges();
     await fixture.whenStable();
-    expect(table().querySelectorAll('tbody tr').length).toBe(4);
+    expect(table().querySelectorAll('tbody tr.wi-table__row').length).toBe(4);
+  });
+
+  it('does not render a row expander when compact is off', async () => {
+    host.columns.set([
+      ...COLUMNS,
+      { id: 'extra', header: 'Extra', field: 'company', priority: 'collapse' },
+    ]);
+    host.compact.set(false);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(table().classList.contains('wi-table--compact')).toBe(false);
+    expect(table().querySelector('.wi-table__expand')).toBeNull();
+    expect(table().querySelector('wi-column-visibility')).toBeTruthy();
+    expect(table().textContent).toContain('Extra');
+  });
+
+  it('collapses secondary columns into an expandable panel', async () => {
+    host.columns.set([
+      { id: 'name', header: 'Nombre', field: 'name', sortable: true, filterable: true },
+      { id: 'company', header: 'Empresa', field: 'company', priority: 'collapse' },
+      { id: 'score', header: 'Puntos', field: 'score', priority: 'collapse' },
+    ]);
+    host.compact.set(true);
+    host.useTemplate.set(true);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const el = table();
+    const grid = el.querySelector('.wi-table__table') as HTMLElement;
+    expect(el.classList.contains('wi-table--compact')).toBe(true);
+    expect(el.querySelector('.wi-table__table')?.classList.contains('table-fixed')).toBe(true);
+    expect(el.querySelector('.wi-table__scroll')?.classList.contains('overflow-x-hidden')).toBe(
+      true,
+    );
+    expect(el.querySelector('.wi-table__expand')).toBeTruthy();
+    expect(grid.textContent).not.toContain('Empresa');
+    expect(grid.textContent).not.toContain('Puntos');
+    expect(el.querySelector('wi-column-visibility')).toBeNull();
+    expect(grid.querySelector('thead .wi-table__th .truncate')).toBeNull();
+    expect(grid.querySelector('tbody .wi-table__td.overflow-hidden')).toBeTruthy();
+
+    const toggle = el.querySelector('.wi-table__expand') as HTMLButtonElement;
+    expect(toggle.getAttribute('aria-expanded')).toBe('false');
+    expect(toggle.getAttribute('aria-label')).toBe('Show hidden columns');
+    toggle.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(toggle.getAttribute('aria-expanded')).toBe('true');
+    expect(toggle.getAttribute('aria-label')).toBe('Hide extra columns');
+    const panel = el.querySelector('.wi-table__expand-card');
+    expect(panel).toBeTruthy();
+    expect(panel?.textContent).toContain('Empresa');
+    expect(panel?.textContent).toContain('Acme');
+    expect(panel?.textContent).toContain('Puntos');
+    expect(panel?.textContent).toContain('10');
+    expect(el.querySelector('.custom-name')).toBeTruthy();
   });
 });
