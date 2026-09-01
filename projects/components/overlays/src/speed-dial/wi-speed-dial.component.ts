@@ -14,6 +14,7 @@ import { WiIconComponent } from '@wiloc/ui/icon';
 
 import type { WiSpeedDialDirection, WiSpeedDialItem } from './wi-speed-dial.types';
 import { WiTooltipDirective } from '../tooltip/wi-tooltip.directive';
+import { injectWiOverlaysI18n } from '../wi-overlays.i18n';
 
 const TRIGGER_CLASSES = [
   'inline-flex',
@@ -72,8 +73,9 @@ const DIRECTION_TOOLBAR_CLASSES: Record<WiSpeedDialDirection, string> = {
  * Speed dial de acciones compactas (`wi-speed-dial`).
  *
  * 1. Cerrado → se ve el botón de tres puntos.
- * 2. Clic → se muestran las acciones de `items`.
+ * 2. Clic → se muestran las acciones de `items` y un botón X para cerrar.
  * 3. Clic en una acción → emite `itemClick` (la app decide qué hacer).
+ * 4. Clic en X, Escape o fuera → cierra el dial.
  *
  * Cada acción icon-only muestra tooltip con `item.label` (desactivable con
  * `[tooltips]="false"`). El nombre accesible sigue en `aria-label`.
@@ -114,6 +116,19 @@ const DIRECTION_TOOLBAR_CLASSES: Record<WiSpeedDialDirection, string> = {
         [class]="toolbarClasses()"
         (keydown)="onToolbarKeydown($event)"
       >
+        <button
+          type="button"
+          [class]="triggerClasses"
+          [attr.aria-label]="resolvedCloseLabel()"
+          [attr.aria-expanded]="true"
+          [attr.aria-haspopup]="'true'"
+          data-speed-dial-close
+          [wiTooltip]="tooltips() ? resolvedCloseLabel() : null"
+          position="top"
+          (click)="closeDial($event)"
+        >
+          <wi-icon name="x-mark" size="sm" />
+        </button>
         @for (item of items(); track item.id; let i = $index) {
           <button
             type="button"
@@ -136,6 +151,7 @@ const DIRECTION_TOOLBAR_CLASSES: Record<WiSpeedDialDirection, string> = {
 export class WiSpeedDialComponent {
   private readonly document = inject(DOCUMENT);
   private readonly elementRef = inject(ElementRef<HTMLElement>);
+  private readonly overlaysI18n = injectWiOverlaysI18n();
 
   /** Acciones al abrir. Las define la app: `{ id, icon, label }`. */
   readonly items = input<readonly WiSpeedDialItem[]>([]);
@@ -164,6 +180,9 @@ export class WiSpeedDialComponent {
   /** Icono del trigger cerrado. */
   readonly triggerIcon = input('ellipsis-vertical');
 
+  /** `aria-label` del botón X. Default: `provideWiOverlaysI18n().dialogCloseLabel`. */
+  readonly closeLabel = input<string | undefined>(undefined);
+
   /** La app escucha esto para ejecutar la acción (`$event.id`). */
   readonly itemClick = output<WiSpeedDialItem>();
 
@@ -171,6 +190,10 @@ export class WiSpeedDialComponent {
   protected readonly actionClasses = ACTION_CLASSES;
 
   protected readonly hasItems = computed(() => this.items().length > 0);
+
+  protected readonly resolvedCloseLabel = computed(
+    () => this.closeLabel() ?? this.overlaysI18n.dialogCloseLabel(),
+  );
 
   protected readonly toolbarClasses = computed(
     () => `${TOOLBAR_BASE_CLASSES} ${DIRECTION_TOOLBAR_CLASSES[this.direction()]}`,
@@ -228,6 +251,12 @@ export class WiSpeedDialComponent {
     }
     this.open.set(true);
     queueMicrotask(() => this.focusFirstAction());
+  }
+
+  protected closeDial(event: Event): void {
+    event.stopPropagation();
+    this.open.set(false);
+    this.focusTrigger();
   }
 
   protected onItemClick(event: Event, item: WiSpeedDialItem): void {
@@ -296,11 +325,12 @@ export class WiSpeedDialComponent {
 
   private actionButtons(): HTMLButtonElement[] {
     const root = this.elementRef.nativeElement as HTMLElement;
-    return Array.from(root.querySelectorAll('[data-item-id]')) as HTMLButtonElement[];
+    return Array.from(root.querySelectorAll('[role="toolbar"] button')) as HTMLButtonElement[];
   }
 
   private focusFirstAction(): void {
-    this.actionButtons()[0]?.focus();
+    const root = this.elementRef.nativeElement as HTMLElement;
+    (root.querySelector('[data-item-id]') as HTMLButtonElement | null)?.focus();
   }
 
   private focusTrigger(): void {

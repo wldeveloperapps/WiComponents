@@ -113,7 +113,7 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
               </th>
             }
             @if (hasRowActions()) {
-              <th scope="col" class="wi-table__th wi-table__th--actions w-24 px-2 py-2">
+              <th scope="col" class="wi-table__th wi-table__th--actions w-32 px-2 py-2">
                 <span
                   class="absolute h-px w-px overflow-hidden whitespace-nowrap border-0 p-0 [clip:rect(0,0,0,0)]"
                   >{{ resolvedRowActionsHeader() }}</span
