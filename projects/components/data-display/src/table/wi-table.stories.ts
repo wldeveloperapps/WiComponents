@@ -32,7 +32,7 @@ const COLUMNS: WiColumnDef[] = [
     sortable: true,
     filterable: true,
     filterPlaceholder: 'Escribir para buscar',
-    priority: 'always',
+    showFrom: 'always',
   },
   {
     id: 'eid',
@@ -41,7 +41,7 @@ const COLUMNS: WiColumnDef[] = [
     sortable: true,
     filterable: true,
     filterPlaceholder: 'Escribir para buscar',
-    priority: 'collapse',
+    showFrom: 'md',
   },
   {
     id: 'name',
@@ -50,7 +50,7 @@ const COLUMNS: WiColumnDef[] = [
     sortable: true,
     filterable: true,
     filterPlaceholder: 'Escribir para buscar',
-    priority: 'always',
+    showFrom: 'always',
   },
   {
     id: 'discipline',
@@ -60,7 +60,6 @@ const COLUMNS: WiColumnDef[] = [
     filterable: true,
     filterType: 'select',
     filterPlaceholder: 'Seleccionar uno',
-    priority: 'collapse',
     filterOptions: [
       { label: 'Civil', value: 'CIVIL' },
       { label: 'Other', value: 'OTHER' },
@@ -75,7 +74,7 @@ const COLUMNS: WiColumnDef[] = [
     filterable: true,
     filterType: 'select',
     filterPlaceholder: 'Seleccionar uno',
-    priority: 'collapse',
+    showFrom: 'lg',
     filterOptions: [
       { label: 'JV', value: 'JV' },
       { label: 'NMDC', value: 'NMDC' },
@@ -172,10 +171,10 @@ Tabla declarativa del design system. La app pasa \`WiColumnDef\` + filas (p. ej.
 
 **Compacto (automático) y desplegable:**
 
-- \`[compact]\` \`null\` (default) = si el contenedor &lt; 960px, layout compacto (sin scroll horizontal ni menú de visibilidad).
-- Las columnas que no caben en la fila van a una tarjeta con chevron. \`priority\` omitido = \`'collapse'\` (al panel). Marca \`priority: 'always'\` las que deben quedarse visibles (en esta demo: Última posición y Nombre).
-- Si hay más de una columna, el chevron sale solo; no hace falta \`[compact]="true"\`.
-- \`[compact]="true|false"\` fuerza el modo (\`false\` = nunca chevron).
+- Cada columna declara \`showFrom\`: \`'always'\` | \`'sm'\` (640) | \`'md'\` (768) | \`'compact'\` (960, default) | \`'lg'\` (1024). El corte es el **ancho del contenedor**, no el viewport.
+- Las que no cumplen el corte van a una tarjeta con chevron. En esta demo: Última posición y Nombre (\`always\`); EID (\`md\`); Disciplina (omitido = \`compact\`); Empresa (\`lg\`).
+- El chevron sale solo si hay columnas fuera de la fila; no hace falta \`[compact]="true"\`.
+- \`[compact]\` \`null\` (default) = según el ancho medido. \`true\` = solo \`always\` en la fila; \`false\` = todas en la fila.
 
 - Cliente: sin \`totalItems\` → filter / sort / page locales.
 - Servidor: con \`totalItems\` + página en \`data\`; reaccionar a \`(filtersChange)\` / \`(sortChange)\` / \`(pageChange)\`.
@@ -225,7 +224,7 @@ Tabla declarativa del design system. La app pasa \`WiColumnDef\` + filas (p. ej.
         },
       },
       description:
-        'Auto (null): compacto si el contenedor < 960px. Compacto/Ancho fuerzan el modo. En compacto el chevron sale si hay columnas que no quedan en la fila (default collapse; always las mantiene visibles).',
+        'Auto (null): según el ancho del contenedor y `showFrom` de cada columna. Compacto fuerza solo `always` en la fila; Ancho muestra todas. El chevron sale si hay columnas fuera de la fila.',
     },
     emptyMessage: { control: 'text' },
     columns: { table: { disable: true } },
@@ -270,7 +269,7 @@ export const Default: Story = {
     docs: {
       description: {
         story:
-          'Estrecha el canvas por debajo de 960px (compact = Auto): el chevron aparece solo. EID, Disciplina y Empresa van al panel (default `collapse`); Última posición y Nombre se quedan porque tienen `priority: \'always\'`.',
+          'Estrecha el canvas: el chevron aparece cuando alguna columna no cumple su `showFrom`. Última posición y Nombre (`always`) se quedan; EID entra desde 768px (`md`); Disciplina desde 960px (default `compact`); Empresa desde 1024px (`lg`).',
       },
     },
   },
@@ -399,7 +398,7 @@ export const RecipeResultsToolbar: Story = {
     docs: {
       description: {
         story:
-          'Ejemplo de composición en la app: contador, acciones globales y menú de fila. Al estrechar el canvas (compact Auto) el chevron sale solo: las columnas sin `priority: \'always\'` pasan a la tarjeta.',
+          'Ejemplo de composición en la app: contador, acciones globales y menú de fila. Al estrechar el canvas (compact Auto) el chevron sale solo: las columnas cuyo `showFrom` no se cumple pasan a la tarjeta.',
       },
     },
   },
@@ -462,7 +461,7 @@ export const NarrowCompact: Story = {
     docs: {
       description: {
         story:
-          '`[compact]="true"` solo fuerza el demo a 360px; en la app el compacto es automático (< 960px). El chevron sale porque hay columnas que no caben en la fila (default `collapse`). `priority: \'always\'` deja Última posición y Nombre visibles.',
+          '`[compact]="true"` fuerza solo columnas `always` en la fila (demo a 360px). En la app, Auto usa el ancho del contenedor y `showFrom`. Última posición y Nombre se quedan; el resto va a la tarjeta.',
       },
     },
   },

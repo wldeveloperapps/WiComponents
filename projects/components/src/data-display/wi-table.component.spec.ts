@@ -172,7 +172,7 @@ describe('WiTableComponent', () => {
     expect(table().querySelectorAll('tbody tr.wi-table__row').length).toBe(4);
   });
 
-  it('shows a row expander in compact when extra columns have default collapse', async () => {
+  it('shows a row expander in compact when extra columns use default showFrom', async () => {
     host.compact.set(true);
     fixture.detectChanges();
     await fixture.whenStable();
@@ -186,10 +186,7 @@ describe('WiTableComponent', () => {
   });
 
   it('does not render a row expander when compact is off', async () => {
-    host.columns.set([
-      ...COLUMNS,
-      { id: 'extra', header: 'Extra', field: 'company', priority: 'collapse' },
-    ]);
+    host.columns.set([...COLUMNS, { id: 'extra', header: 'Extra', field: 'company' }]);
     host.compact.set(false);
     fixture.detectChanges();
     await fixture.whenStable();
@@ -203,8 +200,8 @@ describe('WiTableComponent', () => {
   it('collapses secondary columns into an expandable panel', async () => {
     host.columns.set([
       { id: 'name', header: 'Nombre', field: 'name', sortable: true, filterable: true },
-      { id: 'company', header: 'Empresa', field: 'company', priority: 'collapse' },
-      { id: 'score', header: 'Puntos', field: 'score', priority: 'collapse' },
+      { id: 'company', header: 'Empresa', field: 'company' },
+      { id: 'score', header: 'Puntos', field: 'score' },
     ]);
     host.compact.set(true);
     host.useTemplate.set(true);
@@ -241,5 +238,23 @@ describe('WiTableComponent', () => {
     expect(panel?.textContent).toContain('Puntos');
     expect(panel?.textContent).toContain('10');
     expect(el.querySelector('.custom-name')).toBeTruthy();
+  });
+
+  it('keeps showFrom always columns in the row when compact is forced', async () => {
+    host.columns.set([
+      { id: 'name', header: 'Nombre', field: 'name', showFrom: 'always' },
+      { id: 'company', header: 'Empresa', field: 'company', showFrom: 'always' },
+      { id: 'score', header: 'Puntos', field: 'score' },
+    ]);
+    host.compact.set(true);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const el = table();
+    const grid = el.querySelector('.wi-table__table') as HTMLElement;
+    expect(el.querySelector('.wi-table__expand')).toBeTruthy();
+    expect(grid.textContent).toContain('Nombre');
+    expect(grid.textContent).toContain('Empresa');
+    expect(grid.textContent).not.toContain('Puntos');
   });
 });

@@ -14,7 +14,7 @@ export const wiTableRegistryEntry = {
     'WiColumnVisibilityComponent',
     'WiDataPaginationComponent',
     'WiColumnDef',
-    'WiColumnPriority',
+    'WiColumnShowFrom',
     'WiColumnFilter',
     'WiSortState',
     'WiPageChangeEvent',
@@ -22,6 +22,7 @@ export const wiTableRegistryEntry = {
     'provideWiDataDisplayI18n',
     'WI_DEFAULT_FILTER_OPERATORS',
     'WI_TABLE_COMPACT_BREAKPOINT',
+    'WI_TABLE_SHOW_FROM_MIN_WIDTH',
     'wiProcessRows',
     'wiFilterRows',
     'wiSortRows',
@@ -29,7 +30,8 @@ export const wiTableRegistryEntry = {
     'wiVisibleColumns',
     'wiInlineColumns',
     'wiCollapseColumns',
-    'wiColumnPriority',
+    'wiColumnShowFrom',
+    'wiColumnMinInlineWidth',
   ],
   inputs: [
     {
@@ -37,7 +39,7 @@ export const wiTableRegistryEntry = {
       type: 'readonly WiColumnDef[]',
       default: 'required',
       description:
-        'Definición declarativa. priority omitido = collapse: en compacto va a la tarjeta y el chevron aparece si hay columnas extra. priority always = se queda en la fila. Agnóstica a metadatos; la app adapta',
+        'Definición declarativa. showFrom omitido = compact (960px de contenedor): por debajo va a la tarjeta. always se queda en la fila. sm 640 / md 768 / lg 1024. Agnóstica a metadatos; la app adapta',
     },
     {
       name: 'data',
@@ -92,7 +94,7 @@ export const wiTableRegistryEntry = {
       type: 'boolean | null',
       default: 'null',
       description:
-        'null (default) = compacto automático si el contenedor < 960px (WI_TABLE_COMPACT_BREAKPOINT): sin scroll lateral ni menú de visibilidad. El chevron/tarjeta aparecen cuando hay columnas que no quedan en la fila (priority omitido = collapse). true/false fuerzan el modo (false = nunca chevron)',
+        'null (default) = según el ancho del contenedor y showFrom de cada columna. El chevron/tarjeta aparecen cuando hay columnas fuera de la fila. true = solo always en la fila; false = todas en la fila',
     },
     {
       name: 'emptyMessage / previousLabel / …',
@@ -122,7 +124,7 @@ export const wiTableRegistryEntry = {
   variants: [],
   keyboard: ['Enter/Space en sort, expand de fila y menús; paginación por botones'],
   a11yNotes:
-    'Chevron de fila en compacto cuando hay columnas fuera de la fila (priority default collapse) con aria-expanded y aria-label vía provideWiDataDisplayI18n.expandRowAriaLabel / collapseRowAriaLabel. Tabla semántica con aria-sort. Filtros con aria-label por columna. Visibilidad vía wi-menu (oculto en compacto). Labels de chrome: provideWiDataDisplayI18n (sin copy hardcodeado ES).',
+    'Chevron de fila cuando hay columnas fuera de la fila (showFrom vs ancho del contenedor) con aria-expanded y aria-label vía provideWiDataDisplayI18n.expandRowAriaLabel / collapseRowAriaLabel. Tabla semántica con aria-sort. Filtros con aria-label por columna. Visibilidad vía wi-menu (oculto en compacto). Labels de chrome: provideWiDataDisplayI18n (sin copy hardcodeado ES).',
   example: {
     import: `import {
   WiTableComponent,
@@ -131,7 +133,7 @@ export const wiTableRegistryEntry = {
 } from '@wiloc/ui/data-display';
 
 const columns: WiColumnDef[] = [
-  { id: 'name', header: 'Nombre', field: 'name', priority: 'always' },
+  { id: 'name', header: 'Nombre', field: 'name', showFrom: 'always' },
   { id: 'email', header: 'Email', field: 'email' },
 ];
 
@@ -145,6 +147,6 @@ provideWiDataDisplayI18n({
   <div wiTableActions>…</div>
   <ng-template wiTableRowActions let-row>…</ng-template>
 </wi-table>
-<!-- compact null = automático < 960px. Email va al panel (default collapse). Chevron sin [compact]="true". -->`,
+<!-- compact null = automático según ancho y showFrom. Email va al panel bajo 960px (default compact). -->`,
   },
 } as const;

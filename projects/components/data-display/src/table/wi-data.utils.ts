@@ -1,9 +1,10 @@
-import type {
-  WiColumnDef,
-  WiColumnFilter,
-  WiColumnPriority,
-  WiFilterOperator,
-  WiSortState,
+import {
+  WI_TABLE_SHOW_FROM_MIN_WIDTH,
+  type WiColumnDef,
+  type WiColumnFilter,
+  type WiColumnShowFrom,
+  type WiFilterOperator,
+  type WiSortState,
 } from './wi-column.types';
 
 /** Columnas visibles (default `visible !== false`). */
@@ -23,34 +24,38 @@ export function wiDefaultVisibleColumnIds(columns: readonly WiColumnDef[]): stri
   return columns.filter((column) => column.visible !== false).map((column) => column.id);
 }
 
-/** Prioridad efectiva (`collapse` si se omite). */
-export function wiColumnPriority(column: WiColumnDef): WiColumnPriority {
-  return column.priority ?? 'collapse';
+/** `showFrom` efectivo (`compact` si se omite). */
+export function wiColumnShowFrom(column: WiColumnDef): WiColumnShowFrom {
+  return column.showFrom ?? 'compact';
+}
+
+/** Ancho mínimo del contenedor para pintar la columna en la fila (`0` = always). */
+export function wiColumnMinInlineWidth(column: WiColumnDef): number {
+  const showFrom = wiColumnShowFrom(column);
+  if (showFrom === 'always') {
+    return 0;
+  }
+  return WI_TABLE_SHOW_FROM_MIN_WIDTH[showFrom];
 }
 
 /**
- * Columnas que permanecen en la fila.
- * En compacto, solo `priority: 'always'`; si ninguna lo es, se deja la primera visible
- * y el resto van al panel (chevron por defecto).
+ * Columnas que permanecen en la fila a `containerWidth` px.
+ * Si ninguna cumple el corte, se deja la primera visible.
  */
-export function wiInlineColumns(columns: readonly WiColumnDef[], compact: boolean): WiColumnDef[] {
-  if (!compact) {
-    return [...columns];
-  }
-  const inline = columns.filter((column) => wiColumnPriority(column) === 'always');
+export function wiInlineColumns(
+  columns: readonly WiColumnDef[],
+  containerWidth: number,
+): WiColumnDef[] {
+  const inline = columns.filter((column) => containerWidth >= wiColumnMinInlineWidth(column));
   return inline.length > 0 ? inline : columns.slice(0, 1);
 }
 
-/** Columnas que van al panel expandible en compacto. */
+/** Columnas que van al panel expandible a `containerWidth` px. */
 export function wiCollapseColumns(
   columns: readonly WiColumnDef[],
-  compact: boolean,
+  containerWidth: number,
 ): WiColumnDef[] {
-  if (!compact) {
-    return [];
-  }
-  const inline = wiInlineColumns(columns, true);
-  const inlineIds = new Set(inline.map((column) => column.id));
+  const inlineIds = new Set(wiInlineColumns(columns, containerWidth).map((column) => column.id));
   return columns.filter((column) => !inlineIds.has(column.id));
 }
 

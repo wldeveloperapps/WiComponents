@@ -29,18 +29,30 @@ export interface WiColumnDef {
    */
   visible?: boolean;
   /**
-   * Comportamiento en layout compacto (contenedor < 960px).
-   * `collapse` (default) pasa al panel expandible; `always` permanece en la fila.
-   * Si ninguna es `always`, se deja la primera columna visible en la fila.
+   * Ancho mínimo del contenedor para mostrar la columna en la fila.
+   * Omitido = `'compact'` (960px): por debajo va a la tarjeta.
+   * `'always'` permanece en la fila a cualquier ancho.
+   * Si ninguna columna entra en la fila, se deja la primera visible.
    */
-  priority?: WiColumnPriority;
+  showFrom?: WiColumnShowFrom;
 }
 
-/** Prioridad de columna en viewport / contenedor estrecho. */
-export type WiColumnPriority = 'always' | 'collapse';
+/**
+ * Corte de visibilidad en fila (`showFrom`).
+ * `sm` 640 · `md` 768 · `compact` 960 · `lg` 1024 (px, ancho del contenedor).
+ */
+export type WiColumnShowFrom = 'always' | 'sm' | 'md' | 'compact' | 'lg';
 
-/** Ancho del contenedor (px) por debajo del cual `wi-table` entra en compacto. */
-export const WI_TABLE_COMPACT_BREAKPOINT = 960;
+/** Ancho mínimo (px) para cada `showFrom` distinto de `always`. */
+export const WI_TABLE_SHOW_FROM_MIN_WIDTH = {
+  sm: 640,
+  md: 768,
+  compact: 960,
+  lg: 1024,
+} as const satisfies Record<Exclude<WiColumnShowFrom, 'always'>, number>;
+
+/** Alias de `WI_TABLE_SHOW_FROM_MIN_WIDTH.compact`. */
+export const WI_TABLE_COMPACT_BREAKPOINT = WI_TABLE_SHOW_FROM_MIN_WIDTH.compact;
 
 export type WiColumnFilterType = 'text' | 'select';
 

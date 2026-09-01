@@ -1,6 +1,8 @@
 import type { WiColumnDef, WiColumnFilter } from '../../data-display/src/table/wi-column.types';
 import {
   wiCollapseColumns,
+  wiColumnMinInlineWidth,
+  wiColumnShowFrom,
   wiDefaultVisibleColumnIds,
   wiFilterRows,
   wiFormatCellValue,
@@ -58,32 +60,46 @@ describe('wi-data.utils', () => {
     expect(processed.rows[0]?.name).toBe('ab');
   });
 
-  it('splits inline vs collapse columns in compact mode', () => {
-    const unmarked: WiColumnDef[] = [
-      { id: 'name', header: 'Name', field: 'name' },
-      { id: 'city', header: 'City', field: 'city' },
-      { id: 'age', header: 'Age', field: 'age' },
-    ];
-    expect(wiInlineColumns(unmarked, true).map((c) => c.id)).toEqual(['name']);
-    expect(wiCollapseColumns(unmarked, true).map((c) => c.id)).toEqual(['city', 'age']);
-
-    const withAlways: WiColumnDef[] = [
-      { id: 'name', header: 'Name', field: 'name', priority: 'always' },
-      { id: 'city', header: 'City', field: 'city' },
-      { id: 'age', header: 'Age', field: 'age', priority: 'always' },
-    ];
-    expect(wiInlineColumns(withAlways, true).map((c) => c.id)).toEqual(['name', 'age']);
-    expect(wiCollapseColumns(withAlways, true).map((c) => c.id)).toEqual(['city']);
-    expect(wiCollapseColumns(withAlways, false)).toEqual([]);
+  it('resolves omitted showFrom as compact (960px)', () => {
+    const column: WiColumnDef = { id: 'city', header: 'City', field: 'city' };
+    expect(wiColumnShowFrom(column)).toBe('compact');
+    expect(wiColumnMinInlineWidth(column)).toBe(960);
+    expect(wiColumnMinInlineWidth({ id: 'n', header: 'N', showFrom: 'always' })).toBe(0);
+    expect(wiColumnMinInlineWidth({ id: 's', header: 'S', showFrom: 'sm' })).toBe(640);
   });
 
-  it('keeps the first column inline when every column is collapse', () => {
-    const allCollapse: WiColumnDef[] = [
-      { id: 'a', header: 'A', field: 'a', priority: 'collapse' },
-      { id: 'b', header: 'B', field: 'b', priority: 'collapse' },
+  it('splits inline vs collapse columns by container width and showFrom', () => {
+    const columns: WiColumnDef[] = [
+      { id: 'always', header: 'A', field: 'a', showFrom: 'always' },
+      { id: 'sm', header: 'S', field: 's', showFrom: 'sm' },
+      { id: 'md', header: 'M', field: 'm', showFrom: 'md' },
+      { id: 'compact', header: 'C', field: 'c' },
+      { id: 'lg', header: 'L', field: 'l', showFrom: 'lg' },
     ];
-    expect(wiInlineColumns(allCollapse, true).map((c) => c.id)).toEqual(['a']);
-    expect(wiCollapseColumns(allCollapse, true).map((c) => c.id)).toEqual(['b']);
+
+    expect(wiInlineColumns(columns, 0).map((c) => c.id)).toEqual(['always']);
+    expect(wiCollapseColumns(columns, 0).map((c) => c.id)).toEqual(['sm', 'md', 'compact', 'lg']);
+
+    expect(wiInlineColumns(columns, 700).map((c) => c.id)).toEqual(['always', 'sm']);
+    expect(wiInlineColumns(columns, 900).map((c) => c.id)).toEqual(['always', 'sm', 'md']);
+    expect(wiInlineColumns(columns, 960).map((c) => c.id)).toEqual(['always', 'sm', 'md', 'compact']);
+    expect(wiInlineColumns(columns, 1100).map((c) => c.id)).toEqual([
+      'always',
+      'sm',
+      'md',
+      'compact',
+      'lg',
+    ]);
+    expect(wiCollapseColumns(columns, 1100)).toEqual([]);
+  });
+
+  it('keeps the first column inline when none meet the cutoff', () => {
+    const allLate: WiColumnDef[] = [
+      { id: 'a', header: 'A', field: 'a', showFrom: 'lg' },
+      { id: 'b', header: 'B', field: 'b', showFrom: 'lg' },
+    ];
+    expect(wiInlineColumns(allLate, 0).map((c) => c.id)).toEqual(['a']);
+    expect(wiCollapseColumns(allLate, 0).map((c) => c.id)).toEqual(['b']);
   });
 
   it('upserts filters and builds page windows', () => {

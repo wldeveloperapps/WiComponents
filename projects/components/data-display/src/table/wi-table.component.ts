@@ -26,7 +26,6 @@ import type {
   WiSortState,
   WiTableCellContext,
 } from './wi-column.types';
-import { WI_TABLE_COMPACT_BREAKPOINT } from './wi-column.types';
 import { WiColumnVisibilityComponent } from './wi-column-visibility.component';
 import { injectWiDataDisplayI18n } from '../wi-data-display.i18n';
 import { WiDataPaginationComponent } from './wi-data-pagination.component';
@@ -51,8 +50,8 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
  * - Labels de chrome vía `provideWiDataDisplayI18n` (override opcional por input).
  * - Toolbar: `[wiTableSummary]`, visibilidad de columnas, `[wiTableActions]`.
  * - Celdas: `field` o `ng-template [wiTableCell]`; acciones: `wiTableRowActions`.
- * - Compacto (< 960px de contenedor): columnas extra en una tarjeta por fila (chevron);
- *   `priority: 'always'` las deja en la fila. Sin menú de visibilidad.
+ * - Compacto: según ancho del contenedor y `showFrom` de cada columna (default `'compact'` / 960px);
+ *   el resto va a una tarjeta por fila. `showFrom: 'always'` se queda en la fila. Sin menú de visibilidad.
  */
 @Component({
   selector: 'wi-table',
@@ -409,7 +408,7 @@ export class WiTableComponent<T = unknown> {
   private readonly i18n = injectWiDataDisplayI18n();
   private readonly host = inject(ElementRef<HTMLElement>);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly compactFromWidth = signal(false);
+  private readonly containerWidth = signal<number | null>(null);
 
   readonly columns = input.required<readonly WiColumnDef[]>();
   readonly data = input.required<readonly T[]>();
@@ -424,8 +423,9 @@ export class WiTableComponent<T = unknown> {
   readonly columnVisibility = input(true, { transform: booleanAttribute });
   readonly showResultCount = input(false, { transform: booleanAttribute });
   /**
-   * Layout compacto (columnas extra en panel expandible; `always` se quedan en la fila).
-   * `null` (default) = según ancho del contenedor (< 960px).
+   * Fuerza el layout compacto.
+   * `null` (default) = según ancho del contenedor y `showFrom` de cada columna.
+   * `true` = solo columnas `always` en la fila; `false` = todas en la fila.
    */
   readonly compact = input<boolean | null>(null);
 
@@ -464,7 +464,7 @@ export class WiTableComponent<T = unknown> {
         if (width <= 0) {
           return;
         }
-        this.compactFromWidth.set(width < WI_TABLE_COMPACT_BREAKPOINT);
+        this.containerWidth.set(width);
       };
 
       applyWidth();
@@ -514,15 +514,29 @@ export class WiTableComponent<T = unknown> {
     wiVisibleColumns(this.columns(), this.visibleColumnIds()),
   );
 
-  readonly isCompact = computed(() => this.compact() ?? this.compactFromWidth());
+  /** Ancho efectivo: override `compact` o medida del contenedor (sin medir = escritorio). */
+  readonly effectiveWidth = computed(() => {
+    const forced = this.compact();
+    if (forced === true) {
+      return 0;
+    }
+    if (forced === false) {
+      return Number.POSITIVE_INFINITY;
+    }
+    return this.containerWidth() ?? Number.POSITIVE_INFINITY;
+  });
 
-  readonly inlineColumns = computed(() => wiInlineColumns(this.displayColumns(), this.isCompact()));
+  readonly inlineColumns = computed(() =>
+    wiInlineColumns(this.displayColumns(), this.effectiveWidth()),
+  );
 
   readonly collapseColumns = computed(() =>
-    wiCollapseColumns(this.displayColumns(), this.isCompact()),
+    wiCollapseColumns(this.displayColumns(), this.effectiveWidth()),
   );
 
   readonly showRowExpand = computed(() => this.collapseColumns().length > 0);
+
+  readonly isCompact = computed(() => this.showRowExpand());
 
   readonly rowActionsTemplate = computed(() => this.rowActionDirs()[0]?.templateRef ?? null);
 

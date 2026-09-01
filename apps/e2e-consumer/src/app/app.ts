@@ -196,7 +196,7 @@ export class App {
         sortable: true,
         filterable: true,
         filterPlaceholder: m.tableFilterName,
-        priority: 'always',
+        showFrom: 'always',
       },
       {
         id: 'city',
