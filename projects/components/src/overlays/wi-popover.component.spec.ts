@@ -1,6 +1,7 @@
 import { Directionality } from '@angular/cdk/bidi';
 import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 
 import { WiButtonComponent } from '../../button/src/public-api';
 import {
@@ -77,6 +78,7 @@ class PopoverAriaLabelHostComponent {}
 describe('WiPopoverComponent', () => {
   afterEach(() => {
     document.querySelectorAll('.cdk-overlay-container').forEach((el) => el.remove());
+    document.querySelectorAll('[data-wi-nested-overlay-stub]').forEach((el) => el.remove());
   });
 
   function panel(): Element | null {
@@ -245,6 +247,46 @@ describe('WiPopoverComponent', () => {
       pointerClick(document.body);
       fixture.detectChanges();
       await waitForPanel(false);
+    });
+
+    it('stays open when the pointer lands on another CDK overlay pane', async () => {
+      trigger().click();
+      fixture.detectChanges();
+      await waitForPanel(true);
+
+      const nested = document.createElement('div');
+      nested.className = 'cdk-overlay-pane';
+      nested.setAttribute('data-wi-nested-overlay-stub', '');
+      nested.textContent = 'opción';
+      const container = document.querySelector('.cdk-overlay-container') ?? document.body;
+      container.appendChild(nested);
+
+      pointerClick(nested);
+      fixture.detectChanges();
+      await new Promise((r) => setTimeout(r, 50));
+
+      expect(panel()).toBeTruthy();
+
+      pointerClick(document.body);
+      fixture.detectChanges();
+      await waitForPanel(false);
+    });
+
+    it('reopens from the trigger after close()', async () => {
+      trigger().click();
+      fixture.detectChanges();
+      await waitForPanel(true);
+
+      const popover = fixture.debugElement
+        .query(By.directive(WiPopoverComponent))
+        .injector.get(WiPopoverComponent);
+      popover.close();
+      fixture.detectChanges();
+      await waitForPanel(false);
+
+      trigger().click();
+      fixture.detectChanges();
+      await waitForPanel(true);
     });
   });
 

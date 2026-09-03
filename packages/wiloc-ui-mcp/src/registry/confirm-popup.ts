@@ -102,7 +102,8 @@ export const wiConfirmPopupRegistryEntry = {
       name: 'closeOnOutsidePointerEvents',
       type: 'boolean',
       default: 'true',
-      description: 'Cierra al clic fuera del panel (sin backdrop)',
+      description:
+        'Cierra al clic fuera del panel. Un overlay CDK anidado no cuenta como fuera.',
     },
   ],
   outputs: [
@@ -138,11 +139,11 @@ export const wiConfirmPopupRegistryEntry = {
   keyboard: [
     'Escape cierra por defecto (disableClose=false)',
     'Tab / Shift+Tab entre botones del panel',
-    'Clic fuera cierra (closeOnOutsidePointerEvents)',
+    'Clic fuera cierra (closeOnOutsidePointerEvents); overlays CDK anidados no cuentan como fuera',
     'Focus al primer tabbable al abrir; restore al trigger al cerrar',
   ],
   a11yNotes:
-    'role=alertdialog en el pane (sin backdrop / aria-modal=false). Título vía title (aria-labelledby). Descripción opcional (aria-describedby). Anclado al trigger; sin modal a pantalla completa. Overlays portaled heredan .wi-dark del documento.',
+    'role=alertdialog en el pane (sin backdrop / aria-modal=false). Título vía title (aria-labelledby). Descripción opcional (aria-describedby). Anclado al trigger; sin modal a pantalla completa. Un overlay CDK anidado no cierra el popup. Overlays portaled heredan .wi-dark del documento.',
   example: {
     import: `import {
   WiConfirmPopupComponent,

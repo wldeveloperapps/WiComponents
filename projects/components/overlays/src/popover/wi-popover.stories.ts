@@ -4,6 +4,7 @@ import { applicationConfig, moduleMetadata } from '@storybook/angular-vite';
 import { fn } from 'storybook/test';
 
 import { WiButtonComponent } from '../../../button/src/public-api';
+import { WiSelectComponent } from '../../../forms/src/public-api';
 import type { WiPopoverAlign, WiPopoverSize } from './wi-popover.types';
 import {
   WiPopoverCloseDirective,
@@ -35,6 +36,7 @@ const popoverImports = [
   WiPopoverTitleComponent,
   WiPopoverDescriptionComponent,
   WiButtonComponent,
+  WiSelectComponent,
 ];
 
 const meta: Meta<WiPopoverStoryArgs> = {
@@ -50,7 +52,7 @@ Popover anclado al trigger (\`wi-popover\`) por composición: header / title / d
 - Size: \`sm\` | \`md\` → anchos 18rem / 24rem (con tope \`calc(100vw-2rem)\`).
 - Apertura: \`wiPopoverTrigger\` (toggle) o \`[wiPopoverTriggerFor]\` / \`open(origin)\` / \`[(state)]\`.
 - Panel: \`ng-template wiPopoverPortal\` con \`wi-popover-content\`.
-- Cierre: Escape, clic fuera, \`wiPopoverClose\`. Sin backdrop (\`role=dialog\`, \`aria-modal=false\`).
+- Cierre: Escape, clic fuera, \`wiPopoverClose\`. Un overlay CDK anidado (\`wi-select\`, etc.) no cierra el popover. Sin backdrop (\`role=dialog\`, \`aria-modal=false\`).
 - Events: \`stateChanged\` (\`'open' | 'closed'\`), \`closed\`.
 - Para listas de acciones usar \`wi-menu\`. Para confirmar, \`wi-confirm-popup\`.
 - Copy: textos desde la app (i18n).
@@ -263,6 +265,51 @@ export const AccountCard: Story = {
             </p>
             <wi-button type="button" variant="secondary" size="sm" class="w-full" wiPopoverClose>
               Cerrar sesión
+            </wi-button>
+          </wi-popover-content>
+        </ng-template>
+      </wi-popover>
+    `,
+  }),
+};
+
+export const NestedSelect: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Un `wi-select` abre otro overlay CDK. El popover permanece abierto al interactuar con el select; clic fuera de ambos lo cierra. No hace falta `closeOnOutsidePointerEvents=false`.',
+      },
+    },
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      languageOptions: ['Español', 'English', 'Français'],
+    },
+    template: `
+      <wi-popover
+        align="end"
+        size="md"
+        (closed)="closed($event)"
+        (stateChanged)="stateChanged($event)"
+      >
+        <wi-button type="button" variant="outline" wiPopoverTrigger>Usuario</wi-button>
+        <ng-template wiPopoverPortal>
+          <wi-popover-content>
+            <wi-popover-header>
+              <wi-popover-title>Preferencias</wi-popover-title>
+              <wi-popover-description>
+                El select es un overlay anidado; no cierra este panel.
+              </wi-popover-description>
+            </wi-popover-header>
+            <wi-select
+              [options]="languageOptions"
+              placeholder="Idioma"
+              ariaLabel="Idioma"
+            />
+            <wi-button type="button" variant="secondary" size="sm" wiPopoverClose>
+              Cerrar
             </wi-button>
           </wi-popover-content>
         </ng-template>

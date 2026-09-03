@@ -76,7 +76,8 @@ export const wiPopoverRegistryEntry = {
       name: 'closeOnOutsidePointerEvents',
       type: 'boolean',
       default: 'true',
-      description: 'Cierra al clic fuera del panel (sin backdrop)',
+      description:
+        'Cierra al clic fuera del panel. Un overlay CDK anidado (wi-select, datepicker, tooltip, otro popover) no cuenta como fuera.',
     },
   ],
   outputs: [
@@ -107,12 +108,12 @@ export const wiPopoverRegistryEntry = {
   keyboard: [
     'Escape cierra por defecto (disableClose=false)',
     'Tab / Shift+Tab entre controles del panel',
-    'Clic fuera cierra (closeOnOutsidePointerEvents)',
+    'Clic fuera cierra (closeOnOutsidePointerEvents); overlays CDK anidados no cuentan como fuera',
     'Clic en el trigger hace toggle',
     'Focus al primer tabbable al abrir; restore al trigger al cerrar',
   ],
   a11yNotes:
-    'role=dialog en el pane (sin backdrop / aria-modal=false). Título vía wi-popover-title (aria-labelledby) o ariaLabel. Descripción opcional (aria-describedby). Anclado al trigger; no sustituye a wi-menu ni a wi-confirm-popup. Overlays portaled heredan .wi-dark del documento.',
+    'role=dialog en el pane (sin backdrop / aria-modal=false). Título vía wi-popover-title (aria-labelledby) o ariaLabel. Descripción opcional (aria-describedby). Anclado al trigger; no sustituye a wi-menu ni a wi-confirm-popup. Un overlay CDK anidado (p. ej. wi-select en el panel) no cierra el popover. Overlays portaled heredan .wi-dark del documento.',
   example: {
     import: `import {
   WiPopoverCloseDirective,

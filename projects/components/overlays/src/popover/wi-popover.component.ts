@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import {
+  booleanAttribute,
   Component,
   computed,
   DestroyRef,
@@ -21,6 +22,7 @@ import {
   provideBrnPopoverDefaultOptions,
 } from '@spartan-ng/brain/popover';
 
+import { bindOutsidePointerDismiss } from '../outside-pointer-dismiss';
 import { WI_POPOVER_SIZE } from './wi-popover.tokens';
 import type { WiPopoverSize, WiPopoverState } from './wi-popover.types';
 
@@ -68,8 +70,9 @@ let descriptionIdSequence = 0;
  * Overlay no modal anclado al trigger (`wi-popover`).
  *
  * Composición: trigger + portal con header / title / description / content.
- * Sin backdrop; cierra con Escape y clic fuera. Brain (CDK) gestiona portal, foco y restore;
- * la API pública no expone tipos Spartan.
+ * Sin backdrop; cierra con Escape y clic fuera. Un overlay CDK anidado (p. ej. `wi-select`)
+ * no cuenta como "fuera". Brain (CDK) gestiona portal, foco y restore; la API pública no
+ * expone tipos Spartan.
  *
  * Para listas de acciones usar `wi-menu`. Para confirmación compacta, `wi-confirm-popup`.
  *
@@ -100,7 +103,8 @@ let descriptionIdSequence = 0;
     provideBrnPopoverDefaultOptions({
       ...BRN_POPOVER_OVERLAY_DEFAULT_OPTIONS,
       hasBackdrop: false,
-      closeOnOutsidePointerEvents: true,
+      // El outside-click lo filtra `bindOutsidePointerDismiss` (overlays CDK anidados).
+      closeOnOutsidePointerEvents: false,
       disableClose: false,
       autoFocus: true,
       role: 'dialog',
@@ -116,7 +120,6 @@ let descriptionIdSequence = 0;
         'sideOffset',
         'offsetX',
         'disableClose',
-        'closeOnOutsidePointerEvents',
         'autoFocus',
       ],
       outputs: ['closed', 'stateChanged'],
@@ -130,12 +133,20 @@ let descriptionIdSequence = 0;
 export class WiPopoverComponent {
   private readonly brn = inject(BrnPopover);
   private readonly document = inject(DOCUMENT);
+  private readonly host = inject(ElementRef<HTMLElement>);
+  private origin: HTMLElement | undefined;
 
   /** Estado controlado (two-way). Preferible abrir vía trigger para anclar al origen. */
   readonly state = model<WiPopoverState>('closed');
 
   /** Ancho del panel: sm → 18rem, md → 24rem. */
   readonly size = input<WiPopoverSize>('sm');
+
+  /**
+   * Cierra al clic fuera del panel y de overlays CDK anidados (p. ej. `wi-select`).
+   * El trigger / origen no cuenta como fuera (el toggle cierra sin reabrir).
+   */
+  readonly closeOnOutsidePointerEvents = input(true, { transform: booleanAttribute });
 
   /**
    * Nombre accesible del panel cuando no hay `wi-popover-title`.
@@ -201,6 +212,16 @@ export class WiPopoverComponent {
         });
       });
     });
+
+    bindOutsidePointerDismiss({
+      document: this.document,
+      isOpen: () => this.brn.stateComputed() === 'open',
+      enabled: () => this.closeOnOutsidePointerEvents(),
+      overlayId: () => this.brn.id(),
+      isInsideHost: (target) =>
+        this.host.nativeElement.contains(target) || (this.origin?.contains(target) ?? false),
+      close: () => this.close(),
+    });
   }
 
   /**
@@ -213,6 +234,7 @@ export class WiPopoverComponent {
   open(origin?: HTMLElement): void {
     if (origin) {
       this.brn.setOrigin(origin);
+      this.origin = origin;
     }
     // Abrir en el mismo turno que setOrigin (no solo vía effect de `state`).
     this.brn.open();

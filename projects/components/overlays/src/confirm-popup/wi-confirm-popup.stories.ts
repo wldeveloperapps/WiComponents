@@ -47,7 +47,7 @@ Confirmación compacta anclada al trigger (\`wi-confirm-popup\`).
 - API: \`title\`, \`description?\`, \`confirmLabel\`, \`cancelLabel?\`, \`confirmVariant\` (\`primary\` | \`danger\`), \`size\` (\`sm\` | \`md\`), \`align\`, \`sideOffset\`, \`loading\`, \`showCancel\`.
 - Apertura: \`wiConfirmPopupTrigger\` (ancla al host) o \`open(origin)\` / \`[(state)]\`.
 - Events: \`confirmed\`, \`cancelled\`, \`stateChanged\`, \`closed\`.
-- A11y: \`role=alertdialog\` sin backdrop; cierra con Escape y clic fuera.
+- A11y: \`role=alertdialog\` sin backdrop; cierra con Escape y clic fuera. Un overlay CDK anidado no cierra el popup.
 - Diferencia vs \`wi-confirm-dialog\`: popup contextual anclado; dialog modal centrado.
 - Copy: textos desde la app; chrome cancel vía \`provideWiOverlaysI18n({ confirmCancelLabel })\`.
         `,

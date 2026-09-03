@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import {
   booleanAttribute,
   Component,
@@ -21,6 +22,7 @@ import {
 } from '@spartan-ng/brain/popover';
 import { WiButtonComponent } from '@wiloc/ui/button';
 
+import { bindOutsidePointerDismiss } from '../outside-pointer-dismiss';
 import { injectWiOverlaysI18n } from '../wi-overlays.i18n';
 import type {
   WiConfirmPopupConfirmVariant,
@@ -150,7 +152,8 @@ export class WiConfirmPopupTriggerDirective {
  * Confirmación compacta anclada al trigger (`wi-confirm-popup`).
  *
  * Pattern sobre popover: título / descripción / cancelar / confirmar, sin backdrop modal.
- * Cierra con Escape y clic fuera. Los textos los aporta la app (i18n).
+ * Cierra con Escape y clic fuera. Un overlay CDK anidado no cuenta como "fuera".
+ * Los textos los aporta la app (i18n).
  *
  * ```html
  * <wi-confirm-popup
@@ -174,7 +177,8 @@ export class WiConfirmPopupTriggerDirective {
     provideBrnPopoverDefaultOptions({
       ...BRN_POPOVER_OVERLAY_DEFAULT_OPTIONS,
       hasBackdrop: false,
-      closeOnOutsidePointerEvents: true,
+      // El outside-click lo filtra `bindOutsidePointerDismiss` (overlays CDK anidados).
+      closeOnOutsidePointerEvents: false,
       disableClose: false,
       autoFocus: true,
       role: 'alertdialog',
@@ -184,14 +188,7 @@ export class WiConfirmPopupTriggerDirective {
   hostDirectives: [
     {
       directive: BrnPopover,
-      inputs: [
-        'id',
-        'align',
-        'sideOffset',
-        'offsetX',
-        'disableClose',
-        'closeOnOutsidePointerEvents',
-      ],
+      inputs: ['id', 'align', 'sideOffset', 'offsetX', 'disableClose'],
       outputs: ['closed', 'stateChanged'],
     },
   ],
@@ -264,7 +261,10 @@ export class WiConfirmPopupTriggerDirective {
 })
 export class WiConfirmPopupComponent {
   private readonly brn = inject(BrnPopover);
+  private readonly document = inject(DOCUMENT);
+  private readonly host = inject(ElementRef<HTMLElement>);
   private readonly overlaysI18n = injectWiOverlaysI18n();
+  private origin: HTMLElement | undefined;
 
   protected readonly titleDomId = `wi-confirm-popup-title-${++titleIdSequence}`;
   protected readonly descriptionDomId = `wi-confirm-popup-description-${titleIdSequence}`;
@@ -295,6 +295,12 @@ export class WiConfirmPopupComponent {
 
   /** Estado de carga en la acción de confirmar (deshabilita cancelar). */
   readonly loading = input(false, { transform: booleanAttribute });
+
+  /**
+   * Cierra al clic fuera del panel y de overlays CDK anidados.
+   * El trigger / origen no cuenta como fuera.
+   */
+  readonly closeOnOutsidePointerEvents = input(true, { transform: booleanAttribute });
 
   /** Se emite al pulsar confirmar (antes de cerrar). */
   readonly confirmed = output<void>();
@@ -346,7 +352,7 @@ export class WiConfirmPopupComponent {
           return;
         }
         queueMicrotask(() => {
-          const pane = document.getElementById(this.brn.id());
+          const pane = this.document.getElementById(this.brn.id());
           if (!pane) {
             return;
           }
@@ -360,6 +366,16 @@ export class WiConfirmPopupComponent {
         });
       });
     });
+
+    bindOutsidePointerDismiss({
+      document: this.document,
+      isOpen: () => this.brn.stateComputed() === 'open',
+      enabled: () => this.closeOnOutsidePointerEvents(),
+      overlayId: () => this.brn.id(),
+      isInsideHost: (target) =>
+        this.host.nativeElement.contains(target) || (this.origin?.contains(target) ?? false),
+      close: () => this.close(),
+    });
   }
 
   /**
@@ -369,6 +385,7 @@ export class WiConfirmPopupComponent {
   open(origin?: HTMLElement): void {
     if (origin) {
       this.brn.setOrigin(origin);
+      this.origin = origin;
     }
     this.state.set('open');
   }
