@@ -13,7 +13,7 @@ export const WI_ENTRY_POINTS: readonly WiEntryPointInfo[] = [
     entryPoint: '@wiloc/ui/core',
     description: 'Tokens de tema: WI_DARK_CLASS, WI_COLOR_TOKEN_PREFIX',
   },
-  { entryPoint: '@wiloc/ui/button', description: 'wi-button' },
+  { entryPoint: '@wiloc/ui/button', description: 'button[wiButton], a[wiButton]' },
   {
     entryPoint: '@wiloc/ui/forms',
     description: 'Input, otp, checkbox, switch, select, listbox, picklist, datepicker, file-upload',
@@ -63,9 +63,15 @@ export function listCatalog(kind: WiCatalogKind | 'all' = 'all'): readonly WiCat
 
 export function getCatalogItem(name: string): WiCatalogItem | undefined {
   const needle = name.trim().toLowerCase();
-  return WI_CATALOG.find(
-    (item) => item.name === needle || item.selector === needle || item.selector === `wi-${needle}`,
-  );
+  return WI_CATALOG.find((item) => {
+    const selector = item.selector.toLowerCase();
+    return (
+      item.name === needle ||
+      selector === needle ||
+      selector === `wi-${needle}` ||
+      needle === `wi-${item.name}`
+    );
+  });
 }
 
 export interface WiSearchHit {

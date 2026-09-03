@@ -100,7 +100,7 @@ export const wiDialogRegistryEntry = {
 
 provideWiOverlaysI18n({ dialogCloseLabel: () => 'Cerrar' });`,
     template: `<wi-dialog size="md">
-  <wi-button type="button" wiDialogTrigger>Abrir</wi-button>
+  <button wiButton type="button" wiDialogTrigger>Abrir</button>
   <ng-template wiDialogPortal>
     <wi-dialog-content>
       <wi-dialog-header>
@@ -108,8 +108,8 @@ provideWiOverlaysI18n({ dialogCloseLabel: () => 'Cerrar' });`,
         <wi-dialog-description>Descripción</wi-dialog-description>
       </wi-dialog-header>
       <wi-dialog-footer>
-        <wi-button type="button" variant="secondary" wiDialogClose>Cancelar</wi-button>
-        <wi-button type="button" wiDialogClose>Guardar</wi-button>
+        <button wiButton type="button" variant="secondary" wiDialogClose>Cancelar</button>
+        <button wiButton type="button" wiDialogClose>Guardar</button>
       </wi-dialog-footer>
     </wi-dialog-content>
   </ng-template>

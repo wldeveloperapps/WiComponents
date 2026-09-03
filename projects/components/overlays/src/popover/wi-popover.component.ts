@@ -78,14 +78,14 @@ let descriptionIdSequence = 0;
  *
  * ```html
  * <wi-popover>
- *   <wi-button type="button" wiPopoverTrigger>Abrir</wi-button>
+ *   <button wiButton type="button" wiPopoverTrigger>Abrir</button>
  *   <ng-template wiPopoverPortal>
  *     <wi-popover-content>
  *       <wi-popover-header>
  *         <wi-popover-title>Título</wi-popover-title>
  *         <wi-popover-description>Descripción</wi-popover-description>
  *       </wi-popover-header>
- *       <wi-button type="button" wiPopoverClose>Cerrar</wi-button>
+ *       <button wiButton type="button" wiPopoverClose>Cerrar</button>
  *     </wi-popover-content>
  *   </ng-template>
  * </wi-popover>
@@ -292,7 +292,7 @@ export class WiPopoverPortalDirective {
  *
  * @example
  * ```html
- * <wi-button wiPopoverTrigger>Abrir</wi-button>
+ * <button wiButton wiPopoverTrigger>Abrir</button>
  * <button type="button" [wiPopoverTriggerFor]="popover">Abrir</button>
  * ```
  */
@@ -335,7 +335,7 @@ export class WiPopoverTriggerDirective {
     return this.wiPopoverTriggerFor() ?? this.injectedPopover ?? null;
   }
 
-  /** Ancla medible: el `button` interno de `wi-button`, o el host nativo. */
+  /** Ancla medible: el propio host si es `button`/`a`, o un `button` descendiente. */
   private resolveAnchor(): HTMLElement {
     const host = this.host.nativeElement;
     if (host.tagName === 'BUTTON') {
@@ -361,7 +361,7 @@ export class WiPopoverTriggerDirective {
 }
 
 /**
- * Cierra el popover al hacer click (nativo o host de `wi-button`).
+ * Cierra el popover al hacer click.
  */
 @Directive({
   selector: 'button[wiPopoverClose], [wiPopoverClose]',

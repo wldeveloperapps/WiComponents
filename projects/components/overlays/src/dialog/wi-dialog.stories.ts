@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { applicationConfig, moduleMetadata } from '@storybook/angular-vite';
 import { fn } from 'storybook/test';
 
-import { WiButtonComponent } from '../../../button/src/public-api';
+import { WiButtonDirective } from '../../../button/src/public-api';
 import { xMarkOutline } from '../../../icon/heroicons/src/x-mark';
 import { provideWiIcons, WiIconComponent } from '../../../icon/src/public-api';
 import type { WiDialogSize } from './wi-dialog.types';
@@ -37,7 +37,7 @@ const dialogImports = [
   WiDialogTitleComponent,
   WiDialogDescriptionComponent,
   WiDialogFooterComponent,
-  WiButtonComponent,
+  WiButtonDirective,
   WiIconComponent,
 ];
 
@@ -126,8 +126,8 @@ const dialogBody = `
         Contenido del formulario o mensaje. En viewports estrechos el panel usa todo el ancho disponible.
       </p>
       <wi-dialog-footer>
-        <wi-button type="button" variant="secondary" wiDialogClose>Cancelar</wi-button>
-        <wi-button type="button" wiDialogClose>Guardar</wi-button>
+        <button wiButton type="button" variant="secondary" wiDialogClose>Cancelar</button>
+        <button wiButton type="button" wiDialogClose>Guardar</button>
       </wi-dialog-footer>
     </wi-dialog-content>
   </ng-template>
@@ -143,7 +143,7 @@ export const Default: Story = {
         (closed)="closed($event)"
         (stateChanged)="stateChanged($event)"
       >
-        <wi-button type="button" wiDialogTrigger>Abrir dialog</wi-button>
+        <button wiButton type="button" wiDialogTrigger>Abrir dialog</button>
         ${dialogBody}
       </wi-dialog>
     `,
@@ -161,7 +161,7 @@ export const Sizes: Story = {
     template: `
       <div class="flex flex-wrap gap-3">
         <wi-dialog size="sm" (closed)="closed($event)" (stateChanged)="stateChanged($event)">
-          <wi-button type="button" wiDialogTrigger>Size sm</wi-button>
+          <button wiButton type="button" wiDialogTrigger>Size sm</button>
           <ng-template wiDialogPortal>
             <wi-dialog-content>
               <wi-dialog-header>
@@ -169,14 +169,14 @@ export const Sizes: Story = {
                 <wi-dialog-description>24rem</wi-dialog-description>
               </wi-dialog-header>
               <wi-dialog-footer>
-                <wi-button type="button" wiDialogClose>Cerrar</wi-button>
+                <button wiButton type="button" wiDialogClose>Cerrar</button>
               </wi-dialog-footer>
             </wi-dialog-content>
           </ng-template>
         </wi-dialog>
 
         <wi-dialog size="md" (closed)="closed($event)" (stateChanged)="stateChanged($event)">
-          <wi-button type="button" wiDialogTrigger>Size md</wi-button>
+          <button wiButton type="button" wiDialogTrigger>Size md</button>
           <ng-template wiDialogPortal>
             <wi-dialog-content>
               <wi-dialog-header>
@@ -184,14 +184,14 @@ export const Sizes: Story = {
                 <wi-dialog-description>32rem</wi-dialog-description>
               </wi-dialog-header>
               <wi-dialog-footer>
-                <wi-button type="button" wiDialogClose>Cerrar</wi-button>
+                <button wiButton type="button" wiDialogClose>Cerrar</button>
               </wi-dialog-footer>
             </wi-dialog-content>
           </ng-template>
         </wi-dialog>
 
         <wi-dialog size="lg" (closed)="closed($event)" (stateChanged)="stateChanged($event)">
-          <wi-button type="button" wiDialogTrigger>Size lg</wi-button>
+          <button wiButton type="button" wiDialogTrigger>Size lg</button>
           <ng-template wiDialogPortal>
             <wi-dialog-content>
               <wi-dialog-header>
@@ -199,7 +199,7 @@ export const Sizes: Story = {
                 <wi-dialog-description>42rem</wi-dialog-description>
               </wi-dialog-header>
               <wi-dialog-footer>
-                <wi-button type="button" wiDialogClose>Cerrar</wi-button>
+                <button wiButton type="button" wiDialogClose>Cerrar</button>
               </wi-dialog-footer>
             </wi-dialog-content>
           </ng-template>
@@ -221,7 +221,7 @@ export const DisableClose: Story = {
         (closed)="closed($event)"
         (stateChanged)="stateChanged($event)"
       >
-        <wi-button type="button" wiDialogTrigger>Sin dismiss (Escape / backdrop)</wi-button>
+        <button wiButton type="button" wiDialogTrigger>Sin dismiss (Escape / backdrop)</button>
         <ng-template wiDialogPortal>
           <wi-dialog-content [showCloseButton]="false">
             <wi-dialog-header>
@@ -231,7 +231,7 @@ export const DisableClose: Story = {
               </wi-dialog-description>
             </wi-dialog-header>
             <wi-dialog-footer>
-              <wi-button type="button" wiDialogClose>Entendido</wi-button>
+              <button wiButton type="button" wiDialogClose>Entendido</button>
             </wi-dialog-footer>
           </wi-dialog-content>
         </ng-template>
@@ -248,7 +248,7 @@ export const WithoutCloseButton: Story = {
     props: args,
     template: `
       <wi-dialog (closed)="closed($event)" (stateChanged)="stateChanged($event)">
-        <wi-button type="button" wiDialogTrigger>Sin botón X</wi-button>
+        <button wiButton type="button" wiDialogTrigger>Sin botón X</button>
         ${dialogBody}
       </wi-dialog>
     `,
@@ -268,7 +268,7 @@ export const DarkMode: Story = {
           (closed)="closed($event)"
           (stateChanged)="stateChanged($event)"
         >
-          <wi-button type="button" wiDialogTrigger>Abrir en dark</wi-button>
+          <button wiButton type="button" wiDialogTrigger>Abrir en dark</button>
           ${dialogBody}
         </wi-dialog>
       </div>
@@ -295,7 +295,7 @@ export const NarrowViewport: Story = {
           (closed)="closed($event)"
           (stateChanged)="stateChanged($event)"
         >
-          <wi-button type="button" class="w-full" wiDialogTrigger>Abrir (estrecho)</wi-button>
+          <button wiButton type="button" class="w-full" wiDialogTrigger>Abrir (estrecho)</button>
           ${dialogBody}
         </wi-dialog>
       </div>

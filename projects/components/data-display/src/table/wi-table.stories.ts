@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { applicationConfig, moduleMetadata } from '@storybook/angular-vite';
 import { fn } from 'storybook/test';
 
-import { WiButtonComponent } from '../../../button/src/public-api';
+import { WiButtonDirective } from '../../../button/src/public-api';
 import { ellipsisVerticalOutline } from '../../../icon/heroicons/src/ellipsis-vertical';
 import { provideWiIcons, WiIconComponent } from '../../../icon/src/public-api';
 import {
@@ -195,7 +195,7 @@ Tabla declarativa del design system. La app pasa \`WiColumnDef\` + filas (p. ej.
         WiTableComponent,
         WiTableCellDirective,
         WiTableRowActionsDirective,
-        WiButtonComponent,
+        WiButtonDirective,
         WiIconComponent,
         WiMenuComponent,
         WiMenuItemDirective,
@@ -425,8 +425,8 @@ export const RecipeResultsToolbar: Story = {
           (filtersChange)="filtersChange($event)"
         >
           <div wiTableActions class="flex flex-wrap gap-2">
-            <wi-button type="button" variant="secondary" size="sm">Descargar Excel</wi-button>
-            <wi-button type="button" size="sm">Mostrar mapa</wi-button>
+            <button wiButton type="button" variant="secondary" size="sm">Descargar Excel</button>
+            <button wiButton type="button" size="sm">Mostrar mapa</button>
           </div>
 
           <ng-template wiTableRowActions let-row>

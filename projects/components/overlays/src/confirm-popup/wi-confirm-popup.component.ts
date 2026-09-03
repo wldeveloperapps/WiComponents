@@ -20,7 +20,7 @@ import {
   provideBrnPopoverConfig,
   provideBrnPopoverDefaultOptions,
 } from '@spartan-ng/brain/popover';
-import { WiButtonComponent } from '@wiloc/ui/button';
+import { WiButtonDirective } from '@wiloc/ui/button';
 
 import { bindOutsidePointerDismiss } from '../outside-pointer-dismiss';
 import { injectWiOverlaysI18n } from '../wi-overlays.i18n';
@@ -94,7 +94,7 @@ export class WiConfirmPopupPortalDirective {
  *
  * @example
  * ```html
- * <wi-button wiConfirmPopupTrigger>Eliminar</wi-button>
+ * <button wiButton wiConfirmPopupTrigger>Eliminar</button>
  * <button type="button" [wiConfirmPopupTriggerFor]="confirm">Eliminar</button>
  * ```
  */
@@ -164,14 +164,14 @@ export class WiConfirmPopupTriggerDirective {
  *   (confirmed)="onConfirm()"
  *   (cancelled)="onCancel()"
  * >
- *   <wi-button type="button" wiConfirmPopupTrigger>Eliminar</wi-button>
+ *   <button wiButton type="button" wiConfirmPopupTrigger>Eliminar</button>
  * </wi-confirm-popup>
  * ```
  */
 @Component({
   selector: 'wi-confirm-popup',
   exportAs: 'wiConfirmPopup',
-  imports: [WiConfirmPopupPortalDirective, WiButtonComponent],
+  imports: [WiConfirmPopupPortalDirective, WiButtonDirective],
   providers: [
     provideBrnPopoverConfig({ align: 'center', sideOffset: 8, offsetX: 0 }),
     provideBrnPopoverDefaultOptions({
@@ -235,7 +235,7 @@ export class WiConfirmPopupTriggerDirective {
           class="wi-confirm-popup__footer flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-2"
         >
           @if (showCancel()) {
-            <wi-button
+            <button wiButton
               type="button"
               variant="secondary"
               size="sm"
@@ -243,9 +243,9 @@ export class WiConfirmPopupTriggerDirective {
               (click)="onCancel()"
             >
               {{ resolvedCancelLabel() }}
-            </wi-button>
+            </button>
           }
-          <wi-button
+          <button wiButton
             type="button"
             size="sm"
             [variant]="confirmVariant()"
@@ -253,7 +253,7 @@ export class WiConfirmPopupTriggerDirective {
             (click)="onConfirm()"
           >
             {{ confirmLabel() }}
-          </wi-button>
+          </button>
         </div>
       </div>
     </ng-template>

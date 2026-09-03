@@ -25,11 +25,11 @@ describe('WiFileUploadComponent', () => {
   }
 
   function chooseButton(): HTMLButtonElement {
-    return fixture.nativeElement.querySelector('.wi-file-upload__choose button');
+    return fixture.nativeElement.querySelector('.wi-file-upload__choose');
   }
 
   function uploadButton(): HTMLButtonElement | null {
-    return fixture.nativeElement.querySelector('.wi-file-upload__upload button');
+    return fixture.nativeElement.querySelector('.wi-file-upload__upload');
   }
 
   function filename(): HTMLElement {

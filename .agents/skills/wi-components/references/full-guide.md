@@ -286,8 +286,8 @@ Preferir:
   <wi-dialog-content> Esta acción no se puede deshacer. </wi-dialog-content>
 
   <wi-dialog-footer>
-    <wi-button variant="secondary">Cancelar</wi-button>
-    <wi-button variant="danger">Eliminar</wi-button>
+    <button wiButton type="button" variant="secondary">Cancelar</button>
+    <button wiButton type="button" variant="danger">Eliminar</button>
   </wi-dialog-footer>
 </wi-dialog>
 ```
@@ -528,13 +528,13 @@ Los componentes deben importar desde entry points públicos.
 Preferir:
 
 ```ts
-import { WiButtonComponent } from '@wiloc/ui/button';
+import { WiButtonDirective } from '@wiloc/ui/button';
 ```
 
 Evitar en aplicaciones consumidoras:
 
 ```ts
-import { WiButtonComponent } from '@wiloc/ui/src/lib/button/wi-button.component';
+import { WiButtonDirective } from '@wiloc/ui/src/lib/button/wi-button.directive';
 ```
 
 **Entre entry points de la propia librería** (p. ej. `forms` → `icon`): usar también `@wiloc/ui/{entry}`, nunca `../../icon/src/...`. Detalle obligatorio (exports + Storybook): regla `angular-library-structure`.
@@ -659,9 +659,8 @@ Antes de finalizar un componente comprobar:
 ```text
 button/
 ├── src/
-│   ├── wi-button.component.ts
-│   ├── wi-button.component.html
-│   ├── wi-button.component.spec.ts
+│   ├── wi-button.directive.ts
+│   ├── wi-button.directive.spec.ts
 │   ├── wi-button.stories.ts
 │   ├── wi-button.types.ts
 │   └── public-api.ts

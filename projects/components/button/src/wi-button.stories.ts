@@ -4,18 +4,20 @@ import { applicationConfig, moduleMetadata } from '@storybook/angular-vite';
 import { provideWiIcons, WiIconComponent } from '../../icon/src/public-api';
 import { plusOutline } from '../../icon/heroicons/src/plus';
 import { trashOutline } from '../../icon/heroicons/src/trash';
-import { WiButtonComponent } from './public-api';
+import { WiButtonDirective } from './public-api';
 
-const meta: Meta<WiButtonComponent> = {
+const meta: Meta<WiButtonDirective> = {
   title: 'Button/WiButton',
-  component: WiButtonComponent,
+  component: WiButtonDirective,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
     docs: {
       description: {
         component: `
-Host con \`inline-flex\` (genera caja CSS). Así directivas de overlay como \`[wiTooltip]\` pueden ir en \`<wi-button>\` sin anclarse en (0,0). Evitar \`display: contents\` en hosts que necesiten overlays.
+Directiva sobre el elemento nativo: \`<button wiButton>\` para acciones y \`<a wiButton href>\` / \`routerLink\` para navegación.
+
+El host genera caja CSS (\`inline-flex\`), así que overlay como \`[wiTooltip]\` puede ir en el mismo elemento. Evitar \`display: contents\` en hosts que necesiten overlays. No uses \`<button>\` para navegar ni \`role="button"\` en un enlace real.
         `,
       },
     },
@@ -30,7 +32,7 @@ Host con \`inline-flex\` (genera caja CSS). Así directivas de overlay como \`[w
       ],
     }),
     moduleMetadata({
-      imports: [WiButtonComponent, WiIconComponent],
+      imports: [WiButtonDirective, WiIconComponent],
     }),
   ],
   argTypes: {
@@ -63,13 +65,14 @@ Host con \`inline-flex\` (genera caja CSS). Así directivas de overlay como \`[w
 };
 
 export default meta;
-type Story = StoryObj<WiButtonComponent>;
+type Story = StoryObj<WiButtonDirective>;
 
 export const Default: Story = {
   render: (args) => ({
     props: args,
     template: `
-      <wi-button
+      <button
+        wiButton
         [variant]="variant"
         [size]="size"
         [type]="type"
@@ -79,7 +82,7 @@ export const Default: Story = {
         [ariaLabel]="ariaLabel"
       >
         Guardar
-      </wi-button>
+      </button>
     `,
   }),
 };
@@ -88,11 +91,11 @@ export const Variants: Story = {
   render: () => ({
     template: `
       <div style="display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;">
-        <wi-button variant="primary">Primary</wi-button>
-        <wi-button variant="secondary">Secondary</wi-button>
-        <wi-button variant="danger">Danger</wi-button>
-        <wi-button variant="ghost">Ghost</wi-button>
-        <wi-button variant="outline">Outline</wi-button>
+        <button wiButton type="button" variant="primary">Primary</button>
+        <button wiButton type="button" variant="secondary">Secondary</button>
+        <button wiButton type="button" variant="danger">Danger</button>
+        <button wiButton type="button" variant="ghost">Ghost</button>
+        <button wiButton type="button" variant="outline">Outline</button>
       </div>
     `,
   }),
@@ -102,9 +105,9 @@ export const Sizes: Story = {
   render: () => ({
     template: `
       <div style="display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;">
-        <wi-button size="sm">Small</wi-button>
-        <wi-button size="md">Medium</wi-button>
-        <wi-button size="lg">Large</wi-button>
+        <button wiButton type="button" size="sm">Small</button>
+        <button wiButton type="button" size="md">Medium</button>
+        <button wiButton type="button" size="lg">Large</button>
       </div>
     `,
   }),
@@ -114,9 +117,9 @@ export const Disabled: Story = {
   render: () => ({
     template: `
       <div style="display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;">
-        <wi-button disabled>Primary</wi-button>
-        <wi-button variant="secondary" disabled>Secondary</wi-button>
-        <wi-button variant="outline" disabled>Outline</wi-button>
+        <button wiButton type="button" disabled>Primary</button>
+        <button wiButton type="button" variant="secondary" disabled>Secondary</button>
+        <button wiButton type="button" variant="outline" disabled>Outline</button>
       </div>
     `,
   }),
@@ -126,8 +129,8 @@ export const Loading: Story = {
   render: () => ({
     template: `
       <div style="display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;">
-        <wi-button loading>Guardando</wi-button>
-        <wi-button variant="danger" loading>Eliminando</wi-button>
+        <button wiButton type="button" loading>Guardando</button>
+        <button wiButton type="button" variant="danger" loading>Eliminando</button>
       </div>
     `,
   }),
@@ -137,14 +140,14 @@ export const WithIcon: Story = {
   render: () => ({
     template: `
       <div style="display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;">
-        <wi-button>
+        <button wiButton type="button">
           <wi-icon name="plus" size="sm" />
           Crear
-        </wi-button>
-        <wi-button variant="danger">
+        </button>
+        <button wiButton type="button" variant="danger">
           <wi-icon name="trash" size="sm" />
           Eliminar
-        </wi-button>
+        </button>
       </div>
     `,
   }),
@@ -154,15 +157,28 @@ export const IconOnly: Story = {
   render: () => ({
     template: `
       <div style="display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;">
-        <wi-button iconOnly ariaLabel="Crear">
+        <button wiButton type="button" iconOnly ariaLabel="Crear">
           <wi-icon name="plus" size="sm" />
-        </wi-button>
-        <wi-button variant="danger" iconOnly ariaLabel="Eliminar">
+        </button>
+        <button wiButton type="button" variant="danger" iconOnly ariaLabel="Eliminar">
           <wi-icon name="trash" size="sm" />
-        </wi-button>
-        <wi-button variant="outline" iconOnly ariaLabel="Crear" size="lg">
+        </button>
+        <button wiButton type="button" variant="outline" iconOnly ariaLabel="Crear" size="lg">
           <wi-icon name="plus" />
-        </wi-button>
+        </button>
+      </div>
+    `,
+  }),
+};
+
+export const AsLink: Story = {
+  render: () => ({
+    template: `
+      <div style="display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;">
+        <a wiButton href="https://example.com">Enlace primary</a>
+        <a wiButton variant="outline" href="https://example.com">Enlace outline</a>
+        <a wiButton variant="ghost" href="https://example.com">Enlace ghost</a>
+        <a wiButton disabled href="https://example.com">Enlace deshabilitado</a>
       </div>
     `,
   }),
@@ -175,12 +191,13 @@ export const DarkMode: Story = {
   render: () => ({
     template: `
       <div style="display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;padding:1.5rem;">
-        <wi-button variant="primary">Primary</wi-button>
-        <wi-button variant="secondary">Secondary</wi-button>
-        <wi-button variant="danger">Danger</wi-button>
-        <wi-button variant="ghost">Ghost</wi-button>
-        <wi-button variant="outline">Outline</wi-button>
-        <wi-button loading>Loading</wi-button>
+        <button wiButton type="button" variant="primary">Primary</button>
+        <button wiButton type="button" variant="secondary">Secondary</button>
+        <button wiButton type="button" variant="danger">Danger</button>
+        <button wiButton type="button" variant="ghost">Ghost</button>
+        <button wiButton type="button" variant="outline">Outline</button>
+        <button wiButton type="button" loading>Loading</button>
+        <a wiButton variant="outline" href="https://example.com">Enlace</a>
       </div>
     `,
   }),
@@ -189,9 +206,9 @@ export const DarkMode: Story = {
 export const WithLongContent: Story = {
   render: () => ({
     template: `
-      <wi-button>
+      <button wiButton type="button">
         Confirmar y continuar con la operación seleccionada
-      </wi-button>
+      </button>
     `,
   }),
 };

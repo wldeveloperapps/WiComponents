@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { applicationConfig, moduleMetadata } from '@storybook/angular-vite';
 import { fn } from 'storybook/test';
 
-import { WiButtonComponent } from '../../../button/src/public-api';
+import { WiButtonDirective } from '../../../button/src/public-api';
 import { archiveBoxOutline } from '../../../icon/heroicons/src/archive-box';
 import { checkCircleOutline } from '../../../icon/heroicons/src/check-circle';
 import { cog6ToothOutline } from '../../../icon/heroicons/src/cog-6-tooth';
@@ -243,7 +243,7 @@ const menuImports = [
   WiMenuRadioDirective,
   WiMenuSeparatorComponent,
   WiTooltipDirective,
-  WiButtonComponent,
+  WiButtonDirective,
   WiIconComponent,
   AssetTypesDemoComponent,
   AssetAttributesDemoComponent,
@@ -384,7 +384,7 @@ export const Default: Story = {
   render: (args) => ({
     props: args,
     template: `
-      <wi-button
+      <button wiButton
         type="button"
         variant="outline"
         size="sm"
@@ -395,7 +395,7 @@ export const Default: Story = {
         (closed)="closed()"
       >
         Abrir menú
-      </wi-button>
+      </button>
       <ng-template #menu>
         <wi-menu [sideOffset]="sideOffset">
           <wi-menu-label>{{ label }}</wi-menu-label>
@@ -497,7 +497,7 @@ export const WithWiButton: Story = {
   render: (args) => ({
     props: args,
     template: `
-      <wi-button
+      <button wiButton
         type="button"
         variant="outline"
         size="sm"
@@ -508,7 +508,7 @@ export const WithWiButton: Story = {
         (closed)="closed()"
       >
         Más opciones
-      </wi-button>
+      </button>
       <ng-template #menu>
         <wi-menu [sideOffset]="sideOffset">
           <button type="button" wiMenuItem (triggered)="triggered('profile')">Perfil</button>

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { moduleMetadata } from '@storybook/angular-vite';
 import { fn } from 'storybook/test';
 
-import { WiButtonComponent } from '@wiloc/ui/button';
+import { WiButtonDirective } from '@wiloc/ui/button';
 
 import {
   getToastDemoCopy,
@@ -96,7 +96,7 @@ Notificaciones toast (API propia \`WiToast*\`).
   },
   decorators: [
     moduleMetadata({
-      imports: [WiToasterComponent, WiButtonComponent],
+      imports: [WiToasterComponent, WiButtonDirective],
     }),
     toasterDecorator,
   ],
@@ -155,7 +155,7 @@ export const Default: Story = {
         show: () => wiToast(copy.eventCreated, { duration: args.duration }),
       },
       template: canvasShell(`
-        <wi-button type="button" (click)="show()">{{ showButton }}</wi-button>
+        <button wiButton type="button" (click)="show()">{{ showButton }}</button>
       `),
     };
   },
@@ -182,12 +182,12 @@ export const Variants: Story = {
       },
       template: canvasShell(`
         <div class="flex flex-wrap justify-center gap-2">
-          <wi-button type="button" variant="secondary" (click)="showDefault()">Default</wi-button>
-          <wi-button type="button" (click)="showSuccess()">Success</wi-button>
-          <wi-button type="button" variant="secondary" (click)="showInfo()">Info</wi-button>
-          <wi-button type="button" variant="secondary" (click)="showWarning()">Warning</wi-button>
-          <wi-button type="button" variant="danger" (click)="showError()">Error</wi-button>
-          <wi-button type="button" variant="outline" (click)="showLoading()">{{ loadingButton }}</wi-button>
+          <button wiButton type="button" variant="secondary" (click)="showDefault()">Default</button>
+          <button wiButton type="button" (click)="showSuccess()">Success</button>
+          <button wiButton type="button" variant="secondary" (click)="showInfo()">Info</button>
+          <button wiButton type="button" variant="secondary" (click)="showWarning()">Warning</button>
+          <button wiButton type="button" variant="danger" (click)="showError()">Error</button>
+          <button wiButton type="button" variant="outline" (click)="showLoading()">{{ loadingButton }}</button>
         </div>
       `),
     };
@@ -218,7 +218,7 @@ export const WithDescriptionAndAction: Story = {
           }),
       },
       template: canvasShell(`
-        <wi-button type="button" (click)="show()">{{ withActionButton }}</wi-button>
+        <button wiButton type="button" (click)="show()">{{ withActionButton }}</button>
       `),
     };
   },
@@ -236,12 +236,12 @@ export const Positions: Story = {
       },
       template: canvasShell(`
         <div class="grid max-w-md grid-cols-2 gap-2 sm:grid-cols-3">
-          <wi-button type="button" size="sm" variant="secondary" (click)="show('top-left')">Top left</wi-button>
-          <wi-button type="button" size="sm" variant="secondary" (click)="show('top-center')">Top center</wi-button>
-          <wi-button type="button" size="sm" variant="secondary" (click)="show('top-right')">Top right</wi-button>
-          <wi-button type="button" size="sm" variant="secondary" (click)="show('bottom-left')">Bottom left</wi-button>
-          <wi-button type="button" size="sm" variant="secondary" (click)="show('bottom-center')">Bottom center</wi-button>
-          <wi-button type="button" size="sm" variant="secondary" (click)="show('bottom-right')">Bottom right</wi-button>
+          <button wiButton type="button" size="sm" variant="secondary" (click)="show('top-left')">Top left</button>
+          <button wiButton type="button" size="sm" variant="secondary" (click)="show('top-center')">Top center</button>
+          <button wiButton type="button" size="sm" variant="secondary" (click)="show('top-right')">Top right</button>
+          <button wiButton type="button" size="sm" variant="secondary" (click)="show('bottom-left')">Bottom left</button>
+          <button wiButton type="button" size="sm" variant="secondary" (click)="show('bottom-center')">Bottom center</button>
+          <button wiButton type="button" size="sm" variant="secondary" (click)="show('bottom-right')">Bottom right</button>
         </div>
       `),
     };
@@ -265,7 +265,7 @@ export const Stacked: Story = {
         },
       },
       template: canvasShell(`
-        <wi-button type="button" (click)="showMany()">{{ stackedButton }}</wi-button>
+        <button wiButton type="button" (click)="showMany()">{{ stackedButton }}</button>
       `),
     };
   },
@@ -292,7 +292,7 @@ export const PromiseToast: Story = {
         },
       },
       template: canvasShell(`
-        <wi-button type="button" (click)="run()">{{ promiseButton }}</wi-button>
+        <button wiButton type="button" (click)="run()">{{ promiseButton }}</button>
       `),
     };
   },
@@ -316,7 +316,7 @@ export const LightMode: Story = {
           }),
       },
       template: canvasShell(`
-        <wi-button type="button" (click)="show()">{{ lightButton }}</wi-button>
+        <button wiButton type="button" (click)="show()">{{ lightButton }}</button>
       `),
     };
   },
@@ -340,7 +340,7 @@ export const DarkMode: Story = {
           }),
       },
       template: canvasShell(`
-        <wi-button type="button" (click)="show()">{{ darkButton }}</wi-button>
+        <button wiButton type="button" (click)="show()">{{ darkButton }}</button>
       `),
     };
   },

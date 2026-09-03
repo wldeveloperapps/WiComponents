@@ -120,19 +120,19 @@ describe('WiPicklistComponent', () => {
   }
 
   function moveToTarget(): HTMLButtonElement {
-    return fixture.nativeElement.querySelector('.wi-picklist__move-to-target button');
+    return fixture.nativeElement.querySelector('.wi-picklist__move-to-target');
   }
 
   function moveAllToTarget(): HTMLButtonElement | null {
-    return fixture.nativeElement.querySelector('.wi-picklist__move-all-to-target button');
+    return fixture.nativeElement.querySelector('.wi-picklist__move-all-to-target');
   }
 
   function moveToSource(): HTMLButtonElement {
-    return fixture.nativeElement.querySelector('.wi-picklist__move-to-source button');
+    return fixture.nativeElement.querySelector('.wi-picklist__move-to-source');
   }
 
   function moveAllToSource(): HTMLButtonElement | null {
-    return fixture.nativeElement.querySelector('.wi-picklist__move-all-to-source button');
+    return fixture.nativeElement.querySelector('.wi-picklist__move-all-to-source');
   }
 
   it('renders host, headers and both listboxes', () => {
@@ -324,7 +324,7 @@ describe('WiPicklistComponent', () => {
     await hostFixture.whenStable();
 
     const move = hostFixture.nativeElement.querySelector(
-      '.wi-picklist__move-to-target button',
+      '.wi-picklist__move-to-target',
     ) as HTMLButtonElement;
     move.click();
     hostFixture.detectChanges();

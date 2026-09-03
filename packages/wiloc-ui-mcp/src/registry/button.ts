@@ -4,10 +4,10 @@
  */
 export const wiButtonRegistryEntry = {
   name: 'button',
-  selector: 'wi-button',
+  selector: 'button[wiButton], a[wiButton]',
   entryPoint: '@wiloc/ui/button',
   status: 'experimental' as const,
-  exports: ['WiButtonComponent', 'WiButtonVariant', 'WiButtonSize', 'WiButtonType'],
+  exports: ['WiButtonDirective', 'WiButtonVariant', 'WiButtonSize', 'WiButtonType'],
   inputs: [
     {
       name: 'variant',
@@ -25,19 +25,20 @@ export const wiButtonRegistryEntry = {
       name: 'type',
       type: 'WiButtonType',
       default: 'button',
-      description: 'type nativo del button: button | submit | reset',
+      description: 'type nativo de <button>: button | submit | reset. Ignorado en <a>',
     },
     {
       name: 'loading',
       type: 'boolean',
       default: false,
-      description: 'Muestra spinner, deshabilita el control y pone aria-busy',
+      description: 'Muestra spinner CSS, deshabilita el control y pone aria-busy',
     },
     {
       name: 'disabled',
       type: 'boolean',
       default: false,
-      description: 'Deshabilita el botón',
+      description:
+        'Deshabilita el control. En <a> usa aria-disabled + tabindex=-1 (no hay disabled nativo)',
     },
     {
       name: 'iconOnly',
@@ -54,11 +55,12 @@ export const wiButtonRegistryEntry = {
   ],
   outputs: [],
   variants: ['primary', 'secondary', 'danger', 'ghost', 'outline'],
-  keyboard: ['Tab', 'Enter', 'Space'],
+  keyboard: ['Tab', 'Enter', 'Space (solo button nativo)'],
   a11yNotes:
-    'Botón nativo. Con iconOnly proporcionar ariaLabel. loading expone aria-busy y deshabilita el control.',
+    'Directiva sobre el nativo: button para acciones, a[href]/routerLink para navegación. No poner role=button en el enlace. iconOnly: ariaLabel. loading: aria-busy. En <a> disabled no es nativo: aria-disabled + tabindex=-1 + preventDefault.',
   example: {
-    import: `import { WiButtonComponent } from '@wiloc/ui/button';`,
-    template: `<wi-button variant="primary">Guardar</wi-button>`,
+    import: `import { WiButtonDirective } from '@wiloc/ui/button';`,
+    template: `<button wiButton type="button" variant="primary">Guardar</button>
+<a wiButton variant="outline" href="/settings">Ajustes</a>`,
   },
 } as const;

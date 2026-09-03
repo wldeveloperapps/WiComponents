@@ -196,7 +196,7 @@ describe('App', () => {
     await fixture.whenStable();
 
     const move = section?.querySelector(
-      '.wi-picklist__move-to-target button',
+      '.wi-picklist__move-to-target',
     ) as HTMLButtonElement | null;
     expect(move).toBeTruthy();
     move?.click();

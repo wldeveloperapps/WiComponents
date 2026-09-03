@@ -32,6 +32,7 @@ describe('@wiloc/ui-mcp catalog', () => {
   it('resolves by selector', () => {
     expect(getCatalogItem('wi-table')?.name).toBe('table');
     expect(getCatalogItem('wi-button')?.entryPoint).toBe('@wiloc/ui/button');
+    expect(getCatalogItem('button[wiButton], a[wiButton]')?.name).toBe('button');
   });
 
   it('documents wi-table public API used by consumer apps', () => {

@@ -28,7 +28,7 @@ El objetivo de la librería no es replicar todas las funcionalidades de una suit
 Las aplicaciones consumidoras deben utilizar los componentes públicos de `wiComponents`.
 
 ```ts
-import { WiButtonComponent } from '@wiloc/ui/button';
+import { WiButtonDirective } from '@wiloc/ui/button';
 import { WiDialogComponent } from '@wiloc/ui/overlays';
 ```
 
@@ -525,16 +525,14 @@ export type WiButtonSize = 'sm' | 'md' | 'lg';
 Ejemplo:
 
 ```ts
-@Component({
-  selector: 'wi-button',
-  standalone: true,
-  templateUrl: './wi-button.component.html',
+@Directive({
+  selector: 'button[wiButton], a[wiButton]',
   host: {
     '[attr.data-variant]': 'variant()',
     '[attr.data-size]': 'size()',
   },
 })
-export class WiButtonComponent {
+export class WiButtonDirective {
   readonly variant = input<WiButtonVariant>('primary');
   readonly size = input<WiButtonSize>('md');
   readonly loading = input(false);
@@ -551,7 +549,7 @@ La API pública no debe filtrar implementaciones internas.
 La librería debe proporcionar entry points secundarios para organizar los imports y evitar cargar módulos innecesarios.
 
 ```ts
-import { WiButtonComponent } from '@wiloc/ui/button';
+import { WiButtonDirective } from '@wiloc/ui/button';
 import { WiInputComponent } from '@wiloc/ui/forms';
 import { WiDialogComponent } from '@wiloc/ui/overlays';
 import { WiTableComponent } from '@wiloc/ui/data-display';
@@ -864,7 +862,7 @@ Se considera breaking change:
 ### Componentes
 
 ```text
-WiButtonComponent
+WiButtonDirective
 WiDialogComponent
 WiFormFieldComponent
 WiDataTableComponent
@@ -873,7 +871,7 @@ WiDataTableComponent
 ### Selectores
 
 ```text
-wi-button
+button[wiButton], a[wiButton]
 wi-dialog
 wi-form-field
 wi-data-table

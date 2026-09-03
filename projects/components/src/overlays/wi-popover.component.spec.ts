@@ -3,7 +3,7 @@ import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { WiButtonComponent } from '../../button/src/public-api';
+import { WiButtonDirective } from '../../button/src/public-api';
 import {
   WiPopoverCloseDirective,
   WiPopoverComponent,
@@ -27,11 +27,11 @@ import type { WiPopoverSize } from '../../overlays/src/popover/wi-popover.types'
     WiPopoverHeaderComponent,
     WiPopoverTitleComponent,
     WiPopoverDescriptionComponent,
-    WiButtonComponent,
+    WiButtonDirective,
   ],
   template: `
     <wi-popover [size]="size()" [ariaLabel]="ariaLabel()" [disableClose]="disableClose()">
-      <wi-button type="button" wiPopoverTrigger>Abrir</wi-button>
+      <button wiButton type="button" wiPopoverTrigger>Abrir</button>
       <ng-template wiPopoverPortal>
         <wi-popover-content>
           <wi-popover-header>
@@ -39,7 +39,7 @@ import type { WiPopoverSize } from '../../overlays/src/popover/wi-popover.types'
             <wi-popover-description>Descripción de prueba</wi-popover-description>
           </wi-popover-header>
           <p>Cuerpo</p>
-          <wi-button type="button" wiPopoverClose>Cerrar</wi-button>
+          <button wiButton type="button" wiPopoverClose>Cerrar</button>
         </wi-popover-content>
       </ng-template>
     </wi-popover>
@@ -59,15 +59,15 @@ class PopoverHostComponent {
     WiPopoverPortalDirective,
     WiPopoverCloseDirective,
     WiPopoverContentComponent,
-    WiButtonComponent,
+    WiButtonDirective,
   ],
   template: `
     <wi-popover ariaLabel="Filtros rápidos">
-      <wi-button type="button" wiPopoverTrigger>Abrir</wi-button>
+      <button wiButton type="button" wiPopoverTrigger>Abrir</button>
       <ng-template wiPopoverPortal>
         <wi-popover-content>
           <p>Sin título</p>
-          <wi-button type="button" wiPopoverClose>Cerrar</wi-button>
+          <button wiButton type="button" wiPopoverClose>Cerrar</button>
         </wi-popover-content>
       </ng-template>
     </wi-popover>
@@ -121,7 +121,7 @@ describe('WiPopoverComponent', () => {
     });
 
     function trigger(): HTMLElement {
-      return fixture.nativeElement.querySelector('wi-button[wiPopoverTrigger], [wiPopoverTrigger]');
+      return fixture.nativeElement.querySelector('[wiPopoverTrigger]');
     }
 
     it('constructs closed without a panel (SSR-safe init path)', () => {
@@ -205,7 +205,7 @@ describe('WiPopoverComponent', () => {
       fixture.detectChanges();
       await waitForPanel(true);
 
-      const closeBtn = document.querySelector('wi-button[wiPopoverClose], [wiPopoverClose]');
+      const closeBtn = document.querySelector('[wiPopoverClose]');
       expect(closeBtn).toBeTruthy();
       (closeBtn as HTMLElement).click();
       fixture.detectChanges();
@@ -306,7 +306,7 @@ describe('WiPopoverComponent', () => {
 
     it('sets aria-label on the pane when there is no title', async () => {
       const trigger = fixture.nativeElement.querySelector(
-        'wi-button[wiPopoverTrigger], [wiPopoverTrigger]',
+        '[wiPopoverTrigger]',
       ) as HTMLElement;
       trigger.click();
       fixture.detectChanges();

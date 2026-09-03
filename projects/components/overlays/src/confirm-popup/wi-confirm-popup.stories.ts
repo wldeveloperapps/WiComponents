@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { applicationConfig, moduleMetadata } from '@storybook/angular-vite';
 import { fn } from 'storybook/test';
 
-import { WiButtonComponent } from '../../../button/src/public-api';
+import { WiButtonDirective } from '../../../button/src/public-api';
 import type {
   WiConfirmPopupAlign,
   WiConfirmPopupConfirmVariant,
@@ -32,7 +32,7 @@ interface WiConfirmPopupStoryArgs {
   stateChanged: ReturnType<typeof fn>;
 }
 
-const confirmImports = [WiConfirmPopupComponent, WiConfirmPopupTriggerDirective, WiButtonComponent];
+const confirmImports = [WiConfirmPopupComponent, WiConfirmPopupTriggerDirective, WiButtonDirective];
 
 const meta: Meta<WiConfirmPopupStoryArgs> = {
   title: 'Overlays/WiConfirmPopup',
@@ -177,7 +177,7 @@ export const Default: Story = {
         (closed)="closed($event)"
         (stateChanged)="stateChanged($event)"
       >
-        <wi-button type="button" variant="danger" wiConfirmPopupTrigger>Eliminar</wi-button>
+        <button wiButton type="button" variant="danger" wiConfirmPopupTrigger>Eliminar</button>
       </wi-confirm-popup>
     `,
   }),
@@ -207,7 +207,7 @@ export const PrimaryConfirm: Story = {
         (closed)="closed($event)"
         (stateChanged)="stateChanged($event)"
       >
-        <wi-button type="button" wiConfirmPopupTrigger>Publicar</wi-button>
+        <button wiButton type="button" wiConfirmPopupTrigger>Publicar</button>
       </wi-confirm-popup>
     `,
   }),
@@ -234,7 +234,7 @@ export const AlignStart: Story = {
         (closed)="closed($event)"
         (stateChanged)="stateChanged($event)"
       >
-        <wi-button type="button" variant="danger" wiConfirmPopupTrigger>Eliminar (align start)</wi-button>
+        <button wiButton type="button" variant="danger" wiConfirmPopupTrigger>Eliminar (align start)</button>
       </wi-confirm-popup>
     `,
   }),
@@ -260,7 +260,7 @@ export const WithoutDescription: Story = {
         (closed)="closed($event)"
         (stateChanged)="stateChanged($event)"
       >
-        <wi-button type="button" wiConfirmPopupTrigger>Continuar</wi-button>
+        <button wiButton type="button" wiConfirmPopupTrigger>Continuar</button>
       </wi-confirm-popup>
     `,
   }),
@@ -285,7 +285,7 @@ export const Loading: Story = {
         (closed)="closed($event)"
         (stateChanged)="stateChanged($event)"
       >
-        <wi-button type="button" variant="danger" wiConfirmPopupTrigger>Eliminar (loading)</wi-button>
+        <button wiButton type="button" variant="danger" wiConfirmPopupTrigger>Eliminar (loading)</button>
       </wi-confirm-popup>
     `,
   }),
@@ -313,7 +313,7 @@ export const WithoutCancel: Story = {
         (closed)="closed($event)"
         (stateChanged)="stateChanged($event)"
       >
-        <wi-button type="button" wiConfirmPopupTrigger>Abrir</wi-button>
+        <button wiButton type="button" wiConfirmPopupTrigger>Abrir</button>
       </wi-confirm-popup>
     `,
   }),
@@ -346,7 +346,7 @@ export const InTableRow: Story = {
             (closed)="closed($event)"
             (stateChanged)="stateChanged($event)"
           >
-            <wi-button type="button" size="sm" variant="danger" wiConfirmPopupTrigger>Eliminar</wi-button>
+            <button wiButton type="button" size="sm" variant="danger" wiConfirmPopupTrigger>Eliminar</button>
           </wi-confirm-popup>
         </div>
         <div class="flex items-center justify-between gap-4 px-4 py-3">
@@ -362,7 +362,7 @@ export const InTableRow: Story = {
             (closed)="closed($event)"
             (stateChanged)="stateChanged($event)"
           >
-            <wi-button type="button" size="sm" variant="danger" wiConfirmPopupTrigger>Eliminar</wi-button>
+            <button wiButton type="button" size="sm" variant="danger" wiConfirmPopupTrigger>Eliminar</button>
           </wi-confirm-popup>
         </div>
       </div>
@@ -389,7 +389,7 @@ export const DarkMode: Story = {
           (closed)="closed($event)"
           (stateChanged)="stateChanged($event)"
         >
-          <wi-button type="button" variant="danger" wiConfirmPopupTrigger>Eliminar (dark)</wi-button>
+          <button wiButton type="button" variant="danger" wiConfirmPopupTrigger>Eliminar (dark)</button>
         </wi-confirm-popup>
       </div>
     `,
@@ -421,9 +421,9 @@ export const NarrowViewport: Story = {
           (closed)="closed($event)"
           (stateChanged)="stateChanged($event)"
         >
-          <wi-button type="button" class="w-full" variant="danger" wiConfirmPopupTrigger>
+          <button wiButton type="button" class="w-full" variant="danger" wiConfirmPopupTrigger>
             Eliminar (estrecho)
-          </wi-button>
+          </button>
         </wi-confirm-popup>
       </div>
     `,

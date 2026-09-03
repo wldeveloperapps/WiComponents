@@ -125,16 +125,16 @@ export const wiPopoverRegistryEntry = {
   WiPopoverTitleComponent,
   WiPopoverTriggerDirective,
 } from '@wiloc/ui/overlays';
-import { WiButtonComponent } from '@wiloc/ui/button';`,
+import { WiButtonDirective } from '@wiloc/ui/button';`,
     template: `<wi-popover>
-  <wi-button type="button" wiPopoverTrigger>Abrir</wi-button>
+  <button wiButton type="button" wiPopoverTrigger>Abrir</button>
   <ng-template wiPopoverPortal>
     <wi-popover-content>
       <wi-popover-header>
         <wi-popover-title>Detalles</wi-popover-title>
         <wi-popover-description>Contenido aportado por la app.</wi-popover-description>
       </wi-popover-header>
-      <wi-button type="button" variant="secondary" wiPopoverClose>Cerrar</wi-button>
+      <button wiButton type="button" variant="secondary" wiPopoverClose>Cerrar</button>
     </wi-popover-content>
   </ng-template>
 </wi-popover>`,

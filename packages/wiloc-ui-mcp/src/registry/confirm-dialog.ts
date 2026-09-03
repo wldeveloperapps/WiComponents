@@ -122,7 +122,7 @@ export const wiConfirmDialogRegistryEntry = {
   WiConfirmDialogTriggerDirective,
   provideWiOverlaysI18n,
 } from '@wiloc/ui/overlays';
-import { WiButtonComponent } from '@wiloc/ui/button';
+import { WiButtonDirective } from '@wiloc/ui/button';
 
 provideWiOverlaysI18n({ confirmCancelLabel: () => 'Cancelar' });`,
     template: `<wi-confirm-dialog
@@ -133,7 +133,7 @@ provideWiOverlaysI18n({ confirmCancelLabel: () => 'Cancelar' });`,
   (confirmed)="onConfirm()"
   (cancelled)="onCancel()"
 >
-  <wi-button type="button" variant="danger" wiConfirmDialogTrigger>Eliminar</wi-button>
+  <button wiButton type="button" variant="danger" wiConfirmDialogTrigger>Eliminar</button>
 </wi-confirm-dialog>`,
   },
 } as const;

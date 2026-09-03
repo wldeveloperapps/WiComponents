@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { applicationConfig, moduleMetadata } from '@storybook/angular-vite';
 import { fn } from 'storybook/test';
 
-import { WiButtonComponent } from '../../../button/src/public-api';
+import { WiButtonDirective } from '../../../button/src/public-api';
 import { WiSelectComponent } from '../../../forms/src/public-api';
 import type { WiPopoverAlign, WiPopoverSize } from './wi-popover.types';
 import {
@@ -35,7 +35,7 @@ const popoverImports = [
   WiPopoverHeaderComponent,
   WiPopoverTitleComponent,
   WiPopoverDescriptionComponent,
-  WiButtonComponent,
+  WiButtonDirective,
   WiSelectComponent,
 ];
 
@@ -126,8 +126,8 @@ const popoverBody = `
         Coordenadas, estado o cualquier contenido proyectado. No es un menú de acciones.
       </p>
       <div class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-        <wi-button type="button" variant="secondary" size="sm" wiPopoverClose>Cerrar</wi-button>
-        <wi-button type="button" size="sm" wiPopoverClose>Ver ficha</wi-button>
+        <button wiButton type="button" variant="secondary" size="sm" wiPopoverClose>Cerrar</button>
+        <button wiButton type="button" size="sm" wiPopoverClose>Ver ficha</button>
       </div>
     </wi-popover-content>
   </ng-template>
@@ -148,7 +148,7 @@ export const Default: Story = {
         (closed)="closed($event)"
         (stateChanged)="stateChanged($event)"
       >
-        <wi-button type="button" wiPopoverTrigger>Abrir popover</wi-button>
+        <button wiButton type="button" wiPopoverTrigger>Abrir popover</button>
         ${popoverBody}
       </wi-popover>
     `,
@@ -165,27 +165,27 @@ export const Sizes: Story = {
     template: `
       <div class="flex flex-wrap gap-3">
         <wi-popover size="sm" (closed)="closed($event)" (stateChanged)="stateChanged($event)">
-          <wi-button type="button" wiPopoverTrigger>Size sm</wi-button>
+          <button wiButton type="button" wiPopoverTrigger>Size sm</button>
           <ng-template wiPopoverPortal>
             <wi-popover-content>
               <wi-popover-header>
                 <wi-popover-title>Pequeño</wi-popover-title>
                 <wi-popover-description>18rem</wi-popover-description>
               </wi-popover-header>
-              <wi-button type="button" size="sm" wiPopoverClose>Cerrar</wi-button>
+              <button wiButton type="button" size="sm" wiPopoverClose>Cerrar</button>
             </wi-popover-content>
           </ng-template>
         </wi-popover>
 
         <wi-popover size="md" (closed)="closed($event)" (stateChanged)="stateChanged($event)">
-          <wi-button type="button" wiPopoverTrigger>Size md</wi-button>
+          <button wiButton type="button" wiPopoverTrigger>Size md</button>
           <ng-template wiPopoverPortal>
             <wi-popover-content>
               <wi-popover-header>
                 <wi-popover-title>Mediano</wi-popover-title>
                 <wi-popover-description>24rem</wi-popover-description>
               </wi-popover-header>
-              <wi-button type="button" size="sm" wiPopoverClose>Cerrar</wi-button>
+              <button wiButton type="button" size="sm" wiPopoverClose>Cerrar</button>
             </wi-popover-content>
           </ng-template>
         </wi-popover>
@@ -208,7 +208,7 @@ export const AlignStart: Story = {
         (closed)="closed($event)"
         (stateChanged)="stateChanged($event)"
       >
-        <wi-button type="button" wiPopoverTrigger>Align start</wi-button>
+        <button wiButton type="button" wiPopoverTrigger>Align start</button>
         ${popoverBody}
       </wi-popover>
     `,
@@ -229,7 +229,7 @@ export const AlignEnd: Story = {
         (closed)="closed($event)"
         (stateChanged)="stateChanged($event)"
       >
-        <wi-button type="button" wiPopoverTrigger>Align end</wi-button>
+        <button wiButton type="button" wiPopoverTrigger>Align end</button>
         ${popoverBody}
       </wi-popover>
     `,
@@ -253,7 +253,7 @@ export const AccountCard: Story = {
         (closed)="closed($event)"
         (stateChanged)="stateChanged($event)"
       >
-        <wi-button type="button" variant="outline" wiPopoverTrigger>Cuenta</wi-button>
+        <button wiButton type="button" variant="outline" wiPopoverTrigger>Cuenta</button>
         <ng-template wiPopoverPortal>
           <wi-popover-content>
             <wi-popover-header>
@@ -263,9 +263,9 @@ export const AccountCard: Story = {
             <p class="min-w-0 text-sm text-on-surface">
               Rol y preferencias los define la aplicación consumidora.
             </p>
-            <wi-button type="button" variant="secondary" size="sm" class="w-full" wiPopoverClose>
+            <button wiButton type="button" variant="secondary" size="sm" class="w-full" wiPopoverClose>
               Cerrar sesión
-            </wi-button>
+            </button>
           </wi-popover-content>
         </ng-template>
       </wi-popover>
@@ -294,7 +294,7 @@ export const NestedSelect: Story = {
         (closed)="closed($event)"
         (stateChanged)="stateChanged($event)"
       >
-        <wi-button type="button" variant="outline" wiPopoverTrigger>Usuario</wi-button>
+        <button wiButton type="button" variant="outline" wiPopoverTrigger>Usuario</button>
         <ng-template wiPopoverPortal>
           <wi-popover-content>
             <wi-popover-header>
@@ -308,9 +308,9 @@ export const NestedSelect: Story = {
               placeholder="Idioma"
               ariaLabel="Idioma"
             />
-            <wi-button type="button" variant="secondary" size="sm" wiPopoverClose>
+            <button wiButton type="button" variant="secondary" size="sm" wiPopoverClose>
               Cerrar
-            </wi-button>
+            </button>
           </wi-popover-content>
         </ng-template>
       </wi-popover>
@@ -334,7 +334,7 @@ export const LongContent: Story = {
         (closed)="closed($event)"
         (stateChanged)="stateChanged($event)"
       >
-        <wi-button type="button" wiPopoverTrigger>Contenido largo</wi-button>
+        <button wiButton type="button" wiPopoverTrigger>Contenido largo</button>
         <ng-template wiPopoverPortal>
           <wi-popover-content>
             <wi-popover-header>
@@ -350,7 +350,7 @@ export const LongContent: Story = {
                 Segunda nota. El panel usa tope de ancho y no debe empujar el layout de la página.
               </p>
             </div>
-            <wi-button type="button" size="sm" wiPopoverClose>Cerrar</wi-button>
+            <button wiButton type="button" size="sm" wiPopoverClose>Cerrar</button>
           </wi-popover-content>
         </ng-template>
       </wi-popover>
@@ -377,11 +377,11 @@ export const AriaLabelOnly: Story = {
         (closed)="closed($event)"
         (stateChanged)="stateChanged($event)"
       >
-        <wi-button type="button" wiPopoverTrigger>Sin título</wi-button>
+        <button wiButton type="button" wiPopoverTrigger>Sin título</button>
         <ng-template wiPopoverPortal>
           <wi-popover-content>
             <p class="min-w-0 text-sm text-on-surface">Panel sin wi-popover-title.</p>
-            <wi-button type="button" size="sm" wiPopoverClose>Cerrar</wi-button>
+            <button wiButton type="button" size="sm" wiPopoverClose>Cerrar</button>
           </wi-popover-content>
         </ng-template>
       </wi-popover>
@@ -402,7 +402,7 @@ export const DarkMode: Story = {
           (closed)="closed($event)"
           (stateChanged)="stateChanged($event)"
         >
-          <wi-button type="button" wiPopoverTrigger>Abrir (dark)</wi-button>
+          <button wiButton type="button" wiPopoverTrigger>Abrir (dark)</button>
           ${popoverBody}
         </wi-popover>
       </div>
@@ -429,7 +429,7 @@ export const NarrowViewport: Story = {
           (closed)="closed($event)"
           (stateChanged)="stateChanged($event)"
         >
-          <wi-button type="button" class="w-full" wiPopoverTrigger>Abrir (estrecho)</wi-button>
+          <button wiButton type="button" class="w-full" wiPopoverTrigger>Abrir (estrecho)</button>
           ${popoverBody}
         </wi-popover>
       </div>

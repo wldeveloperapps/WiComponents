@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { applicationConfig, moduleMetadata } from '@storybook/angular-vite';
 import { fn } from 'storybook/test';
 
-import { WiButtonComponent } from '@wiloc/ui/button';
+import { WiButtonDirective } from '@wiloc/ui/button';
 import { provideWiIcons } from '@wiloc/ui/icon';
 import {
   keyOutline,
@@ -36,7 +36,7 @@ function stepperCopy(globals: { locale?: string } | undefined): StepperDemoCopy 
 
 @Component({
   selector: 'wi-stepper-demo',
-  imports: [WiStepperComponent, WiStepperPanelDirective, WiButtonComponent],
+  imports: [WiStepperComponent, WiStepperPanelDirective, WiButtonDirective],
   template: `
     <div class="flex w-full min-w-0 max-w-3xl flex-col gap-3">
       <p class="text-sm text-on-surface-variant">{{ hint() }}</p>
@@ -58,19 +58,19 @@ function stepperCopy(globals: { locale?: string } | undefined): StepperDemoCopy 
             <p class="text-sm text-on-surface">{{ bodyOf(step.id) }}</p>
             <div class="flex flex-wrap gap-2">
               @if (!isFirst()) {
-                <wi-button
+                <button wiButton
                   type="button"
                   variant="outline"
                   size="sm"
                   (click)="stepper.selectPrevious()"
                 >
                   {{ back() }}
-                </wi-button>
+                </button>
               }
               @if (!isLast()) {
-                <wi-button type="button" size="sm" (click)="stepper.selectNext()">
+                <button wiButton type="button" size="sm" (click)="stepper.selectNext()">
                   {{ next() }}
-                </wi-button>
+                </button>
               }
             </div>
           </div>

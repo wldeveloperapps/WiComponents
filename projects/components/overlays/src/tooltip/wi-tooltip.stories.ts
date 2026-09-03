@@ -2,7 +2,7 @@ import { Directionality } from '@angular/cdk/bidi';
 import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { applicationConfig, moduleMetadata } from '@storybook/angular-vite';
 
-import { WiButtonComponent } from '../../../button/src/public-api';
+import { WiButtonDirective } from '../../../button/src/public-api';
 import { trashOutline } from '../../../icon/heroicons/src/trash';
 import { provideWiIcons, WiIconComponent } from '../../../icon/src/public-api';
 import { provideWiTooltipGroup, WiTooltipDirective } from '../public-api';
@@ -20,7 +20,7 @@ Tooltip complementario vía \`"wiTooltip"\` (string o \`TemplateRef\`).
 - Hover y focus en el **host** (preferir el control nativo o un host con caja CSS).
 - No usar como única fuente de información crítica: en icon-only el nombre accesible va en el botón (\`aria-label\` / \`ariaLabel\`).
 - **Host con caja CSS (obligatorio):** el overlay se ancla con \`getBoundingClientRect()\` del elemento que lleva \`[wiTooltip]\`. Si ese elemento usa \`display: contents\` (u otro modo sin caja), el tip aparece en **(0,0)**. Aplica a wrappers custom, no solo a botones. Ver story **HostMustHaveBox**.
-- \`wi-button\` usa host \`inline-flex\` (medible): se puede poner \`[wiTooltip]\` directamente en \`<wi-button>\`.
+- \`wi-button\` usa host \`inline-flex\` (medible): se puede poner \`[wiTooltip]\` directamente en \`<button wiButton>\`.
 - Responsive: cerca del borde del viewport el overlay hace flip (\`top\` ↔ \`bottom\`, etc.).
         `,
       },
@@ -36,7 +36,7 @@ Tooltip complementario vía \`"wiTooltip"\` (string o \`TemplateRef\`).
       ],
     }),
     moduleMetadata({
-      imports: [WiTooltipDirective, WiButtonComponent, WiIconComponent],
+      imports: [WiTooltipDirective, WiButtonDirective, WiIconComponent],
     }),
   ],
   argTypes: {
@@ -127,7 +127,7 @@ export const Delays: Story = {
 export const IconOnly: Story = {
   render: () => ({
     template: `
-      <wi-button
+      <button wiButton
         type="button"
         variant="danger"
         iconOnly
@@ -138,14 +138,14 @@ export const IconOnly: Story = {
         [hideDelay]="0"
       >
         <wi-icon name="trash" />
-      </wi-button>
+      </button>
     `,
   }),
   parameters: {
     docs: {
       description: {
         story:
-          '`[wiTooltip]` en `<wi-button>` (host `inline-flex`). El nombre accesible sigue en `ariaLabel`.',
+          '`[wiTooltip]` en `<button wiButton>` (host `inline-flex`). El nombre accesible sigue en `ariaLabel`.',
       },
     },
   },
@@ -177,7 +177,7 @@ El ancla del overlay es el **elemento que lleva** \`[wiTooltip]\`.
 \`\`\`html
 <button type="button" wiTooltip="Bien">Nativo</button>
 <!-- o -->
-<wi-button wiTooltip="Bien" ariaLabel="…">…</wi-button>
+<button wiButton wiTooltip="Bien" ariaLabel="…">…</button>
 \`\`\`
 
 Si un componente propio usa \`contents\` en el host y necesita tooltip/popover, o bien quita \`contents\`, o aplica la directiva a un hijo/wrapper que sí genere caja.
@@ -199,7 +199,7 @@ Si un componente propio usa \`contents\` en el host y necesita tooltip/popover, 
           >
             Con caja
           </button>
-          <wi-button
+          <button wiButton
             type="button"
             variant="outline"
             wiTooltip="Anclado a wi-button"
@@ -207,7 +207,7 @@ Si un componente propio usa \`contents\` en el host y necesita tooltip/popover, 
             [hideDelay]="0"
           >
             wi-button
-          </wi-button>
+          </button>
         </div>
         <div class="flex flex-wrap items-center gap-3">
           <span class="text-on-surface-variant">Incorrecto (contents → 0,0):</span>

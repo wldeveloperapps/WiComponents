@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { applicationConfig, moduleMetadata } from '@storybook/angular-vite';
 import { fn } from 'storybook/test';
 
-import { WiButtonComponent } from '@wiloc/ui/button';
+import { WiButtonDirective } from '@wiloc/ui/button';
 
 import { checkOutline } from '../../../icon/heroicons/src/check';
 import { funnelOutline } from '../../../icon/heroicons/src/funnel';
@@ -37,7 +37,7 @@ const DEMO_APPS = [
 
 @Component({
   selector: 'wi-chip-selectable-demo',
-  imports: [WiButtonComponent, WiChipComponent, WiIconComponent],
+  imports: [WiButtonDirective, WiChipComponent, WiIconComponent],
   template: `
     <div class="flex w-full max-w-3xl min-w-0 flex-col gap-4">
       <p class="text-sm text-on-surface">
@@ -60,8 +60,8 @@ const DEMO_APPS = [
         }
       </div>
       <div class="flex flex-wrap gap-2">
-        <wi-button variant="outline">Atrás</wi-button>
-        <wi-button>Siguiente</wi-button>
+        <button wiButton variant="outline">Atrás</button>
+        <button wiButton>Siguiente</button>
       </div>
     </div>
   `,
@@ -118,7 +118,7 @@ Etiqueta compacta para **tags**, **estados**, **filtros** y **selección** (mism
     }),
     moduleMetadata({
       imports: [
-        WiButtonComponent,
+        WiButtonDirective,
         WiCardComponent,
         WiCardContentComponent,
         WiCardHeaderComponent,

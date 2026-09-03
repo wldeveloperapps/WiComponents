@@ -23,7 +23,7 @@ Checklist de **demanda** extraído del uso real de PrimeNG en la app consumidora
 
 | Capacidad Wi (objetivo) | Origen Prime (referencia) | Dominio  | Cubo    | Estado  | Notas                                                                                                                                                                |
 | ----------------------- | ------------------------- | -------- | ------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Button                  | `button`                  | `button` | base    | done    | `@wiloc/ui/button` (`wi-button`); variant/size/loading/iconOnly                                                                                                      |
+| Button                  | `button`                  | `button` | base    | done    | `@wiloc/ui/button` (`button[wiButton]`, `a[wiButton]`); variant/size/loading/iconOnly                                                                                |
 | Text input              | `inputtext`               | `forms`  | base    | done    | `@wiloc/ui/forms` (`wi-input`); CVA + FormValueControl; size/type/invalid                                                                                            |
 | Password                | `password`                | `forms`  | base    | planned | login / cambio contraseña                                                                                                                                            |
 | Checkbox                | `checkbox`                | `forms`  | base    | done    | `@wiloc/ui/forms` (`wi-checkbox`); CVA + FormValueControl; size/indeterminate/invalid                                                                                |
@@ -71,7 +71,7 @@ Checklist de **demanda** extraído del uso real de PrimeNG en la app consumidora
 | Menu                    | `menu`                           | `overlays` | base | done    | `@wiloc/ui/overlays` (`wi-menu` + `[wiMenuTrigger]` / item / radio); story Asset Types                                                                          |
 | Context menu            | `contextmenu`                    | `overlays` | base | planned | p. ej. asset-table                                                                                                                                              |
 | Popover                 | `popover`                        | `overlays` | base | done    | `@wiloc/ui/overlays` (`wi-popover` + trigger/portal/content/header); anclado, sin backdrop; overlay CDK anidado (p. ej. `wi-select`) no cierra. Menú de acciones → `wi-menu` |
-| Tooltip                 | `tooltip`                        | `overlays` | base | done    | `@wiloc/ui/overlays` (`[wiTooltip]`); host con caja CSS; `wi-button` es `inline-flex` (compatible); ver story HostMustHaveBox                                   |
+| Tooltip                 | `tooltip`                        | `overlays` | base | done    | `@wiloc/ui/overlays` (`[wiTooltip]`); host con caja CSS; `button[wiButton]` es `inline-flex` (compatible); ver story HostMustHaveBox                            |
 | Speed dial              | `speeddial`                      | `overlays` | base | done    | `@wiloc/ui/overlays` (`wi-speed-dial`); items data-driven; tooltips; direction; closeOnSelect; Escape + clic fuera                                              |
 
 ## Infraestructura (no clonar)

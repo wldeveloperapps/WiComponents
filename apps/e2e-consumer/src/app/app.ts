@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { WiButtonComponent } from '@wiloc/ui/button';
+import { WiButtonDirective } from '@wiloc/ui/button';
 import {
   WiCardComponent,
   WiCardContentComponent,
@@ -72,7 +72,7 @@ const ALERT_TAB_IDS = {
   selector: 'app-root',
   imports: [
     ReactiveFormsModule,
-    WiButtonComponent,
+    WiButtonDirective,
     WiCardComponent,
     WiCardContentComponent,
     WiCardDescriptionComponent,

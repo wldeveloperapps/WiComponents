@@ -16,9 +16,12 @@ alwaysApply: false
 
 | Qué | Convención | Ejemplo |
 |-----|------------|---------|
-| Clase de componente | `Wi` + PascalCase + `Component` | `WiButtonComponent` |
-| Selector | `wi-` + kebab-case | `wi-button` |
-| Archivo | `wi-{name}.component.ts` | `wi-button.component.ts` |
+| Clase de componente | `Wi` + PascalCase + `Component` | `WiDialogComponent` |
+| Clase de directiva | `Wi` + PascalCase + `Directive` | `WiButtonDirective` |
+| Selector de componente | `wi-` + kebab-case | `wi-dialog` |
+| Selector de directiva de apariencia | elemento nativo + `[wiName]` | `button[wiButton], a[wiButton]` |
+| Archivo de componente | `wi-{name}.component.ts` | `wi-dialog.component.ts` |
+| Archivo de directiva | `wi-{name}.directive.ts` | `wi-button.directive.ts` |
 | Tipos públicos | `Wi` + PascalCase | `WiButtonVariant`, `WiButtonSize` |
 | Inputs / signals | camelCase inglés | `loading`, `disabled`, `variant` |
 | Constantes de mapas | SCREAMING_SNAKE_CASE | `VARIANT_CLASSES` |
@@ -35,9 +38,9 @@ selector: 'wi-boton'
 Preferir:
 
 ```ts
-export class WiButtonComponent {}
+export class WiButtonDirective {}
 readonly disabled = input(false);
-selector: 'wi-button'
+selector: 'button[wiButton], a[wiButton]'
 ```
 
 ## Clases estructurales CSS
@@ -45,13 +48,13 @@ selector: 'wi-button'
 Cada componente público debe exponer una clase raíz en el `host` con el mismo nombre que el selector. Esa clase da contexto de estructura en el DOM; no sustituye tokens ni utilidades Tailwind.
 
 ```ts
-@Component({
-  selector: 'wi-button',
+@Directive({
+  selector: 'button[wiButton], a[wiButton]',
   host: {
     class: 'wi-button',
   },
 })
-export class WiButtonComponent {}
+export class WiButtonDirective {}
 ```
 
 ### BEM ligero con prefijo `wi-`

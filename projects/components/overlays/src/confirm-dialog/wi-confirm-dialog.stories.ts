@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { applicationConfig, moduleMetadata } from '@storybook/angular-vite';
 import { fn } from 'storybook/test';
 
-import { WiButtonComponent } from '../../../button/src/public-api';
+import { WiButtonDirective } from '../../../button/src/public-api';
 import type { WiConfirmDialogConfirmVariant, WiConfirmDialogSize } from './wi-confirm-dialog.types';
 import {
   WiConfirmDialogComponent,
@@ -29,7 +29,7 @@ interface WiConfirmDialogStoryArgs {
 const confirmImports = [
   WiConfirmDialogComponent,
   WiConfirmDialogTriggerDirective,
-  WiButtonComponent,
+  WiButtonDirective,
 ];
 
 const meta: Meta<WiConfirmDialogStoryArgs> = {
@@ -162,7 +162,7 @@ export const Default: Story = {
         (closed)="closed($event)"
         (stateChanged)="stateChanged($event)"
       >
-        <wi-button type="button" variant="danger" wiConfirmDialogTrigger>Eliminar sitio</wi-button>
+        <button wiButton type="button" variant="danger" wiConfirmDialogTrigger>Eliminar sitio</button>
       </wi-confirm-dialog>
     `,
   }),
@@ -190,7 +190,7 @@ export const PrimaryConfirm: Story = {
         (closed)="closed($event)"
         (stateChanged)="stateChanged($event)"
       >
-        <wi-button type="button" wiConfirmDialogTrigger>Publicar</wi-button>
+        <button wiButton type="button" wiConfirmDialogTrigger>Publicar</button>
       </wi-confirm-dialog>
     `,
   }),
@@ -216,7 +216,7 @@ export const WithoutDescription: Story = {
         (closed)="closed($event)"
         (stateChanged)="stateChanged($event)"
       >
-        <wi-button type="button" wiConfirmDialogTrigger>Continuar</wi-button>
+        <button wiButton type="button" wiConfirmDialogTrigger>Continuar</button>
       </wi-confirm-dialog>
     `,
   }),
@@ -241,7 +241,7 @@ export const Loading: Story = {
         (closed)="closed($event)"
         (stateChanged)="stateChanged($event)"
       >
-        <wi-button type="button" variant="danger" wiConfirmDialogTrigger>Eliminar (loading)</wi-button>
+        <button wiButton type="button" variant="danger" wiConfirmDialogTrigger>Eliminar (loading)</button>
       </wi-confirm-dialog>
     `,
   }),
@@ -269,7 +269,7 @@ export const WithoutCancel: Story = {
         (closed)="closed($event)"
         (stateChanged)="stateChanged($event)"
       >
-        <wi-button type="button" wiConfirmDialogTrigger>Abrir</wi-button>
+        <button wiButton type="button" wiConfirmDialogTrigger>Abrir</button>
       </wi-confirm-dialog>
     `,
   }),
@@ -294,7 +294,7 @@ export const DarkMode: Story = {
           (closed)="closed($event)"
           (stateChanged)="stateChanged($event)"
         >
-          <wi-button type="button" variant="danger" wiConfirmDialogTrigger>Eliminar (dark)</wi-button>
+          <button wiButton type="button" variant="danger" wiConfirmDialogTrigger>Eliminar (dark)</button>
         </wi-confirm-dialog>
       </div>
     `,
@@ -327,9 +327,9 @@ export const NarrowViewport: Story = {
           (closed)="closed($event)"
           (stateChanged)="stateChanged($event)"
         >
-          <wi-button type="button" class="w-full" variant="danger" wiConfirmDialogTrigger>
+          <button wiButton type="button" class="w-full" variant="danger" wiConfirmDialogTrigger>
             Eliminar (estrecho)
-          </wi-button>
+          </button>
         </wi-confirm-dialog>
       </div>
     `,

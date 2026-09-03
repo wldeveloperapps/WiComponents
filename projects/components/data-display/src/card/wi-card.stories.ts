@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { applicationConfig, moduleMetadata } from '@storybook/angular-vite';
 
-import { WiButtonComponent } from '../../../button/src/public-api';
+import { WiButtonDirective } from '../../../button/src/public-api';
 import { bars3Outline } from '../../../icon/heroicons/src/bars-3';
 import { documentOutline } from '../../../icon/heroicons/src/document';
 import { mapOutline } from '../../../icon/heroicons/src/map';
@@ -56,7 +56,7 @@ esas se componen en la app con tokens y clases.
     }),
     moduleMetadata({
       imports: [
-        WiButtonComponent,
+        WiButtonDirective,
         WiCardActionComponent,
         WiCardComponent,
         WiCardContentComponent,
@@ -114,7 +114,7 @@ export const WithActionAndFooter: Story = {
             Revisa la configuración antes de aplicar.
           </wi-card-description>
           <wi-card-action>
-            <wi-button variant="ghost" size="sm">Ayuda</wi-button>
+            <button wiButton variant="ghost" size="sm">Ayuda</button>
           </wi-card-action>
         </wi-card-header>
         <wi-card-content>
@@ -123,8 +123,8 @@ export const WithActionAndFooter: Story = {
           </p>
         </wi-card-content>
         <wi-card-footer class="justify-end">
-          <wi-button variant="outline">Cancelar</wi-button>
-          <wi-button variant="primary">Aplicar</wi-button>
+          <button wiButton variant="outline">Cancelar</button>
+          <button wiButton variant="primary">Aplicar</button>
         </wi-card-footer>
       </wi-card>
     `,
@@ -195,7 +195,7 @@ export const RecipeTintedHeader: Story = {
             </wi-card-title>
           </div>
           <wi-card-action class="flex gap-2">
-            <wi-button
+            <button wiButton
               variant="ghost"
               size="sm"
               iconOnly
@@ -203,8 +203,8 @@ export const RecipeTintedHeader: Story = {
               class="!text-on-primary hover:!bg-on-primary/15"
             >
               <wi-icon name="map" />
-            </wi-button>
-            <wi-button
+            </button>
+            <button wiButton
               variant="ghost"
               size="sm"
               iconOnly
@@ -212,7 +212,7 @@ export const RecipeTintedHeader: Story = {
               class="!text-on-primary hover:!bg-on-primary/15"
             >
               <wi-icon name="bars3" />
-            </wi-button>
+            </button>
           </wi-card-action>
         </wi-card-header>
         <wi-card-content class="!py-4">
@@ -265,7 +265,7 @@ la lista usa \`min-h-0 flex-1 overflow-y-auto\` para hacer scroll si hay más fi
         <wi-card-header class="shrink-0 items-center !pb-3">
           <wi-card-title>Activos con alarma habilitada</wi-card-title>
           <wi-card-action>
-            <wi-button variant="outline" size="sm" disabled>Guardar cambios</wi-button>
+            <button wiButton variant="outline" size="sm" disabled>Guardar cambios</button>
           </wi-card-action>
         </wi-card-header>
         <wi-card-content class="flex min-h-0 flex-1 flex-col !gap-0 !px-0 !pb-0">
@@ -273,7 +273,7 @@ la lista usa \`min-h-0 flex-1 overflow-y-auto\` para hacer scroll si hay más fi
             class="flex shrink-0 items-center gap-2 bg-primary px-3 py-2 text-on-primary"
           >
             <span class="min-w-0 flex-1 truncate text-sm">Seleccionar tipo de…</span>
-            <wi-button variant="secondary" size="sm">+ Añadir</wi-button>
+            <button wiButton variant="secondary" size="sm">+ Añadir</button>
           </div>
           <ul class="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto p-3">
             @for (asset of assets; track asset.name) {
@@ -284,14 +284,14 @@ la lista usa \`min-h-0 flex-1 overflow-y-auto\` para hacer scroll si hay más fi
                       <wi-icon [name]="asset.icon" size="sm" />
                     </span>
                     <span class="min-w-0 flex-1 font-medium text-on-surface">{{ asset.name }}</span>
-                    <wi-button
+                    <button wiButton
                       variant="ghost"
                       size="sm"
                       iconOnly
                       [ariaLabel]="'Eliminar ' + asset.name"
                     >
                       <wi-icon name="trash" class="text-on-surface-variant" />
-                    </wi-button>
+                    </button>
                   </wi-card-content>
                 </wi-card>
               </li>
@@ -449,7 +449,7 @@ export const RecipeDashboardPanels: Story = {
           <wi-card-header>
             <wi-card-title>Control de presencia</wi-card-title>
             <wi-card-action>
-              <wi-button variant="ghost" size="sm">Detalles</wi-button>
+              <button wiButton variant="ghost" size="sm">Detalles</button>
             </wi-card-action>
           </wi-card-header>
           <wi-card-content>
@@ -494,8 +494,8 @@ export const DarkMode: Story = {
           </p>
         </wi-card-content>
         <wi-card-footer class="justify-end">
-          <wi-button variant="outline">Cerrar</wi-button>
-          <wi-button>Continuar</wi-button>
+          <button wiButton variant="outline">Cerrar</button>
+          <button wiButton>Continuar</button>
         </wi-card-footer>
       </wi-card>
     `,

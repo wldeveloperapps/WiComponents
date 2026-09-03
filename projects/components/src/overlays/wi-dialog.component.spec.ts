@@ -2,7 +2,7 @@ import { Directionality } from '@angular/cdk/bidi';
 import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WiButtonComponent } from '../../button/src/public-api';
+import { WiButtonDirective } from '../../button/src/public-api';
 import { xMarkOutline } from '../../icon/heroicons/src/x-mark';
 import { provideWiIcons } from '../../icon/src/public-api';
 import {
@@ -29,11 +29,11 @@ import {
     WiDialogTitleComponent,
     WiDialogDescriptionComponent,
     WiDialogFooterComponent,
-    WiButtonComponent,
+    WiButtonDirective,
   ],
   template: `
     <wi-dialog [size]="size()" [disableClose]="disableClose()">
-      <wi-button type="button" wiDialogTrigger>Abrir</wi-button>
+      <button wiButton type="button" wiDialogTrigger>Abrir</button>
       <ng-template wiDialogPortal>
         <wi-dialog-content [showCloseButton]="showCloseButton()" [closeLabel]="closeLabel()">
           <wi-dialog-header>
@@ -42,7 +42,7 @@ import {
           </wi-dialog-header>
           <p>Cuerpo</p>
           <wi-dialog-footer>
-            <wi-button type="button" variant="secondary" wiDialogClose>Cancelar</wi-button>
+            <button wiButton type="button" variant="secondary" wiDialogClose>Cancelar</button>
           </wi-dialog-footer>
         </wi-dialog-content>
       </ng-template>
@@ -101,7 +101,7 @@ describe('WiDialogComponent', () => {
     });
 
     function trigger(): HTMLElement {
-      return fixture.nativeElement.querySelector('wi-button[wiDialogTrigger], [wiDialogTrigger]');
+      return fixture.nativeElement.querySelector('[wiDialogTrigger]');
     }
 
     it('constructs closed without a panel (SSR-safe init path)', () => {
@@ -156,7 +156,7 @@ describe('WiDialogComponent', () => {
       fixture.detectChanges();
       await waitForPanel(true);
 
-      const cancel = document.querySelector('wi-button[wiDialogClose], [wiDialogClose]');
+      const cancel = document.querySelector('[wiDialogClose]');
       expect(cancel).toBeTruthy();
       (cancel as HTMLElement).click();
       fixture.detectChanges();
@@ -169,7 +169,7 @@ describe('WiDialogComponent', () => {
       await waitForPanel(true);
 
       const closeBtn = panel()?.querySelector(
-        '.wi-dialog__close button, wi-button.wi-dialog__close button',
+        'button.wi-dialog__close',
       );
       expect(closeBtn?.getAttribute('aria-label')).toBe('Cerrar dialog');
     });

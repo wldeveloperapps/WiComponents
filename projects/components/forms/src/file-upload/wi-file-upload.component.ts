@@ -9,7 +9,7 @@ import {
   viewChild,
 } from '@angular/core';
 
-import { WiButtonComponent } from '@wiloc/ui/button';
+import { WiButtonDirective } from '@wiloc/ui/button';
 
 import {
   isFileAccepted,
@@ -38,7 +38,7 @@ let nextFileUploadId = 0;
  */
 @Component({
   selector: 'wi-file-upload',
-  imports: [WiButtonComponent],
+  imports: [WiButtonDirective],
   host: {
     class: 'wi-file-upload flex w-full min-w-0',
     role: 'group',
@@ -67,7 +67,7 @@ let nextFileUploadId = 0;
       class="wi-file-upload__row flex w-full min-w-0 flex-col gap-3 sm:flex-row sm:items-center"
     >
       <div class="wi-file-upload__picker flex min-w-0 flex-1 items-center gap-3">
-        <wi-button
+        <button wiButton
           class="wi-file-upload__choose"
           type="button"
           variant="outline"
@@ -76,13 +76,13 @@ let nextFileUploadId = 0;
           (click)="openFilePicker()"
         >
           {{ chooseLabel() }}
-        </wi-button>
+        </button>
         <span [class]="FILENAME_CLASSES" [attr.title]="filenameTitle()" aria-live="polite">
           {{ filenameText() }}
         </span>
       </div>
       @if (showUpload()) {
-        <wi-button
+        <button wiButton
           class="wi-file-upload__upload sm:ms-auto"
           type="button"
           variant="primary"
@@ -92,7 +92,7 @@ let nextFileUploadId = 0;
           (click)="onUpload()"
         >
           {{ uploadLabel() }}
-        </wi-button>
+        </button>
       }
     </div>
   `,

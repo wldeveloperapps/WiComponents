@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { moduleMetadata } from '@storybook/angular-vite';
 
-import { WiButtonComponent } from '@wiloc/ui/button';
+import { WiButtonDirective } from '@wiloc/ui/button';
 
 import {
   WiCardComponent,
@@ -33,7 +33,7 @@ Indicador de carga indeterminado.
   decorators: [
     moduleMetadata({
       imports: [
-        WiButtonComponent,
+        WiButtonDirective,
         WiCardComponent,
         WiCardContentComponent,
         WiCardHeaderComponent,
@@ -159,18 +159,18 @@ export const RecipeWithButton: Story = {
     docs: {
       description: {
         story:
-          'Para botones, preferir `wi-button` con `[loading]="true"`. Esta recipe muestra composición manual si hace falta.',
+          'Para botones, preferir `button[wiButton]` con `[loading]="true"`. Esta recipe muestra composición manual si hace falta.',
       },
     },
   },
   render: () => ({
     template: `
       <div class="flex flex-wrap items-center gap-4">
-        <wi-button [loading]="true" ariaLabel="Guardando">Guardar</wi-button>
-        <wi-button variant="outline" [disabled]="true">
+        <button wiButton [loading]="true" ariaLabel="Guardando">Guardar</button>
+        <button wiButton variant="outline" [disabled]="true">
           <wi-spinner size="sm" ariaLabel="Procesando" />
           Procesando
-        </wi-button>
+        </button>
       </div>
     `,
   }),

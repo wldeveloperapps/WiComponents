@@ -5,7 +5,7 @@
       <h1 class="text-xl font-semibold text-on-background">{{ title }}</h1>
     </div>
     <div class="flex shrink-0 gap-2">
-      <wi-button
+      <button wiButton
         type="button"
         variant="outline"
         size="sm"
@@ -13,8 +13,8 @@
         (click)="toggleLanguage()"
       >
         {{ locale() === 'es' ? 'EN' : 'ES' }}
-      </wi-button>
-      <wi-button
+      </button>
+      <button wiButton
         type="button"
         variant="outline"
         size="sm"
@@ -23,7 +23,7 @@
         (click)="toggleTheme()"
       >
         <wi-icon [name]="dark() ? 'sun' : 'moon'" />
-      </wi-button>
+      </button>
     </div>
   </header>
 
@@ -36,7 +36,7 @@
       <section class="flex flex-col gap-3" aria-labelledby="buttons-heading">
         <h2 id="buttons-heading" class="text-sm font-medium text-on-surface">{{ t().buttons }}</h2>
         <div class="flex flex-wrap gap-2">
-          <wi-button
+          <button wiButton
             type="button"
             variant="primary"
             (click)="simulateLoading()"
@@ -44,9 +44,9 @@
           >
             <wi-icon name="plus" />
             {{ t().primary }}
-          </wi-button>
-          <wi-button type="button" variant="secondary">{{ t().secondary }}</wi-button>
-          <wi-button
+          </button>
+          <button wiButton type="button" variant="secondary">{{ t().secondary }}</button>
+          <button wiButton
             type="button"
             variant="danger"
             iconOnly
@@ -57,7 +57,7 @@
             [hideDelay]="0"
           >
             <wi-icon name="trash" />
-          </wi-button>
+          </button>
         </div>
       </section>
 
@@ -210,9 +210,9 @@
       <section class="flex flex-col gap-3" aria-labelledby="dialog-heading">
         <h2 id="dialog-heading" class="text-sm font-medium text-on-surface">{{ t().dialog }}</h2>
         <wi-dialog size="md">
-          <wi-button type="button" variant="outline" wiDialogTrigger>{{
+          <button wiButton type="button" variant="outline" wiDialogTrigger>{{
             t().openDialog
-          }}</wi-button>
+          }}</button>
           <ng-template wiDialogPortal>
             <wi-dialog-content [closeLabel]="t().closeDialog">
               <wi-dialog-header>
@@ -221,10 +221,10 @@
               </wi-dialog-header>
               <p class="min-w-0 text-sm text-on-surface">{{ t().dialogBody }}</p>
               <wi-dialog-footer>
-                <wi-button type="button" variant="secondary" wiDialogClose>
+                <button wiButton type="button" variant="secondary" wiDialogClose>
                   {{ t().secondary }}
-                </wi-button>
-                <wi-button type="button" wiDialogClose>{{ t().primary }}</wi-button>
+                </button>
+                <button wiButton type="button" wiDialogClose>{{ t().primary }}</button>
               </wi-dialog-footer>
             </wi-dialog-content>
           </ng-template>
@@ -234,9 +234,9 @@
       <section class="flex flex-col gap-3" aria-labelledby="popover-heading">
         <h2 id="popover-heading" class="text-sm font-medium text-on-surface">{{ t().popover }}</h2>
         <wi-popover>
-          <wi-button type="button" variant="outline" wiPopoverTrigger>{{
+          <button wiButton type="button" variant="outline" wiPopoverTrigger>{{
             t().openPopover
-          }}</wi-button>
+          }}</button>
           <ng-template wiPopoverPortal>
             <wi-popover-content>
               <wi-popover-header>
@@ -245,10 +245,10 @@
               </wi-popover-header>
               <p class="min-w-0 text-sm text-on-surface">{{ t().popoverBody }}</p>
               <div class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-                <wi-button type="button" variant="secondary" size="sm" wiPopoverClose>
+                <button wiButton type="button" variant="secondary" size="sm" wiPopoverClose>
                   {{ t().closePopover }}
-                </wi-button>
-                <wi-button type="button" size="sm" wiPopoverClose>{{ t().primary }}</wi-button>
+                </button>
+                <button wiButton type="button" size="sm" wiPopoverClose>{{ t().primary }}</button>
               </div>
             </wi-popover-content>
           </ng-template>
@@ -303,24 +303,24 @@
             class="flex min-h-24 min-w-0 flex-col justify-between gap-4"
           >
             <p class="text-sm text-on-surface">{{ t().stepperDetailsBody }}</p>
-            <wi-button type="button" size="sm" (click)="signupStepper.selectNext()">
+            <button wiButton type="button" size="sm" (click)="signupStepper.selectNext()">
               {{ t().stepperNext }}
-            </wi-button>
+            </button>
           </div>
           <div wiStepperPanel="apps" class="flex min-h-24 min-w-0 flex-col justify-between gap-4">
             <p class="text-sm text-on-surface">{{ t().stepperAppsBody }}</p>
             <div class="flex flex-wrap gap-2">
-              <wi-button
+              <button wiButton
                 type="button"
                 variant="outline"
                 size="sm"
                 (click)="signupStepper.selectPrevious()"
               >
                 {{ t().stepperBack }}
-              </wi-button>
-              <wi-button type="button" size="sm" (click)="signupStepper.selectNext()">
+              </button>
+              <button wiButton type="button" size="sm" (click)="signupStepper.selectNext()">
                 {{ t().stepperNext }}
-              </wi-button>
+              </button>
             </div>
           </div>
           <div
@@ -328,14 +328,14 @@
             class="flex min-h-24 min-w-0 flex-col justify-between gap-4"
           >
             <p class="text-sm text-on-surface">{{ t().stepperSummaryBody }}</p>
-            <wi-button
+            <button wiButton
               type="button"
               variant="outline"
               size="sm"
               (click)="signupStepper.selectPrevious()"
             >
               {{ t().stepperBack }}
-            </wi-button>
+            </button>
           </div>
         </wi-stepper>
         <p class="text-sm text-on-surface-variant">{{ t().value }}: {{ signupStep() }}</p>
@@ -365,8 +365,8 @@
       </section>
     </wi-card-content>
     <wi-card-footer class="justify-end">
-      <wi-button type="button" variant="outline" size="sm">{{ t().secondary }}</wi-button>
-      <wi-button type="button" size="sm">{{ t().primary }}</wi-button>
+      <button wiButton type="button" variant="outline" size="sm">{{ t().secondary }}</button>
+      <button wiButton type="button" size="sm">{{ t().primary }}</button>
     </wi-card-footer>
   </wi-card>
 </main>

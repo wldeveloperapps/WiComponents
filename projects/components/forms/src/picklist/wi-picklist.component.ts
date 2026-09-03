@@ -16,7 +16,7 @@ import {
 import { type ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import type { FormValueControl } from '@angular/forms/signals';
 
-import { WiButtonComponent } from '@wiloc/ui/button';
+import { WiButtonDirective } from '@wiloc/ui/button';
 
 import { WiListboxComponent } from '../listbox/wi-listbox.component';
 import type { WiListboxItemContext } from '../listbox/wi-listbox.types';
@@ -57,7 +57,7 @@ export class WiPicklistItemDirective {
  */
 @Component({
   selector: 'wi-picklist',
-  imports: [WiButtonComponent, WiListboxComponent],
+  imports: [WiButtonDirective, WiListboxComponent],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -126,7 +126,7 @@ export class WiPicklistItemDirective {
         <div
           class="wi-picklist__actions flex shrink-0 flex-row items-center justify-center gap-2 @min-[28rem]:flex-col @min-[28rem]:justify-center"
         >
-          <wi-button
+          <button wiButton
             class="wi-picklist__move-to-target rotate-90 @min-[28rem]:rotate-0"
             type="button"
             variant="outline"
@@ -146,9 +146,9 @@ export class WiPicklistItemDirective {
             >
               <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
             </svg>
-          </wi-button>
+          </button>
           @if (showMoveAll()) {
-            <wi-button
+            <button wiButton
               class="wi-picklist__move-all-to-target rotate-90 @min-[28rem]:rotate-0"
               type="button"
               variant="outline"
@@ -172,10 +172,10 @@ export class WiPicklistItemDirective {
                   d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5"
                 />
               </svg>
-            </wi-button>
+            </button>
           }
           @if (showMoveAll()) {
-            <wi-button
+            <button wiButton
               class="wi-picklist__move-all-to-source rotate-90 @min-[28rem]:rotate-0"
               type="button"
               variant="outline"
@@ -199,9 +199,9 @@ export class WiPicklistItemDirective {
                   d="M18.75 19.5 11.25 12l7.5-7.5m-6 15L3.75 12l7.5-7.5"
                 />
               </svg>
-            </wi-button>
+            </button>
           }
-          <wi-button
+          <button wiButton
             class="wi-picklist__move-to-source rotate-90 @min-[28rem]:rotate-0"
             type="button"
             variant="outline"
@@ -225,7 +225,7 @@ export class WiPicklistItemDirective {
                 d="M15.75 19.5 8.25 12l7.5-7.5"
               />
             </svg>
-          </wi-button>
+          </button>
         </div>
 
         <div class="wi-picklist__target flex h-full min-h-0 w-full min-w-0 flex-col gap-1">

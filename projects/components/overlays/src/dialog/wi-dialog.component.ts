@@ -19,7 +19,7 @@ import {
   BrnDialogTitle,
   provideBrnDialogDefaultOptions,
 } from '@spartan-ng/brain/dialog';
-import { WiButtonComponent } from '@wiloc/ui/button';
+import { WiButtonDirective } from '@wiloc/ui/button';
 import { WiIconComponent } from '@wiloc/ui/icon';
 
 import { WI_DIALOG_SIZE } from './wi-dialog.tokens';
@@ -89,7 +89,7 @@ let triggerIdSequence = 0;
 export class WiDialogOverlayDirective {}
 
 /**
- * Cierra el dialog al hacer click (nativo o host de `wi-button`).
+ * Cierra el dialog al hacer click.
  */
 @Directive({
   selector: 'button[wiDialogClose], [wiDialogClose]',
@@ -216,7 +216,7 @@ export class WiDialogPortalDirective {
  *
  * @example
  * ```html
- * <wi-button wiDialogTrigger>Abrir</wi-button>
+ * <button wiButton wiDialogTrigger>Abrir</button>
  * <button type="button" [wiDialogTriggerFor]="dialog">Abrir</button>
  * ```
  */
@@ -270,7 +270,7 @@ export class WiDialogTriggerDirective {
 
 @Component({
   selector: 'wi-dialog-content',
-  imports: [WiButtonComponent, WiIconComponent, WiDialogCloseDirective],
+  imports: [WiButtonDirective, WiIconComponent, WiDialogCloseDirective],
   host: {
     'data-slot': 'dialog-content',
     '[attr.data-state]': 'state()',
@@ -280,7 +280,7 @@ export class WiDialogTriggerDirective {
     <ng-content />
 
     @if (showCloseButton()) {
-      <wi-button
+      <button wiButton
         type="button"
         variant="ghost"
         size="sm"
@@ -290,7 +290,7 @@ export class WiDialogTriggerDirective {
         [ariaLabel]="resolvedCloseLabel()"
       >
         <wi-icon name="x-mark" size="sm" />
-      </wi-button>
+      </button>
     }
   `,
 })

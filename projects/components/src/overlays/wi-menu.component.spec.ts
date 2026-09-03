@@ -2,7 +2,7 @@ import { Directionality } from '@angular/cdk/bidi';
 import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WiButtonComponent } from '../../button/src/public-api';
+import { WiButtonDirective } from '../../button/src/public-api';
 import {
   WiMenuComponent,
   WiMenuGroupComponent,
@@ -21,10 +21,10 @@ import {
     WiMenuLabelComponent,
     WiMenuItemDirective,
     WiMenuSeparatorComponent,
-    WiButtonComponent,
+    WiButtonDirective,
   ],
   template: `
-    <wi-button type="button" [wiMenuTrigger]="menu">Abrir</wi-button>
+    <button wiButton type="button" [wiMenuTrigger]="menu">Abrir</button>
     <ng-template #menu>
       <wi-menu>
         <wi-menu-label>Acciones</wi-menu-label>
@@ -125,7 +125,7 @@ describe('WiMenuComponent', () => {
     });
 
     it('opens the menu on trigger click', async () => {
-      const trigger = fixture.nativeElement.querySelector('wi-button, button');
+      const trigger = fixture.nativeElement.querySelector('button');
       trigger.click();
       fixture.detectChanges();
       await waitForPanel(true);
@@ -138,7 +138,7 @@ describe('WiMenuComponent', () => {
     });
 
     it('applies danger variant classes on menu items', async () => {
-      fixture.nativeElement.querySelector('wi-button, button').click();
+      fixture.nativeElement.querySelector('button').click();
       fixture.detectChanges();
       await waitForPanel(true);
 
@@ -148,7 +148,7 @@ describe('WiMenuComponent', () => {
     });
 
     it('marks disabled items', async () => {
-      fixture.nativeElement.querySelector('wi-button, button').click();
+      fixture.nativeElement.querySelector('button').click();
       fixture.detectChanges();
       await waitForPanel(true);
 
@@ -157,7 +157,7 @@ describe('WiMenuComponent', () => {
     });
 
     it('exposes a label and separator structure', async () => {
-      fixture.nativeElement.querySelector('wi-button, button').click();
+      fixture.nativeElement.querySelector('button').click();
       fixture.detectChanges();
       await waitForPanel(true);
 

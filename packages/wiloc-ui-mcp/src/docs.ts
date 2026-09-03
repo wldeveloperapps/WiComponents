@@ -18,7 +18,7 @@ Tailwind v4 es peer opcional; las apps Wiloc lo usan para tokens.
 Imports canónicos (nunca Spartan, nunca rutas src/):
 
 \`\`\`ts
-import { WiButtonComponent } from '@wiloc/ui/button';
+import { WiButtonDirective } from '@wiloc/ui/button';
 import { WiInputComponent } from '@wiloc/ui/forms';
 import { WiDialogComponent } from '@wiloc/ui/overlays';
 import { WiTableComponent } from '@wiloc/ui/data-display';

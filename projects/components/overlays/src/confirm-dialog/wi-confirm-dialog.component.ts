@@ -19,7 +19,7 @@ import {
   BrnAlertDialogTitle,
 } from '@spartan-ng/brain/alert-dialog';
 import { BrnDialog, provideBrnDialogDefaultOptions } from '@spartan-ng/brain/dialog';
-import { WiButtonComponent } from '@wiloc/ui/button';
+import { WiButtonDirective } from '@wiloc/ui/button';
 
 import type {
   WiConfirmDialogConfirmVariant,
@@ -114,7 +114,7 @@ export class WiConfirmDialogPortalDirective {
  *
  * @example
  * ```html
- * <wi-button wiConfirmDialogTrigger>Eliminar</wi-button>
+ * <button wiButton wiConfirmDialogTrigger>Eliminar</button>
  * <button type="button" [wiConfirmDialogTriggerFor]="confirm">Eliminar</button>
  * ```
  */
@@ -183,7 +183,7 @@ export class WiConfirmDialogTriggerDirective {
  *   (confirmed)="onConfirm()"
  *   (cancelled)="onCancel()"
  * >
- *   <wi-button type="button" wiConfirmDialogTrigger>Eliminar</wi-button>
+ *   <button wiButton type="button" wiConfirmDialogTrigger>Eliminar</button>
  * </wi-confirm-dialog>
  * ```
  */
@@ -195,7 +195,7 @@ export class WiConfirmDialogTriggerDirective {
     WiConfirmDialogPortalDirective,
     BrnAlertDialogTitle,
     BrnAlertDialogDescription,
-    WiButtonComponent,
+    WiButtonDirective,
   ],
   providers: [
     provideBrnDialogDefaultOptions({
@@ -253,23 +253,23 @@ export class WiConfirmDialogTriggerDirective {
           class="wi-confirm-dialog__footer flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-2"
         >
           @if (showCancel()) {
-            <wi-button
+            <button wiButton
               type="button"
               variant="secondary"
               [disabled]="loading()"
               (click)="onCancel()"
             >
               {{ resolvedCancelLabel() }}
-            </wi-button>
+            </button>
           }
-          <wi-button
+          <button wiButton
             type="button"
             [variant]="confirmVariant()"
             [loading]="loading()"
             (click)="onConfirm()"
           >
             {{ confirmLabel() }}
-          </wi-button>
+          </button>
         </div>
       </div>
     </ng-template>

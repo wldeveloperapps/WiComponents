@@ -3,7 +3,7 @@ import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { WiButtonComponent } from '../../button/src/public-api';
+import { WiButtonDirective } from '../../button/src/public-api';
 import {
   WiConfirmPopupComponent,
   WiConfirmPopupTriggerDirective,
@@ -16,7 +16,7 @@ import { provideWiOverlaysI18n } from '../../overlays/src/wi-overlays.i18n';
 
 @Component({
   selector: 'wi-confirm-popup-host',
-  imports: [WiConfirmPopupComponent, WiConfirmPopupTriggerDirective, WiButtonComponent],
+  imports: [WiConfirmPopupComponent, WiConfirmPopupTriggerDirective, WiButtonDirective],
   template: `
     <wi-confirm-popup
       [size]="size()"
@@ -30,7 +30,7 @@ import { provideWiOverlaysI18n } from '../../overlays/src/wi-overlays.i18n';
       (confirmed)="confirmedCount.set(confirmedCount() + 1)"
       (cancelled)="cancelledCount.set(cancelledCount() + 1)"
     >
-      <wi-button type="button" wiConfirmPopupTrigger>Abrir</wi-button>
+      <button wiButton type="button" wiConfirmPopupTrigger>Abrir</button>
     </wi-confirm-popup>
   `,
 })
@@ -99,7 +99,7 @@ describe('WiConfirmPopupComponent', () => {
 
     function trigger(): HTMLElement {
       return fixture.nativeElement.querySelector(
-        'wi-button[wiConfirmPopupTrigger], [wiConfirmPopupTrigger]',
+        '[wiConfirmPopupTrigger]',
       );
     }
 
@@ -140,7 +140,7 @@ describe('WiConfirmPopupComponent', () => {
       fixture.detectChanges();
       await waitForPanel(true);
 
-      const buttons = panel()?.querySelectorAll('wi-button button, button');
+      const buttons = panel()?.querySelectorAll('button');
       const confirmBtn = Array.from(buttons ?? []).find((el) =>
         el.textContent?.includes('Eliminar'),
       ) as HTMLElement | undefined;
@@ -158,7 +158,7 @@ describe('WiConfirmPopupComponent', () => {
       fixture.detectChanges();
       await waitForPanel(true);
 
-      const buttons = panel()?.querySelectorAll('wi-button button, button');
+      const buttons = panel()?.querySelectorAll('button');
       const cancelBtn = Array.from(buttons ?? []).find((el) =>
         el.textContent?.includes('Cancelar'),
       ) as HTMLElement | undefined;
