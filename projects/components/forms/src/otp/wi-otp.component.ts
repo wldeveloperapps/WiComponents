@@ -55,7 +55,7 @@ const SLOT_SIZE_CLASSES: Record<WiOtpSize, string> = {
   lg: 'size-12 text-lg',
 };
 
-const SLOT_VALID_CLASSES = 'border-outline';
+const SLOT_VALID_CLASSES = 'border-outline-variant';
 const SLOT_INVALID_CLASSES =
   'border-error data-[active=true]:border-error data-[active=true]:ring-error';
 

@@ -33,7 +33,7 @@ const memberOptions = [
   selector: 'sb-picklist-member-card',
   template: `
     <article
-      class="w-full min-w-0 overflow-hidden rounded-control border border-outline bg-surface text-on-surface"
+      class="w-full min-w-0 overflow-hidden rounded-control border border-outline-variant bg-surface text-on-surface"
     >
       <button
         class="flex w-full min-w-0 items-center justify-between gap-2 bg-primary-container px-2 py-1.5 text-left text-sm font-medium text-on-primary-container"

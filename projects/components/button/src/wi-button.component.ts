@@ -24,10 +24,11 @@ const BASE_CLASSES = [
 
 const VARIANT_CLASSES: Record<WiButtonVariant, string> = {
   primary: 'bg-primary text-on-primary hover:bg-primary/90',
-  secondary: 'bg-secondary text-on-secondary hover:bg-secondary/90',
+  secondary:
+    'bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface-variant',
   danger: 'bg-error text-on-error hover:bg-error/90',
   ghost: 'bg-transparent text-on-surface hover:bg-surface-variant',
-  outline: 'border border-outline bg-transparent text-on-surface hover:bg-surface-variant',
+  outline: 'border border-outline-variant bg-transparent text-on-surface hover:bg-surface-variant',
 };
 
 const SIZE_CLASSES: Record<WiButtonSize, string> = {

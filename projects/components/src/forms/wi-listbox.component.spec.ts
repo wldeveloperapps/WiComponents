@@ -100,7 +100,7 @@ describe('WiListboxComponent', () => {
     const el = listbox();
     expect(el).toBeTruthy();
     expect(el.getAttribute('role')).toBe('listbox');
-    expect(el.className).toContain('border-outline');
+    expect(el.className).toContain('border-outline-variant');
     expect(el.className).toContain('bg-surface');
     expect(el.className).toContain('max-h-60');
     expect(el.getAttribute('aria-label')).toBe('Choice');

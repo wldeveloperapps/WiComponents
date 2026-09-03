@@ -37,7 +37,7 @@ describe('WiInputComponent', () => {
     const el = nativeInput();
     expect(el).toBeTruthy();
     expect(el.getAttribute('type')).toBe('text');
-    expect(el.className).toContain('border-outline');
+    expect(el.className).toContain('border-outline-variant');
     expect(el.className).toContain('bg-surface');
     expect(el.className).toContain('h-control-md');
     expect(fixture.nativeElement.classList.contains('wi-input')).toBe(true);

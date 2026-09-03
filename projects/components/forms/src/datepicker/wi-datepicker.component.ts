@@ -55,7 +55,7 @@ const TRIGGER_BASE_CLASSES = [
   'gap-2',
   'rounded-control',
   'border',
-  'border-outline',
+  'border-outline-variant',
   'bg-surface',
   'text-on-surface',
   'transition-colors',
@@ -85,7 +85,7 @@ const PANEL_CLASSES = [
   'overflow-hidden',
   'rounded-control',
   'border',
-  'border-outline',
+  'border-outline-variant',
   'bg-surface',
   'text-on-surface',
   'shadow-md',
@@ -109,7 +109,7 @@ const DAY_BUTTON_CLASSES = [
   'data-[outside=true]:text-on-surface-variant',
   'data-[outside=true]:opacity-60',
   'data-[today=true]:border',
-  'data-[today=true]:border-outline',
+  'data-[today=true]:border-outline-variant',
   'data-[selected-single=true]:bg-primary',
   'data-[selected-single=true]:text-on-primary',
   'data-[selected-single=true]:hover:bg-primary',
@@ -344,7 +344,7 @@ function pad2(value: number): string {
 
           @if (showTime()) {
             <div
-              class="wi-datepicker__time mt-3 flex items-center gap-2 border-t border-outline pt-3"
+              class="wi-datepicker__time mt-3 flex items-center gap-2 border-t border-outline-variant pt-3"
             >
               <span class="text-sm text-on-surface-variant" [id]="timeInputId() + '-label'">
                 {{ timeLabel() }}

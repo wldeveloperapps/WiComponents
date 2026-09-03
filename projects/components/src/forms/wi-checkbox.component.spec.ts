@@ -40,7 +40,7 @@ describe('WiCheckboxComponent', () => {
     expect(el.getAttribute('role')).toBe('checkbox');
     expect(el.getAttribute('aria-checked')).toBe('false');
     expect(el.getAttribute('aria-label')).toBe('Accept');
-    expect(el.className).toContain('border-outline');
+    expect(el.className).toContain('border-outline-variant');
     expect(el.className).toContain('size-4');
     expect(fixture.nativeElement.classList.contains('wi-checkbox')).toBe(true);
     expect(el.disabled).toBe(false);

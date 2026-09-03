@@ -93,7 +93,7 @@ const ASSET_ATTRIBUTES: readonly AssetAttributeOption[] = [
     <div class="flex flex-wrap items-center gap-2">
       <button
         type="button"
-        class="inline-flex h-control-sm w-8 items-center justify-center rounded-xl border border-outline bg-transparent text-on-surface outline-none transition-colors hover:bg-surface-variant focus-visible:ring-2 focus-visible:ring-ring"
+        class="inline-flex h-control-sm w-8 items-center justify-center rounded-xl border border-outline-variant bg-transparent text-on-surface outline-none transition-colors hover:bg-surface-variant focus-visible:ring-2 focus-visible:ring-ring"
         [wiMenuTrigger]="assetTypesMenu"
         [align]="align()"
         [side]="side()"
@@ -178,7 +178,7 @@ class AssetTypesDemoComponent {
     <div class="flex flex-wrap items-center gap-2">
       <button
         type="button"
-        class="inline-flex h-control-sm w-8 items-center justify-center rounded-xl border border-outline bg-transparent text-primary outline-none transition-colors hover:bg-surface-variant focus-visible:ring-2 focus-visible:ring-ring"
+        class="inline-flex h-control-sm w-8 items-center justify-center rounded-xl border border-outline-variant bg-transparent text-primary outline-none transition-colors hover:bg-surface-variant focus-visible:ring-2 focus-visible:ring-ring"
         [wiMenuTrigger]="attributesMenu"
         [align]="align()"
         [side]="side()"
@@ -534,7 +534,7 @@ export const DisabledItem: Story = {
     template: `
       <button
         type="button"
-        class="rounded-control border border-outline px-3 py-1.5 text-sm"
+        class="rounded-control border border-outline-variant px-3 py-1.5 text-sm"
         [wiMenuTrigger]="menu"
         [align]="align"
         [side]="side"

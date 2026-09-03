@@ -101,7 +101,7 @@ describe('WiSelectComponent', () => {
     expect(fixture.nativeElement.classList.contains('wi-select')).toBe(true);
     const button = trigger();
     expect(button).toBeTruthy();
-    expect(button.className).toContain('border-outline');
+    expect(button.className).toContain('border-outline-variant');
     expect(button.className).toContain('bg-surface');
     expect(button.className).toContain('h-control-md');
     expect(button.getAttribute('aria-label')).toBe('Choice');

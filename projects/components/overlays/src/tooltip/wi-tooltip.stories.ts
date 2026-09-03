@@ -84,10 +84,10 @@ export const Positions: Story = {
   render: () => ({
     template: `
       <div class="flex flex-wrap items-center justify-center gap-4 p-8">
-        <button type="button" class="rounded-control border border-outline px-3 py-2 text-sm text-on-surface" wiTooltip="Arriba" position="top">top</button>
-        <button type="button" class="rounded-control border border-outline px-3 py-2 text-sm text-on-surface" wiTooltip="Abajo" position="bottom">bottom</button>
-        <button type="button" class="rounded-control border border-outline px-3 py-2 text-sm text-on-surface" wiTooltip="Izquierda" position="left">left</button>
-        <button type="button" class="rounded-control border border-outline px-3 py-2 text-sm text-on-surface" wiTooltip="Derecha" position="right">right</button>
+        <button type="button" class="rounded-control border border-outline-variant px-3 py-2 text-sm text-on-surface" wiTooltip="Arriba" position="top">top</button>
+        <button type="button" class="rounded-control border border-outline-variant px-3 py-2 text-sm text-on-surface" wiTooltip="Abajo" position="bottom">bottom</button>
+        <button type="button" class="rounded-control border border-outline-variant px-3 py-2 text-sm text-on-surface" wiTooltip="Izquierda" position="left">left</button>
+        <button type="button" class="rounded-control border border-outline-variant px-3 py-2 text-sm text-on-surface" wiTooltip="Derecha" position="right">right</button>
       </div>
     `,
   }),
@@ -98,7 +98,7 @@ export const Disabled: Story = {
     template: `
       <button
         type="button"
-        class="rounded-control border border-outline px-3 py-2 text-sm text-on-surface"
+        class="rounded-control border border-outline-variant px-3 py-2 text-sm text-on-surface"
         wiTooltip="No debería verse"
         [tooltipDisabled]="true"
       >
@@ -113,7 +113,7 @@ export const Delays: Story = {
     template: `
       <button
         type="button"
-        class="rounded-control border border-outline px-3 py-2 text-sm text-on-surface"
+        class="rounded-control border border-outline-variant px-3 py-2 text-sm text-on-surface"
         wiTooltip="Aparece tras 600 ms"
         [showDelay]="600"
         [hideDelay]="200"
@@ -192,7 +192,7 @@ Si un componente propio usa \`contents\` en el host y necesita tooltip/popover, 
           <span class="text-on-surface-variant">Correcto (caja):</span>
           <button
             type="button"
-            class="rounded-control border border-outline px-3 py-2"
+            class="rounded-control border border-outline-variant px-3 py-2"
             wiTooltip="Anclado al botón"
             [showDelay]="0"
             [hideDelay]="0"
@@ -264,9 +264,9 @@ export const GroupSkipDelay: Story = {
   render: () => ({
     template: `
       <div class="flex flex-wrap gap-3">
-        <button type="button" class="rounded-control border border-outline px-3 py-2 text-sm" wiTooltip="Uno" [showDelay]="200" [hideDelay]="0">Uno</button>
-        <button type="button" class="rounded-control border border-outline px-3 py-2 text-sm" wiTooltip="Dos" [showDelay]="200" [hideDelay]="0">Dos</button>
-        <button type="button" class="rounded-control border border-outline px-3 py-2 text-sm" wiTooltip="Tres" [showDelay]="200" [hideDelay]="0">Tres</button>
+        <button type="button" class="rounded-control border border-outline-variant px-3 py-2 text-sm" wiTooltip="Uno" [showDelay]="200" [hideDelay]="0">Uno</button>
+        <button type="button" class="rounded-control border border-outline-variant px-3 py-2 text-sm" wiTooltip="Dos" [showDelay]="200" [hideDelay]="0">Dos</button>
+        <button type="button" class="rounded-control border border-outline-variant px-3 py-2 text-sm" wiTooltip="Tres" [showDelay]="200" [hideDelay]="0">Tres</button>
       </div>
     `,
   }),
@@ -295,7 +295,7 @@ export const NearViewportEdge: Story = {
       <div class="flex min-h-40 items-start justify-center p-2">
         <button
           type="button"
-          class="rounded-control border border-outline px-3 py-2 text-sm text-on-surface"
+          class="rounded-control border border-outline-variant px-3 py-2 text-sm text-on-surface"
           wiTooltip="Texto largo que necesita espacio cerca del borde superior del viewport"
           position="top"
           [showDelay]="0"

@@ -41,7 +41,7 @@ describe('WiButtonComponent', () => {
     ['secondary', 'bg-secondary', 'text-on-secondary'],
     ['danger', 'bg-error', 'text-on-error'],
     ['ghost', 'bg-transparent', 'text-on-surface'],
-    ['outline', 'border-outline', 'text-on-surface'],
+    ['outline', 'border-outline-variant', 'text-on-surface'],
   ] as const satisfies readonly (readonly [WiButtonVariant, string, string])[])(
     'applies %s variant classes',
     (variant, tokenA, tokenB) => {

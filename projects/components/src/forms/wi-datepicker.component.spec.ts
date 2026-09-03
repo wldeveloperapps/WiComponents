@@ -72,7 +72,7 @@ describe('WiDatepickerComponent', () => {
     expect(fixture.nativeElement.classList.contains('wi-datepicker')).toBe(true);
     const btn = trigger();
     expect(btn).toBeTruthy();
-    expect(btn.className).toContain('border-outline');
+    expect(btn.className).toContain('border-outline-variant');
     expect(btn.className).toContain('h-control-md');
     expect(btn.getAttribute('aria-label')).toBe('Fecha');
     expect(btn.disabled).toBe(false);

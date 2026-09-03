@@ -30,7 +30,7 @@ const LIST_BASE_CLASSES = [
   'overflow-y-auto',
   'rounded-control',
   'border',
-  'border-outline',
+  'border-outline-variant',
   'bg-surface',
   'text-on-surface',
   'outline-none',

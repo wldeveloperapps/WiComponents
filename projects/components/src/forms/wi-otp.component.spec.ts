@@ -52,7 +52,7 @@ describe('WiOtpComponent', () => {
     expect(nativeInput().getAttribute('inputMode')).toBe('numeric');
     expect(fixture.nativeElement.classList.contains('wi-otp')).toBe(true);
     expect(slots()[0]?.className).toContain('size-10');
-    expect(slots()[0]?.className).toContain('border-outline');
+    expect(slots()[0]?.className).toContain('border-outline-variant');
   });
 
   it('exposes a stable id for label association', () => {

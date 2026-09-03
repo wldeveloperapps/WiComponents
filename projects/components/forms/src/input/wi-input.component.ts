@@ -19,7 +19,7 @@ const BASE_CLASSES = [
   'min-w-0',
   'rounded-control',
   'border',
-  'border-outline',
+  'border-outline-variant',
   'bg-surface',
   'text-on-surface',
   'placeholder:text-on-surface-variant',

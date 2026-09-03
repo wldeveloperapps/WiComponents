@@ -210,7 +210,7 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
                     >
                       @if (column.filterType === 'select') {
                         <select
-                          class="wi-table__filter-select h-control-sm w-full min-w-0 rounded-control border border-outline bg-surface px-2 text-sm text-on-surface outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                          class="wi-table__filter-select h-control-sm w-full min-w-0 rounded-control border border-outline-variant bg-surface px-2 text-sm text-on-surface outline-none focus-visible:ring-2 focus-visible:ring-ring"
                           [attr.aria-label]="filterAriaLabel(column)"
                           [value]="filterValue(column.id)"
                           (change)="onFilterValue(column, eventValue($event))"
@@ -225,7 +225,7 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
                       } @else {
                         <input
                           type="search"
-                          class="wi-table__filter-input h-control-sm w-full min-w-0 rounded-control border border-outline bg-surface px-2 text-sm text-on-surface outline-none placeholder:text-on-surface-variant focus-visible:ring-2 focus-visible:ring-ring"
+                          class="wi-table__filter-input h-control-sm w-full min-w-0 rounded-control border border-outline-variant bg-surface px-2 text-sm text-on-surface outline-none placeholder:text-on-surface-variant focus-visible:ring-2 focus-visible:ring-ring"
                           [attr.aria-label]="filterAriaLabel(column)"
                           [placeholder]="column.filterPlaceholder || resolvedFilterPlaceholder()"
                           [value]="filterValue(column.id)"

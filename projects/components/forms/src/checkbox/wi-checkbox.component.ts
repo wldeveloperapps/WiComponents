@@ -23,7 +23,7 @@ const BASE_CLASSES = [
   'justify-center',
   'rounded-control-sm',
   'border',
-  'border-outline',
+  'border-outline-variant',
   'bg-surface',
   'text-on-primary',
   'transition-colors',
