@@ -7,7 +7,7 @@ export const wiChipRegistryEntry = {
   selector: 'wi-chip',
   entryPoint: '@wiloc/ui/data-display',
   status: 'experimental' as const,
-  exports: ['WiChipComponent', 'WiChipVariant', 'WiChipSize'],
+  exports: ['WiChipComponent', 'WiChipVariant', 'WiChipSize', 'WiChipRadius'],
   inputs: [
     {
       name: 'variant',
@@ -21,6 +21,12 @@ export const wiChipRegistryEntry = {
       type: 'WiChipSize',
       default: 'sm',
       description: 'Tamaño: sm (text-xs px-2 py-1, tags) | md (selección)',
+    },
+    {
+      name: 'radius',
+      type: 'WiChipRadius',
+      default: 'control',
+      description: 'Radio: control (rounded-control) | full (píldora)',
     },
     {
       name: 'selected',
@@ -80,6 +86,7 @@ export const wiChipRegistryEntry = {
   example: {
     import: `import { WiChipComponent } from '@wiloc/ui/data-display';`,
     template: `<wi-chip>User</wi-chip>
+<wi-chip radius="full">Píldora</wi-chip>
 <wi-chip clickable [selected]="selected" (clicked)="toggle()">
   Cliente web
 </wi-chip>`,

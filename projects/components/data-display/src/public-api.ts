@@ -1,4 +1,4 @@
-export type { WiChipSize, WiChipVariant } from './chip/wi-chip.types';
+export type { WiChipRadius, WiChipSize, WiChipVariant } from './chip/wi-chip.types';
 export { WiChipComponent } from './chip/wi-chip.component';
 
 export type { WiCardSize } from './card/wi-card.types';

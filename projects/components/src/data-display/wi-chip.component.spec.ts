@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WiChipComponent } from '../../data-display/src/chip/wi-chip.component';
-import type { WiChipSize, WiChipVariant } from '../../data-display/src/chip/wi-chip.types';
+import type { WiChipRadius, WiChipSize, WiChipVariant } from '../../data-display/src/chip/wi-chip.types';
 
 @Component({
   imports: [WiChipComponent],
@@ -10,6 +10,7 @@ import type { WiChipSize, WiChipVariant } from '../../data-display/src/chip/wi-c
     <wi-chip
       [variant]="variant()"
       [size]="size()"
+      [radius]="radius()"
       [selected]="selected()"
       [clickable]="clickable()"
       [removable]="removable()"
@@ -26,6 +27,7 @@ import type { WiChipSize, WiChipVariant } from '../../data-display/src/chip/wi-c
 class WiChipHostComponent {
   readonly variant = signal<WiChipVariant>('neutral');
   readonly size = signal<WiChipSize>('sm');
+  readonly radius = signal<WiChipRadius>('control');
   readonly selected = signal(false);
   readonly clickable = signal(false);
   readonly removable = signal(false);
@@ -66,13 +68,14 @@ describe('WiChipComponent', () => {
     expect(el.getAttribute('data-slot')).toBe('chip');
     expect(el.getAttribute('data-variant')).toBe('neutral');
     expect(el.getAttribute('data-size')).toBe('sm');
+    expect(el.getAttribute('data-radius')).toBe('control');
     expect(el.getAttribute('data-appearance')).toBe('default');
     expect(el.getAttribute('data-removable')).toBe('false');
     expect(el.getAttribute('data-clickable')).toBe('false');
     expect(el.getAttribute('data-disabled')).toBeNull();
     expect(el.getAttribute('role')).toBeNull();
     expect(el.classList.contains('wi-chip')).toBe(true);
-    expect(el.className).toContain('rounded-control');
+    expect(el.className).toContain('data-[radius=control]:rounded-control');
     expect(el.className).toContain('data-[size=sm]:text-xs');
     expect(el.className).toContain('data-[size=sm]:px-2');
     expect(el.className).toContain(
@@ -107,6 +110,20 @@ describe('WiChipComponent', () => {
     expect(chip().getAttribute('data-size')).toBe('md');
     expect(chip().className).toContain('data-[size=md]:px-3');
   });
+
+  it.each([
+    ['control', 'data-[radius=control]:rounded-control'],
+    ['full', 'data-[radius=full]:rounded-full'],
+  ] as const satisfies readonly (readonly [WiChipRadius, string])[])(
+    'applies %s radius via data-radius',
+    (radius, radiusClass) => {
+      host.radius.set(radius);
+      fixture.detectChanges();
+
+      expect(chip().getAttribute('data-radius')).toBe(radius);
+      expect(chip().className).toContain(radiusClass);
+    },
+  );
 
   it('uses selected appearance without becoming a button unless clickable', () => {
     host.selected.set(true);

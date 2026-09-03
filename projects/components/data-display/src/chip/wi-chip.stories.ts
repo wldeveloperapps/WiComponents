@@ -98,8 +98,8 @@ const meta: Meta<WiChipStoryArgs> = {
         component: `
 Etiqueta compacta para **tags**, **estados**, **filtros** y **selección** (mismo rol que \`p-chip\` en la app).
 
-- API: \`variant\`, \`size\` (\`sm\` default = \`text-xs px-2 py-1\` | \`md\`), \`selected\`, \`clickable\`, \`removable\`, \`disabled\`, \`removeLabel\`, \`ariaLabel\`.
-- Forma \`rounded-control\` (no pill). Neutral: \`surface-variant\` + \`on-surface-variant\`.
+- API: \`variant\`, \`size\` (\`sm\` default = \`text-xs px-2 py-1\` | \`md\`), \`radius\` (\`control\` default | \`full\` píldora), \`selected\`, \`clickable\`, \`removable\`, \`disabled\`, \`removeLabel\`, \`ariaLabel\`.
+- Radio vía \`radius\`: \`control\` (\`rounded-control\`) o \`full\` (píldora). Neutral: \`surface-variant\` + \`on-surface-variant\`.
 - \`selected\` pinta success; el check se proyecta (\`wi-icon\`). \`clickable\` no muta el estado: la app decide.
 - Copy e iconos los aporta la app (i18n). Events: \`removed\`, \`clicked\`.
         `,
@@ -139,6 +139,11 @@ Etiqueta compacta para **tags**, **estados**, **filtros** y **selección** (mism
       control: 'select',
       options: ['sm', 'md'],
       description: 'Tamaño: `sm` (tags) | `md` (selección).',
+    },
+    radius: {
+      control: 'select',
+      options: ['control', 'full'],
+      description: 'Radio: `control` (token) | `full` (píldora).',
     },
     selected: {
       control: 'boolean',
@@ -185,6 +190,7 @@ Etiqueta compacta para **tags**, **estados**, **filtros** y **selección** (mism
   args: {
     variant: 'neutral',
     size: 'sm',
+    radius: 'control',
     selected: false,
     clickable: false,
     removable: false,
@@ -207,6 +213,7 @@ export const Default: Story = {
       <wi-chip
         [variant]="variant"
         [size]="size"
+        [radius]="radius"
         [selected]="selected"
         [clickable]="clickable"
         [removable]="removable"
@@ -243,6 +250,18 @@ export const Sizes: Story = {
       <div class="flex flex-wrap items-center gap-3">
         <wi-chip size="sm">User</wi-chip>
         <wi-chip size="md">Cliente web</wi-chip>
+      </div>
+    `,
+  }),
+};
+
+export const Radius: Story = {
+  render: () => ({
+    template: `
+      <div class="flex flex-wrap items-center gap-3">
+        <wi-chip radius="control">Control</wi-chip>
+        <wi-chip radius="full">Píldora</wi-chip>
+        <wi-chip radius="full" removable removeLabel="Quitar">Filtro</wi-chip>
       </div>
     `,
   }),

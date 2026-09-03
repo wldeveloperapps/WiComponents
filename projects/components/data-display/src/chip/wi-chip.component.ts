@@ -1,6 +1,6 @@
 import { booleanAttribute, Component, input, output } from '@angular/core';
 
-import type { WiChipSize, WiChipVariant } from './wi-chip.types';
+import type { WiChipRadius, WiChipSize, WiChipVariant } from './wi-chip.types';
 
 const REMOVE_CLASSES = [
   'wi-chip__remove',
@@ -9,7 +9,7 @@ const REMOVE_CLASSES = [
   'shrink-0',
   'items-center',
   'justify-center',
-  'rounded-control',
+  'rounded-full',
   'transition-colors',
   'outline-none',
   'hover:bg-current/15',
@@ -26,6 +26,7 @@ const REMOVE_CLASSES = [
  *
  * - Variantes semánticas vía tokens (`neutral` | `primary` | `secondary` | `success` | `warning` | `danger`).
  * - Tamaños: `sm` (default, `text-xs px-2 py-1`) | `md`.
+ * - Radio: `control` (default, `rounded-control`) | `full` (píldora).
  * - `selected` aplica apariencia de elegido (success); el check se proyecta desde la app.
  * - `clickable` convierte el host en botón (`aria-pressed`); `clicked` no muta `selected`.
  * - Contenido proyectado (texto y/o `wi-icon`); el copy lo aporta la app.
@@ -47,6 +48,7 @@ const REMOVE_CLASSES = [
     'data-slot': 'chip',
     '[attr.data-variant]': 'variant()',
     '[attr.data-size]': 'size()',
+    '[attr.data-radius]': 'radius()',
     '[attr.data-appearance]': 'selected() ? "selected" : "default"',
     '[attr.data-removable]': 'removable()',
     '[attr.data-clickable]': 'clickable()',
@@ -61,7 +63,7 @@ const REMOVE_CLASSES = [
     '(keydown.enter)': 'onHostActivate($event)',
     '(keydown.space)': 'onHostActivate($event)',
     class:
-      'wi-chip inline-flex max-w-full min-w-0 shrink-0 items-center rounded-control whitespace-nowrap select-none data-[appearance=default]:data-[variant=neutral]:bg-surface-variant data-[appearance=default]:data-[variant=neutral]:text-on-surface-variant data-[appearance=default]:data-[variant=primary]:bg-primary-container data-[appearance=default]:data-[variant=primary]:text-on-primary-container data-[appearance=default]:data-[variant=secondary]:bg-secondary-container data-[appearance=default]:data-[variant=secondary]:text-on-secondary-container data-[appearance=default]:data-[variant=success]:bg-success data-[appearance=default]:data-[variant=success]:text-on-success data-[appearance=default]:data-[variant=warning]:bg-warning data-[appearance=default]:data-[variant=warning]:text-on-warning data-[appearance=default]:data-[variant=danger]:bg-error data-[appearance=default]:data-[variant=danger]:text-on-error data-[appearance=selected]:bg-success data-[appearance=selected]:text-on-success data-[size=sm]:gap-1 data-[size=sm]:px-2 data-[size=sm]:py-1 data-[size=sm]:text-xs data-[size=md]:gap-2 data-[size=md]:px-3 data-[size=md]:py-2 data-[size=md]:text-sm data-[clickable=true]:cursor-pointer data-[clickable=true]:transition-colors data-[clickable=true]:outline-none data-[clickable=true]:focus-visible:ring-2 data-[clickable=true]:focus-visible:ring-ring data-[clickable=true]:focus-visible:ring-offset-2 data-[clickable=true]:focus-visible:ring-offset-background data-[clickable=true]:data-[appearance=default]:hover:bg-outline-variant data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50',
+      'wi-chip inline-flex max-w-full min-w-0 shrink-0 items-center whitespace-nowrap select-none data-[radius=control]:rounded-control data-[radius=full]:rounded-full data-[appearance=default]:data-[variant=neutral]:bg-surface-variant data-[appearance=default]:data-[variant=neutral]:text-on-surface-variant data-[appearance=default]:data-[variant=primary]:bg-primary-container data-[appearance=default]:data-[variant=primary]:text-on-primary-container data-[appearance=default]:data-[variant=secondary]:bg-secondary-container data-[appearance=default]:data-[variant=secondary]:text-on-secondary-container data-[appearance=default]:data-[variant=success]:bg-success data-[appearance=default]:data-[variant=success]:text-on-success data-[appearance=default]:data-[variant=warning]:bg-warning data-[appearance=default]:data-[variant=warning]:text-on-warning data-[appearance=default]:data-[variant=danger]:bg-error data-[appearance=default]:data-[variant=danger]:text-on-error data-[appearance=selected]:bg-success data-[appearance=selected]:text-on-success data-[size=sm]:gap-1 data-[size=sm]:px-2 data-[size=sm]:py-1 data-[size=sm]:text-xs data-[size=md]:gap-2 data-[size=md]:px-3 data-[size=md]:py-2 data-[size=md]:text-sm data-[clickable=true]:cursor-pointer data-[clickable=true]:transition-colors data-[clickable=true]:outline-none data-[clickable=true]:focus-visible:ring-2 data-[clickable=true]:focus-visible:ring-ring data-[clickable=true]:focus-visible:ring-offset-2 data-[clickable=true]:focus-visible:ring-offset-background data-[clickable=true]:data-[appearance=default]:hover:bg-outline-variant data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50',
   },
   template: `
     <span class="wi-chip__label inline-flex min-w-0 items-center gap-1 truncate">
@@ -95,6 +97,9 @@ export class WiChipComponent {
 
   /** Tamaño del chip. */
   readonly size = input<WiChipSize>('sm');
+
+  /** Radio de las esquinas: token de control o píldora. */
+  readonly radius = input<WiChipRadius>('control');
 
   /** Estado elegido (p. ej. aplicación asignada). No muta solo; la app controla el valor. */
   readonly selected = input(false, { transform: booleanAttribute });
