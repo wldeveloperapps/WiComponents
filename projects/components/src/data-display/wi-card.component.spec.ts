@@ -38,6 +38,37 @@ class WiCardHostComponent {
   readonly size = signal<WiCardSize>('md');
 }
 
+@Component({
+  imports: [
+    WiCardComponent,
+    WiCardContentComponent,
+    WiCardHeaderComponent,
+    WiCardTitleComponent,
+  ],
+  template: `
+    <wi-card class="p-0 gap-0">
+      <wi-card-header class="flex items-center">
+        <wi-card-title>Zona</wi-card-title>
+      </wi-card-header>
+      <wi-card-content class="p-0">Cuerpo</wi-card-content>
+    </wi-card>
+  `,
+})
+class WiCardClassOverrideHostComponent {}
+
+@Component({
+  imports: [WiCardComponent, WiCardContentComponent, WiCardHeaderComponent, WiCardTitleComponent],
+  template: `
+    <wi-card size="none" class="flex h-full min-h-0 flex-col overflow-hidden">
+      <wi-card-header class="flex items-center bg-primary px-4 py-3">
+        <wi-card-title>Zona</wi-card-title>
+      </wi-card-header>
+      <wi-card-content class="flex min-h-0 flex-1 flex-col p-0">Gráfico</wi-card-content>
+    </wi-card>
+  `,
+})
+class WiCardFlushPanelHostComponent {}
+
 describe('WiCardComponent', () => {
   let fixture: ComponentFixture<WiCardHostComponent>;
 
@@ -61,21 +92,45 @@ describe('WiCardComponent', () => {
     expect(el.getAttribute('data-size')).toBe('md');
     expect(el.getAttribute('data-slot')).toBe('card');
     expect(el.classList.contains('wi-card')).toBe(true);
+    expect(el.classList.contains('flex')).toBe(true);
+    expect(el.classList.contains('py-4')).toBe(true);
+    expect(el.classList.contains('gap-2')).toBe(true);
+    expect(el.classList.contains('overflow-hidden')).toBe(false);
     expect(el.className).toContain('bg-surface');
     expect(el.className).toContain('border-outline-variant');
     expect(el.className).toContain('rounded-control-lg');
   });
 
   it.each([
-    ['sm', 'sm'],
-    ['md', 'md'],
-  ] as const satisfies readonly (readonly [WiCardSize, string])[])(
-    'applies data-size=%s',
-    (size, expected) => {
+    ['sm', 'sm', 'py-3'],
+    ['md', 'md', 'py-4'],
+    ['none', 'none', 'py-0'],
+  ] as const satisfies readonly (readonly [WiCardSize, string, string])[])(
+    'applies data-size=%s and %s',
+    (size, expected, pyClass) => {
       fixture.componentInstance.size.set(size);
       fixture.detectChanges();
 
-      expect(card().getAttribute('data-size')).toBe(expected);
+      const el = card();
+      expect(el.getAttribute('data-size')).toBe(expected);
+      expect(el.classList.contains(pyClass)).toBe(true);
+      if (size === 'none') {
+        expect(el.classList.contains('gap-0')).toBe(true);
+        expect(el.classList.contains('py-4')).toBe(false);
+        expect(el.classList.contains('gap-2')).toBe(false);
+        expect(
+          (fixture.nativeElement as HTMLElement)
+            .querySelector('wi-card-header')
+            ?.classList.contains('px-4'),
+        ).toBe(false);
+        expect(
+          (fixture.nativeElement as HTMLElement)
+            .querySelector('wi-card-content')
+            ?.classList.contains('px-4'),
+        ).toBe(false);
+      } else {
+        expect(el.classList.contains('gap-2')).toBe(true);
+      }
     },
   );
 
@@ -110,5 +165,57 @@ describe('WiCardComponent', () => {
     expect(() => cardFixture.detectChanges()).not.toThrow();
     expect(cardFixture.componentInstance).toBeTruthy();
     expect(cardFixture.nativeElement.classList.contains('wi-card')).toBe(true);
+  });
+
+  it('merges consumer class so p-0 gap-0 win over py-4 gap-2', async () => {
+    const overrideFixture = TestBed.createComponent(WiCardClassOverrideHostComponent);
+    overrideFixture.detectChanges();
+    await overrideFixture.whenStable();
+
+    const el = overrideFixture.nativeElement.querySelector('wi-card') as HTMLElement;
+    expect(el.classList.contains('p-0')).toBe(true);
+    expect(el.classList.contains('gap-0')).toBe(true);
+    expect(el.classList.contains('py-4')).toBe(false);
+    expect(el.classList.contains('gap-2')).toBe(false);
+    expect(el.classList.contains('wi-card')).toBe(true);
+    expect(el.classList.contains('flex')).toBe(true);
+    expect(el.classList.contains('rounded-control-lg')).toBe(true);
+
+    const header = overrideFixture.nativeElement.querySelector('wi-card-header') as HTMLElement;
+    expect(header.classList.contains('flex')).toBe(true);
+    expect(header.classList.contains('items-center')).toBe(true);
+    expect(header.classList.contains('grid')).toBe(false);
+    expect(header.classList.contains('wi-card__header')).toBe(true);
+
+    const content = overrideFixture.nativeElement.querySelector('wi-card-content') as HTMLElement;
+    expect(content.classList.contains('p-0')).toBe(true);
+    expect(content.classList.contains('px-4')).toBe(false);
+  });
+
+  it('flush panel: size=none + consumer layout without host py-4/gap-2', async () => {
+    const panelFixture = TestBed.createComponent(WiCardFlushPanelHostComponent);
+    panelFixture.detectChanges();
+    await panelFixture.whenStable();
+
+    const el = panelFixture.nativeElement.querySelector('wi-card') as HTMLElement;
+    expect(el.getAttribute('data-size')).toBe('none');
+    expect(el.classList.contains('py-0')).toBe(true);
+    expect(el.classList.contains('gap-0')).toBe(true);
+    expect(el.classList.contains('py-4')).toBe(false);
+    expect(el.classList.contains('gap-2')).toBe(false);
+    expect(el.classList.contains('overflow-hidden')).toBe(true);
+    expect(el.classList.contains('h-full')).toBe(true);
+
+    const header = panelFixture.nativeElement.querySelector('wi-card-header') as HTMLElement;
+    expect(header.classList.contains('flex')).toBe(true);
+    expect(header.classList.contains('bg-primary')).toBe(true);
+    expect(header.classList.contains('px-4')).toBe(true);
+    expect(header.classList.contains('py-3')).toBe(true);
+    expect(header.classList.contains('grid')).toBe(false);
+
+    const content = panelFixture.nativeElement.querySelector('wi-card-content') as HTMLElement;
+    expect(content.classList.contains('flex-1')).toBe(true);
+    expect(content.classList.contains('p-0')).toBe(true);
+    expect(content.classList.contains('px-4')).toBe(false);
   });
 });

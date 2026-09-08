@@ -29,13 +29,13 @@ Otras páginas de este apartado:
 
 ## Requisitos
 
-| Pieza | Versión / notas |
-| ----- | --------------- |
-| Angular | 22 (`@angular/core`, `common`, `forms`, `cdk`, `aria`) |
-| Tailwind CSS | v4 (peer opcional; las apps Wiloc lo usan) |
+| Pieza               | Versión / notas                                                   |
+| ------------------- | ----------------------------------------------------------------- |
+| Angular             | 22 (`@angular/core`, `common`, `forms`, `cdk`, `aria`)            |
+| Tailwind CSS        | v4 (peer opcional; las apps Wiloc lo usan)                        |
 | `@spartan-ng/brain` | peer de comportamiento; **no** importar en plantillas de producto |
-| `clsx`, `rxjs` | peers |
-| `tw-animate-css` | peer opcional (animaciones de overlays) |
+| `clsx`, `rxjs`      | peers                                                             |
+| `tw-animate-css`    | peer opcional (animaciones de overlays)                           |
 
 La app **no** debe importar Helm (`@spartan-ng/helm`) ni tipos `Brn*` cuando exista equivalente en `@wiloc/ui`.
 
@@ -82,11 +82,11 @@ Registra `src/styles.css` en `angular.json` → `architect.build.options.styles`
 
 Detalle (archivos, CSS completo, `@theme`, coexistir con PrimeNG): página **Tema**.
 
-| Qué | Dónde |
-| ----- | ----- |
+| Qué                          | Dónde                                                                      |
+| ---------------------------- | -------------------------------------------------------------------------- |
 | Tokens + Tailwind + `@theme` | CSS global (`src/styles.css` / `styles.scss`) registrado en `angular.json` |
-| PostCSS | `postcss.config.json` en la raíz de la app |
-| Tabs / toast | `@wiloc/ui/styles/tabs.css` / `toast.css` solo si los usas |
+| PostCSS                      | `postcss.config.json` en la raíz de la app                                 |
+| Tabs / toast                 | `@wiloc/ui/styles/tabs.css` / `toast.css` solo si los usas                 |
 
 **No** importes `@wiloc/ui/styles/index.css`.
 
@@ -125,8 +125,7 @@ export const appConfig: ApplicationConfig = {
 ```
 
 ```html
-<wi-icon name="home" />
-<wi-icon name="trash" label="Eliminar" />
+<wi-icon name="home" /> <wi-icon name="trash" label="Eliminar" />
 ```
 
 ### i18n (`provideWi*I18n`)
@@ -139,10 +138,7 @@ La librería **no** trae diccionarios. Chrome (calendario, tabla, dialog, toast)
 import { provideAppWiI18n } from './locale';
 
 export const appConfig: ApplicationConfig = {
-  providers: [
-    provideTransloco({ /* config existente */ }),
-    provideAppWiI18n(),
-  ],
+  providers: [provideTransloco({/* config existente */}), provideAppWiI18n()],
 };
 ```
 
@@ -159,7 +155,7 @@ document.documentElement.classList.toggle(WI_DARK_CLASS, dark);
 ```
 
 ```html
-<html class="wi-dark" lang="es">
+<html class="wi-dark" lang="es"></html>
 ```
 
 Overlays portaled a `body` heredan el tema si la clase está en `<html>`.
@@ -173,8 +169,7 @@ Overlays portaled a `body` heredan el tema si la clase está en `<html>`.
 3. Dispara con `wiToast` / `inject(WiToast)`.
 
 ```html
-<wi-toaster theme="auto" />
-<router-outlet />
+<wi-toaster theme="auto" /> <router-outlet />
 ```
 
 ---
@@ -194,16 +189,16 @@ import { provideWiIcons, WiIconComponent } from '@wiloc/ui/icon';
 import { trashOutline } from '@wiloc/ui/icon/heroicons';
 ```
 
-| Entry | Qué incluye (resumen) |
-| ----- | --------------------- |
-| `@wiloc/ui/core` | `WI_DARK_CLASS`, tokens |
-| `@wiloc/ui/button` | `button[wiButton]`, `a[wiButton]` |
-| `@wiloc/ui/forms` | input, select, checkbox, switch, datepicker, listbox, otp, … |
-| `@wiloc/ui/overlays` | dialog, menu, popover, tooltip, toast, confirm, speed-dial |
-| `@wiloc/ui/data-display` | table, card, chip, spinner, skeleton |
-| `@wiloc/ui/navigation` | tabs, stepper |
-| `@wiloc/ui/icon` | `WiIcon`, `provideWiIcons` |
-| `@wiloc/ui/icon/heroicons` | glifos (imports individuales) |
+| Entry                      | Qué incluye (resumen)                                        |
+| -------------------------- | ------------------------------------------------------------ |
+| `@wiloc/ui/core`           | `WI_DARK_CLASS`, tokens, `hlm` (merge de clases)             |
+| `@wiloc/ui/button`         | `button[wiButton]`, `a[wiButton]`                            |
+| `@wiloc/ui/forms`          | input, select, checkbox, switch, datepicker, listbox, otp, … |
+| `@wiloc/ui/overlays`       | dialog, menu, popover, tooltip, toast, confirm, speed-dial   |
+| `@wiloc/ui/data-display`   | table, card, chip, spinner, skeleton                         |
+| `@wiloc/ui/navigation`     | tabs, stepper                                                |
+| `@wiloc/ui/icon`           | `WiIcon`, `provideWiIcons`                                   |
+| `@wiloc/ui/icon/heroicons` | glifos (imports individuales)                                |
 
 ---
 

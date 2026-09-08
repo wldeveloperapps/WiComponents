@@ -35,7 +35,10 @@ const meta: Meta<WiCardComponent> = {
 Contenedor de superficie. **No** expone variantes de producto (header tintado, KPI, fila de lista):
 esas se componen en la app con tokens y clases.
 
-- API: \`size\` (\`sm\` | \`md\`) + slots header / title / description / action / content / footer.
+- API: \`size\` (\`sm\` | \`md\` | \`none\`) + slots header / title / description / action / content / footer.
+- El host aplica \`py\` + \`gap\`; el padding horizontal vive en header / content / footer.
+- \`none\` = flush (sin padding ni gap); el layout lo pone la app.
+- \`class\` del consumidor se fusiona con el host y gana conflictos de utilities (sin \`!important\`).
 - Story **Recipe\\*** = ejemplos de composición, no inputs nuevos.
         `,
       },
@@ -71,8 +74,11 @@ esas se componen en la app con tokens y clases.
   argTypes: {
     size: {
       control: 'select',
-      options: ['sm', 'md'],
+      options: ['sm', 'md', 'none'],
+      description:
+        'Layout: sm (py-3 + gap-2) | md (py-4 + gap-2) | none (flush). El padding horizontal está en header/content/footer.',
     },
+    userClass: { table: { disable: true }, control: false },
   },
   args: {
     size: 'md',
@@ -138,7 +144,7 @@ export const Sizes: Story = {
         <wi-card size="sm" class="w-72">
           <wi-card-header>
             <wi-card-title>Compacto</wi-card-title>
-            <wi-card-description>size=&quot;sm&quot; · padding 0.75rem</wi-card-description>
+            <wi-card-description>size=&quot;sm&quot; · host py-3 · header/content px-3</wi-card-description>
           </wi-card-header>
           <wi-card-content>
             KPIs y paneles densos de dashboard.
@@ -147,10 +153,19 @@ export const Sizes: Story = {
         <wi-card size="md" class="w-72">
           <wi-card-header>
             <wi-card-title>Estándar</wi-card-title>
-            <wi-card-description>size=&quot;md&quot; · padding 1rem</wi-card-description>
+            <wi-card-description>size=&quot;md&quot; · host py-4 · header/content px-4</wi-card-description>
           </wi-card-header>
           <wi-card-content>
             Default para paneles y formularios.
+          </wi-card-content>
+        </wi-card>
+        <wi-card size="none" class="w-72">
+          <wi-card-header class="px-4 py-3">
+            <wi-card-title>Flush</wi-card-title>
+            <wi-card-description>size=&quot;none&quot; · padding lo pone la app</wi-card-description>
+          </wi-card-header>
+          <wi-card-content class="px-4 pb-4">
+            Paneles a borde (header tintado, gráficos a full).
           </wi-card-content>
         </wi-card>
       </div>
@@ -170,7 +185,7 @@ export const ContentOnly: Story = {
   }),
 };
 
-/** Panel con cabecera tintada (app): py-0 + header bg-primary. */
+/** Panel con cabecera tintada (app): size=none + header bg-primary a borde. */
 export const RecipeTintedHeader: Story = {
   name: 'Recipe / Tinted header',
   parameters: {
@@ -178,19 +193,22 @@ export const RecipeTintedHeader: Story = {
     docs: {
       description: {
         story:
-          'Composición en app: `!py-0 !gap-0` en el card y `bg-primary text-on-primary` en el header. No es un input `variant`.',
+          'Composición en app: `size="none"` + `overflow-hidden` (radio del header) y `bg-primary text-on-primary` en el header. El body usa `flex-1 min-h-0`. No es un input `variant`.',
       },
     },
   },
   render: () => ({
     template: `
-      <wi-card class="w-full max-w-3xl !gap-0 !py-0">
+      <wi-card
+        size="none"
+        class="flex h-full min-h-0 w-full max-w-3xl flex-col overflow-hidden"
+      >
         <wi-card-header
-          class="items-center !bg-primary !px-4 !py-3 text-on-primary"
+          class="flex items-center bg-primary px-4 py-3 text-on-primary"
         >
           <div class="flex min-w-0 flex-col gap-0.5">
             <p class="text-xs text-on-primary/80">Multipurpose button</p>
-            <wi-card-title class="!text-base !text-on-primary">
+            <wi-card-title class="text-base">
               Maximizing Ethane Recovery and Monetization…
             </wi-card-title>
           </div>
@@ -215,7 +233,7 @@ export const RecipeTintedHeader: Story = {
             </button>
           </wi-card-action>
         </wi-card-header>
-        <wi-card-content class="!py-4">
+        <wi-card-content class="flex min-h-0 flex-1 flex-col p-0">
           <div
             class="flex h-48 flex-col justify-end gap-3 rounded-control bg-surface-variant/40 p-4"
             aria-hidden="true"
@@ -261,14 +279,14 @@ la lista usa \`min-h-0 flex-1 overflow-y-auto\` para hacer scroll si hay más fi
   },
   render: () => ({
     template: `
-      <wi-card class="h-[28rem] w-full max-w-md !gap-0 !py-0">
-        <wi-card-header class="shrink-0 items-center !pb-3">
+      <wi-card size="none" class="flex h-[28rem] w-full max-w-md flex-col overflow-hidden">
+        <wi-card-header class="flex shrink-0 items-center px-4 pb-3">
           <wi-card-title>Activos con alarma habilitada</wi-card-title>
           <wi-card-action>
             <button wiButton variant="outline" size="sm" disabled>Guardar cambios</button>
           </wi-card-action>
         </wi-card-header>
-        <wi-card-content class="flex min-h-0 flex-1 flex-col !gap-0 !px-0 !pb-0">
+        <wi-card-content class="flex min-h-0 flex-1 flex-col px-0 pb-0">
           <div
             class="flex shrink-0 items-center gap-2 bg-primary px-3 py-2 text-on-primary"
           >
@@ -278,8 +296,8 @@ la lista usa \`min-h-0 flex-1 overflow-y-auto\` para hacer scroll si hay más fi
           <ul class="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto p-3">
             @for (asset of assets; track asset.name) {
               <li>
-                <wi-card size="sm" class="!gap-0 !py-0">
-                  <wi-card-content class="flex items-center gap-3 !py-2.5">
+                <wi-card size="none">
+                  <wi-card-content class="flex items-center gap-3 px-3 py-2.5">
                     <span [class]="asset.badgeClass">
                       <wi-icon [name]="asset.icon" size="sm" />
                     </span>
@@ -370,8 +388,8 @@ export const RecipeKpiTiles: Story = {
   render: () => ({
     template: `
       <div class="grid w-full max-w-4xl grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-        <wi-card size="sm" class="!gap-0 !border-0 !bg-secondary !py-0 !text-on-secondary !shadow-none">
-          <wi-card-content class="flex items-center gap-2 !py-3">
+        <wi-card size="none" class="border-0 bg-secondary text-on-secondary shadow-none">
+          <wi-card-content class="flex items-center gap-2 px-3 py-3">
             <wi-icon name="user" class="opacity-80" />
             <div class="min-w-0">
               <p class="text-lg font-semibold leading-none">12</p>
@@ -379,8 +397,8 @@ export const RecipeKpiTiles: Story = {
             </div>
           </wi-card-content>
         </wi-card>
-        <wi-card size="sm" class="!gap-0 !border-0 !bg-primary !py-0 !text-on-primary !shadow-none">
-          <wi-card-content class="flex items-center gap-2 !py-3">
+        <wi-card size="none" class="border-0 bg-primary text-on-primary shadow-none">
+          <wi-card-content class="flex items-center gap-2 px-3 py-3">
             <wi-icon name="users" class="opacity-80" />
             <div class="min-w-0">
               <p class="text-lg font-semibold leading-none">48</p>
@@ -388,8 +406,8 @@ export const RecipeKpiTiles: Story = {
             </div>
           </wi-card-content>
         </wi-card>
-        <wi-card size="sm" class="!gap-0 !border-0 !bg-error !py-0 !text-on-error !shadow-none">
-          <wi-card-content class="flex items-center gap-2 !py-3">
+        <wi-card size="none" class="border-0 bg-error text-on-error shadow-none">
+          <wi-card-content class="flex items-center gap-2 px-3 py-3">
             <wi-icon name="users" class="opacity-80" />
             <div class="min-w-0">
               <p class="text-lg font-semibold leading-none">101</p>
@@ -397,8 +415,8 @@ export const RecipeKpiTiles: Story = {
             </div>
           </wi-card-content>
         </wi-card>
-        <wi-card size="sm" class="!gap-0 !border-0 !bg-success !py-0 !text-on-success !shadow-none">
-          <wi-card-content class="flex items-center gap-2 !py-3">
+        <wi-card size="none" class="border-0 bg-success text-on-success shadow-none">
+          <wi-card-content class="flex items-center gap-2 px-3 py-3">
             <wi-icon name="user" class="opacity-80" />
             <div class="min-w-0">
               <p class="text-lg font-semibold leading-none">7</p>
@@ -406,8 +424,8 @@ export const RecipeKpiTiles: Story = {
             </div>
           </wi-card-content>
         </wi-card>
-        <wi-card size="sm" class="!gap-0 !border-0 !bg-warning !py-0 !text-on-warning !shadow-none">
-          <wi-card-content class="flex items-center gap-2 !py-3">
+        <wi-card size="none" class="border-0 bg-warning text-on-warning shadow-none">
+          <wi-card-content class="flex items-center gap-2 px-3 py-3">
             <wi-icon name="map" class="opacity-80" />
             <div class="min-w-0">
               <p class="text-lg font-semibold leading-none">23</p>
