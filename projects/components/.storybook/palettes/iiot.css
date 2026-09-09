@@ -1,0 +1,22 @@
+/**
+ * Paleta IIOT en Storybook.
+ *
+ * Los valores viven en `tokens.css` (default de la librería). Este archivo
+ * fija el contrato `data-wi-palette="iiot"` para poder añadir otras paletas
+ * sin tocar componentes.
+ *
+ * Paleta nueva:
+ * 1. Copia este archivo (p. ej. otra-app.css).
+ * 2. Cambia el selector a html[data-wi-palette='otra-app'].
+ * 3. Rellena --wi-color-* en light y en html.wi-dark[data-wi-palette='...'].
+ * 4. Importa el CSS en preview.ts y registra el id en palettes.ts.
+ *
+ * html[data-wi-palette='otra-app'] {
+ *   --wi-color-primary: #...;
+ *   --wi-color-on-primary: #...;
+ * }
+ *
+ * html.wi-dark[data-wi-palette='otra-app'] {
+ *   --wi-color-primary: #...;
+ * }
+ */

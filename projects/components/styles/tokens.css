@@ -1,6 +1,8 @@
 /**
  * Design tokens públicos de @wiloc/ui.
  *
+ * Paleta por defecto: plataforma IIOT Wiloc (MD3).
+ *
  * Contrato de tema:
  * - Light: valores en `:root`
  * - Dark: la app añade `class="wi-dark"` en `<html>` (o ancestro root)
@@ -12,34 +14,37 @@
 :root {
   color-scheme: light;
 
-  /* —— Colores (MD3 + prefijo Wiloc) —— */
+  /* —— Marca —— */
   --wi-color-primary: #32628d;
   --wi-color-on-primary: #ffffff;
   --wi-color-primary-container: #cfe4ff;
   --wi-color-on-primary-container: #134a74;
 
-  --wi-color-secondary: #535f70;
+  --wi-color-secondary: #526070;
   --wi-color-on-secondary: #ffffff;
-  --wi-color-secondary-container: #d7e3f8;
-  --wi-color-on-secondary-container: #3b4858;
+  --wi-color-secondary-container: #d6e4f7;
+  --wi-color-on-secondary-container: #3a4857;
 
+  /* —— Superficies —— */
   --wi-color-background: #f8f9ff;
   --wi-color-on-background: #191c20;
   --wi-color-surface: #f8f9ff;
   --wi-color-on-surface: #191c20;
   --wi-color-surface-container-lowest: #ffffff;
-  --wi-color-surface-container-low: #e8edf6;
+  --wi-color-surface-container-low: #f2f3f9;
   --wi-color-surface-container: #eceef4;
+  --wi-color-surface-container-high: #e6e8ee;
+  --wi-color-surface-container-highest: #e0e2e8;
   --wi-color-surface-variant: #dee3eb;
   --wi-color-on-surface-variant: #42474e;
 
-  /* Superficie invertida (tooltips, chips de contraste): se mantiene oscura en ambos temas */
-  --wi-color-inverse-surface: #191c20;
-  --wi-color-inverse-on-surface: #f8f9ff;
+  --wi-color-inverse-surface: #2d3135;
+  --wi-color-inverse-on-surface: #eff1f6;
 
   --wi-color-outline: #73777f;
-  --wi-color-outline-variant: #e2e8f0;
+  --wi-color-outline-variant: #c2c7cf;
 
+  /* —— Feedback —— */
   --wi-color-error: #ba1a1a;
   --wi-color-on-error: #ffffff;
   --wi-color-error-container: #ffdad6;
@@ -47,8 +52,13 @@
 
   --wi-color-warning: #f97316;
   --wi-color-on-warning: #ffffff;
-  --wi-color-success: #2e7d32;
+  --wi-color-warning-container: #ffdcc2;
+  --wi-color-on-warning-container: #7c2d00;
+
+  --wi-color-success: #20c70a;
   --wi-color-on-success: #ffffff;
+  --wi-color-success-container: #d1fae5;
+  --wi-color-on-success-container: #065f46;
 
   --wi-color-ring: #32628d;
 
@@ -96,15 +106,16 @@
 .wi-dark {
   color-scheme: dark;
 
+  /* Navy / charcoal de bajo contraste (misma paleta que la app IIOT). */
   --wi-color-primary: #48586c;
   --wi-color-on-primary: #dce0e8;
   --wi-color-primary-container: #2c3442;
   --wi-color-on-primary-container: #bac2d0;
 
-  --wi-color-secondary: #bbc7db;
-  --wi-color-on-secondary: #253140;
-  --wi-color-secondary-container: #3b4858;
-  --wi-color-on-secondary-container: #d7e3f8;
+  --wi-color-secondary: #768296;
+  --wi-color-on-secondary: #141820;
+  --wi-color-secondary-container: #2c3442;
+  --wi-color-on-secondary-container: #bac2d0;
 
   --wi-color-background: #0e121a;
   --wi-color-on-background: #c4c9d2;
@@ -113,24 +124,31 @@
   --wi-color-surface-container-lowest: #151b26;
   --wi-color-surface-container-low: #181e2a;
   --wi-color-surface-container: #1c222e;
+  --wi-color-surface-container-high: #202634;
+  --wi-color-surface-container-highest: #262c3a;
   --wi-color-surface-variant: #3a4250;
   --wi-color-on-surface-variant: #848c9a;
 
-  --wi-color-inverse-surface: #2a3140;
-  --wi-color-inverse-on-surface: #f8f9ff;
+  --wi-color-inverse-surface: #c4c9d2;
+  --wi-color-inverse-on-surface: #242a34;
 
   --wi-color-outline: #525a68;
   --wi-color-outline-variant: #2c3440;
 
-  --wi-color-error: #ffb4ab;
-  --wi-color-on-error: #690005;
-  --wi-color-error-container: #93000a;
-  --wi-color-on-error-container: #ffdad6;
+  --wi-color-error: #bc7676;
+  --wi-color-on-error: #1c1818;
+  --wi-color-error-container: #3a2a2a;
+  --wi-color-on-error-container: #d2aaaa;
 
-  --wi-color-warning: #ffb77c;
-  --wi-color-on-warning: #4a2800;
-  --wi-color-success: #81c784;
-  --wi-color-on-success: #003910;
+  --wi-color-warning: #bc9e6c;
+  --wi-color-on-warning: #1c1814;
+  --wi-color-warning-container: #3a3024;
+  --wi-color-on-warning-container: #d2be96;
 
-  --wi-color-ring: #a0aec0;
+  --wi-color-success: #6c9476;
+  --wi-color-on-success: #ffffff;
+  --wi-color-success-container: #24302a;
+  --wi-color-on-success-container: #9ebca2;
+
+  --wi-color-ring: #48586c;
 }

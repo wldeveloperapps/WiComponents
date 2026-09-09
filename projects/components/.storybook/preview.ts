@@ -14,9 +14,11 @@ import {
   setStorybookLocale,
   type StorybookLocale,
 } from './locale';
+import { applyStorybookPalette, STORYBOOK_PALETTES } from './palettes';
 
 import '../styles/index.css';
 import './storybook-theme.css';
+import './palettes/iiot.css';
 
 setCompodocJson(docJson);
 
@@ -47,10 +49,25 @@ const preview: Preview = {
         dynamicTitle: true,
       },
     },
+    palette: {
+      description:
+        'Paleta de producto (data-wi-palette en <html>). Simula otra app; no es API de los componentes.',
+      toolbar: {
+        title: 'Paleta',
+        icon: 'paintbrush',
+        items: STORYBOOK_PALETTES.map((palette) => ({
+          value: palette.id,
+          title: palette.title,
+          right: palette.right,
+        })),
+        dynamicTitle: true,
+      },
+    },
   },
   initialGlobals: {
     theme: 'light',
     locale: 'es',
+    palette: STORYBOOK_PALETTES[0].id,
   },
   decorators: [
     applicationConfig({
@@ -63,8 +80,10 @@ const preview: Preview = {
     (storyFn, context) => {
       const theme = context.globals['theme'] as string;
       const locale = (context.globals['locale'] as StorybookLocale) ?? 'es';
+      const palette = (context.globals['palette'] as string) ?? STORYBOOK_PALETTES[0].id;
 
       document.documentElement.classList.toggle(WI_DARK_CLASS, theme === 'dark');
+      applyStorybookPalette(palette);
       setStorybookLocale(locale);
       document.documentElement.lang = locale;
 
@@ -74,7 +93,7 @@ const preview: Preview = {
   parameters: {
     options: {
       storySort: {
-        order: ['Documentation', ['Instalación', 'Tema', 'I18n', 'MCP'], '*'],
+        order: ['Documentation', ['Instalación', 'Tema', 'I18n', 'MCP'], 'Foundation', '*'],
       },
     },
     controls: {

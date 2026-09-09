@@ -30,6 +30,8 @@
   --color-surface-container: var(--wi-color-surface-container);
   --color-surface-container-lowest: var(--wi-color-surface-container-lowest);
   --color-surface-container-low: var(--wi-color-surface-container-low);
+  --color-surface-container-high: var(--wi-color-surface-container-high);
+  --color-surface-container-highest: var(--wi-color-surface-container-highest);
   --color-surface-variant: var(--wi-color-surface-variant);
   --color-on-surface-variant: var(--wi-color-on-surface-variant);
   --color-on-background: var(--wi-color-on-background);
@@ -44,8 +46,12 @@
 
   --color-warning: var(--wi-color-warning);
   --color-on-warning: var(--wi-color-on-warning);
+  --color-warning-container: var(--wi-color-warning-container);
+  --color-on-warning-container: var(--wi-color-on-warning-container);
   --color-success: var(--wi-color-success);
   --color-on-success: var(--wi-color-on-success);
+  --color-success-container: var(--wi-color-success-container);
+  --color-on-success-container: var(--wi-color-on-success-container);
 
   --radius-control: var(--wi-radius-md);
   --radius-control-sm: var(--wi-radius-sm);

@@ -54,6 +54,8 @@ Archivos:
   --color-surface-container: var(--wi-color-surface-container);
   --color-surface-container-lowest: var(--wi-color-surface-container-lowest);
   --color-surface-container-low: var(--wi-color-surface-container-low);
+  --color-surface-container-high: var(--wi-color-surface-container-high);
+  --color-surface-container-highest: var(--wi-color-surface-container-highest);
   --color-surface-variant: var(--wi-color-surface-variant);
   --color-on-surface-variant: var(--wi-color-on-surface-variant);
   --color-inverse-surface: var(--wi-color-inverse-surface);
@@ -67,8 +69,12 @@ Archivos:
   --color-on-error-container: var(--wi-color-on-error-container);
   --color-warning: var(--wi-color-warning);
   --color-on-warning: var(--wi-color-on-warning);
+  --color-warning-container: var(--wi-color-warning-container);
+  --color-on-warning-container: var(--wi-color-on-warning-container);
   --color-success: var(--wi-color-success);
   --color-on-success: var(--wi-color-on-success);
+  --color-success-container: var(--wi-color-success-container);
+  --color-on-success-container: var(--wi-color-on-success-container);
   --radius-control: var(--wi-radius-md);
   --radius-control-sm: var(--wi-radius-sm);
   --radius-control-lg: var(--wi-radius-lg);
@@ -94,9 +100,10 @@ NO uses \`@wiloc/ui/styles/index.css\`. PostCSS: \`postcss.config.json\` con \`@
 Usa clases Tailwind estáticas ligadas a tokens (\`bg-primary\`, \`text-on-surface\`, \`border-outline\`, \`rounded-control\`).
 Prohibido: \`bg-\${color}\`, colores hex sueltos en componentes Wi, clases \`.p-*\` de Prime, \`.dark\` / \`data-theme\`.
 
-Roles: primary, on-primary, primary-container, secondary, background, on-background, surface, on-surface, surface-container, surface-variant, inverse-surface, outline, error, warning, success.
+Roles: primary, on-primary, primary-container, secondary, background, on-background, surface, on-surface, surface-container, surface-container-high, surface-variant, inverse-surface, outline, error, warning, warning-container, success, success-container.
 
 La librería no muta el DOM. La app aplica tema (\`WI_DARK_CLASS\` en \`<html>\`) y tokens vía CSS importado.
+Otra app = otros valores de \`--wi-color-*\` en su CSS; los componentes no cambian. Storybook: toolbar Paleta (\`data-wi-palette\`) para previsualizar paletas.
 Tabs/toast: CSS extra \`@wiloc/ui/styles/tabs.css\` / \`toast.css\` si los usas.`,
   },
   {

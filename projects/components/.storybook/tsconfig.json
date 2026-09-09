@@ -34,7 +34,8 @@
     "../navigation/**/*.ts",
     "../navigation/**/*.stories.*",
     "./preview.ts",
-    "./locale.ts"
+    "./locale.ts",
+    "./palettes.ts"
   ],
   "files": ["./typings.d.ts"]
 }

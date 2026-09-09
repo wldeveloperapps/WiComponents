@@ -16,7 +16,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 # Estilos, tokens y tema
 
 Contrato visual de `@wiloc/ui`. Demo: **Foundation → Tokens** (toolbar **Tema**).  
-Instalación del paquete y peers: **Instalación**.
+La paleta por defecto es la de la app IIOT Wiloc. Instalación del paquete y peers: **Instalación**.
 
 La librería **no** toca `document.documentElement`. La app importa CSS y aplica `wi-dark`.
 
@@ -24,14 +24,14 @@ La librería **no** toca `document.documentElement`. La app importa CSS y aplica
 
 ## Dónde va cada cosa
 
-| Qué | Dónde | No |
-| --- | ----- | -- |
-| Tokens + Tailwind + `@theme` | El CSS global de la app (`src/styles.css` o `src/styles.scss`) | No `@wiloc/ui/styles/index.css` (Storybook / monorepo) |
-| Registro de ese archivo | `angular.json` → `architect.build.options.styles` | No un CSS suelto sin registrar |
-| PostCSS Tailwind v4 | `postcss.config.json` en la **raíz de la app Angular** | No hace falta `tailwind.config.js` |
-| Tabs | `@import '@wiloc/ui/styles/tabs.css'` en el CSS global | Solo si usas `wi-tabs` |
-| Toast | `@import '@wiloc/ui/styles/toast.css'` + `<wi-toaster />` en el root | Solo si usas toast |
-| Dark mode | Clase `wi-dark` en `<html>` (`WI_DARK_CLASS`) | No `.dark` ni `data-theme` |
+| Qué                          | Dónde                                                                | No                                                     |
+| ---------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------ |
+| Tokens + Tailwind + `@theme` | El CSS global de la app (`src/styles.css` o `src/styles.scss`)       | No `@wiloc/ui/styles/index.css` (Storybook / monorepo) |
+| Registro de ese archivo      | `angular.json` → `architect.build.options.styles`                    | No un CSS suelto sin registrar                         |
+| PostCSS Tailwind v4          | `postcss.config.json` en la **raíz de la app Angular**               | No hace falta `tailwind.config.js`                     |
+| Tabs                         | `@import '@wiloc/ui/styles/tabs.css'` en el CSS global               | Solo si usas `wi-tabs`                                 |
+| Toast                        | `@import '@wiloc/ui/styles/toast.css'` + `<wi-toaster />` en el root | Solo si usas toast                                     |
+| Dark mode                    | Clase `wi-dark` en `<html>` (`WI_DARK_CLASS`)                        | No `.dark` ni `data-theme`                             |
 
 Si la app **ya tiene** hoja global (PrimeNG, etc.): **añade** los `@import` de Wiloc ahí. No sustituyas el tema de Prime de golpe ni dupliques `@import 'tailwindcss/...'` si ya está.
 
@@ -95,6 +95,8 @@ Patrón validado en `apps/e2e-consumer`. **No** uses `index.css` del paquete.
   --color-surface-container: var(--wi-color-surface-container);
   --color-surface-container-lowest: var(--wi-color-surface-container-lowest);
   --color-surface-container-low: var(--wi-color-surface-container-low);
+  --color-surface-container-high: var(--wi-color-surface-container-high);
+  --color-surface-container-highest: var(--wi-color-surface-container-highest);
   --color-surface-variant: var(--wi-color-surface-variant);
   --color-on-surface-variant: var(--wi-color-on-surface-variant);
   --color-inverse-surface: var(--wi-color-inverse-surface);
@@ -111,8 +113,12 @@ Patrón validado en `apps/e2e-consumer`. **No** uses `index.css` del paquete.
 
   --color-warning: var(--wi-color-warning);
   --color-on-warning: var(--wi-color-on-warning);
+  --color-warning-container: var(--wi-color-warning-container);
+  --color-on-warning-container: var(--wi-color-on-warning-container);
   --color-success: var(--wi-color-success);
   --color-on-success: var(--wi-color-on-success);
+  --color-success-container: var(--wi-color-success-container);
+  --color-on-success-container: var(--wi-color-on-success-container);
 
   --radius-control: var(--wi-radius-md);
   --radius-control-sm: var(--wi-radius-sm);
@@ -137,11 +143,11 @@ Opcional (solo los componentes que uses):
 
 ## Quién hace qué
 
-| Quién | Responsabilidad |
-| ----- | --------------- |
-| `@wiloc/ui` | Publica `--wi-color-*` en `:root` y `.wi-dark` |
-| Componentes | Clases semánticas; ciegos al tema |
-| App | Posee `<html>`, importa CSS, aplica/quita `wi-dark` |
+| Quién       | Responsabilidad                                     |
+| ----------- | --------------------------------------------------- |
+| `@wiloc/ui` | Publica `--wi-color-*` en `:root` y `.wi-dark`      |
+| Componentes | Clases semánticas; ciegos al tema                   |
+| App         | Posee `<html>`, importa CSS, aplica/quita `wi-dark` |
 
 ---
 
@@ -156,7 +162,7 @@ document.documentElement.classList.toggle(WI_DARK_CLASS, isDark);
 ```
 
 ```html
-<html class="wi-dark" lang="es">
+<html class="wi-dark" lang="es"></html>
 ```
 
 Valores de producto de la app: `'light' | 'dark' | 'system'`. Persistencia, `matchMedia` y anti-flash SSR son de la app.
@@ -186,20 +192,20 @@ No generar clases Tailwind dinámicas (`bg-${color}`). No uses clases `.p-*` de 
 
 Prefijo CSS: `--wi-color-*`. Constante: `WI_COLOR_TOKEN_PREFIX` (`@wiloc/ui/core`).
 
-| Token | Uso |
-| ----- | --- |
-| `primary` / `on-primary` | Acción principal |
-| `primary-container` / `on-primary-container` | Superficie tintada |
-| `secondary` / `on-secondary` | Secundario |
-| `background` / `on-background` | Fondo de página |
-| `surface` / `on-surface` | Paneles |
-| `surface-container` / `surface-container-low` / `surface-container-lowest` | Contenedores (cápsula breadcrumb: degradado lowest → low) |
-| `surface-variant` / `on-surface-variant` | Superficie secundaria |
-| `inverse-surface` / `inverse-on-surface` | Contraste (tooltips, chips) |
-| `outline` / `outline-variant` | Bordes |
-| `error` / `on-error` | Error |
-| `warning` / `on-warning` | Aviso |
-| `success` / `on-success` | Éxito |
+| Token                                                                                                                               | Uso                                                                                 |
+| ----------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `primary` / `on-primary`                                                                                                            | Acción principal                                                                    |
+| `primary-container` / `on-primary-container`                                                                                        | Superficie tintada                                                                  |
+| `secondary` / `on-secondary`                                                                                                        | Secundario                                                                          |
+| `background` / `on-background`                                                                                                      | Fondo de página                                                                     |
+| `surface` / `on-surface`                                                                                                            | Paneles                                                                             |
+| `surface-container` / `surface-container-low` / `surface-container-lowest` / `surface-container-high` / `surface-container-highest` | Contenedores (hover de botón secondary: `high`; breadcrumb: degradado lowest → low) |
+| `surface-variant` / `on-surface-variant`                                                                                            | Superficie secundaria                                                               |
+| `inverse-surface` / `inverse-on-surface`                                                                                            | Contraste (tooltips, chips)                                                         |
+| `outline` / `outline-variant`                                                                                                       | Bordes                                                                              |
+| `error` / `on-error` / `error-container` / `on-error-container`                                                                     | Error                                                                               |
+| `warning` / `on-warning` / `warning-container` / `on-warning-container`                                                             | Aviso                                                                               |
+| `success` / `on-success` / `success-container` / `on-success-container`                                                             | Éxito                                                                               |
 
 ---
 
@@ -215,4 +221,15 @@ Prefijo CSS: `--wi-color-*`. Constante: `WI_COLOR_TOKEN_PREFIX` (`@wiloc/ui/core
 
 ## Storybook
 
-La toolbar **Tema** añade o quita `wi-dark` en `<html>` para simular la app. No es un API de los componentes.
+La toolbar **Tema** añade o quita `wi-dark` en `<html>`.  
+La toolbar **Paleta** pone `data-wi-palette` en `<html>` y pisa `--wi-color-*` (simula otra app).  
+Ninguna de las dos es API de los componentes.
+
+Hoy hay una paleta registrada: **IIOT** (defaults de `tokens.css`). Para una segunda app:
+
+1. Copia `projects/components/.storybook/palettes/iiot.css` a `<id>.css`.
+2. Rellena `--wi-color-*` en `html[data-wi-palette='<id>']` y `html.wi-dark[data-wi-palette='<id>']`.
+3. Importa el CSS en `.storybook/preview.ts`.
+4. Añade `{ id, title }` en `.storybook/palettes.ts`.
+
+Los stories (incluido Foundation → Tokens) leen las variables computadas: no hace falta tocar componentes.
