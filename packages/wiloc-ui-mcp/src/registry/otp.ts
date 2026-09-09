@@ -19,7 +19,7 @@ export const wiOtpRegistryEntry = {
       name: 'length',
       type: 'number',
       default: '6',
-      description: 'Número de casillas (login típico: 6)',
+      description: 'Número de casillas (login típico: 6). Input público: length, no maxLength',
     },
     {
       name: 'size',
@@ -126,6 +126,6 @@ export const wiOtpRegistryEntry = {
     import: `import { WiOtpComponent } from '@wiloc/ui/forms';`,
     template: `<!-- i18n: strings desde la app -->
 <label for="login-otp">Código de verificación</label>
-<wi-otp id="login-otp" [(value)]="code" (completed)="submit($event)" />`,
+<wi-otp id="login-otp" [length]="6" [(value)]="code" (completed)="submit($event)" />`,
   },
 } as const;

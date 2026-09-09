@@ -94,6 +94,19 @@ describe('@wiloc/ui-mcp catalog', () => {
     expect(table!.example.import).toContain("showFrom: 'always'");
   });
 
+  it('documents wi-otp with public length, not maxLength', () => {
+    const otp = getCatalogItem('otp');
+    expect(otp).toBeDefined();
+    expect(otp!.selector).toBe('wi-otp');
+    expect(otp!.entryPoint).toBe('@wiloc/ui/forms');
+    expect(otp!.inputs.map((field) => field.name)).toContain('length');
+    expect(otp!.inputs.map((field) => field.name)).not.toContain('maxLength');
+    expect(otp!.example.import).toContain('@wiloc/ui/forms');
+    expect(otp!.example.template).toContain('<wi-otp');
+    expect(otp!.example.template).toContain('[length]="6"');
+    expect(otp!.example.template).not.toContain('maxLength');
+  });
+
   it('search ranks table above unrelated hits', () => {
     const hits = searchCatalog('table');
     expect(hits[0]?.item.name).toBe('table');
