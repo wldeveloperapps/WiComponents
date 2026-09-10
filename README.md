@@ -761,6 +761,8 @@ No hace falta publicar a npm para este smoke.
 
 Angular, Spartan y otras dependencias compartidas por la aplicación deben declararse normalmente como `peerDependencies`.
 
+Angular admite un rango de minor (`>=22 <23`). `@spartan-ng/brain` se pinnea a una versión exacta: los minors no son compatibles entre sí.
+
 Ejemplo orientativo:
 
 ```json
@@ -768,12 +770,12 @@ Ejemplo orientativo:
   "peerDependencies": {
     "@angular/common": ">=22 <23",
     "@angular/core": ">=22 <23",
-    "@spartan-ng/brain": "^1.0.0"
+    "@spartan-ng/brain": "1.3.3"
   }
 }
 ```
 
-Los rangos definitivos deben revisarse según las versiones reales utilizadas.
+Los rangos definitivos deben revisarse según las versiones reales utilizadas. La versión de Brain de la raíz, del peer de `@wiloc/ui` y de las apps de smoke debe coincidir.
 
 No se deben incluir varias copias de Angular dentro de la aplicación consumidora.
 

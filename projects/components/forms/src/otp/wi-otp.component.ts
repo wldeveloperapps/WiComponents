@@ -88,7 +88,7 @@ let nextOtpId = 0;
   template: `
     <brn-input-otp
       [class]="CONTROL_CLASSES"
-      [maxLength]="resolvedLength()"
+      [length]="resolvedLength()"
       [value]="value()"
       [disabled]="isDisabled()"
       [inputId]="resolvedId()"
