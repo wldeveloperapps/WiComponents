@@ -9,6 +9,7 @@
     "build:mcp": "pnpm --filter @wldeveloperapps/ui-mcp build",
     "test:mcp": "pnpm --filter @wldeveloperapps/ui-mcp test",
     "pack:lib": "node scripts/pack-lib.mjs",
+    "publish:github": "node scripts/publish-github.mjs",
     "e2e-consumer:sync": "node scripts/sync-e2e-consumer.mjs",
     "e2e-consumer:serve": "pnpm --dir apps/e2e-consumer start",
     "e2e-consumer:build": "pnpm --dir apps/e2e-consumer build",

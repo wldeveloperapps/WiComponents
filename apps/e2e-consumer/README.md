@@ -5,7 +5,7 @@ App Angular **separada** que consume `@wldeveloperapps/ui` desde el `.tgz` empaq
 ## Flujo desde la raíz del repo
 
 ```bash
-pnpm pack:lib              # build + pack → dist/wiloc-ui-*.tgz
+pnpm pack:lib              # build + pack → dist/wldeveloperapps-ui-*.tgz
 pnpm e2e-consumer:sync     # pack + pnpm add del .tgz aquí
 pnpm e2e-consumer:build    # compila contra el paquete
 pnpm e2e-consumer:serve    # http://localhost:4200

@@ -15,7 +15,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Instalación de `@wldeveloperapps/ui`
 
-Guía para montar la librería en una **aplicación Angular consumidora**. Corte actual: **`0.1.0-alpha.1`** (API experimental).
+Guía para montar la librería en una **aplicación Angular consumidora**. Corte actual: **`0.1.0-alpha.2`** (API experimental).
 
 Referencia runnable: `apps/e2e-consumer` (consume el `.tgz`, no el source del monorepo).
 
@@ -43,18 +43,28 @@ La app **no** debe importar Helm (`@spartan-ng/helm`) ni tipos `Brn*` cuando exi
 
 ## 1. Instalar el paquete
 
-```bash
-pnpm add @wldeveloperapps/ui
+El paquete vive en **GitHub Packages** (`https://npm.pkg.github.com`), no en npmjs.
+
+En el `.npmrc` de la app:
+
+```
+@wldeveloperapps:registry=https://npm.pkg.github.com
 ```
 
-Durante el desarrollo de la librería, el artefacto local:
+```bash
+pnpm add @wldeveloperapps/ui@0.1.0-alpha.2
+```
+
+En CI de la app (mismo org): `permissions: packages: read` y `NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}` en `pnpm install`. Da acceso al repo consumidor en GitHub → Package `@wldeveloperapps/ui` → Package settings → Manage Actions access.
+
+Artefacto local (opcional, smoke sin registry):
 
 ```bash
 # en el repo wi-components
 pnpm pack:lib
 
-# en la app
-pnpm add ./wiloc-ui-0.1.0-alpha.1.tgz
+# en la app (el nombre lo fija `pnpm pack`: scope-name-version.tgz)
+pnpm add ./wldeveloperapps-ui-0.1.0-alpha.2.tgz
 ```
 
 Instala también los peers que la app aún no tenga:

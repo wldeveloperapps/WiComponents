@@ -892,6 +892,8 @@ pnpm pack
 
 Verificar el `.tgz` generado en la aplicación `e2e-consumer`.
 
+La publicación a GitHub Packages la hace CI (`publish.yml`) con `pnpm publish:github` al empujar `v{version}`. No publicar a mano salvo emergencia.
+
 Comprobar:
 
 - imports;

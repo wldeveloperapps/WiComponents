@@ -4,12 +4,13 @@ export const WI_DOCS_TOPICS: readonly WiDocsTopic[] = [
   {
     id: 'installation',
     title: 'Instalación de @wldeveloperapps/ui',
-    body: `Instala el paquete alineado con esta versión del MCP (0.1.0-alpha.1). API experimental.
+    body: `Instala el paquete alineado con esta versión del MCP (0.1.0-alpha.2). API experimental.
 
 \`\`\`bash
-pnpm add @wldeveloperapps/ui
+# .npmrc: @wldeveloperapps:registry=https://npm.pkg.github.com
+pnpm add @wldeveloperapps/ui@0.1.0-alpha.2
 # o desde el artefacto local:
-pnpm add ./wiloc-ui-0.1.0-alpha.1.tgz
+pnpm add ./wldeveloperapps-ui-0.1.0-alpha.2.tgz
 \`\`\`
 
 Peers: Angular 22, @angular/aria, @angular/cdk, @angular/forms, @spartan-ng/brain, rxjs, clsx.
@@ -181,7 +182,7 @@ Ver \`wi_view\` de toast, datepicker y table para campos concretos.`,
     title: 'Formularios',
     body: `Controles reales (input, checkbox, switch, select, listbox, otp, datepicker, picklist) implementan CVA / FormValueControl.
 
-No hay \`wi-form-field\` en 0.1.0-alpha.1: label, descripción y error los compone la app (\`<label>\` + \`role="alert"\` + \`aria-describedby\`).
+No hay \`wi-form-field\` en 0.1.0-alpha.2: label, descripción y error los compone la app (\`<label>\` + \`role="alert"\` + \`aria-describedby\`).
 
 Password: usa \`<wi-input type="password">\`, no hay componente aparte.
 Select múltiple: \`<wi-select [multiple]="true">\`.`,

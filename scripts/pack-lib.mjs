@@ -1,6 +1,8 @@
+import { existsSync, readFileSync } from 'node:fs';
 import { execSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+
+import { packedTarballFileName } from './packed-tarball.mjs';
 
 const root = resolve(import.meta.dirname, '..');
 const distComponents = resolve(root, 'dist/components');
@@ -14,5 +16,11 @@ execSync('pnpm pack --pack-destination ..', {
   stdio: 'inherit',
 });
 
-const tgz = `dist/wiloc-ui-${pkg.version}.tgz`;
-console.log(`\nPacked @wldeveloperapps/ui@${pkg.version} -> ${tgz}`);
+const tgzName = packedTarballFileName(pkg);
+const tgz = resolve(root, 'dist', tgzName);
+
+if (!existsSync(tgz)) {
+  throw new Error(`Expected packed tarball at ${tgz}`);
+}
+
+console.log(`\nPacked ${pkg.name}@${pkg.version} -> dist/${tgzName}`);

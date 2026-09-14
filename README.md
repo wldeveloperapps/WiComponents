@@ -157,12 +157,12 @@ Las aplicaciones Wiloc deben consumir `@wldeveloperapps/ui`, no Spartan. El serv
 ### Estado
 
 ```text
-Estado: usable en 0.1.0-alpha.1
+Estado: usable en 0.1.0-alpha.2
 Paquete: @wldeveloperapps/ui-mcp
 Ubicación: packages/wiloc-ui-mcp/
 ```
 
-Alinear la versión del MCP con la de `@wldeveloperapps/ui`. En este corte ambas son `0.1.0-alpha.1`.
+Alinear la versión del MCP con la de `@wldeveloperapps/ui`. En este corte ambas son `0.1.0-alpha.2`.
 
 ### Tools
 
@@ -372,7 +372,7 @@ Composiciones orientadas a casos de uso frecuentes:
 
 ## Componentes iniciales
 
-La demanda viva y el estado de cada capacidad están en [`docs/coverage-inventory.md`](docs/coverage-inventory.md). El corte actual es `0.1.0-alpha.1` (API experimental).
+La demanda viva y el estado de cada capacidad están en [`docs/coverage-inventory.md`](docs/coverage-inventory.md). El corte actual es `0.1.0-alpha.2` (API experimental).
 
 ### Fase 1 (histórico / roadmap)
 
@@ -738,7 +738,7 @@ Playwright debe utilizarse para comprobar componentes complejos y flujos reales.
 La app de prueba vive en `apps/e2e-consumer` (workspace Angular **separado**). Consume el `.tgz`, no el source.
 
 ```bash
-pnpm pack:lib              # build + pack → dist/wiloc-ui-*.tgz
+pnpm pack:lib              # build + pack → dist/wldeveloperapps-ui-*.tgz
 pnpm e2e-consumer:sync     # pack + instalar el .tgz en e2e-consumer
 pnpm e2e-consumer:build    # compilar contra el paquete
 pnpm e2e-consumer:serve    # smoke manual en http://localhost:4200
@@ -803,17 +803,27 @@ Primera versión estable:
 1.0.0
 ```
 
-Comandos orientativos:
+Registry: **GitHub Packages** (`https://npm.pkg.github.com`), scope `@wldeveloperapps`.
+
+CI (`/.github/workflows/ci.yml`) corre lint, tests y build en `main` y PRs.
+
+Publicación (`/.github/workflows/publish.yml`): al empujar un tag `v*` (debe coincidir con la versión, p. ej. `v0.1.0-alpha.2`) o con **Run workflow**. Publica `@wldeveloperapps/ui` y `@wldeveloperapps/ui-mcp` con dist-tag `alpha` / `beta` / `latest`.
 
 ```bash
-pnpm lint
-pnpm test
-pnpm build
-pnpm pack
-pnpm publish
+git tag v0.1.0-alpha.2
+git push origin v0.1.0-alpha.2
 ```
 
-La publicación debe realizarse desde CI y no depender de builds manuales locales.
+Las apps consumidoras:
+
+```
+# .npmrc
+@wldeveloperapps:registry=https://npm.pkg.github.com
+```
+
+```bash
+pnpm add @wldeveloperapps/ui@0.1.0-alpha.2
+```
 
 ---
 
@@ -1022,10 +1032,10 @@ Cuando se adapte código procedente de Spartan u otras librerías:
 
 ## Estado del proyecto
 
-Corte interno `0.1.0-alpha.1`. La API es experimental y puede cambiar sin semver estable.
+Corte interno `0.1.0-alpha.2`. La API es experimental y puede cambiar sin semver estable.
 
 ```text
-Versión actual: 0.1.0-alpha.1
+Versión actual: 0.1.0-alpha.2
 Estado: experimental / alpha
 ```
 

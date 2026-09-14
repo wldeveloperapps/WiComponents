@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.1.0-alpha.2
+
+Segundo corte interno de `@wldeveloperapps/ui` y `@wldeveloperapps/ui-mcp`. API experimental.
+
+### Added
+
+- CI en GitHub Actions (`lint`, tests, build) y publicación a GitHub Packages (`pnpm publish:github`)
+
+### Changed
+
+- Tarball de `pnpm pack` alineado con el nombre del paquete (`wldeveloperapps-ui-{version}.tgz`)
+- `apps/e2e-consumer` consume el `.tgz` con ruta relativa (`file:../../dist/…`)
+- `cursor-pointer` en button, datepicker y select
+
 ## 0.1.0-alpha.1
 
 Primera entrega interna de `@wldeveloperapps/ui` y `@wldeveloperapps/ui-mcp`. API experimental: puede cambiar en el siguiente alpha.
