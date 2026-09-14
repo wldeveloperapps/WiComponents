@@ -1,5 +1,5 @@
 ---
-description: Mantener el MCP de @wiloc/ui al crear o modificar componentes públicos
+description: Mantener el MCP de @wldeveloperapps/ui al crear o modificar componentes públicos
 globs:
   - "projects/components/**/*.ts"
   - "projects/components/**/*.html"
@@ -7,15 +7,15 @@ globs:
 alwaysApply: false
 ---
 
-# MCP de @wiloc/ui
+# MCP de @wldeveloperapps/ui
 
-Cada componente **público** debe quedar reflejado en el servidor MCP (`@wiloc/ui-mcp`) para que las apps consumidoras usen la API correcta vía agentes (Cursor), no Spartan ni rutas internas.
+Cada componente **público** debe quedar reflejado en el servidor MCP (`@wldeveloperapps/ui-mcp`) para que las apps consumidoras usen la API correcta vía agentes (Cursor), no Spartan ni rutas internas.
 
 ## Obligatorio al crear o cambiar un componente público
 
 1. Añadir o actualizar la entrada en el **registry** del MCP (nombre, selector, entry point, API).
 2. Documentar solo la **API pública**: inputs, outputs, tipos exportados, variantes, ejemplo de uso.
-3. Incluir el import canónico (`@wiloc/ui/...`), nunca rutas `src/lib/...` ni paquetes Spartan.
+3. Incluir el import canónico (`@wldeveloperapps/ui/...`), nunca rutas `src/lib/...` ni paquetes Spartan.
 4. Si cambia un input/output/selector/entry point: actualizar registry y marcar breaking change si aplica.
 5. No dar por cerrado el componente sin actualizar el MCP (o dejar explícito que el registry queda pendiente).
 
@@ -24,7 +24,7 @@ Cada componente **público** debe quedar reflejado en el servidor MCP (`@wiloc/u
 ```text
 name          # kebab-case: button
 selector      # wi-button
-entryPoint    # @wiloc/ui/button
+entryPoint    # @wldeveloperapps/ui/button
 exports       # WiButtonComponent, WiButtonVariant, …
 inputs        # name, type, default, description
 outputs       # name, type, description
@@ -44,7 +44,7 @@ status        # stable | experimental | deprecated
 | `wi_view` | API + ejemplos + a11y de un componente |
 | `wi_docs` | Temas: instalación, tokens, dark mode, SSR |
 | `wi_usage` | Snippet canónico de import y template |
-| `wi_audit` | Detectar uso de Spartan donde debería usarse `@wiloc/ui` (no implementado en 0.1.0-alpha.1) |
+| `wi_audit` | Detectar uso de Spartan donde debería usarse `@wldeveloperapps/ui` (no implementado en 0.1.0-alpha.1) |
 
 ## Prohibido en el MCP
 
@@ -55,4 +55,4 @@ status        # stable | experimental | deprecated
 
 ## Apps consumidoras
 
-El MCP se configura en la app (`.cursor/mcp.json`), no dentro de `@wiloc/ui`. Ver sección **MCP** del README raíz.
+El MCP se configura en la app (`.cursor/mcp.json`), no dentro de `@wldeveloperapps/ui`. Ver sección **MCP** del README raíz.

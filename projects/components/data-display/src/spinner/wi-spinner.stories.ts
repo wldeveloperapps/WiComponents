@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { moduleMetadata } from '@storybook/angular-vite';
 
-import { WiButtonDirective } from '@wiloc/ui/button';
+import { WiButtonDirective } from '@wldeveloperapps/ui/button';
 
 import {
   WiCardComponent,

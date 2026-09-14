@@ -1,11 +1,11 @@
 /**
- * Registry seed for @wiloc/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
+ * Registry seed for @wldeveloperapps/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
  * Documenta solo API pública — no Spartan ni rutas internas.
  */
 export const wiStepperRegistryEntry = {
   name: 'stepper',
   selector: 'wi-stepper',
-  entryPoint: '@wiloc/ui/navigation',
+  entryPoint: '@wldeveloperapps/ui/navigation',
   status: 'experimental' as const,
   exports: [
     'WiStepperComponent',
@@ -90,8 +90,8 @@ export const wiStepperRegistryEntry = {
   a11yNotes:
     'nav con aria-label de la app. Cada trigger es button; el actual tiene aria-current=step. Iconos decorativos (wi-icon sin label). Paneles role=region + aria-labelledby al label del paso. En linear, los futuros tienen aria-disabled (mismo estilo muted que los completados, sin opacity de disabled nativo). Back/Next/submit: la app, no la librería.',
   example: {
-    import: `import { WiStepperComponent, WiStepperPanelDirective, type WiStepperStep } from '@wiloc/ui/navigation';
-import { provideWiIcons } from '@wiloc/ui/icon';`,
+    import: `import { WiStepperComponent, WiStepperPanelDirective, type WiStepperStep } from '@wldeveloperapps/ui/navigation';
+import { provideWiIcons } from '@wldeveloperapps/ui/icon';`,
     template: `<wi-stepper
   #stepper="wiStepper"
   [steps]="steps"

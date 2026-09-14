@@ -1,11 +1,11 @@
 /**
- * Registry seed for @wiloc/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
+ * Registry seed for @wldeveloperapps/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
  * Documenta solo API pública — no Spartan ni rutas internas.
  */
 export const wiSpeedDialRegistryEntry = {
   name: 'speed-dial',
   selector: 'wi-speed-dial',
-  entryPoint: '@wiloc/ui/overlays',
+  entryPoint: '@wldeveloperapps/ui/overlays',
   status: 'experimental' as const,
   exports: ['WiSpeedDialComponent', 'WiSpeedDialItem', 'WiSpeedDialDirection'],
   inputs: [
@@ -95,8 +95,8 @@ export const wiSpeedDialRegistryEntry = {
   a11yNotes:
     'Trigger con aria-expanded + aria-haspopup. Abierto: botón X (closeLabel / dialogCloseLabel) + acciones. Cada acción es botón con aria-label (item.label). Tooltip complementario vía wiTooltip (no sustituye aria-label). Cierre por X, Escape y clic fuera. Iconos decorativos vía wi-icon sin label.',
   example: {
-    import: `import { WiSpeedDialComponent, type WiSpeedDialItem } from '@wiloc/ui/overlays';
-import { provideWiIcons } from '@wiloc/ui/icon';`,
+    import: `import { WiSpeedDialComponent, type WiSpeedDialItem } from '@wldeveloperapps/ui/overlays';
+import { provideWiIcons } from '@wldeveloperapps/ui/icon';`,
     template: `<wi-speed-dial
   [items]="actions"
   direction="left"

@@ -14,8 +14,8 @@ import {
   WiCardFooterComponent,
   WiCardHeaderComponent,
   WiCardTitleComponent,
-} from '@wiloc/ui/data-display';
-import { provideWiIcons } from '@wiloc/ui/icon';
+} from '@wldeveloperapps/ui/data-display';
+import { provideWiIcons } from '@wldeveloperapps/ui/icon';
 import {
   arrowPathOutline,
   calendarOutline,
@@ -23,7 +23,7 @@ import {
   squares2x2Outline,
   trashOutline,
   xMarkOutline,
-} from '@wiloc/ui/icon/heroicons';
+} from '@wldeveloperapps/ui/icon/heroicons';
 
 import { WiSpeedDialComponent } from './wi-speed-dial.component';
 import type { WiSpeedDialDirection, WiSpeedDialItem } from './wi-speed-dial.types';
@@ -202,7 +202,7 @@ onAction(item: WiSpeedDialItem): void {
 }
 \`\`\`
 
-En estas stories, \`(itemClick)\` se registra en el panel **Actions** (\`fn()\`); no hay handlers de producto. Labels de demo vía toolbar **Locale** (ES/EN). En la app el copy lo aporta i18n; \`@wiloc/ui\` no trae diccionarios.
+En estas stories, \`(itemClick)\` se registra en el panel **Actions** (\`fn()\`); no hay handlers de producto. Labels de demo vía toolbar **Locale** (ES/EN). En la app el copy lo aporta i18n; \`@wldeveloperapps/ui\` no trae diccionarios.
 Por defecto cada acción muestra tooltip con \`item.label\` (\`[tooltips]="false"\` para desactivar).
         `,
       },

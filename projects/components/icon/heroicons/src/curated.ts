@@ -1,7 +1,7 @@
 /* Auto-generated. INTERNAL / Storybook only — not part of the public API.
  * Apps must import individual glyphs and pass them to provideWiIcons.
  */
-import type { WiIconRegistry } from '@wiloc/ui/icon';
+import type { WiIconRegistry } from '@wldeveloperapps/ui/icon';
 import { adjustmentsHorizontalOutline, adjustmentsHorizontalSolid } from './adjustments-horizontal';
 import { archiveBoxOutline, archiveBoxSolid } from './archive-box';
 import { arrowDownCircleOutline, arrowDownCircleSolid } from './arrow-down-circle';

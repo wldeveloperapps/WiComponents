@@ -1,11 +1,11 @@
 /**
- * Registry seed for @wiloc/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
+ * Registry seed for @wldeveloperapps/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
  * Documenta solo API pública — no Spartan ni rutas internas.
  */
 export const wiSelectRegistryEntry = {
   name: 'select',
   selector: 'wi-select',
-  entryPoint: '@wiloc/ui/forms',
+  entryPoint: '@wldeveloperapps/ui/forms',
   status: 'experimental' as const,
   exports: [
     'WiSelectComponent',
@@ -174,11 +174,11 @@ export const wiSelectRegistryEntry = {
     'typeahead',
   ],
   a11yNotes:
-    'Trigger role=combobox + listbox. Asociar label vía id o ariaLabel. Icono de trigger decorativo (aria-hidden); registrar el glifo con provideWiIcons. clearLabel obligatorio si clearable. En multiple, cada chip tiene aspa con aria-label vía removeChipLabel. Textos i18n (placeholder, emptyText, clearLabel, removeChipLabel, ariaLabel) los provee la app; @wiloc/ui no incluye diccionarios. Requiere CSS de overlays CDK/Spartan en la app.',
+    'Trigger role=combobox + listbox. Asociar label vía id o ariaLabel. Icono de trigger decorativo (aria-hidden); registrar el glifo con provideWiIcons. clearLabel obligatorio si clearable. En multiple, cada chip tiene aspa con aria-label vía removeChipLabel. Textos i18n (placeholder, emptyText, clearLabel, removeChipLabel, ariaLabel) los provee la app; @wldeveloperapps/ui no incluye diccionarios. Requiere CSS de overlays CDK/Spartan en la app.',
   example: {
-    import: `import { WiSelectComponent } from '@wiloc/ui/forms';
-import { provideWiIcons } from '@wiloc/ui/icon';
-import { funnelOutline } from '@wiloc/ui/icon/heroicons';
+    import: `import { WiSelectComponent } from '@wldeveloperapps/ui/forms';
+import { provideWiIcons } from '@wldeveloperapps/ui/icon';
+import { funnelOutline } from '@wldeveloperapps/ui/icon/heroicons';
 
 provideWiIcons({ funnel: { outline: funnelOutline } });`,
     template: `<!-- i18n: strings desde la app -->

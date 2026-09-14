@@ -28,8 +28,8 @@ El objetivo de la librería no es replicar todas las funcionalidades de una suit
 Las aplicaciones consumidoras deben utilizar los componentes públicos de `wiComponents`.
 
 ```ts
-import { WiButtonDirective } from '@wiloc/ui/button';
-import { WiDialogComponent } from '@wiloc/ui/overlays';
+import { WiButtonDirective } from '@wldeveloperapps/ui/button';
+import { WiDialogComponent } from '@wldeveloperapps/ui/overlays';
 ```
 
 Las aplicaciones no deben depender directamente de los componentes internos de Spartan cuando exista una alternativa dentro de la librería.
@@ -106,7 +106,7 @@ Un componente de `wiComponents` debe aportar al menos una de estas capacidades:
 - Angular Package Format
 - ng-packagr
 - pnpm
-- MCP (`@wiloc/ui-mcp`) para agentes en apps consumidoras
+- MCP (`@wldeveloperapps/ui-mcp`) para agentes en apps consumidoras
 
 ---
 
@@ -115,17 +115,17 @@ Un componente de `wiComponents` debe aportar al menos una de estas capacidades:
 ```text
 wi-components/
 ├── projects/
-│   └── components/          # librería publicable @wiloc/ui
+│   └── components/          # librería publicable @wldeveloperapps/ui
 │       ├── src/
-│       ├── button/          # secondary entry @wiloc/ui/button
-│       ├── core/            # secondary entry @wiloc/ui/core
-│       ├── icon/            # secondary entry @wiloc/ui/icon
-│       │   └── heroicons/   # @wiloc/ui/icon/heroicons
+│       ├── button/          # secondary entry @wldeveloperapps/ui/button
+│       ├── core/            # secondary entry @wldeveloperapps/ui/core
+│       ├── icon/            # secondary entry @wldeveloperapps/ui/icon
+│       │   └── heroicons/   # @wldeveloperapps/ui/icon/heroicons
 │       ├── ng-package.json
 │       └── package.json
 │
 ├── packages/
-│   └── wiloc-ui-mcp/        # servidor MCP @wiloc/ui-mcp
+│   └── wiloc-ui-mcp/        # servidor MCP @wldeveloperapps/ui-mcp
 │
 ├── apps/
 │   └── e2e-consumer/
@@ -143,13 +143,13 @@ wi-components/
 
 ---
 
-## MCP (`@wiloc/ui-mcp`)
+## MCP (`@wldeveloperapps/ui-mcp`)
 
-Las aplicaciones Wiloc deben consumir `@wiloc/ui`, no Spartan. El servidor MCP de la librería existe para que Cursor (y otros agentes) conozcan el catálogo real, la API pública y los imports canónicos.
+Las aplicaciones Wiloc deben consumir `@wldeveloperapps/ui`, no Spartan. El servidor MCP de la librería existe para que Cursor (y otros agentes) conozcan el catálogo real, la API pública y los imports canónicos.
 
 ### Por qué existe
 
-- Evitar que el agente use Spartan o rutas internas cuando ya hay un equivalente en `@wiloc/ui`.
+- Evitar que el agente use Spartan o rutas internas cuando ya hay un equivalente en `@wldeveloperapps/ui`.
 - Exponer un catálogo tipado (componentes, patterns, entry points).
 - Alinear snippets y docs con la versión publicada del paquete.
 - Complementar Storybook: Storybook documenta visualmente; el MCP documenta la API para agentes.
@@ -158,11 +158,11 @@ Las aplicaciones Wiloc deben consumir `@wiloc/ui`, no Spartan. El servidor MCP d
 
 ```text
 Estado: usable en 0.1.0-alpha.1
-Paquete: @wiloc/ui-mcp
+Paquete: @wldeveloperapps/ui-mcp
 Ubicación: packages/wiloc-ui-mcp/
 ```
 
-Alinear la versión del MCP con la de `@wiloc/ui`. En este corte ambas son `0.1.0-alpha.1`.
+Alinear la versión del MCP con la de `@wldeveloperapps/ui`. En este corte ambas son `0.1.0-alpha.1`.
 
 ### Tools
 
@@ -185,7 +185,7 @@ El MCP **no** debe exponer tipos de Spartan ni APIs internas no publicadas.
 Cada componente público nuevo o modificado debe actualizar el **registry** del MCP con:
 
 - nombre y selector;
-- entry point (`@wiloc/ui/...`);
+- entry point (`@wldeveloperapps/ui/...`);
 - exports públicos;
 - inputs / outputs / variantes;
 - notas de teclado y accesibilidad;
@@ -196,7 +196,7 @@ En Cursor, la regla `.cursor/rules/wiloc-ui-mcp.mdc` obliga a incluir este paso 
 
 ### Cómo habilitarlo en una aplicación consumidora
 
-1. Tener instalada (o disponible vía `npx`) la versión de `@wiloc/ui-mcp` alineada con `@wiloc/ui`.
+1. Tener instalada (o disponible vía `npx`) la versión de `@wldeveloperapps/ui-mcp` alineada con `@wldeveloperapps/ui`.
 2. Añadir el servidor en `.cursor/mcp.json` de la app:
 
 ```json
@@ -204,7 +204,7 @@ En Cursor, la regla `.cursor/rules/wiloc-ui-mcp.mdc` obliga a incluir este paso 
   "mcpServers": {
     "wiloc-ui": {
       "command": "npx",
-      "args": ["-y", "@wiloc/ui-mcp"]
+      "args": ["-y", "@wldeveloperapps/ui-mcp"]
     }
   }
 }
@@ -228,9 +228,9 @@ Durante el desarrollo local del monorepo, puede apuntarse al binario del workspa
 
 ### Buenas prácticas en apps
 
-- Configurar `@wiloc/ui-mcp` en cada app Wiloc que consuma la librería.
+- Configurar `@wldeveloperapps/ui-mcp` en cada app Wiloc que consuma la librería.
 - No configurar el MCP de Spartan como fuente de UI en esas apps (o usarlo solo si se trabaja en la propia librería `wi-components`).
-- Mantener la versión del MCP alineada con la de `@wiloc/ui` instalada.
+- Mantener la versión del MCP alineada con la de `@wldeveloperapps/ui` instalada.
 - Preferir rules/skills de producto + MCP de catálogo: las rules enseñan criterios; el MCP aporta la verdad del API.
 
 ### Checklist al publicar un componente
@@ -250,13 +250,13 @@ Durante el desarrollo local del monorepo, puede apuntarse al binario del workspa
 `<wi-icon>`. Nada más.
 
 Heroicons es el catálogo visual (SVG). `WiIcon` es cómo lo usamos en Angular.
-Las apps no importan Heroicons; importan `@wiloc/ui/icon`.
+Las apps no importan Heroicons; importan `@wldeveloperapps/ui/icon`.
 
 ### Qué incluye este MVP
 
 - `<wi-icon name variant size label />`
 - `provideWiIcons` (solo los iconos que importes)
-- ~79 glifos Heroicons generados (`@wiloc/ui/icon/heroicons`) — Storybook **Icon → Catalog**
+- ~79 glifos Heroicons generados (`@wldeveloperapps/ui/icon/heroicons`) — Storybook **Icon → Catalog**
 - Iconos custom con la misma API
 - Warning en desarrollo si el nombre no está registrado
 - Licencia en `THIRD_PARTY_NOTICES`
@@ -271,8 +271,8 @@ Las apps no importan Heroicons; importan `@wiloc/ui/icon`.
 ### Uso
 
 ```ts
-import { provideWiIcons } from '@wiloc/ui/icon';
-import { homeOutline, trashOutline, trashSolid } from '@wiloc/ui/icon/heroicons';
+import { provideWiIcons } from '@wldeveloperapps/ui/icon';
+import { homeOutline, trashOutline, trashSolid } from '@wldeveloperapps/ui/icon/heroicons';
 
 provideWiIcons({
   home: { outline: homeOutline },
@@ -294,8 +294,8 @@ provideWiIcons({
 ### Custom
 
 ```ts
-import type { WiIconGlyph } from '@wiloc/ui/icon';
-import { provideWiIcons } from '@wiloc/ui/icon';
+import type { WiIconGlyph } from '@wldeveloperapps/ui/icon';
+import { provideWiIcons } from '@wldeveloperapps/ui/icon';
 
 const workerIcon: WiIconGlyph = {
   viewBox: '0 0 32 32',
@@ -335,7 +335,7 @@ Elementos compartidos por toda la librería:
 - directivas;
 - helpers de accesibilidad.
 
-Iconos: entry point propio `@wiloc/ui/icon` (no viven solo en core).
+Iconos: entry point propio `@wldeveloperapps/ui/icon` (no viven solo en core).
 
 ### Primitives
 
@@ -549,23 +549,23 @@ La API pública no debe filtrar implementaciones internas.
 La librería debe proporcionar entry points secundarios para organizar los imports y evitar cargar módulos innecesarios.
 
 ```ts
-import { WiButtonDirective } from '@wiloc/ui/button';
-import { WiInputComponent } from '@wiloc/ui/forms';
-import { WiDialogComponent } from '@wiloc/ui/overlays';
-import { WiTableComponent } from '@wiloc/ui/data-display';
+import { WiButtonDirective } from '@wldeveloperapps/ui/button';
+import { WiInputComponent } from '@wldeveloperapps/ui/forms';
+import { WiDialogComponent } from '@wldeveloperapps/ui/overlays';
+import { WiTableComponent } from '@wldeveloperapps/ui/data-display';
 ```
 
 Entry points actuales:
 
 ```text
-@wiloc/ui/core
-@wiloc/ui/button
-@wiloc/ui/forms
-@wiloc/ui/overlays
-@wiloc/ui/navigation
-@wiloc/ui/data-display
-@wiloc/ui/icon
-@wiloc/ui/icon/heroicons
+@wldeveloperapps/ui/core
+@wldeveloperapps/ui/button
+@wldeveloperapps/ui/forms
+@wldeveloperapps/ui/overlays
+@wldeveloperapps/ui/navigation
+@wldeveloperapps/ui/data-display
+@wldeveloperapps/ui/icon
+@wldeveloperapps/ui/icon/heroicons
 ```
 
 No se debe crear un entry point para cada helper interno.
@@ -775,7 +775,7 @@ Ejemplo orientativo:
 }
 ```
 
-Los rangos definitivos deben revisarse según las versiones reales utilizadas. La versión de Brain de la raíz, del peer de `@wiloc/ui` y de las apps de smoke debe coincidir.
+Los rangos definitivos deben revisarse según las versiones reales utilizadas. La versión de Brain de la raíz, del peer de `@wldeveloperapps/ui` y de las apps de smoke debe coincidir.
 
 No se deben incluir varias copias de Angular dentro de la aplicación consumidora.
 
@@ -786,7 +786,7 @@ No se deben incluir varias copias de Angular dentro de la aplicación consumidor
 El paquete se publicará con scope:
 
 ```text
-@wiloc/ui
+@wldeveloperapps/ui
 ```
 
 Durante el desarrollo se utilizarán versiones prerelease:
@@ -919,7 +919,7 @@ Un componente solo debe incorporarse cuando:
 5. Incluye pruebas.
 6. Incluye historias de Storybook.
 7. Tiene documentación de uso.
-8. Está registrado en el MCP (`@wiloc/ui-mcp`).
+8. Está registrado en el MCP (`@wldeveloperapps/ui-mcp`).
 9. Ha sido probado desde el paquete npm.
 10. Cumple los requisitos de accesibilidad.
 11. No duplica innecesariamente otro componente.
@@ -962,7 +962,7 @@ Un componente solo debe incorporarse cuando:
 - Configurar linting y tests.
 - Configurar aplicación showcase.
 - Configurar aplicación consumidora.
-- Definir contrato y registry del MCP (`@wiloc/ui-mcp`).
+- Definir contrato y registry del MCP (`@wldeveloperapps/ui-mcp`).
 - Configurar publicación prerelease.
 
 ### Etapa 2: prueba de concepto

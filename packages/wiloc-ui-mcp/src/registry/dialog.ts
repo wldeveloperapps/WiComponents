@@ -1,11 +1,11 @@
 /**
- * Registry seed for @wiloc/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
+ * Registry seed for @wldeveloperapps/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
  * Documenta solo API pública — no Spartan ni rutas internas.
  */
 export const wiDialogRegistryEntry = {
   name: 'dialog',
   selector: 'wi-dialog',
-  entryPoint: '@wiloc/ui/overlays',
+  entryPoint: '@wldeveloperapps/ui/overlays',
   status: 'experimental' as const,
   exports: [
     'WiDialogComponent',
@@ -96,7 +96,7 @@ export const wiDialogRegistryEntry = {
   WiDialogTitleComponent,
   WiDialogTriggerDirective,
   provideWiOverlaysI18n,
-} from '@wiloc/ui/overlays';
+} from '@wldeveloperapps/ui/overlays';
 
 provideWiOverlaysI18n({ dialogCloseLabel: () => 'Cerrar' });`,
     template: `<wi-dialog size="md">

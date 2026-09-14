@@ -1,6 +1,6 @@
 # e2e-consumer
 
-App Angular **separada** que consume `@wiloc/ui` desde el `.tgz` empaquetado (no desde el source del monorepo).
+App Angular **separada** que consume `@wldeveloperapps/ui` desde el `.tgz` empaquetado (no desde el source del monorepo).
 
 ## Flujo desde la raíz del repo
 

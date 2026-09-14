@@ -1,11 +1,11 @@
 /**
- * Registry seed for @wiloc/ui-mcp.
+ * Registry seed for @wldeveloperapps/ui-mcp.
  * Documenta solo API pública — no Spartan ni rutas internas.
  */
 export const wiTableRegistryEntry = {
   name: 'table',
   selector: 'wi-table',
-  entryPoint: '@wiloc/ui/data-display',
+  entryPoint: '@wldeveloperapps/ui/data-display',
   status: 'experimental' as const,
   exports: [
     'WiTableComponent',
@@ -387,7 +387,7 @@ export const wiTableRegistryEntry = {
   type WiColumnDef,
   type WiColumnFilter,
   type WiSortState,
-} from '@wiloc/ui/data-display';
+} from '@wldeveloperapps/ui/data-display';
 
 const columns: WiColumnDef[] = [
   {

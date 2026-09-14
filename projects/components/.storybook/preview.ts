@@ -38,7 +38,7 @@ const preview: Preview = {
     },
     locale: {
       description:
-        'Locale de demo (providers provideWi*I18n). No es un diccionario de @wiloc/ui; simula la app.',
+        'Locale de demo (providers provideWi*I18n). No es un diccionario de @wldeveloperapps/ui; simula la app.',
       toolbar: {
         title: 'Locale',
         icon: 'globe',

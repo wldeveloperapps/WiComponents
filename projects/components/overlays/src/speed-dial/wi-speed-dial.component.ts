@@ -10,7 +10,7 @@ import {
   model,
   output,
 } from '@angular/core';
-import { WiIconComponent } from '@wiloc/ui/icon';
+import { WiIconComponent } from '@wldeveloperapps/ui/icon';
 
 import type { WiSpeedDialDirection, WiSpeedDialItem } from './wi-speed-dial.types';
 import { WiTooltipDirective } from '../tooltip/wi-tooltip.directive';

@@ -1,11 +1,11 @@
 /**
- * Registry seed for @wiloc/ui-mcp.
+ * Registry seed for @wldeveloperapps/ui-mcp.
  * Documenta solo API pública — no Heroicons ni rutas internas.
  */
 export const wiIconRegistryEntry = {
   name: 'icon',
   selector: 'wi-icon',
-  entryPoint: '@wiloc/ui/icon',
+  entryPoint: '@wldeveloperapps/ui/icon',
   status: 'experimental' as const,
   exports: [
     'WiIconComponent',
@@ -51,10 +51,10 @@ export const wiIconRegistryEntry = {
   variants: ['outline', 'solid'],
   keyboard: [],
   a11yNotes:
-    'Sin label es decorativo. Con label expone nombre accesible. No uses PrimeIcons ni <i class="pi-*">. Catálogo oficial: @wiloc/ui/icon/heroicons (subconjunto). Custom: WiIconGlyph + provideWiIcons.',
+    'Sin label es decorativo. Con label expone nombre accesible. No uses PrimeIcons ni <i class="pi-*">. Catálogo oficial: @wldeveloperapps/ui/icon/heroicons (subconjunto). Custom: WiIconGlyph + provideWiIcons.',
   example: {
-    import: `import { provideWiIcons, WiIconComponent } from '@wiloc/ui/icon';
-import { homeOutline, trashOutline, trashSolid } from '@wiloc/ui/icon/heroicons';
+    import: `import { provideWiIcons, WiIconComponent } from '@wldeveloperapps/ui/icon';
+import { homeOutline, trashOutline, trashSolid } from '@wldeveloperapps/ui/icon/heroicons';
 
 provideWiIcons({
   home: { outline: homeOutline },

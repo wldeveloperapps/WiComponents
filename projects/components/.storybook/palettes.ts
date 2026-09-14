@@ -1,6 +1,6 @@
 /**
  * Paletas de producto en Storybook (simulan apps consumidoras).
- * No es API de @wiloc/ui: cada app pisa `--wi-color-*` en su CSS global.
+ * No es API de @wldeveloperapps/ui: cada app pisa `--wi-color-*` en su CSS global.
  *
  * Para añadir una paleta:
  * 1. Crear `.storybook/palettes/<id>.css` (ver iiot.css).

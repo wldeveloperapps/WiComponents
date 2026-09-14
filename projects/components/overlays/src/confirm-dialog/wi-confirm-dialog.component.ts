@@ -19,7 +19,7 @@ import {
   BrnAlertDialogTitle,
 } from '@spartan-ng/brain/alert-dialog';
 import { BrnDialog, provideBrnDialogDefaultOptions } from '@spartan-ng/brain/dialog';
-import { WiButtonDirective } from '@wiloc/ui/button';
+import { WiButtonDirective } from '@wldeveloperapps/ui/button';
 
 import type {
   WiConfirmDialogConfirmVariant,

@@ -1,6 +1,6 @@
 /**
- * Primary entry of `@wiloc/ui`.
- * Import components from secondary entries (`@wiloc/ui/button`, `@wiloc/ui/forms`, …).
- * Theme helpers: `@wiloc/ui/core`.
+ * Primary entry of `@wldeveloperapps/ui`.
+ * Import components from secondary entries (`@wldeveloperapps/ui/button`, `@wldeveloperapps/ui/forms`, …).
+ * Theme helpers: `@wldeveloperapps/ui/core`.
  */
 export {};

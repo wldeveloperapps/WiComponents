@@ -1,11 +1,11 @@
 /**
- * Registry seed for @wiloc/ui-mcp.
+ * Registry seed for @wldeveloperapps/ui-mcp.
  * Documenta solo API pública — no Spartan ni rutas internas.
  */
 export const wiOtpRegistryEntry = {
   name: 'otp',
   selector: 'wi-otp',
-  entryPoint: '@wiloc/ui/forms',
+  entryPoint: '@wldeveloperapps/ui/forms',
   status: 'experimental' as const,
   exports: ['WiOtpComponent', 'WiOtpSize', 'WiOtpInputMode', 'WiOtpAutocomplete'],
   inputs: [
@@ -123,7 +123,7 @@ export const wiOtpRegistryEntry = {
   a11yNotes:
     'Un único input nativo (autocomplete one-time-code) con casillas visuales. Asociar label vía id o ariaLabel. Errores/hints vía ariaDescribedBy (texto de la app). En numeric/tel se aceptan solo dígitos; el pegado recorta espacios y guiones. invalid expone aria-invalid. En contenedor estrecho las casillas hacen wrap.',
   example: {
-    import: `import { WiOtpComponent } from '@wiloc/ui/forms';`,
+    import: `import { WiOtpComponent } from '@wldeveloperapps/ui/forms';`,
     template: `<!-- i18n: strings desde la app -->
 <label for="login-otp">Código de verificación</label>
 <wi-otp id="login-otp" [length]="6" [(value)]="code" (completed)="submit($event)" />`,

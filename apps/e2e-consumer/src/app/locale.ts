@@ -1,7 +1,7 @@
 import { computed, signal } from '@angular/core';
-import type { WiDataDisplayI18n } from '@wiloc/ui/data-display';
-import type { WiCalendarI18n, WiMonthLabels } from '@wiloc/ui/forms';
-import type { WiOverlaysI18n } from '@wiloc/ui/overlays';
+import type { WiDataDisplayI18n } from '@wldeveloperapps/ui/data-display';
+import type { WiCalendarI18n, WiMonthLabels } from '@wldeveloperapps/ui/forms';
+import type { WiOverlaysI18n } from '@wldeveloperapps/ui/overlays';
 
 export type AppLocale = 'es' | 'en';
 

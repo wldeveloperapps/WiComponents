@@ -1,11 +1,11 @@
 /**
- * Registry seed for @wiloc/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
+ * Registry seed for @wldeveloperapps/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
  * Documenta solo API pública — no Spartan ni rutas internas.
  */
 export const wiBreadcrumbRegistryEntry = {
   name: 'breadcrumb',
   selector: 'wi-breadcrumb',
-  entryPoint: '@wiloc/ui/navigation',
+  entryPoint: '@wldeveloperapps/ui/navigation',
   status: 'experimental' as const,
   exports: ['WiBreadcrumbComponent', 'WiBreadcrumbItem'],
   inputs: [
@@ -51,9 +51,9 @@ export const wiBreadcrumbRegistryEntry = {
   a11yNotes:
     'nav con aria-label de la app. Lista ol. El último ítem es span con aria-current=page (no es enlace). iconOnly usa label como aria-label del enlace. Separadores decorativos (aria-hidden). Iconos wi-icon sin label (decorativos).',
   example: {
-    import: `import { WiBreadcrumbComponent, type WiBreadcrumbItem } from '@wiloc/ui/navigation';
-import { provideWiIcons } from '@wiloc/ui/icon';
-import { homeOutline } from '@wiloc/ui/icon/heroicons';`,
+    import: `import { WiBreadcrumbComponent, type WiBreadcrumbItem } from '@wldeveloperapps/ui/navigation';
+import { provideWiIcons } from '@wldeveloperapps/ui/icon';
+import { homeOutline } from '@wldeveloperapps/ui/icon/heroicons';`,
     template: `<wi-breadcrumb
   [items]="items"
   ariaLabel="Migas"

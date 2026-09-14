@@ -1,11 +1,11 @@
 /**
- * Registry seed for @wiloc/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
+ * Registry seed for @wldeveloperapps/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
  * Documenta solo API pública — no Spartan ni rutas internas.
  */
 export const wiToastRegistryEntry = {
   name: 'toast',
   selector: 'wi-toaster',
-  entryPoint: '@wiloc/ui/overlays',
+  entryPoint: '@wldeveloperapps/ui/overlays',
   status: 'experimental' as const,
   exports: [
     'WiToasterComponent',
@@ -127,14 +127,14 @@ export const wiToastRegistryEntry = {
     'Tab / foco en toast; botón cerrar y acciones accesibles',
   ],
   a11yNotes:
-    'Cada toast: role=status, aria-atomic, aria-live polite (assertive si important). Viewport vía CDK Overlay en document.body. theme=auto sigue .wi-dark. Copy de producto vía wiToast (app i18n). Chrome a11y: provideWiOverlaysI18n.toastCloseLabel / toastRegionLabel (Brain hardcodea inglés; wi-toaster lo sustituye). Importar @wiloc/ui/styles/toast.css (o styles/index.css).',
+    'Cada toast: role=status, aria-atomic, aria-live polite (assertive si important). Viewport vía CDK Overlay en document.body. theme=auto sigue .wi-dark. Copy de producto vía wiToast (app i18n). Chrome a11y: provideWiOverlaysI18n.toastCloseLabel / toastRegionLabel (Brain hardcodea inglés; wi-toaster lo sustituye). Importar @wldeveloperapps/ui/styles/toast.css (o styles/index.css).',
   example: {
     import: `import {
   WiToasterComponent,
   wiToast,
   WiToast,
   provideWiOverlaysI18n,
-} from '@wiloc/ui/overlays';
+} from '@wldeveloperapps/ui/overlays';
 
 provideWiOverlaysI18n({
   toastCloseLabel: () => 'Cerrar notificación',

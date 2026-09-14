@@ -1,6 +1,6 @@
 # Third-party notices
 
-This file lists third-party software included or redistributed with `@wiloc/ui`.
+This file lists third-party software included or redistributed with `@wldeveloperapps/ui`.
 
 ## Spartan (Brain)
 
@@ -9,9 +9,9 @@ Copyright (c) goetzrobin and contributors.
 Licensed under the MIT License.
 See https://github.com/spartan-ng/spartan
 
-`@spartan-ng/brain` is an internal dependency of `@wiloc/ui` for accessible
+`@spartan-ng/brain` is an internal dependency of `@wldeveloperapps/ui` for accessible
 primitives (focus, overlays, keyboard behavior). Applications should consume
-`@wiloc/ui` public APIs, not Spartan types, when a Wiloc equivalent exists.
+`@wldeveloperapps/ui` public APIs, not Spartan types, when a Wiloc equivalent exists.
 
 ## Heroicons
 
@@ -19,9 +19,9 @@ Copyright (c) Tailwind Labs, Inc.
 
 Licensed under the MIT License.
 
-Heroicons SVG assets are the visual source for `@wiloc/ui/icon/heroicons`
+Heroicons SVG assets are the visual source for `@wldeveloperapps/ui/icon/heroicons`
 (generated glyphs). Apps should use `WiIconComponent` / `provideWiIcons` from
-`@wiloc/ui/icon`, not Heroicons directly.
+`@wldeveloperapps/ui/icon`, not Heroicons directly.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

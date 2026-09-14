@@ -1,4 +1,4 @@
-# Guía completa @wiloc/ui
+# Guía completa @wldeveloperapps/ui
 
 # Contexto del proyecto
 
@@ -20,7 +20,7 @@ La librería está construida con:
 El paquete se publica en npm bajo el scope:
 
 ```text
-@wiloc/ui
+@wldeveloperapps/ui
 ```
 
 El objetivo es crear un sistema de diseño mantenible y accesible para las aplicaciones de Wiloc.
@@ -38,12 +38,12 @@ Spartan Brain
       ↓
 Implementación interna de wiComponents
       ↓
-API pública @wiloc/ui
+API pública @wldeveloperapps/ui
       ↓
 Aplicaciones consumidoras
 ```
 
-Las aplicaciones consumidoras deben depender de `@wiloc/ui`.
+Las aplicaciones consumidoras deben depender de `@wldeveloperapps/ui`.
 
 No deben depender directamente de Spartan cuando exista un componente equivalente en `wiComponents`.
 
@@ -528,16 +528,16 @@ Los componentes deben importar desde entry points públicos.
 Preferir:
 
 ```ts
-import { WiButtonDirective } from '@wiloc/ui/button';
+import { WiButtonDirective } from '@wldeveloperapps/ui/button';
 ```
 
 Evitar en aplicaciones consumidoras:
 
 ```ts
-import { WiButtonDirective } from '@wiloc/ui/src/lib/button/wi-button.directive';
+import { WiButtonDirective } from '@wldeveloperapps/ui/src/lib/button/wi-button.directive';
 ```
 
-**Entre entry points de la propia librería** (p. ej. `forms` → `icon`): usar también `@wiloc/ui/{entry}`, nunca `../../icon/src/...`. Detalle obligatorio (exports + Storybook): regla `angular-library-structure`.
+**Entre entry points de la propia librería** (p. ej. `forms` → `icon`): usar también `@wldeveloperapps/ui/{entry}`, nunca `../../icon/src/...`. Detalle obligatorio (exports + Storybook): regla `angular-library-structure`.
 
 No depender de rutas internas de Spartan o Angular CDK no documentadas.
 
@@ -550,14 +550,14 @@ Agrupar componentes por dominio.
 Entry points previstos:
 
 ```text
-@wiloc/ui/core
-@wiloc/ui/icon
-@wiloc/ui/button
-@wiloc/ui/forms
-@wiloc/ui/overlays
-@wiloc/ui/navigation
-@wiloc/ui/data-display
-@wiloc/ui/table
+@wldeveloperapps/ui/core
+@wldeveloperapps/ui/icon
+@wldeveloperapps/ui/button
+@wldeveloperapps/ui/forms
+@wldeveloperapps/ui/overlays
+@wldeveloperapps/ui/navigation
+@wldeveloperapps/ui/data-display
+@wldeveloperapps/ui/table
 ```
 
 En entries multi-componente, una carpeta por componente bajo `{entry}/src/{nombre}/` (stories y types incluidos); `public-api.ts` reexporta. Shared del entry (p. ej. i18n) puede vivir en `{entry}/src/`. Detalle: regla `angular-library-structure`.
@@ -623,7 +623,7 @@ Todo contenido variable debe recibirse mediante:
 - `model()`
 - `ng-content`
 - `TemplateRef`
-- interfaces públicas exportadas por `@wiloc/ui`
+- interfaces públicas exportadas por `@wldeveloperapps/ui`
 
 ### Modelos
 
@@ -817,7 +817,7 @@ Antes de escribir código, Cursor debe analizar:
 8. Cómo se probará.
 9. Qué historias requiere.
 10. Qué se exportará desde el entry point.
-11. Cómo se registrará en el MCP de `@wiloc/ui` (metadatos públicos para agentes).
+11. Cómo se registrará en el MCP de `@wldeveloperapps/ui` (metadatos públicos para agentes).
 
 Cuando falte información, hacer supuestos mínimos y dejar claramente identificadas las decisiones pendientes.
 
@@ -838,7 +838,7 @@ Implementar primero el componente mínimo completo, incluyendo tests, Storybook 
 7. Añadir soporte de teclado y ARIA necesario.
 8. Crear historias.
 9. Crear tests.
-10. Actualizar el registry del MCP (`@wiloc/ui-mcp`) con la API pública.
+10. Actualizar el registry del MCP (`@wldeveloperapps/ui-mcp`) con la API pública.
 11. Verificar el paquete mediante `pnpm pack`.
 
 Cuando se adapte código de Spartan Helm:
@@ -977,10 +977,10 @@ Antes de entregar código, comprobar:
 - [ ] Incluye historias de Storybook (seguir skill `storybook`; actions para outputs).
 
 - [ ] Layouts / recipes verificados en viewport estrecho (~320px); regla `responsive`.
-- [ ] Utiliza imports públicos (`@wiloc/ui/...`; cruzados sin rutas relativas).
+- [ ] Utiliza imports públicos (`@wldeveloperapps/ui/...`; cruzados sin rutas relativas).
 - [ ] Está exportado desde el entry point correcto.
 - [ ] Si hay entry/subpath nuevo o import cruzado: `exports` + Storybook alias + `tsconfig` paths.
-- [ ] Está registrado o actualizado en el MCP (`@wiloc/ui-mcp`).
+- [ ] Está registrado o actualizado en el MCP (`@wldeveloperapps/ui-mcp`).
 
 - [ ] El MCP documenta solo API pública (sin Spartan ni rutas internas).
 - [ ] No introduce breaking changes accidentales.

@@ -15,7 +15,7 @@ import {
   signal,
 } from '@angular/core';
 
-import { WiMenuComponent, WiMenuItemDirective, WiMenuTriggerDirective } from '@wiloc/ui/overlays';
+import { WiMenuComponent, WiMenuItemDirective, WiMenuTriggerDirective } from '@wldeveloperapps/ui/overlays';
 
 import type {
   WiColumnDef,

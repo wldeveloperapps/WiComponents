@@ -3,11 +3,11 @@ import type { WiDocsTopic } from './types.js';
 export const WI_DOCS_TOPICS: readonly WiDocsTopic[] = [
   {
     id: 'installation',
-    title: 'Instalación de @wiloc/ui',
+    title: 'Instalación de @wldeveloperapps/ui',
     body: `Instala el paquete alineado con esta versión del MCP (0.1.0-alpha.1). API experimental.
 
 \`\`\`bash
-pnpm add @wiloc/ui
+pnpm add @wldeveloperapps/ui
 # o desde el artefacto local:
 pnpm add ./wiloc-ui-0.1.0-alpha.1.tgz
 \`\`\`
@@ -18,15 +18,15 @@ Tailwind v4 es peer opcional; las apps Wiloc lo usan para tokens.
 Imports canónicos (nunca Spartan, nunca rutas src/):
 
 \`\`\`ts
-import { WiButtonDirective } from '@wiloc/ui/button';
-import { WiInputComponent } from '@wiloc/ui/forms';
-import { WiDialogComponent } from '@wiloc/ui/overlays';
-import { WiTableComponent } from '@wiloc/ui/data-display';
-import { provideWiIcons, WiIconComponent } from '@wiloc/ui/icon';
-import { WI_DARK_CLASS } from '@wiloc/ui/core';
+import { WiButtonDirective } from '@wldeveloperapps/ui/button';
+import { WiInputComponent } from '@wldeveloperapps/ui/forms';
+import { WiDialogComponent } from '@wldeveloperapps/ui/overlays';
+import { WiTableComponent } from '@wldeveloperapps/ui/data-display';
+import { provideWiIcons, WiIconComponent } from '@wldeveloperapps/ui/icon';
+import { WI_DARK_CLASS } from '@wldeveloperapps/ui/core';
 \`\`\`
 
-CSS en la app (NO uses \`@wiloc/ui/styles/index.css\`; es Storybook).
+CSS en la app (NO uses \`@wldeveloperapps/ui/styles/index.css\`; es Storybook).
 
 Archivos:
 - CSS global de la app (\`src/styles.css\` o \`styles.scss\`) registrado en \`angular.json\` → styles.
@@ -39,9 +39,9 @@ Archivos:
 @import 'tailwindcss/preflight.css' layer(base);
 @import 'tailwindcss/utilities.css';
 @import '@spartan-ng/brain/hlm-tailwind-preset.css';
-@import '@wiloc/ui/styles/tokens.css';
+@import '@wldeveloperapps/ui/styles/tokens.css';
 @custom-variant dark (&:where(.wi-dark, .wi-dark *));
-@source '../node_modules/@wiloc/ui/**/*.mjs';
+@source '../node_modules/@wldeveloperapps/ui/**/*.mjs';
 @theme inline {
   --color-on-primary: var(--wi-color-on-primary);
   --color-primary-container: var(--wi-color-primary-container);
@@ -84,18 +84,18 @@ Archivos:
 }
 \`\`\`
 
-\`@source\` es relativo al archivo CSS. Con \`src/styles.css\`: \`../node_modules/@wiloc/ui/**/*.mjs\`.
+\`@source\` es relativo al archivo CSS. Con \`src/styles.css\`: \`../node_modules/@wldeveloperapps/ui/**/*.mjs\`.
 Sin \`@theme inline\` las clases \`bg-primary\` / \`text-on-surface\` no existen.
-Si usas tabs o toast: \`@import '@wiloc/ui/styles/tabs.css'\` y \`@import '@wiloc/ui/styles/toast.css'\`.
+Si usas tabs o toast: \`@import '@wldeveloperapps/ui/styles/tabs.css'\` y \`@import '@wldeveloperapps/ui/styles/toast.css'\`.
 No importes \`@spartan-ng/brain\` ni Helm en plantillas de producto.`,
   },
   {
     id: 'tokens',
     title: 'Tokens semánticos',
-    body: `Prefijo público: \`--wi-color-*\`. Constantes: \`WI_COLOR_TOKEN_PREFIX\`, \`WI_DARK_CLASS\` desde \`@wiloc/ui/core\`.
+    body: `Prefijo público: \`--wi-color-*\`. Constantes: \`WI_COLOR_TOKEN_PREFIX\`, \`WI_DARK_CLASS\` desde \`@wldeveloperapps/ui/core\`.
 
-Dónde: importar \`@wiloc/ui/styles/tokens.css\` en el CSS global de la app + \`@theme inline\` (mapeo a Tailwind) + \`@custom-variant dark (&:where(.wi-dark, .wi-dark *));\` + \`@source\` a \`node_modules/@wiloc/ui/**/*.mjs\`.
-NO uses \`@wiloc/ui/styles/index.css\`. PostCSS: \`postcss.config.json\` con \`@tailwindcss/postcss\`.
+Dónde: importar \`@wldeveloperapps/ui/styles/tokens.css\` en el CSS global de la app + \`@theme inline\` (mapeo a Tailwind) + \`@custom-variant dark (&:where(.wi-dark, .wi-dark *));\` + \`@source\` a \`node_modules/@wldeveloperapps/ui/**/*.mjs\`.
+NO uses \`@wldeveloperapps/ui/styles/index.css\`. PostCSS: \`postcss.config.json\` con \`@tailwindcss/postcss\`.
 
 Usa clases Tailwind estáticas ligadas a tokens (\`bg-primary\`, \`text-on-surface\`, \`border-outline\`, \`rounded-control\`).
 Prohibido: \`bg-\${color}\`, colores hex sueltos en componentes Wi, clases \`.p-*\` de Prime, \`.dark\` / \`data-theme\`.
@@ -104,7 +104,7 @@ Roles: primary, on-primary, primary-container, secondary, background, on-backgro
 
 La librería no muta el DOM. La app aplica tema (\`WI_DARK_CLASS\` en \`<html>\`) y tokens vía CSS importado.
 Otra app = otros valores de \`--wi-color-*\` en su CSS; los componentes no cambian. Storybook: toolbar Paleta (\`data-wi-palette\`) para previsualizar paletas.
-Tabs/toast: CSS extra \`@wiloc/ui/styles/tabs.css\` / \`toast.css\` si los usas.`,
+Tabs/toast: CSS extra \`@wldeveloperapps/ui/styles/tabs.css\` / \`toast.css\` si los usas.`,
   },
   {
     id: 'dark-mode',
@@ -112,7 +112,7 @@ Tabs/toast: CSS extra \`@wiloc/ui/styles/tabs.css\` / \`toast.css\` si los usas.
     body: `El tema oscuro se activa con la clase \`wi-dark\` en un ancestro (recomendado: \`<html>\`).
 
 \`\`\`ts
-import { WI_DARK_CLASS } from '@wiloc/ui/core';
+import { WI_DARK_CLASS } from '@wldeveloperapps/ui/core';
 document.documentElement.classList.toggle(WI_DARK_CLASS, dark);
 \`\`\`
 
@@ -124,12 +124,12 @@ Toast: \`<wi-toaster theme="auto" />\` sigue \`.wi-dark\`.`,
   {
     id: 'icons',
     title: 'Iconos',
-    body: `API: \`<wi-icon>\` + \`provideWiIcons\` desde \`@wiloc/ui/icon\`.
-Glifos oficiales: \`@wiloc/ui/icon/heroicons\` (subconjunto ~79). Importa solo los que uses.
+    body: `API: \`<wi-icon>\` + \`provideWiIcons\` desde \`@wldeveloperapps/ui/icon\`.
+Glifos oficiales: \`@wldeveloperapps/ui/icon/heroicons\` (subconjunto ~79). Importa solo los que uses.
 
 \`\`\`ts
-import { provideWiIcons } from '@wiloc/ui/icon';
-import { trashOutline } from '@wiloc/ui/icon/heroicons';
+import { provideWiIcons } from '@wldeveloperapps/ui/icon';
+import { trashOutline } from '@wldeveloperapps/ui/icon/heroicons';
 
 provideWiIcons({ trash: { outline: trashOutline } });
 \`\`\`

@@ -36,7 +36,7 @@ import {
   provideBrnPopoverDefaultOptions,
 } from '@spartan-ng/brain/popover';
 
-import { WiIconComponent } from '@wiloc/ui/icon';
+import { WiIconComponent } from '@wldeveloperapps/ui/icon';
 import { injectWiDatepickerTimeI18n } from './wi-datepicker.i18n';
 import type {
   WiDateDisabled,

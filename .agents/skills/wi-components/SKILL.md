@@ -1,7 +1,7 @@
 ---
 name: wi-components
 description: >-
-  Crear y modificar componentes @wiloc/ui: arquitectura Spartan→Wi, API, tokens,
+  Crear y modificar componentes @wldeveloperapps/ui: arquitectura Spartan→Wi, API, tokens,
   a11y, forms, entry points, tests, MCP y checklist. Usar al implementar
   componentes en projects/components. Detalle largo en references/full-guide.md.
 ---
@@ -14,7 +14,7 @@ También: skill `storybook` (stories), `spartan` (Brain), `angular-developer` (A
 ## Arquitectura
 
 ```text
-Spartan Brain → implementación interna Wi → API @wiloc/ui → apps
+Spartan Brain → implementación interna Wi → API @wldeveloperapps/ui → apps
 ```
 
 No exponer Spartan. No wrappers sin valor. No lógica de negocio de producto. Los mockups y capturas son referencias visuales, nunca fuentes de datos.
@@ -28,7 +28,7 @@ No exponer Spartan. No wrappers sin valor. No lógica de negocio de producto. Lo
 5. Tokens semánticos; sin clases Tailwind dinámicas.
 6. A11y: teclado + nombre accesible; diálogos con foco correcto.
 7. Forms: CVA / FormValueControl solo en controles.
-8. Imports `@wiloc/ui/{entry}`; entry points por dominio.
+8. Imports `@wldeveloperapps/ui/{entry}`; entry points por dominio.
 9. Componentes data-driven: los mockups definen el diseño, no el contenido. Todo dato, texto, acción, ruta, permiso o estado de negocio debe llegar desde la aplicación consumidora mediante la API pública. Ver "16. Componentes data-driven" en `references/full-guide.md`.
 10. Tests Vitest + Storybook (skill `storybook`) + MCP registry + inventario.
 

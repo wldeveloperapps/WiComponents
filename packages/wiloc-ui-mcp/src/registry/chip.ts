@@ -1,11 +1,11 @@
 /**
- * Registry seed for @wiloc/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
+ * Registry seed for @wldeveloperapps/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
  * Documenta solo API pública — no Spartan ni rutas internas.
  */
 export const wiChipRegistryEntry = {
   name: 'chip',
   selector: 'wi-chip',
-  entryPoint: '@wiloc/ui/data-display',
+  entryPoint: '@wldeveloperapps/ui/data-display',
   status: 'experimental' as const,
   exports: ['WiChipComponent', 'WiChipVariant', 'WiChipSize', 'WiChipRadius'],
   inputs: [
@@ -84,7 +84,7 @@ export const wiChipRegistryEntry = {
   a11yNotes:
     'Presentacional salvo clickable o removable. clickable: role=button + aria-pressed; Enter/Space. El aspa es un button nativo con removeLabel; el clic del aspa no emite clicked. Iconos proyectados son decorativos si no llevan label. Texto largo se trunca. No hardcodear copy de producto.',
   example: {
-    import: `import { WiChipComponent } from '@wiloc/ui/data-display';`,
+    import: `import { WiChipComponent } from '@wldeveloperapps/ui/data-display';`,
     template: `<wi-chip>User</wi-chip>
 <wi-chip radius="full">Píldora</wi-chip>
 <wi-chip clickable [selected]="selected" (clicked)="toggle()">

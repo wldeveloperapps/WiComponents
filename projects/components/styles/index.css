@@ -3,10 +3,10 @@
  *
  * Apps consumidoras:
  * 1. Configurar Tailwind v4 (oficial Angular).
- * 2. Importar tokens: `@import '@wiloc/ui/styles/tokens.css';`
+ * 2. Importar tokens: `@import '@wldeveloperapps/ui/styles/tokens.css';`
  * 3. Importar el preset de Spartan Brain (overlays / animaciones).
  * 4. Usar `@custom-variant dark` con `.wi-dark` (no `.dark`).
- * 5. Añadir `@source` hacia `node_modules/@wiloc/ui` si hace falta.
+ * 5. Añadir `@source` hacia `node_modules/@wldeveloperapps/ui` si hace falta.
  */
 
 @layer theme, base, components, utilities;

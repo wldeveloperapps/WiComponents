@@ -11,12 +11,12 @@ alwaysApply: false
 
 ## Contrato de librería
 
-`@wiloc/ui` es una librería: el `<html>` y el documento son **externos** (app consumidora).
+`@wldeveloperapps/ui` es una librería: el `<html>` y el documento son **externos** (app consumidora).
 
 | Quién | Responsabilidad |
 |-------|-----------------|
-| `@wiloc/ui` (tokens) | Publicar variables `--wi-color-*` en `:root` y `.wi-dark` |
-| `@wiloc/ui` (componentes) | Usar solo clases semánticas; ciegos al tema |
+| `@wldeveloperapps/ui` (tokens) | Publicar variables `--wi-color-*` en `:root` y `.wi-dark` |
+| `@wldeveloperapps/ui` (componentes) | Usar solo clases semánticas; ciegos al tema |
 | App consumidora | Poseer `<html>`, aplicar/quitar `wi-dark`, toggle, persistencia, `system`, anti-flash SSR |
 | Storybook / showcase | Actuar como app de prueba y simular ambos modos |
 
@@ -26,7 +26,7 @@ La librería **no** debe:
 - asumir control sobre `<html>`;
 - exponer un servicio que mute el DOM del documento por defecto.
 
-Documentar el contrato para consumidores: importar los tokens de `@wiloc/ui` y, para dark mode, añadir `class="wi-dark"` al `<html>` (o al ancestro root que la app use).
+Documentar el contrato para consumidores: importar los tokens de `@wldeveloperapps/ui` y, para dark mode, añadir `class="wi-dark"` al `<html>` (o al ancestro root que la app use).
 
 ## Estrategia
 
@@ -113,5 +113,5 @@ Cada componente público debe verificarse en light y dark (Storybook/showcase si
 - Colores de marca literales (`bg-blue-600`) en lugar de tokens (`bg-primary`).
 - Asumir que solo existe light mode.
 - Mutar `<html>` / `documentElement` desde código de la librería.
-- Usar `.dark` o `[data-theme="dark"]` como contrato público de `@wiloc/ui` (el contrato es `.wi-dark`).
+- Usar `.dark` o `[data-theme="dark"]` como contrato público de `@wldeveloperapps/ui` (el contrato es `.wi-dark`).
 - Implementar el toggle de tema dentro de la librería salvo un pattern explícito (p. ej. `WiThemeToggle`) que solo emita un evento o delegue en un servicio **inyectado por la app**; nunca aplicar `wi-dark` al documento por sí solo.

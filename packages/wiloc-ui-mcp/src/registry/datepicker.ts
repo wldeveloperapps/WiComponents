@@ -1,11 +1,11 @@
 /**
- * Registry seed for @wiloc/ui-mcp.
+ * Registry seed for @wldeveloperapps/ui-mcp.
  * Documenta solo API pública — no Spartan ni rutas internas.
  */
 export const wiDatepickerRegistryEntry = {
   name: 'datepicker',
   selector: 'wi-datepicker',
-  entryPoint: '@wiloc/ui/forms',
+  entryPoint: '@wldeveloperapps/ui/forms',
   status: 'experimental' as const,
   exports: [
     'WiDatepickerComponent',
@@ -209,9 +209,9 @@ export const wiDatepickerRegistryEntry = {
   utcIsoToDatepickerValue,
   requireTimeZoneId,
   type WiMonthLabels,
-} from '@wiloc/ui/forms';
-import { provideWiIcons } from '@wiloc/ui/icon';
-import { calendarOutline } from '@wiloc/ui/icon/heroicons';
+} from '@wldeveloperapps/ui/forms';
+import { provideWiIcons } from '@wldeveloperapps/ui/icon';
+import { calendarOutline } from '@wldeveloperapps/ui/icon/heroicons';
 
 const MONTHS: WiMonthLabels = [
   'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
@@ -245,7 +245,7 @@ date = payloadDate ? fromLocalDateString(payloadDate) : null;
 const tz = requireTimeZoneId(site.timeZoneId);
 const iso = dateTime ? datepickerValueToUtcIso(dateTime, tz) : null;
 dateTime = iso ? utcIsoToDatepickerValue(iso, tz) : null;`,
-    template: `<!-- Labels / i18n: siempre desde la app (no hay diccionario en @wiloc/ui) -->
+    template: `<!-- Labels / i18n: siempre desde la app (no hay diccionario en @wldeveloperapps/ui) -->
 <label for="hire-date">Fecha de alta</label>
 <wi-datepicker
   id="hire-date"

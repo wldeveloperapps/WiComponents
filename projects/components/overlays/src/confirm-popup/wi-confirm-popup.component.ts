@@ -20,7 +20,7 @@ import {
   provideBrnPopoverConfig,
   provideBrnPopoverDefaultOptions,
 } from '@spartan-ng/brain/popover';
-import { WiButtonDirective } from '@wiloc/ui/button';
+import { WiButtonDirective } from '@wldeveloperapps/ui/button';
 
 import { bindOutsidePointerDismiss } from '../outside-pointer-dismiss';
 import { injectWiOverlaysI18n } from '../wi-overlays.i18n';

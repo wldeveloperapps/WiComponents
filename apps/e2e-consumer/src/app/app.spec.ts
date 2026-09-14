@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { provideWiDataDisplayI18n } from '@wiloc/ui/data-display';
-import { provideWiCalendarI18n } from '@wiloc/ui/forms';
-import { provideWiIcons } from '@wiloc/ui/icon';
-import { calendarOutline, homeOutline, xMarkOutline } from '@wiloc/ui/icon/heroicons';
-import { provideWiOverlaysI18n } from '@wiloc/ui/overlays';
+import { provideWiDataDisplayI18n } from '@wldeveloperapps/ui/data-display';
+import { provideWiCalendarI18n } from '@wldeveloperapps/ui/forms';
+import { provideWiIcons } from '@wldeveloperapps/ui/icon';
+import { calendarOutline, homeOutline, xMarkOutline } from '@wldeveloperapps/ui/icon/heroicons';
+import { provideWiOverlaysI18n } from '@wldeveloperapps/ui/overlays';
 
 import { App } from './app';
 import {

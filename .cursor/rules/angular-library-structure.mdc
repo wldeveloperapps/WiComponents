@@ -24,7 +24,7 @@ alwaysApply: false
 
 ## Entry points secundarios e imports cruzados (obligatorio)
 
-Los dominios viven en carpetas con `ng-package.json` (`button/`, `icon/`, `forms/`, …) y se importan como `@wiloc/ui/{entry}`.
+Los dominios viven en carpetas con `ng-package.json` (`button/`, `icon/`, `forms/`, …) y se importan como `@wldeveloperapps/ui/{entry}`.
 
 ### Layout interno de un entry multi-componente
 
@@ -52,14 +52,14 @@ overlays/src/
 Dentro de la librería, **no** usar rutas relativas a otro entry (`../../icon/src/...`). Usar siempre el subpath público:
 
 ```ts
-import { WiIconComponent } from '@wiloc/ui/icon';
+import { WiIconComponent } from '@wldeveloperapps/ui/icon';
 ```
 
 Las rutas relativas rompen `ng build components` (`TS6059` / `rootDir` del secondary entry).
 
 ### `exports` en el `package.json` fuente
 
-Storybook (Vite) resuelve `@wiloc/ui/icon` contra [`projects/components/package.json`](projects/components/package.json). Si el subpath no está en `exports`, falla con:
+Storybook (Vite) resuelve `@wldeveloperapps/ui/icon` contra [`projects/components/package.json`](projects/components/package.json). Si el subpath no está en `exports`, falla con:
 
 `"./icon" is not exported ... from package .../projects/components`
 
@@ -82,7 +82,7 @@ Ejemplo de entrada fuente (desarrollo / Storybook):
 
 ### Checklist rápido
 
-- [ ] Import cruzado vía `@wiloc/ui/{entry}`, no relativo
+- [ ] Import cruzado vía `@wldeveloperapps/ui/{entry}`, no relativo
 - [ ] `exports` en `projects/components/package.json`
 - [ ] Alias en `.storybook/main.ts`
 - [ ] Path en `tsconfig.json`

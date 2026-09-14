@@ -26,7 +26,7 @@ const memberOptions = [
 ];
 
 /**
- * Tarjeta de demo (como haría la app). No forma parte de `@wiloc/ui`.
+ * Tarjeta de demo (como haría la app). No forma parte de `@wldeveloperapps/ui`.
  * El acordeón usa `stopPropagation` para no mezclar expandir con seleccionar.
  */
 @Component({

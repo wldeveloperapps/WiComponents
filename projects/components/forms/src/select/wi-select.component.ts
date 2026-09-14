@@ -36,7 +36,7 @@ import type {
   WiSelectSelectedContext,
   WiSelectSize,
 } from './wi-select.types';
-import { WiIconComponent } from '@wiloc/ui/icon';
+import { WiIconComponent } from '@wldeveloperapps/ui/icon';
 
 const TRIGGER_BASE_CLASSES = [
   'wi-select__trigger',

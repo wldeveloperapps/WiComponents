@@ -1,5 +1,5 @@
 /**
- * Tipos públicos de `@wiloc/ui/icon`.
+ * Tipos públicos de `@wldeveloperapps/ui/icon`.
  * No exponen APIs de Heroicons.
  */
 

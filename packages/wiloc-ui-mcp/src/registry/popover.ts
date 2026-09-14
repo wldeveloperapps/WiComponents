@@ -1,11 +1,11 @@
 /**
- * Registry seed for @wiloc/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
+ * Registry seed for @wldeveloperapps/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
  * Documenta solo API pública — no Spartan ni rutas internas.
  */
 export const wiPopoverRegistryEntry = {
   name: 'popover',
   selector: 'wi-popover',
-  entryPoint: '@wiloc/ui/overlays',
+  entryPoint: '@wldeveloperapps/ui/overlays',
   status: 'experimental' as const,
   exports: [
     'WiPopoverComponent',
@@ -124,8 +124,8 @@ export const wiPopoverRegistryEntry = {
   WiPopoverPortalDirective,
   WiPopoverTitleComponent,
   WiPopoverTriggerDirective,
-} from '@wiloc/ui/overlays';
-import { WiButtonDirective } from '@wiloc/ui/button';`,
+} from '@wldeveloperapps/ui/overlays';
+import { WiButtonDirective } from '@wldeveloperapps/ui/button';`,
     template: `<wi-popover>
   <button wiButton type="button" wiPopoverTrigger>Abrir</button>
   <ng-template wiPopoverPortal>

@@ -482,7 +482,7 @@ export const LocaleAppProvided: Story = {
     docs: {
       description: {
         story:
-          'Misma demo con **Locale → EN** en la toolbar (placeholder, labels y calendario). `@wiloc/ui` no trae diccionarios. Ver **Documentation / I18n**.',
+          'Misma demo con **Locale → EN** en la toolbar (placeholder, labels y calendario). `@wldeveloperapps/ui` no trae diccionarios. Ver **Documentation / I18n**.',
       },
     },
   },

@@ -10,7 +10,7 @@ import {
   input,
   model,
 } from '@angular/core';
-import { WiIconComponent } from '@wiloc/ui/icon';
+import { WiIconComponent } from '@wldeveloperapps/ui/icon';
 
 import type { WiStepperOrientation, WiStepperStep, WiStepperStepState } from './wi-stepper.types';
 

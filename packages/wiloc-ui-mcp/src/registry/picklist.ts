@@ -1,11 +1,11 @@
 /**
- * Registry seed for @wiloc/ui-mcp.
+ * Registry seed for @wldeveloperapps/ui-mcp.
  * Documenta solo API pública — no @angular/aria ni rutas internas.
  */
 export const wiPicklistRegistryEntry = {
   name: 'picklist',
   selector: 'wi-picklist',
-  entryPoint: '@wiloc/ui/forms',
+  entryPoint: '@wldeveloperapps/ui/forms',
   status: 'experimental' as const,
   exports: [
     'WiPicklistComponent',
@@ -191,7 +191,7 @@ export const wiPicklistRegistryEntry = {
   a11yNotes:
     'Grupo con dos listbox (origen y destino) y botones icon-only. Cada botón exige aria-label (moveToTargetLabel, etc.). Los headers visibles etiquetan las listas vía aria-labelledby. En contenedor estrecho (~320px, container query) el layout se apila y las flechas rotan. Textos i18n los provee la app. Sin filtro, drag-and-drop ni reorder en este MVP.',
   example: {
-    import: `import { WiPicklistComponent, WiPicklistItemDirective } from '@wiloc/ui/forms';`,
+    import: `import { WiPicklistComponent, WiPicklistItemDirective } from '@wldeveloperapps/ui/forms';`,
     template: `<!-- i18n + tarjeta de ítem: el componente lo define la app -->
 <wi-picklist
   [(value)]="assignedIds"

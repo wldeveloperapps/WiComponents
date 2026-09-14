@@ -10,35 +10,35 @@ export const WI_PACKAGE_VERSION = '0.1.0-alpha.1';
 
 export const WI_ENTRY_POINTS: readonly WiEntryPointInfo[] = [
   {
-    entryPoint: '@wiloc/ui/core',
+    entryPoint: '@wldeveloperapps/ui/core',
     description: 'Tokens de tema: WI_DARK_CLASS, WI_COLOR_TOKEN_PREFIX',
   },
-  { entryPoint: '@wiloc/ui/button', description: 'button[wiButton], a[wiButton]' },
+  { entryPoint: '@wldeveloperapps/ui/button', description: 'button[wiButton], a[wiButton]' },
   {
-    entryPoint: '@wiloc/ui/forms',
+    entryPoint: '@wldeveloperapps/ui/forms',
     description: 'Input, otp, checkbox, switch, select, listbox, picklist, datepicker, file-upload',
   },
-  { entryPoint: '@wiloc/ui/data-display', description: 'Table, card, chip, skeleton, spinner' },
-  { entryPoint: '@wiloc/ui/icon', description: 'wi-icon + provideWiIcons' },
+  { entryPoint: '@wldeveloperapps/ui/data-display', description: 'Table, card, chip, skeleton, spinner' },
+  { entryPoint: '@wldeveloperapps/ui/icon', description: 'wi-icon + provideWiIcons' },
   {
-    entryPoint: '@wiloc/ui/icon/heroicons',
+    entryPoint: '@wldeveloperapps/ui/icon/heroicons',
     description: 'Glifos Heroicons curados (importar solo los usados)',
   },
   {
-    entryPoint: '@wiloc/ui/overlays',
+    entryPoint: '@wldeveloperapps/ui/overlays',
     description: 'Dialog, toast, confirm, menu, popover, tooltip, speed-dial',
   },
-  { entryPoint: '@wiloc/ui/navigation', description: 'Tabs, stepper, breadcrumb' },
+  { entryPoint: '@wldeveloperapps/ui/navigation', description: 'Tabs, stepper, breadcrumb' },
   {
-    entryPoint: '@wiloc/ui/styles/tokens.css',
+    entryPoint: '@wldeveloperapps/ui/styles/tokens.css',
     description: 'Variables CSS --wi-color-* y .wi-dark',
   },
   {
-    entryPoint: '@wiloc/ui/styles/tabs.css',
+    entryPoint: '@wldeveloperapps/ui/styles/tabs.css',
     description: 'Layout/scroll de wi-tabs (importar si usas tabs)',
   },
   {
-    entryPoint: '@wiloc/ui/styles/toast.css',
+    entryPoint: '@wldeveloperapps/ui/styles/toast.css',
     description: 'Estilos del toaster (importar si usas toast)',
   },
 ];

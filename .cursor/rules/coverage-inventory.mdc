@@ -12,7 +12,7 @@ Fuente de demanda: la app consumidora usa PrimeNG. El inventario vive en `docs/c
 
 ## Rol
 
-- Es un **checklist de cobertura**: no olvidar capacidades al diseñar `@wiloc/ui`.
+- Es un **checklist de cobertura**: no olvidar capacidades al diseñar `@wldeveloperapps/ui`.
 - Orienta **dominios / entry points**, no una carpeta por cada `primeng/*`.
 - No es un backlog de wrappers ni una API Prime-like.
 
@@ -22,19 +22,19 @@ Fuente de demanda: la app consumidora usa PrimeNG. El inventario vive en `docs/c
 2. Mapear: necesidad de producto → Spartan Brain (interno) → API pública `Wi*`.
 3. Decidir cubo: **base** | **pattern** | **app-only** | **out-of-scope**.
 4. Actualizar el estado en el inventario (`planned` → `in-progress` → `done`).
-5. Registrar la API pública en el MCP (`@wiloc/ui-mcp`).
+5. Registrar la API pública en el MCP (`@wldeveloperapps/ui-mcp`).
 
 ## Dominios previstos
 
 ```text
-@wiloc/ui/core          → tokens, theming
-@wiloc/ui/icon          → WiIcon, provideWiIcons, glifos Heroicons
-@wiloc/ui/button
-@wiloc/ui/forms
-@wiloc/ui/overlays
-@wiloc/ui/data-display
-@wiloc/ui/navigation
-@wiloc/ui/patterns
+@wldeveloperapps/ui/core          → tokens, theming
+@wldeveloperapps/ui/icon          → WiIcon, provideWiIcons, glifos Heroicons
+@wldeveloperapps/ui/button
+@wldeveloperapps/ui/forms
+@wldeveloperapps/ui/overlays
+@wldeveloperapps/ui/data-display
+@wldeveloperapps/ui/navigation
+@wldeveloperapps/ui/patterns
 ```
 
 ## Prohibido

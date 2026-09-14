@@ -9,7 +9,7 @@ import {
   viewChild,
 } from '@angular/core';
 
-import { WiButtonDirective } from '@wiloc/ui/button';
+import { WiButtonDirective } from '@wldeveloperapps/ui/button';
 
 import {
   isFileAccepted,

@@ -1,11 +1,11 @@
 ---
-description: Índice always-on de @wiloc/ui — hard constraints; detalle en skills
+description: Índice always-on de @wldeveloperapps/ui — hard constraints; detalle en skills
 alwaysApply: true
 ---
 
-# `@wiloc/ui` — índice
+# `@wldeveloperapps/ui` — índice
 
-Librería Angular (`projects/components`), paquete `@wiloc/ui`. Spartan = interno; API pública = Wi.
+Librería Angular (`projects/components`), paquete `@wldeveloperapps/ui`. Spartan = interno; API pública = Wi.
 
 ## Hard constraints
 
@@ -16,7 +16,7 @@ Librería Angular (`projects/components`), paquete `@wiloc/ui`. Spartan = intern
 - Tokens semánticos (`bg-primary`, …); no clases Tailwind dinámicas (`bg-${x}`).
 - SSR-safe y zoneless; a11y (teclado + nombre accesible).
 - Forms: CVA / `FormValueControl` solo en controles reales.
-- Imports públicos `@wiloc/ui/{entry}`; entry points por dominio.
+- Imports públicos `@wldeveloperapps/ui/{entry}`; entry points por dominio.
 - Componente nuevo: tests + Storybook + MCP registry + inventario.
 
 ## Skills (cargar al trabajar el tema)

@@ -1,5 +1,5 @@
 /**
- * Layout + scroll de `@wiloc/ui` tabs (CSS de librería).
+ * Layout + scroll de `@wldeveloperapps/ui` tabs (CSS de librería).
  *
  * - `wi-tabs` / `wi-tabs-list` siempre ocupan el ancho disponible del padre
  *   (`width: 100%` + `min-width: 0`) → no empujan scroll al layout exterior

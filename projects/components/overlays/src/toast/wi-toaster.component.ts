@@ -18,7 +18,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { BrnSonnerToaster } from '@spartan-ng/brain/sonner';
-import { WI_DARK_CLASS } from '@wiloc/ui/core';
+import { WI_DARK_CLASS } from '@wldeveloperapps/ui/core';
 
 import { injectWiOverlaysI18n } from '../wi-overlays.i18n';
 import type { WiToastPosition, WiToastTheme } from './wi-toast.types';

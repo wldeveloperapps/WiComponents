@@ -1,11 +1,11 @@
 /**
- * Registry seed for @wiloc/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
+ * Registry seed for @wldeveloperapps/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
  * Documenta solo API pública — no Spartan ni rutas internas.
  */
 export const wiSpinnerRegistryEntry = {
   name: 'spinner',
   selector: 'wi-spinner',
-  entryPoint: '@wiloc/ui/data-display',
+  entryPoint: '@wldeveloperapps/ui/data-display',
   status: 'experimental' as const,
   exports: ['WiSpinnerComponent', 'WiSpinnerSize'],
   inputs: [
@@ -29,7 +29,7 @@ export const wiSpinnerRegistryEntry = {
   a11yNotes:
     'role="status" + aria-label. Color vía currentColor (hereda del padre). Animación con motion-safe: (respeta prefers-reduced-motion). En layouts de carga, se puede complementar con aria-busy en el contenedor.',
   example: {
-    import: `import { WiSpinnerComponent } from '@wiloc/ui/data-display';`,
+    import: `import { WiSpinnerComponent } from '@wldeveloperapps/ui/data-display';`,
     template: `<div class="text-primary" aria-busy="true">
   <wi-spinner size="lg" ariaLabel="Cargando datos" />
 </div>`,

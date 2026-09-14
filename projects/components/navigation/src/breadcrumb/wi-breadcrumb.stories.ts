@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { applicationConfig, moduleMetadata } from '@storybook/angular-vite';
 import { fn } from 'storybook/test';
 
-import { provideWiIcons } from '@wiloc/ui/icon';
-import { homeOutline } from '@wiloc/ui/icon/heroicons';
+import { provideWiIcons } from '@wldeveloperapps/ui/icon';
+import { homeOutline } from '@wldeveloperapps/ui/icon/heroicons';
 
 import {
   getBreadcrumbDemoCopy,

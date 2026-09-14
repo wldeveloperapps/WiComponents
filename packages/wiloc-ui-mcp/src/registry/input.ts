@@ -1,11 +1,11 @@
 /**
- * Registry seed for @wiloc/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
+ * Registry seed for @wldeveloperapps/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
  * Documenta solo API pública — no Spartan ni rutas internas.
  */
 export const wiInputRegistryEntry = {
   name: 'input',
   selector: 'wi-input',
-  entryPoint: '@wiloc/ui/forms',
+  entryPoint: '@wldeveloperapps/ui/forms',
   status: 'experimental' as const,
   exports: ['WiInputComponent', 'WiInputSize', 'WiInputType'],
   inputs: [
@@ -98,9 +98,9 @@ export const wiInputRegistryEntry = {
   variants: [],
   keyboard: ['Tab', 'character input'],
   a11yNotes:
-    'Input nativo. Asociar label vía id, o ariaLabel. Errores/hints vía ariaDescribedBy (texto de la app). invalid expone aria-invalid. placeholder/ariaLabel son i18n de la app; @wiloc/ui no incluye diccionarios.',
+    'Input nativo. Asociar label vía id, o ariaLabel. Errores/hints vía ariaDescribedBy (texto de la app). invalid expone aria-invalid. placeholder/ariaLabel son i18n de la app; @wldeveloperapps/ui no incluye diccionarios.',
   example: {
-    import: `import { WiInputComponent } from '@wiloc/ui/forms';`,
+    import: `import { WiInputComponent } from '@wldeveloperapps/ui/forms';`,
     template: `<!-- i18n: strings desde la app -->
 <label for="email">Correo</label>
 <wi-input id="email" type="email" placeholder="correo@ejemplo.com" />`,

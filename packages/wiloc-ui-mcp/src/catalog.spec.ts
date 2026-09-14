@@ -10,7 +10,7 @@ import {
 } from './catalog.js';
 import { getDocTopic, listDocTopics } from './docs.js';
 
-describe('@wiloc/ui-mcp catalog', () => {
+describe('@wldeveloperapps/ui-mcp catalog', () => {
   it('includes icon and the alpha surface', () => {
     const names = WI_CATALOG.map((item) => item.name);
     expect(names).toContain('icon');
@@ -31,7 +31,7 @@ describe('@wiloc/ui-mcp catalog', () => {
 
   it('resolves by selector', () => {
     expect(getCatalogItem('wi-table')?.name).toBe('table');
-    expect(getCatalogItem('wi-button')?.entryPoint).toBe('@wiloc/ui/button');
+    expect(getCatalogItem('wi-button')?.entryPoint).toBe('@wldeveloperapps/ui/button');
     expect(getCatalogItem('button[wiButton], a[wiButton]')?.name).toBe('button');
   });
 
@@ -98,10 +98,10 @@ describe('@wiloc/ui-mcp catalog', () => {
     const otp = getCatalogItem('otp');
     expect(otp).toBeDefined();
     expect(otp!.selector).toBe('wi-otp');
-    expect(otp!.entryPoint).toBe('@wiloc/ui/forms');
+    expect(otp!.entryPoint).toBe('@wldeveloperapps/ui/forms');
     expect(otp!.inputs.map((field) => field.name)).toContain('length');
     expect(otp!.inputs.map((field) => field.name)).not.toContain('maxLength');
-    expect(otp!.example.import).toContain('@wiloc/ui/forms');
+    expect(otp!.example.import).toContain('@wldeveloperapps/ui/forms');
     expect(otp!.example.template).toContain('<wi-otp');
     expect(otp!.example.template).toContain('[length]="6"');
     expect(otp!.example.template).not.toContain('maxLength');
@@ -119,13 +119,13 @@ describe('@wiloc/ui-mcp catalog', () => {
 
   it('documents installation without Spartan UI imports', () => {
     const installation = getDocTopic('installation');
-    expect(installation?.body).toContain('@wiloc/ui/styles/tokens.css');
+    expect(installation?.body).toContain('@wldeveloperapps/ui/styles/tokens.css');
     expect(installation?.body).toContain('wi-dark');
-    expect(installation?.body).toContain('@wiloc/ui/overlays');
+    expect(installation?.body).toContain('@wldeveloperapps/ui/overlays');
     expect(installation?.body).not.toMatch(/@spartan-ng\/helm/);
     expect(installation?.body).toContain('@theme inline');
     expect(installation?.body).toContain('postcss.config.json');
-    expect(installation?.body).toContain('@wiloc/ui/styles/index.css');
+    expect(installation?.body).toContain('@wldeveloperapps/ui/styles/index.css');
     expect(listDocTopics().map((topic) => topic.id)).toEqual(
       expect.arrayContaining(['installation', 'tokens', 'dark-mode', 'icons', 'ssr', 'i18n']),
     );

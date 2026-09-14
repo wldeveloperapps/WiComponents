@@ -1,5 +1,5 @@
 import { Component, computed, input, output } from '@angular/core';
-import { WiIconComponent } from '@wiloc/ui/icon';
+import { WiIconComponent } from '@wldeveloperapps/ui/icon';
 
 import type { WiBreadcrumbItem } from './wi-breadcrumb.types';
 

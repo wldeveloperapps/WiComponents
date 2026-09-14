@@ -1,11 +1,11 @@
 /**
- * Registry seed for @wiloc/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
+ * Registry seed for @wldeveloperapps/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
  * Documenta solo API pública — no Spartan ni rutas internas.
  */
 export const wiCardRegistryEntry = {
   name: 'card',
   selector: 'wi-card',
-  entryPoint: '@wiloc/ui/data-display',
+  entryPoint: '@wldeveloperapps/ui/data-display',
   status: 'experimental' as const,
   exports: [
     'WiCardComponent',
@@ -59,7 +59,7 @@ export const wiCardRegistryEntry = {
   WiCardFooterComponent,
   WiCardHeaderComponent,
   WiCardTitleComponent,
-} from '@wiloc/ui/data-display';`,
+} from '@wldeveloperapps/ui/data-display';`,
     template: `<wi-card>
   <wi-card-header>
     <wi-card-title>Resumen</wi-card-title>

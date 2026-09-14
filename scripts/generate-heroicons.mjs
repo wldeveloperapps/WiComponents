@@ -198,7 +198,7 @@ for (const name of ICONS) {
   const solid = readIcon(name, 'solid');
 
   const content = `/* Auto-generated from Heroicons v2. Do not edit by hand. */
-import type { WiIconGlyph } from '@wiloc/ui/icon';
+import type { WiIconGlyph } from '@wldeveloperapps/ui/icon';
 
 /** Heroicons 24/outline/${name} */
 export const ${outlineName}: WiIconGlyph = ${toTsLiteral(outline)};
@@ -220,7 +220,7 @@ writeFileSync(join(outDir, 'public-api.ts'), publicApi, 'utf8');
 const registryHelper = `/* Auto-generated. INTERNAL / Storybook only — not part of the public API.
  * Apps must import individual glyphs and pass them to provideWiIcons.
  */
-import type { WiIconRegistry } from '@wiloc/ui/icon';
+import type { WiIconRegistry } from '@wldeveloperapps/ui/icon';
 ${exportNames
   .map((e) => `import { ${e.outlineName}, ${e.solidName} } from './${e.name}';`)
   .join('\n')}

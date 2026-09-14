@@ -1,11 +1,11 @@
 /**
- * Registry seed for @wiloc/ui-mcp.
+ * Registry seed for @wldeveloperapps/ui-mcp.
  * Documenta solo API pública — no @angular/aria ni rutas internas.
  */
 export const wiListboxRegistryEntry = {
   name: 'listbox',
   selector: 'wi-listbox',
-  entryPoint: '@wiloc/ui/forms',
+  entryPoint: '@wldeveloperapps/ui/forms',
   status: 'experimental' as const,
   exports: [
     'WiListboxComponent',
@@ -130,9 +130,9 @@ export const wiListboxRegistryEntry = {
   variants: [],
   keyboard: ['Tab', 'ArrowUp/ArrowDown', 'Home/End', 'Space/Enter (seleccionar)', 'typeahead'],
   a11yNotes:
-    'role=listbox + option. Asociar label vía id, ariaLabel o ariaLabelledBy. Lista siempre visible con scroll interno (max-h). Textos i18n (emptyText, ariaLabel) los provee la app; @wiloc/ui no incluye diccionarios. Sin filtro ni virtual scroll en este MVP.',
+    'role=listbox + option. Asociar label vía id, ariaLabel o ariaLabelledBy. Lista siempre visible con scroll interno (max-h). Textos i18n (emptyText, ariaLabel) los provee la app; @wldeveloperapps/ui no incluye diccionarios. Sin filtro ni virtual scroll en este MVP.',
   example: {
-    import: `import { WiListboxComponent } from '@wiloc/ui/forms';`,
+    import: `import { WiListboxComponent } from '@wldeveloperapps/ui/forms';`,
     template: `<!-- i18n: strings desde la app -->
 <wi-listbox
   multiple

@@ -1,7 +1,7 @@
 {
-  "name": "@wiloc/ui-mcp",
+  "name": "@wldeveloperapps/ui-mcp",
   "version": "0.1.0-alpha.1",
-  "description": "Servidor MCP del catálogo público de @wiloc/ui (API Wi, no Spartan).",
+  "description": "Servidor MCP del catálogo público de @wldeveloperapps/ui (API Wi, no Spartan).",
   "type": "module",
   "bin": {
     "wiloc-ui-mcp": "./dist/index.js"
@@ -15,6 +15,13 @@
   ],
   "engines": {
     "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wldeveloperapps/WiComponents.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",

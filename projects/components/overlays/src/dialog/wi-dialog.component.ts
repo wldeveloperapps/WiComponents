@@ -19,8 +19,8 @@ import {
   BrnDialogTitle,
   provideBrnDialogDefaultOptions,
 } from '@spartan-ng/brain/dialog';
-import { WiButtonDirective } from '@wiloc/ui/button';
-import { WiIconComponent } from '@wiloc/ui/icon';
+import { WiButtonDirective } from '@wldeveloperapps/ui/button';
+import { WiIconComponent } from '@wldeveloperapps/ui/icon';
 
 import { WI_DIALOG_SIZE } from './wi-dialog.tokens';
 import type { WiDialogSize, WiDialogState } from './wi-dialog.types';

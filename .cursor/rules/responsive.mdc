@@ -14,7 +14,7 @@ La vista responsive es **requisito de entrega**, no un extra. Dashboards y panel
 
 | Capa | Responsabilidad |
 |------|-----------------|
-| Componente `@wiloc/ui` | Encoger sin romper: `min-w-0`, truncado, wrap, sin anchos fijos frágiles |
+| Componente `@wldeveloperapps/ui` | Encoger sin romper: `min-w-0`, truncado, wrap, sin anchos fijos frágiles |
 | Layout / receta / app | Columnas y grids con breakpoints (`grid-cols-1 sm:… lg:…`) |
 | Storybook | Verificar móvil / estrecho; no solo desktop centrado |
 

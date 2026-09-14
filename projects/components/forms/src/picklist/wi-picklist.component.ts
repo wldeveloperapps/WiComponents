@@ -16,7 +16,7 @@ import {
 import { type ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import type { FormValueControl } from '@angular/forms/signals';
 
-import { WiButtonDirective } from '@wiloc/ui/button';
+import { WiButtonDirective } from '@wldeveloperapps/ui/button';
 
 import { WiListboxComponent } from '../listbox/wi-listbox.component';
 import type { WiListboxItemContext } from '../listbox/wi-listbox.types';

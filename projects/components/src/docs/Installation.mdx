@@ -13,7 +13,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
   }}
 />
 
-# Instalación de `@wiloc/ui`
+# Instalación de `@wldeveloperapps/ui`
 
 Guía para montar la librería en una **aplicación Angular consumidora**. Corte actual: **`0.1.0-alpha.1`** (API experimental).
 
@@ -23,7 +23,7 @@ Otras páginas de este apartado:
 
 - **Tema** — estilos: CSS global, PostCSS, `@theme`, `.wi-dark`
 - **I18n** — providers, Transloco (`assets/i18n`) e inputs de copy
-- **MCP** — `@wiloc/ui-mcp` en Cursor / VS Code
+- **MCP** — `@wldeveloperapps/ui-mcp` en Cursor / VS Code
 
 ---
 
@@ -37,14 +37,14 @@ Otras páginas de este apartado:
 | `clsx`, `rxjs`      | peers                                                             |
 | `tw-animate-css`    | peer opcional (animaciones de overlays)                           |
 
-La app **no** debe importar Helm (`@spartan-ng/helm`) ni tipos `Brn*` cuando exista equivalente en `@wiloc/ui`.
+La app **no** debe importar Helm (`@spartan-ng/helm`) ni tipos `Brn*` cuando exista equivalente en `@wldeveloperapps/ui`.
 
 ---
 
 ## 1. Instalar el paquete
 
 ```bash
-pnpm add @wiloc/ui
+pnpm add @wldeveloperapps/ui
 ```
 
 Durante el desarrollo de la librería, el artefacto local:
@@ -86,9 +86,9 @@ Detalle (archivos, CSS completo, `@theme`, coexistir con PrimeNG): página **Tem
 | ---------------------------- | -------------------------------------------------------------------------- |
 | Tokens + Tailwind + `@theme` | CSS global (`src/styles.css` / `styles.scss`) registrado en `angular.json` |
 | PostCSS                      | `postcss.config.json` en la raíz de la app                                 |
-| Tabs / toast                 | `@wiloc/ui/styles/tabs.css` / `toast.css` solo si los usas                 |
+| Tabs / toast                 | `@wldeveloperapps/ui/styles/tabs.css` / `toast.css` solo si los usas                 |
 
-**No** importes `@wiloc/ui/styles/index.css`.
+**No** importes `@wldeveloperapps/ui/styles/index.css`.
 
 Si la app ya tiene hoja global: **añade** los `@import` de Wiloc; no dupliques Tailwind si ya está.
 
@@ -96,9 +96,9 @@ Mínimo a pegar (el `@theme inline` completo está en **Tema**):
 
 ```css
 @import '@spartan-ng/brain/hlm-tailwind-preset.css';
-@import '@wiloc/ui/styles/tokens.css';
+@import '@wldeveloperapps/ui/styles/tokens.css';
 @custom-variant dark (&:where(.wi-dark, .wi-dark *));
-@source '../node_modules/@wiloc/ui/**/*.mjs';
+@source '../node_modules/@wldeveloperapps/ui/**/*.mjs';
 ```
 
 ---
@@ -111,8 +111,8 @@ Registra **solo** los glifos que la app importa (tree-shaking). Sin este provide
 
 ```ts
 import { ApplicationConfig } from '@angular/core';
-import { provideWiIcons } from '@wiloc/ui/icon';
-import { trashOutline, homeOutline } from '@wiloc/ui/icon/heroicons';
+import { provideWiIcons } from '@wldeveloperapps/ui/icon';
+import { trashOutline, homeOutline } from '@wldeveloperapps/ui/icon/heroicons';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -149,7 +149,7 @@ export const appConfig: ApplicationConfig = {
 La librería **no** muta `<html>`. La app aplica o quita `wi-dark`:
 
 ```ts
-import { WI_DARK_CLASS } from '@wiloc/ui/core';
+import { WI_DARK_CLASS } from '@wldeveloperapps/ui/core';
 
 document.documentElement.classList.toggle(WI_DARK_CLASS, dark);
 ```
@@ -164,7 +164,7 @@ Overlays portaled a `body` heredan el tema si la clase está en `<html>`.
 
 ## 5. Toast (si lo usas)
 
-1. Importa `@wiloc/ui/styles/toast.css`.
+1. Importa `@wldeveloperapps/ui/styles/toast.css`.
 2. Monta `<wi-toaster />` **una vez** en el root.
 3. Dispara con `wiToast` / `inject(WiToast)`.
 
@@ -179,30 +179,30 @@ Overlays portaled a `body` heredan el tema si la clase está en `<html>`.
 Entry points públicos. Nunca Spartan, nunca rutas `src/`:
 
 ```ts
-import { WI_DARK_CLASS } from '@wiloc/ui/core';
-import { WiButtonDirective } from '@wiloc/ui/button';
-import { WiInputComponent, WiSelectComponent } from '@wiloc/ui/forms';
-import { WiDialogComponent, WiToasterComponent } from '@wiloc/ui/overlays';
-import { WiTableComponent } from '@wiloc/ui/data-display';
-import { WiTabsComponent } from '@wiloc/ui/navigation';
-import { provideWiIcons, WiIconComponent } from '@wiloc/ui/icon';
-import { trashOutline } from '@wiloc/ui/icon/heroicons';
+import { WI_DARK_CLASS } from '@wldeveloperapps/ui/core';
+import { WiButtonDirective } from '@wldeveloperapps/ui/button';
+import { WiInputComponent, WiSelectComponent } from '@wldeveloperapps/ui/forms';
+import { WiDialogComponent, WiToasterComponent } from '@wldeveloperapps/ui/overlays';
+import { WiTableComponent } from '@wldeveloperapps/ui/data-display';
+import { WiTabsComponent } from '@wldeveloperapps/ui/navigation';
+import { provideWiIcons, WiIconComponent } from '@wldeveloperapps/ui/icon';
+import { trashOutline } from '@wldeveloperapps/ui/icon/heroicons';
 ```
 
 | Entry                      | Qué incluye (resumen)                                        |
 | -------------------------- | ------------------------------------------------------------ |
-| `@wiloc/ui/core`           | `WI_DARK_CLASS`, tokens, `hlm` (merge de clases)             |
-| `@wiloc/ui/button`         | `button[wiButton]`, `a[wiButton]`                            |
-| `@wiloc/ui/forms`          | input, select, checkbox, switch, datepicker, listbox, otp, … |
-| `@wiloc/ui/overlays`       | dialog, menu, popover, tooltip, toast, confirm, speed-dial   |
-| `@wiloc/ui/data-display`   | table, card, chip, spinner, skeleton                         |
-| `@wiloc/ui/navigation`     | tabs, stepper                                                |
-| `@wiloc/ui/icon`           | `WiIcon`, `provideWiIcons`                                   |
-| `@wiloc/ui/icon/heroicons` | glifos (imports individuales)                                |
+| `@wldeveloperapps/ui/core`           | `WI_DARK_CLASS`, tokens, `hlm` (merge de clases)             |
+| `@wldeveloperapps/ui/button`         | `button[wiButton]`, `a[wiButton]`                            |
+| `@wldeveloperapps/ui/forms`          | input, select, checkbox, switch, datepicker, listbox, otp, … |
+| `@wldeveloperapps/ui/overlays`       | dialog, menu, popover, tooltip, toast, confirm, speed-dial   |
+| `@wldeveloperapps/ui/data-display`   | table, card, chip, spinner, skeleton                         |
+| `@wldeveloperapps/ui/navigation`     | tabs, stepper                                                |
+| `@wldeveloperapps/ui/icon`           | `WiIcon`, `provideWiIcons`                                   |
+| `@wldeveloperapps/ui/icon/heroicons` | glifos (imports individuales)                                |
 
 ---
 
-## 7. MCP en la app (`@wiloc/ui-mcp`)
+## 7. MCP en la app (`@wldeveloperapps/ui-mcp`)
 
 Para que Cursor use la API pública (no Spartan). Pasos, tools y diagnóstico: página **MCP**.
 
@@ -210,26 +210,26 @@ Para que Cursor use la API pública (no Spartan). Pasos, tools y diagnóstico: p
 
 ## Checklist
 
-- [ ] `@wiloc/ui` + peers instalados (Angular 22, Brain, aria, cdk)
+- [ ] `@wldeveloperapps/ui` + peers instalados (Angular 22, Brain, aria, cdk)
 - [ ] Tailwind v4 + PostCSS
-- [ ] `@import '@wiloc/ui/styles/tokens.css'` (no `index.css`)
+- [ ] `@import '@wldeveloperapps/ui/styles/tokens.css'` (no `index.css`)
 - [ ] `@custom-variant dark` con `.wi-dark`
-- [ ] `@source` hacia `node_modules/@wiloc/ui`
+- [ ] `@source` hacia `node_modules/@wldeveloperapps/ui`
 - [ ] `tabs.css` / `toast.css` si usas esos componentes
 - [ ] `provideWiIcons` con los glifos que pintas
 - [ ] `provideWiCalendarI18n` / `provideWiDataDisplayI18n` / `provideWiOverlaysI18n` según dominios
 - [ ] Tema: la app aplica `WI_DARK_CLASS` en `<html>`
 - [ ] `<wi-toaster />` en el root si hay toasts
-- [ ] Imports `@wiloc/ui/{entry}`
-- [ ] MCP `@wiloc/ui-mcp` en la app (agentes)
+- [ ] Imports `@wldeveloperapps/ui/{entry}`
+- [ ] MCP `@wldeveloperapps/ui-mcp` en la app (agentes)
 
 ---
 
 ## Qué no hacer
 
 - Importar `@spartan-ng/helm`, `@spartan-ng/brain` o tipos `Brn*` en plantillas de producto.
-- Usar `@wiloc/ui/styles/index.css` (Storybook).
+- Usar `@wldeveloperapps/ui/styles/index.css` (Storybook).
 - Activar dark mode con `.dark` o `data-theme` (el contrato es `.wi-dark`).
-- Importar `heroicons` / PrimeIcons; el catálogo es `@wiloc/ui/icon/heroicons`.
+- Importar `heroicons` / PrimeIcons; el catálogo es `@wldeveloperapps/ui/icon/heroicons`.
 - Esperar diccionarios ES/EN dentro de la librería.
 - Hardcodear datos de producto en los componentes: la app los aporta por inputs / proyección.

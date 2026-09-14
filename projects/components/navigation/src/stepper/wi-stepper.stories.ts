@@ -3,14 +3,14 @@ import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { applicationConfig, moduleMetadata } from '@storybook/angular-vite';
 import { fn } from 'storybook/test';
 
-import { WiButtonDirective } from '@wiloc/ui/button';
-import { provideWiIcons } from '@wiloc/ui/icon';
+import { WiButtonDirective } from '@wldeveloperapps/ui/button';
+import { provideWiIcons } from '@wldeveloperapps/ui/icon';
 import {
   keyOutline,
   listBulletOutline,
   squares2x2Outline,
   userOutline,
-} from '@wiloc/ui/icon/heroicons';
+} from '@wldeveloperapps/ui/icon/heroicons';
 
 import {
   getStepperDemoCopy,

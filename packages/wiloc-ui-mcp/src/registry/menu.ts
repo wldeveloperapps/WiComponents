@@ -1,11 +1,11 @@
 /**
- * Registry seed for @wiloc/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
+ * Registry seed for @wldeveloperapps/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
  * Documenta solo API pública — no Spartan ni rutas internas.
  */
 export const wiMenuRegistryEntry = {
   name: 'menu',
   selector: 'wi-menu',
-  entryPoint: '@wiloc/ui/overlays',
+  entryPoint: '@wldeveloperapps/ui/overlays',
   status: 'experimental' as const,
   exports: [
     'WiMenuComponent',
@@ -115,7 +115,7 @@ export const wiMenuRegistryEntry = {
   WiMenuLabelComponent,
   WiMenuRadioDirective,
   WiMenuTriggerDirective,
-} from '@wiloc/ui/overlays';`,
+} from '@wldeveloperapps/ui/overlays';`,
     template: `<button type="button" [wiMenuTrigger]="menu" aria-label="Asset Types">
   Filtrar
 </button>

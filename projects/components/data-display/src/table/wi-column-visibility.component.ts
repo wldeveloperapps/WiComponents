@@ -5,7 +5,7 @@ import {
   WiMenuItemDirective,
   WiMenuLabelComponent,
   WiMenuTriggerDirective,
-} from '@wiloc/ui/overlays';
+} from '@wldeveloperapps/ui/overlays';
 
 import type { WiColumnDef } from './wi-column.types';
 import { injectWiDataDisplayI18n } from '../wi-data-display.i18n';

@@ -1,5 +1,5 @@
 ---
-description: Obligatorio crear tests unitarios Vitest al crear o modificar componentes públicos de @wiloc/ui
+description: Obligatorio crear tests unitarios Vitest al crear o modificar componentes públicos de @wldeveloperapps/ui
 globs:
   - "projects/components/**/*.ts"
   - "projects/components/**/*.html"

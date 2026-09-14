@@ -1,4 +1,4 @@
-# Migración PrimeIcons → `@wiloc/ui/icon`
+# Migración PrimeIcons → `@wldeveloperapps/ui/icon`
 
 Referencia para la app consumidora. Los nombres públicos son estilo Heroicons
 (kebab-case), no `pi-*`.
@@ -111,8 +111,8 @@ Resolver en la **app** (custom `WiIconGlyph`) o con otro componente:
 ## Uso en la app
 
 ```ts
-import { provideWiIcons } from '@wiloc/ui/icon';
-import { trashOutline, homeOutline } from '@wiloc/ui/icon/heroicons';
+import { provideWiIcons } from '@wldeveloperapps/ui/icon';
+import { trashOutline, homeOutline } from '@wldeveloperapps/ui/icon/heroicons';
 
 provideWiIcons({
   trash: { outline: trashOutline },

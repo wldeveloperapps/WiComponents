@@ -36,7 +36,7 @@ export function createServer(): McpServer {
     'wi_list',
     {
       description:
-        'Lista el catálogo público de @wiloc/ui (componentes, patterns o entry points). Usar antes de inventar imports o markup. No expone Spartan.',
+        'Lista el catálogo público de @wldeveloperapps/ui (componentes, patterns o entry points). Usar antes de inventar imports o markup. No expone Spartan.',
       inputSchema: z.object({
         kind: z
           .enum(['components', 'patterns', 'entry-points', 'all'])
@@ -64,7 +64,7 @@ export function createServer(): McpServer {
     'wi_search',
     {
       description:
-        'Busca en el catálogo público de @wiloc/ui por nombre, selector, entry point o texto de ejemplo.',
+        'Busca en el catálogo público de @wldeveloperapps/ui por nombre, selector, entry point o texto de ejemplo.',
       inputSchema: z.object({
         query: z.string().min(1).describe('Texto a buscar, p. ej. table, toast, confirmación'),
         limit: z.number().int().min(1).max(25).default(10),
@@ -83,7 +83,7 @@ export function createServer(): McpServer {
     'wi_view',
     {
       description:
-        'Detalle de un componente o pattern de @wiloc/ui: API, variantes, a11y y ejemplo. Identificar por name (button) o selector (wi-button).',
+        'Detalle de un componente o pattern de @wldeveloperapps/ui: API, variantes, a11y y ejemplo. Identificar por name (button) o selector (wi-button).',
       inputSchema: z.object({
         name: z.string().min(1).describe('Nombre o selector, p. ej. button o wi-table'),
       }),
@@ -92,7 +92,7 @@ export function createServer(): McpServer {
       const item = getCatalogItem(name);
       if (!item) {
         const known = WI_CATALOG.map((entry) => entry.name).join(', ');
-        return textError(`No hay "${name}" en @wiloc/ui. Catálogo: ${known}`);
+        return textError(`No hay "${name}" en @wldeveloperapps/ui. Catálogo: ${known}`);
       }
       return json(item);
     },
@@ -102,7 +102,7 @@ export function createServer(): McpServer {
     'wi_usage',
     {
       description:
-        'Snippet canónico de import y template para un componente @wiloc/ui. No usar Spartan ni rutas internas.',
+        'Snippet canónico de import y template para un componente @wldeveloperapps/ui. No usar Spartan ni rutas internas.',
       inputSchema: z.object({
         name: z.string().min(1).describe('Nombre o selector, p. ej. select o wi-dialog'),
       }),
@@ -110,7 +110,7 @@ export function createServer(): McpServer {
     async ({ name }) => {
       const item = getCatalogItem(name);
       if (!item) {
-        return textError(`No hay "${name}" en @wiloc/ui. Usa wi_search o wi_list.`);
+        return textError(`No hay "${name}" en @wldeveloperapps/ui. Usa wi_search o wi_list.`);
       }
       return json({
         name: item.name,
@@ -126,7 +126,7 @@ export function createServer(): McpServer {
     'wi_docs',
     {
       description:
-        'Temas transversales de @wiloc/ui: instalación, tokens, dark-mode, icons, ssr, i18n, forms. Sin name lista los temas.',
+        'Temas transversales de @wldeveloperapps/ui: instalación, tokens, dark-mode, icons, ssr, i18n, forms. Sin name lista los temas.',
       inputSchema: z.object({
         topic: z
           .string()

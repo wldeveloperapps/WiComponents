@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { WiButtonDirective } from '@wiloc/ui/button';
+import { WiButtonDirective } from '@wldeveloperapps/ui/button';
 import {
   WiCardComponent,
   WiCardContentComponent,
@@ -13,7 +13,7 @@ import {
   type WiColumnFilter,
   WiTableCellDirective,
   WiTableComponent,
-} from '@wiloc/ui/data-display';
+} from '@wldeveloperapps/ui/data-display';
 import {
   WiCheckboxComponent,
   WiDatepickerComponent,
@@ -25,8 +25,8 @@ import {
   WiPicklistComponent,
   WiSelectComponent,
   WiSwitchComponent,
-} from '@wiloc/ui/forms';
-import { WiIconComponent } from '@wiloc/ui/icon';
+} from '@wldeveloperapps/ui/forms';
+import { WiIconComponent } from '@wldeveloperapps/ui/icon';
 import {
   WiDialogCloseDirective,
   WiDialogComponent,
@@ -46,7 +46,7 @@ import {
   WiPopoverTitleComponent,
   WiPopoverTriggerDirective,
   WiTooltipDirective,
-} from '@wiloc/ui/overlays';
+} from '@wldeveloperapps/ui/overlays';
 import {
   WiBreadcrumbComponent,
   type WiBreadcrumbItem,
@@ -57,7 +57,7 @@ import {
   WiTabsContentDirective,
   WiTabsListComponent,
   WiTabsTriggerDirective,
-} from '@wiloc/ui/navigation';
+} from '@wldeveloperapps/ui/navigation';
 
 import { appLocale, toggleAppLocale, uiMessages } from './locale';
 
@@ -123,7 +123,7 @@ const ALERT_TAB_IDS = {
 export class App {
   private readonly document = inject(DOCUMENT);
 
-  protected readonly title = 'e2e-consumer · @wiloc/ui (.tgz)';
+  protected readonly title = 'e2e-consumer · @wldeveloperapps/ui (.tgz)';
   protected readonly dark = signal(false);
   protected readonly loading = signal(false);
   protected readonly locale = appLocale;
@@ -152,7 +152,7 @@ export class App {
   protected readonly tableFilters = signal<readonly WiColumnFilter[]>([]);
   protected readonly tablePageIndex = signal(0);
 
-  /** Tabs de smoke: id + copy los define la app (i18n), no `@wiloc/ui`. */
+  /** Tabs de smoke: id + copy los define la app (i18n), no `@wldeveloperapps/ui`. */
   protected readonly alertTabs = computed(() => {
     const m = this.t();
     return [

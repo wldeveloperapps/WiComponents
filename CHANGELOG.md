@@ -2,14 +2,14 @@
 
 ## 0.1.0-alpha.1
 
-Primera entrega interna de `@wiloc/ui` y `@wiloc/ui-mcp`. API experimental: puede cambiar en el siguiente alpha.
+Primera entrega interna de `@wldeveloperapps/ui` y `@wldeveloperapps/ui-mcp`. API experimental: puede cambiar en el siguiente alpha.
 
 ### Added
 
-- Entry points: `@wiloc/ui/core`, `/button`, `/forms`, `/data-display`, `/navigation`, `/overlays`, `/icon`, `/icon/heroicons`
+- Entry points: `@wldeveloperapps/ui/core`, `/button`, `/forms`, `/data-display`, `/navigation`, `/overlays`, `/icon`, `/icon/heroicons`
 - Componentes y patterns: button, input, otp, checkbox, switch, select (single/multi), listbox, picklist, datepicker/range, file-upload, table, card, chip, skeleton, spinner, tabs, stepper, breadcrumb, dialog, toast, confirm dialog/popup, menu, popover, tooltip, speed-dial, icon
 - Tokens `--wi-color-*` y tema `.wi-dark` (`WI_DARK_CLASS`)
-- Servidor MCP `@wiloc/ui-mcp`: `wi_list`, `wi_search`, `wi_view`, `wi_usage`, `wi_docs`
+- Servidor MCP `@wldeveloperapps/ui-mcp`: `wi_list`, `wi_search`, `wi_view`, `wi_usage`, `wi_docs`
 - Empaquetado APF + smoke `apps/e2e-consumer`
 
 ### Known limitations

@@ -15,7 +15,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Estilos, tokens y tema
 
-Contrato visual de `@wiloc/ui`. Demo: **Foundation → Tokens** (toolbar **Tema**).  
+Contrato visual de `@wldeveloperapps/ui`. Demo: **Foundation → Tokens** (toolbar **Tema**).  
 La paleta por defecto es la de la app IIOT Wiloc. Instalación del paquete y peers: **Instalación**.
 
 La librería **no** toca `document.documentElement`. La app importa CSS y aplica `wi-dark`.
@@ -26,11 +26,11 @@ La librería **no** toca `document.documentElement`. La app importa CSS y aplica
 
 | Qué                          | Dónde                                                                | No                                                     |
 | ---------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------ |
-| Tokens + Tailwind + `@theme` | El CSS global de la app (`src/styles.css` o `src/styles.scss`)       | No `@wiloc/ui/styles/index.css` (Storybook / monorepo) |
+| Tokens + Tailwind + `@theme` | El CSS global de la app (`src/styles.css` o `src/styles.scss`)       | No `@wldeveloperapps/ui/styles/index.css` (Storybook / monorepo) |
 | Registro de ese archivo      | `angular.json` → `architect.build.options.styles`                    | No un CSS suelto sin registrar                         |
 | PostCSS Tailwind v4          | `postcss.config.json` en la **raíz de la app Angular**               | No hace falta `tailwind.config.js`                     |
-| Tabs                         | `@import '@wiloc/ui/styles/tabs.css'` en el CSS global               | Solo si usas `wi-tabs`                                 |
-| Toast                        | `@import '@wiloc/ui/styles/toast.css'` + `<wi-toaster />` en el root | Solo si usas toast                                     |
+| Tabs                         | `@import '@wldeveloperapps/ui/styles/tabs.css'` en el CSS global               | Solo si usas `wi-tabs`                                 |
+| Toast                        | `@import '@wldeveloperapps/ui/styles/toast.css'` + `<wi-toaster />` en el root | Solo si usas toast                                     |
 | Dark mode                    | Clase `wi-dark` en `<html>` (`WI_DARK_CLASS`)                        | No `.dark` ni `data-theme`                             |
 
 Si la app **ya tiene** hoja global (PrimeNG, etc.): **añade** los `@import` de Wiloc ahí. No sustituyas el tema de Prime de golpe ni dupliques `@import 'tailwindcss/...'` si ya está.
@@ -38,7 +38,7 @@ Si la app **ya tiene** hoja global (PrimeNG, etc.): **añade** los `@import` de 
 `@source` es **relativo al archivo CSS**, no a la raíz del repo. Con `src/styles.css`:
 
 ```css
-@source '../node_modules/@wiloc/ui/**/*.mjs';
+@source '../node_modules/@wldeveloperapps/ui/**/*.mjs';
 ```
 
 ---
@@ -73,13 +73,13 @@ Patrón validado en `apps/e2e-consumer`. **No** uses `index.css` del paquete.
 @import 'tailwindcss/utilities.css';
 
 @import '@spartan-ng/brain/hlm-tailwind-preset.css';
-@import '@wiloc/ui/styles/tokens.css';
+@import '@wldeveloperapps/ui/styles/tokens.css';
 
 /* El preset de Spartan usa `.dark`; el contrato público Wiloc es `.wi-dark`. */
 @custom-variant dark (&:where(.wi-dark, .wi-dark *));
 
 /* Escaneo de clases empaquetadas en FESM. */
-@source '../node_modules/@wiloc/ui/**/*.mjs';
+@source '../node_modules/@wldeveloperapps/ui/**/*.mjs';
 
 @theme inline {
   --color-on-primary: var(--wi-color-on-primary);
@@ -133,8 +133,8 @@ Patrón validado en `apps/e2e-consumer`. **No** uses `index.css` del paquete.
 Opcional (solo los componentes que uses):
 
 ```css
-@import '@wiloc/ui/styles/tabs.css';
-@import '@wiloc/ui/styles/toast.css';
+@import '@wldeveloperapps/ui/styles/tabs.css';
+@import '@wldeveloperapps/ui/styles/toast.css';
 ```
 
 `tokens.css` define light en `:root` y dark en `.wi-dark`. `@theme inline` enlaza esas variables a utilidades Tailwind (`bg-primary`, `text-on-surface`, `rounded-control`, …). Sin ese bloque, los componentes se ven sin color de marca.
@@ -145,7 +145,7 @@ Opcional (solo los componentes que uses):
 
 | Quién       | Responsabilidad                                     |
 | ----------- | --------------------------------------------------- |
-| `@wiloc/ui` | Publica `--wi-color-*` en `:root` y `.wi-dark`      |
+| `@wldeveloperapps/ui` | Publica `--wi-color-*` en `:root` y `.wi-dark`      |
 | Componentes | Clases semánticas; ciegos al tema                   |
 | App         | Posee `<html>`, importa CSS, aplica/quita `wi-dark` |
 
@@ -156,7 +156,7 @@ Opcional (solo los componentes que uses):
 Recomendado: clase en `<html>` para que overlays portaled a `body` hereden el tema.
 
 ```ts
-import { WI_DARK_CLASS } from '@wiloc/ui/core';
+import { WI_DARK_CLASS } from '@wldeveloperapps/ui/core';
 
 document.documentElement.classList.toggle(WI_DARK_CLASS, isDark);
 ```
@@ -184,13 +184,13 @@ Prohibido junto a Wi:
 <div class="bg-blue-600 dark:bg-zinc-900"></div>
 ```
 
-No generar clases Tailwind dinámicas (`bg-${color}`). No uses clases `.p-*` de Prime en componentes `@wiloc/ui`.
+No generar clases Tailwind dinámicas (`bg-${color}`). No uses clases `.p-*` de Prime en componentes `@wldeveloperapps/ui`.
 
 ---
 
 ## Roles públicos
 
-Prefijo CSS: `--wi-color-*`. Constante: `WI_COLOR_TOKEN_PREFIX` (`@wiloc/ui/core`).
+Prefijo CSS: `--wi-color-*`. Constante: `WI_COLOR_TOKEN_PREFIX` (`@wldeveloperapps/ui/core`).
 
 | Token                                                                                                                               | Uso                                                                                 |
 | ----------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
@@ -211,10 +211,10 @@ Prefijo CSS: `--wi-color-*`. Constante: `WI_COLOR_TOKEN_PREFIX` (`@wiloc/ui/core
 
 ## Qué no hacer
 
-- Importar `@wiloc/ui/styles/index.css` (apunta a fuentes del monorepo / Storybook).
+- Importar `@wldeveloperapps/ui/styles/index.css` (apunta a fuentes del monorepo / Storybook).
 - Activar dark mode con `.dark` o `data-theme`.
 - Olvidar `@theme inline` (los tokens existen pero Tailwind no genera `bg-primary`, etc.).
-- Olvidar `@source` hacia `node_modules/@wiloc/ui` (los componentes salen sin utilidades).
+- Olvidar `@source` hacia `node_modules/@wldeveloperapps/ui` (los componentes salen sin utilidades).
 - Importar Helm o escribir CSS contra clases internas de Spartan.
 
 ---

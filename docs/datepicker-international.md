@@ -1,6 +1,6 @@
 # Datepicker: fechas internacionales y API
 
-Checklist de consumo de `wi-datepicker` / `wi-date-range` (`@wiloc/ui/forms`) cuando las apps se despliegan en varios países.
+Checklist de consumo de `wi-datepicker` / `wi-date-range` (`@wldeveloperapps/ui/forms`) cuando las apps se despliegan en varios países.
 
 El control **captura componentes** (día / hora del device). **No adivina** la zona horaria.
 
@@ -26,7 +26,7 @@ Si no lo sabes, no elijas el contrato API todavía.
 Serializa con año/mes/día del valor elegido:
 
 ```ts
-import { toLocalDateString } from '@wiloc/ui/forms';
+import { toLocalDateString } from '@wldeveloperapps/ui/forms';
 
 toLocalDateString(date); // "2026-07-15"
 ```
@@ -36,7 +36,7 @@ toLocalDateString(date); // "2026-07-15"
 ### 3. Civil → parsea sin el constructor string
 
 ```ts
-import { fromLocalDateString } from '@wiloc/ui/forms';
+import { fromLocalDateString } from '@wldeveloperapps/ui/forms';
 
 fromLocalDateString('2026-07-15'); // Date a medianoche local (para el picker)
 ```
@@ -52,7 +52,7 @@ import {
   datepickerValueToUtcIso,
   requireTimeZoneId,
   utcIsoToDatepickerValue,
-} from '@wiloc/ui/forms';
+} from '@wldeveloperapps/ui/forms';
 
 const tz = requireTimeZoneId(site.timeZoneId); // sin TZ → error
 const iso = datepickerValueToUtcIso(pickerDate, tz); // "...Z"
@@ -63,7 +63,7 @@ Al API: Instant UTC (ISO con `Z` o epoch). Sin TZ → error o solo modo civil.
 
 ### 5. La lib convierte; la app decide
 
-- `@wiloc/ui/forms` expone helpers/tipos (`WiLocalDateString`, `WiTimeZoneId`, `WiZonedDateTimeParts`).
+- `@wldeveloperapps/ui/forms` expone helpers/tipos (`WiLocalDateString`, `WiTimeZoneId`, `WiZonedDateTimeParts`).
 - La **app** elige semántica por campo y pasa `timeZoneId` (en IIoT: TZ del site).
 
 ---

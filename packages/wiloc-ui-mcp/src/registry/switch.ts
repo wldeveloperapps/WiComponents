@@ -1,11 +1,11 @@
 /**
- * Registry seed for @wiloc/ui-mcp.
+ * Registry seed for @wldeveloperapps/ui-mcp.
  * Documenta solo API pública — no Spartan ni rutas internas.
  */
 export const wiSwitchRegistryEntry = {
   name: 'switch',
   selector: 'wi-switch',
-  entryPoint: '@wiloc/ui/forms',
+  entryPoint: '@wldeveloperapps/ui/forms',
   status: 'experimental' as const,
   exports: ['WiSwitchComponent', 'WiSwitchSize'],
   inputs: [
@@ -82,7 +82,7 @@ export const wiSwitchRegistryEntry = {
   a11yNotes:
     'Rol switch con aria-checked true|false. Asociar label vía wrapping <label>, for/id, o ariaLabel. Errores/hints vía ariaDescribedBy (texto de la app). invalid aplica estado visual de error. Copy i18n desde la app.',
   example: {
-    import: `import { WiSwitchComponent } from '@wiloc/ui/forms';`,
+    import: `import { WiSwitchComponent } from '@wldeveloperapps/ui/forms';`,
     template: `<!-- i18n: strings desde la app -->
 <label class="flex items-center justify-between gap-3">
   <span>Notificaciones</span>

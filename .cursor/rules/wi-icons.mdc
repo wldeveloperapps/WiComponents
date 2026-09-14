@@ -8,18 +8,18 @@ globs:
 alwaysApply: false
 ---
 
-# Iconos (`@wiloc/ui/icon`)
+# Iconos (`@wldeveloperapps/ui/icon`)
 
 Heroicons es el catálogo visual (SVG). `WiIcon` es el contrato Angular.
 
 Las apps **no** importan Heroicons ni wrappers Angular de terceros.
-Usan `@wiloc/ui/icon` y glifos de `@wiloc/ui/icon/heroicons`.
+Usan `@wldeveloperapps/ui/icon` y glifos de `@wldeveloperapps/ui/icon/heroicons`.
 
 ## Obligatorio
 
 ```ts
-import { provideWiIcons, WiIconComponent } from '@wiloc/ui/icon';
-import { trashOutline, homeOutline } from '@wiloc/ui/icon/heroicons';
+import { provideWiIcons, WiIconComponent } from '@wldeveloperapps/ui/icon';
+import { trashOutline, homeOutline } from '@wldeveloperapps/ui/icon/heroicons';
 
 provideWiIcons({
   home: { outline: homeOutline },
@@ -61,13 +61,13 @@ provideWiIcons({
 ## Custom (app)
 
 Definir un `WiIconGlyph` en la app y registrarlo con `provideWiIcons`.
-No meter iconos de dominio/marca en `@wiloc/ui/icon/heroicons` salvo que sean oficiales del DS.
+No meter iconos de dominio/marca en `@wldeveloperapps/ui/icon/heroicons` salvo que sean oficiales del DS.
 
 ## Entry points
 
 ```text
-@wiloc/ui/icon              → WiIconComponent, provideWiIcons, tipos
-@wiloc/ui/icon/heroicons    → glifos generados (imports individuales)
+@wldeveloperapps/ui/icon              → WiIconComponent, provideWiIcons, tipos
+@wldeveloperapps/ui/icon/heroicons    → glifos generados (imports individuales)
 ```
 
 Storybook: **Icon → WiIcon → Catalog** (inventario visual).

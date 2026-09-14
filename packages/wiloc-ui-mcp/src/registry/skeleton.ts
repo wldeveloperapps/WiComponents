@@ -1,11 +1,11 @@
 /**
- * Registry seed for @wiloc/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
+ * Registry seed for @wldeveloperapps/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
  * Documenta solo API pública — no Spartan ni rutas internas.
  */
 export const wiSkeletonRegistryEntry = {
   name: 'skeleton',
   selector: 'wi-skeleton',
-  entryPoint: '@wiloc/ui/data-display',
+  entryPoint: '@wldeveloperapps/ui/data-display',
   status: 'experimental' as const,
   exports: ['WiSkeletonComponent', 'WiSkeletonShape'],
   inputs: [
@@ -47,7 +47,7 @@ export const wiSkeletonRegistryEntry = {
   a11yNotes:
     'Presentacional con aria-hidden="true". En layouts de carga, poner aria-busy (y opcionalmente aria-label) en el contenedor padre que agrupa los skeletons.',
   example: {
-    import: `import { WiSkeletonComponent } from '@wiloc/ui/data-display';`,
+    import: `import { WiSkeletonComponent } from '@wldeveloperapps/ui/data-display';`,
     template: `<div aria-busy="true" aria-label="Cargando">
   <wi-skeleton shape="circle" size="2.5rem" />
   <wi-skeleton width="70%" />

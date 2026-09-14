@@ -1,13 +1,13 @@
 ---
 name: storybook
 description: >-
-  Normas de Storybook para @wiloc/ui: actions obligatorias, historias mínimas,
+  Normas de Storybook para @wldeveloperapps/ui: actions obligatorias, historias mínimas,
   responsive e i18n en demos. Usar al crear o editar *.stories.ts, documentar
   componentes en Storybook, o cuando el usuario mencione stories, Actions panel
   o addon-actions.
 ---
 
-# Storybook `@wiloc/ui`
+# Storybook `@wldeveloperapps/ui`
 
 Leer esta skill **antes** de crear o modificar `*.stories.ts`.
 

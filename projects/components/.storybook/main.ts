@@ -37,14 +37,14 @@ const config: StorybookConfig = {
         alias: {
           // Respaldo de exports del package.json fuente (Storybook/Vite).
           // Al añadir un entry: actualizar también package.json exports + tsconfig paths.
-          '@wiloc/ui/icon/heroicons': resolve(componentsRoot, 'icon/heroicons/src/public-api.ts'),
-          '@wiloc/ui/icon': resolve(componentsRoot, 'icon/src/public-api.ts'),
-          '@wiloc/ui/forms': resolve(componentsRoot, 'forms/src/public-api.ts'),
-          '@wiloc/ui/data-display': resolve(componentsRoot, 'data-display/src/public-api.ts'),
-          '@wiloc/ui/button': resolve(componentsRoot, 'button/src/public-api.ts'),
-          '@wiloc/ui/core': resolve(componentsRoot, 'core/src/public-api.ts'),
-          '@wiloc/ui/overlays': resolve(componentsRoot, 'overlays/src/public-api.ts'),
-          '@wiloc/ui/navigation': resolve(componentsRoot, 'navigation/src/public-api.ts'),
+          '@wldeveloperapps/ui/icon/heroicons': resolve(componentsRoot, 'icon/heroicons/src/public-api.ts'),
+          '@wldeveloperapps/ui/icon': resolve(componentsRoot, 'icon/src/public-api.ts'),
+          '@wldeveloperapps/ui/forms': resolve(componentsRoot, 'forms/src/public-api.ts'),
+          '@wldeveloperapps/ui/data-display': resolve(componentsRoot, 'data-display/src/public-api.ts'),
+          '@wldeveloperapps/ui/button': resolve(componentsRoot, 'button/src/public-api.ts'),
+          '@wldeveloperapps/ui/core': resolve(componentsRoot, 'core/src/public-api.ts'),
+          '@wldeveloperapps/ui/overlays': resolve(componentsRoot, 'overlays/src/public-api.ts'),
+          '@wldeveloperapps/ui/navigation': resolve(componentsRoot, 'navigation/src/public-api.ts'),
         },
       },
     });

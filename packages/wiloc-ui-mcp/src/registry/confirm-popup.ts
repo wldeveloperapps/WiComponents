@@ -1,11 +1,11 @@
 /**
- * Registry seed for @wiloc/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
+ * Registry seed for @wldeveloperapps/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
  * Documenta solo API pública — no Spartan ni rutas internas.
  */
 export const wiConfirmPopupRegistryEntry = {
   name: 'confirm-popup',
   selector: 'wi-confirm-popup',
-  entryPoint: '@wiloc/ui/overlays',
+  entryPoint: '@wldeveloperapps/ui/overlays',
   status: 'experimental' as const,
   exports: [
     'WiConfirmPopupComponent',
@@ -149,8 +149,8 @@ export const wiConfirmPopupRegistryEntry = {
   WiConfirmPopupComponent,
   WiConfirmPopupTriggerDirective,
   provideWiOverlaysI18n,
-} from '@wiloc/ui/overlays';
-import { WiButtonDirective } from '@wiloc/ui/button';
+} from '@wldeveloperapps/ui/overlays';
+import { WiButtonDirective } from '@wldeveloperapps/ui/button';
 
 provideWiOverlaysI18n({ confirmCancelLabel: () => 'Cancelar' });`,
     template: `<wi-confirm-popup

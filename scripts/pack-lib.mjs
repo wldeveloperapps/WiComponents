@@ -15,4 +15,4 @@ execSync('pnpm pack --pack-destination ..', {
 });
 
 const tgz = `dist/wiloc-ui-${pkg.version}.tgz`;
-console.log(`\nPacked @wiloc/ui@${pkg.version} -> ${tgz}`);
+console.log(`\nPacked @wldeveloperapps/ui@${pkg.version} -> ${tgz}`);

@@ -1,11 +1,11 @@
 /**
- * Registry seed for @wiloc/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
+ * Registry seed for @wldeveloperapps/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
  * Documenta solo API pública — no Spartan ni rutas internas.
  */
 export const wiTabsRegistryEntry = {
   name: 'tabs',
   selector: 'wi-tabs',
-  entryPoint: '@wiloc/ui/navigation',
+  entryPoint: '@wldeveloperapps/ui/navigation',
   status: 'experimental' as const,
   exports: [
     'WiTabsComponent',
@@ -117,7 +117,7 @@ export const wiTabsRegistryEntry = {
   WiTabsComponent,
   WiTabsListComponent,
   WiTabsTriggerDirective,
-} from '@wiloc/ui/navigation';`,
+} from '@wldeveloperapps/ui/navigation';`,
     template: `<wi-tabs [(value)]="activeId">
   <wi-tabs-list>
     @for (tab of tabs; track tab.id) {

@@ -1,11 +1,11 @@
 /**
- * Registry seed for @wiloc/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
+ * Registry seed for @wldeveloperapps/ui-mcp (paquete previsto en packages/wiloc-ui-mcp).
  * Documenta solo API pública — no Spartan ni rutas internas.
  */
 export const wiButtonRegistryEntry = {
   name: 'button',
   selector: 'button[wiButton], a[wiButton]',
-  entryPoint: '@wiloc/ui/button',
+  entryPoint: '@wldeveloperapps/ui/button',
   status: 'experimental' as const,
   exports: ['WiButtonDirective', 'WiButtonVariant', 'WiButtonSize', 'WiButtonType'],
   inputs: [
@@ -59,7 +59,7 @@ export const wiButtonRegistryEntry = {
   a11yNotes:
     'Directiva sobre el nativo: button para acciones, a[href]/routerLink para navegación. No poner role=button en el enlace. iconOnly: ariaLabel. loading: aria-busy. En <a> disabled no es nativo: aria-disabled + tabindex=-1 + preventDefault.',
   example: {
-    import: `import { WiButtonDirective } from '@wiloc/ui/button';`,
+    import: `import { WiButtonDirective } from '@wldeveloperapps/ui/button';`,
     template: `<button wiButton type="button" variant="primary">Guardar</button>
 <a wiButton variant="outline" href="/settings">Ajustes</a>`,
   },

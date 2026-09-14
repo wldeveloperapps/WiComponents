@@ -1,6 +1,6 @@
 import { Component, computed, inject, input } from '@angular/core';
 import type { ClassValue } from 'clsx';
-import { hlm } from '@wiloc/ui/core';
+import { hlm } from '@wldeveloperapps/ui/core';
 
 import type { WiCardSize } from './wi-card.types';
 

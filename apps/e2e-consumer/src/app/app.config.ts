@@ -1,9 +1,9 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideWiDataDisplayI18n } from '@wiloc/ui/data-display';
-import { provideWiCalendarI18n } from '@wiloc/ui/forms';
-import { provideWiIcons } from '@wiloc/ui/icon';
-import { provideWiOverlaysI18n } from '@wiloc/ui/overlays';
+import { provideWiDataDisplayI18n } from '@wldeveloperapps/ui/data-display';
+import { provideWiCalendarI18n } from '@wldeveloperapps/ui/forms';
+import { provideWiIcons } from '@wldeveloperapps/ui/icon';
+import { provideWiOverlaysI18n } from '@wldeveloperapps/ui/overlays';
 import {
   calendarOutline,
   funnelOutline,
@@ -17,7 +17,7 @@ import {
   trashOutline,
   userOutline,
   xMarkOutline,
-} from '@wiloc/ui/icon/heroicons';
+} from '@wldeveloperapps/ui/icon/heroicons';
 
 import { routes } from './app.routes';
 import { createCalendarI18n, createDataDisplayI18n, createOverlaysI18n } from './locale';

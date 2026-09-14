@@ -1,11 +1,11 @@
 /**
- * Registry seed for @wiloc/ui-mcp.
+ * Registry seed for @wldeveloperapps/ui-mcp.
  * Documenta solo API pública — no Spartan ni rutas internas.
  */
 export const wiFileUploadRegistryEntry = {
   name: 'file-upload',
   selector: 'wi-file-upload',
-  entryPoint: '@wiloc/ui/forms',
+  entryPoint: '@wldeveloperapps/ui/forms',
   status: 'experimental' as const,
   exports: [
     'WiFileUploadComponent',
@@ -148,7 +148,7 @@ export const wiFileUploadRegistryEntry = {
   a11yNotes:
     'Grupo con botón Elegir (abre el diálogo nativo) y botón Subir. El input file está oculto (sr-only) y fuera de tab. Asociar label vía id o ariaLabel. emptyLabel se anuncia con aria-live. chooseLabel/emptyLabel/uploadLabel/ariaLabel son i18n de la app. Errores de tipo/tamaño: escuchar reject y pintar mensaje propio (no hay copy en la librería).',
   example: {
-    import: `import { WiFileUploadComponent, type WiFileUploadRejection } from '@wiloc/ui/forms';`,
+    import: `import { WiFileUploadComponent, type WiFileUploadRejection } from '@wldeveloperapps/ui/forms';`,
     template: `<!-- i18n + HTTP en la app -->
 <wi-file-upload
   id="import-file"

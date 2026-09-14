@@ -1,5 +1,5 @@
 /* Auto-generated from Heroicons v2. Do not edit by hand. */
-import type { WiIconGlyph } from '@wiloc/ui/icon';
+import type { WiIconGlyph } from '@wldeveloperapps/ui/icon';
 
 /** Heroicons 24/outline/shield-check */
 export const shieldCheckOutline: WiIconGlyph = {

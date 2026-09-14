@@ -13,11 +13,11 @@ import { Meta } from '@storybook/addon-docs/blocks';
   }}
 />
 
-# Internacionalización (`@wiloc/ui`)
+# Internacionalización (`@wldeveloperapps/ui`)
 
 Instalación del paquete, CSS y providers de iconos: **Instalación**.
 
-`@wiloc/ui` **no** trae diccionarios ES/EN. La app traduce; la librería solo expone **dónde** enganchar el copy.
+`@wldeveloperapps/ui` **no** trae diccionarios ES/EN. La app traduce; la librería solo expone **dónde** enganchar el copy.
 
 ## Cómo se implementa en la app (resumen)
 
@@ -134,13 +134,13 @@ import { TranslocoService } from '@jsverse/transloco';
 import {
   provideWiDataDisplayI18n,
   type WiDataDisplayI18n,
-} from '@wiloc/ui/data-display';
+} from '@wldeveloperapps/ui/data-display';
 import {
   provideWiCalendarI18n,
   type WiCalendarI18n,
   type WiMonthLabels,
-} from '@wiloc/ui/forms';
-import { provideWiOverlaysI18n, type WiOverlaysI18n } from '@wiloc/ui/overlays';
+} from '@wldeveloperapps/ui/forms';
+import { provideWiOverlaysI18n, type WiOverlaysI18n } from '@wldeveloperapps/ui/overlays';
 
 let transloco: TranslocoService;
 
@@ -259,9 +259,9 @@ Una vez por app. Las funciones se evalúan al renderizar: pueden leer el locale 
 ```ts
 // app.config.ts
 import { ApplicationConfig } from '@angular/core';
-import { provideWiDataDisplayI18n } from '@wiloc/ui/data-display';
-import { provideWiCalendarI18n } from '@wiloc/ui/forms';
-import { provideWiOverlaysI18n } from '@wiloc/ui/overlays';
+import { provideWiDataDisplayI18n } from '@wldeveloperapps/ui/data-display';
+import { provideWiCalendarI18n } from '@wldeveloperapps/ui/forms';
+import { provideWiOverlaysI18n } from '@wldeveloperapps/ui/overlays';
 import { createCalendarI18n, createDataDisplayI18n, createOverlaysI18n } from './locale';
 
 export const appConfig: ApplicationConfig = {
@@ -281,9 +281,9 @@ Patrón de `e2e-consumer` (sin Transloco). Si la app usa Transloco, usa la secci
 ```ts
 // locale.ts (app)
 import { signal } from '@angular/core';
-import type { WiCalendarI18n, WiMonthLabels } from '@wiloc/ui/forms';
-import type { WiDataDisplayI18n } from '@wiloc/ui/data-display';
-import type { WiOverlaysI18n } from '@wiloc/ui/overlays';
+import type { WiCalendarI18n, WiMonthLabels } from '@wldeveloperapps/ui/forms';
+import type { WiDataDisplayI18n } from '@wldeveloperapps/ui/data-display';
+import type { WiOverlaysI18n } from '@wldeveloperapps/ui/overlays';
 
 export type AppLocale = 'es' | 'en';
 export const appLocale = signal<AppLocale>('es');
@@ -451,8 +451,8 @@ Demo: **Navigation → WiBreadcrumb** + toolbar **Locale**.
 ### `provideWiCalendarI18n`
 
 ```ts
-import { provideWiCalendarI18n } from '@wiloc/ui/forms';
-import type { WiMonthLabels } from '@wiloc/ui/forms';
+import { provideWiCalendarI18n } from '@wldeveloperapps/ui/forms';
+import type { WiMonthLabels } from '@wldeveloperapps/ui/forms';
 
 const MONTHS_ES: WiMonthLabels = [
   'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
@@ -482,7 +482,7 @@ Campos opcionales (`Partial<WiCalendarI18n>`): `firstDayOfWeek`, `months`, `form
 ### `provideWiDataDisplayI18n`
 
 ```ts
-import { provideWiDataDisplayI18n } from '@wiloc/ui/data-display';
+import { provideWiDataDisplayI18n } from '@wldeveloperapps/ui/data-display';
 
 provideWiDataDisplayI18n({
   emptyMessage: () => 'No hay datos',
@@ -517,7 +517,7 @@ provideWiDataDisplayI18n({
 ### `provideWiOverlaysI18n`
 
 ```ts
-import { provideWiOverlaysI18n } from '@wiloc/ui/overlays';
+import { provideWiOverlaysI18n } from '@wldeveloperapps/ui/overlays';
 
 provideWiOverlaysI18n({
   dialogCloseLabel: () => 'Cerrar',
@@ -552,7 +552,7 @@ Campos opcionales (`Partial<WiOverlaysI18n>`): `dialogCloseLabel`, `confirmCance
 
 ## Qué no hacer
 
-- No meter diccionarios de producto dentro de `@wiloc/ui`.
+- No meter diccionarios de producto dentro de `@wldeveloperapps/ui`.
 - No poner `locale.ts` en `src/assets/i18n/` (solo JSON de Transloco).
 - No duplicar ES/EN en TypeScript si la app ya tiene Transloco: las claves `wi.*` van en `es.json` / `en.json`.
 - No esperar que el selector **Locale** de Storybook sustituya el i18n de la app (solo simula providers + demos).
