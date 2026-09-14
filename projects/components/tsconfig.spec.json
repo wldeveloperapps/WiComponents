@@ -4,7 +4,19 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/spec",
-    "types": ["vitest/globals"]
+    "types": ["vitest/globals"],
+    "paths": {
+      "@wldeveloperapps/ui-internal/helm": ["./_internal/helm"],
+      "@wldeveloperapps/ui-internal/helm/*": ["./_internal/helm/*"],
+      "@wldeveloperapps/ui/core": ["./core/src/public-api.ts"],
+      "@wldeveloperapps/ui/button": ["./button/src/public-api.ts"],
+      "@wldeveloperapps/ui/forms": ["./forms/src/public-api.ts"],
+      "@wldeveloperapps/ui/data-display": ["./data-display/src/public-api.ts"],
+      "@wldeveloperapps/ui/navigation": ["./navigation/src/public-api.ts"],
+      "@wldeveloperapps/ui/overlays": ["./overlays/src/public-api.ts"],
+      "@wldeveloperapps/ui/icon": ["./icon/src/public-api.ts"],
+      "@wldeveloperapps/ui/icon/heroicons": ["./icon/heroicons/src/public-api.ts"]
+    }
   },
   "include": [
     "src/**/*.d.ts",
@@ -16,5 +28,6 @@
     "core/**/*.ts",
     "overlays/**/*.ts",
     "navigation/**/*.ts"
-  ]
+  ],
+  "exclude": ["**/*.stories.ts"]
 }

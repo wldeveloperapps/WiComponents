@@ -18,6 +18,7 @@ import { provideWiOverlaysI18n } from '../../overlays/src/wi-overlays.i18n';
   imports: [WiConfirmDialogComponent, WiConfirmDialogTriggerDirective, WiButtonDirective],
   template: `
     <wi-confirm-dialog
+      [disableClose]="true"
       [size]="size()"
       [title]="title()"
       [description]="description()"
@@ -91,9 +92,7 @@ describe('WiConfirmDialogComponent', () => {
     });
 
     function trigger(): HTMLElement {
-      return fixture.nativeElement.querySelector(
-        '[wiConfirmDialogTrigger]',
-      );
+      return fixture.nativeElement.querySelector('[wiConfirmDialogTrigger]');
     }
 
     it('constructs closed without a panel (SSR-safe init path)', () => {

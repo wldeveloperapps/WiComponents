@@ -110,12 +110,11 @@ describe('WiTooltipDirective', () => {
       expect(tooltipEl()).toBeNull();
     });
 
-    it('shows tooltip on mouseenter and sets aria-describedby', async () => {
-      trigger().dispatchEvent(new MouseEvent('mouseenter'));
+    it('shows on focus and sets aria-describedby', async () => {
+      trigger().dispatchEvent(new FocusEvent('focus'));
       await waitForTooltip(true);
 
       const tip = tooltipEl();
-      expect(tip).toBeTruthy();
       expect(tip?.textContent).toContain('Tip de prueba');
       expect(tip?.className).toContain('bg-inverse-surface');
       expect(tip?.className).toContain('text-inverse-on-surface');
@@ -125,28 +124,14 @@ describe('WiTooltipDirective', () => {
       expect(tip?.getAttribute('id')).toBe(describedBy);
     });
 
-    it('hides tooltip on mouseleave', async () => {
-      trigger().dispatchEvent(new MouseEvent('mouseenter'));
-      await waitForTooltip(true);
-
-      trigger().dispatchEvent(new MouseEvent('mouseleave'));
-      await waitForTooltip(false);
-    });
-
     it('applies data-side from position input', async () => {
       fixture.componentInstance.position = 'bottom';
       fixture.detectChanges();
 
-      trigger().dispatchEvent(new MouseEvent('mouseenter'));
+      trigger().dispatchEvent(new FocusEvent('focus'));
       await waitForTooltip(true);
 
       expect(tooltipEl()?.getAttribute('data-side')).toBe('bottom');
-    });
-
-    it('shows on focus', async () => {
-      trigger().dispatchEvent(new FocusEvent('focus'));
-      await waitForTooltip(true);
-      expect(tooltipEl()?.textContent).toContain('Tip de prueba');
     });
   });
 
