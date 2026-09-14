@@ -30,7 +30,7 @@ const memberOptions = [
  * El acordeón usa `stopPropagation` para no mezclar expandir con seleccionar.
  */
 @Component({
-  selector: 'sb-picklist-member-card',
+  selector: 'wi-picklist-member-card',
   template: `
     <article
       class="w-full min-w-0 overflow-hidden rounded-control border border-outline-variant bg-surface text-on-surface"
@@ -388,7 +388,7 @@ export const CustomItem: Story = {
           ${BINDINGS}
         >
           <ng-template wiPicklistItem let-option>
-            <sb-picklist-member-card [member]="option" />
+            <wi-picklist-member-card [member]="option" />
           </ng-template>
         </wi-picklist>
       </div>
