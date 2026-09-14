@@ -84,6 +84,7 @@ describe('WiButtonDirective', () => {
       expect(el.className).toContain('bg-primary');
       expect(el.className).toContain('text-on-primary');
       expect(el.className).toContain('h-control-md');
+      expect(el.className).toContain('cursor-pointer');
       expect(el.disabled).toBe(false);
       expect(el.getAttribute('aria-busy')).toBeNull();
       expect(el.getAttribute('aria-disabled')).toBeNull();

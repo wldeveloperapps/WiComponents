@@ -74,6 +74,7 @@ describe('WiDatepickerComponent', () => {
     expect(btn).toBeTruthy();
     expect(btn.className).toContain('border-outline-variant');
     expect(btn.className).toContain('h-control-md');
+    expect(btn.className).toContain('cursor-pointer');
     expect(btn.getAttribute('aria-label')).toBe('Fecha');
     expect(btn.disabled).toBe(false);
   });

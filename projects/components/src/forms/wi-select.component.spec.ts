@@ -104,6 +104,7 @@ describe('WiSelectComponent', () => {
     expect(button.className).toContain('border-outline-variant');
     expect(button.className).toContain('bg-surface');
     expect(button.className).toContain('h-control-md');
+    expect(button.className).toContain('cursor-pointer');
     expect(button.getAttribute('aria-label')).toBe('Choice');
   });
 
@@ -170,6 +171,7 @@ describe('WiSelectComponent', () => {
     expect(options[1]?.getAttribute('aria-selected')).toBe('true');
     expect(options[2]?.getAttribute('aria-selected')).toBe('false');
     expect(options[1]?.className).toContain('group');
+    expect(options[1]?.className).toContain('cursor-pointer');
     expect(options[1]?.querySelector('.wi-select__check')?.getAttribute('class')).toContain(
       'group-aria-selected:opacity-100',
     );
