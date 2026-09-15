@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.0-alpha.3
+
+Tercer corte interno de `@wldeveloperapps/ui` y `@wldeveloperapps/ui-mcp`. API experimental.
+
+### Changed
+
+- README del paquete publicado (instalación GitHub Packages, no placeholder de ng-packagr)
+- Stories de picklist con prefijo `wi-`
+- Tests de la librería resuelven entry points en CI
+- Estilos y documentación de `WiCard`
+
 ## 0.1.0-alpha.2
 
 Segundo corte interno de `@wldeveloperapps/ui` y `@wldeveloperapps/ui-mcp`. API experimental.
