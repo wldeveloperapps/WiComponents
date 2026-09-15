@@ -102,7 +102,7 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
         class="wi-table__table w-full border-collapse text-left text-sm text-on-surface"
         [class.table-fixed]="isCompact()"
       >
-        <thead class="wi-table__head border-b border-outline-variant bg-surface-variant/40">
+        <thead class="wi-table__head border-b border-outline-variant">
           <tr>
             @if (showRowExpand()) {
               <th scope="col" class="wi-table__th wi-table__th--expand w-10 px-2 py-2">

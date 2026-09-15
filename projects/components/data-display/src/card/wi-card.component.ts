@@ -5,7 +5,7 @@ import { hlm } from '@wldeveloperapps/ui/core';
 import type { WiCardSize } from './wi-card.types';
 
 const CARD_BASE_CLASSES =
-  'wi-card group/card flex flex-col rounded-control-lg border border-outline-variant bg-surface text-sm text-on-surface shadow-sm has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 *:[img:first-child]:rounded-t-[inherit] *:[img:last-child]:rounded-b-[inherit]';
+  'wi-card group/card flex flex-col rounded-control-lg bg-surface text-sm text-on-surface shadow-sm has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 *:[img:first-child]:rounded-t-[inherit] *:[img:last-child]:rounded-b-[inherit]';
 
 const CARD_SIZE_CLASSES: Record<WiCardSize, string> = {
   md: 'gap-2 py-4',
