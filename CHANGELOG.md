@@ -1,6 +1,8 @@
 # Changelog
 
-## 0.1.0-alpha.4 (unreleased)
+## 0.1.0-alpha.4
+
+Cuarto corte interno de `@wldeveloperapps/ui` y `@wldeveloperapps/ui-mcp`. API experimental: puede cambiar en el siguiente alpha.
 
 ### Breaking
 

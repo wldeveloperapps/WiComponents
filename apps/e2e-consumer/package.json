@@ -20,7 +20,7 @@
     "@angular/platform-browser": "^22.0.0",
     "@angular/router": "^22.0.0",
     "@spartan-ng/brain": "1.3.3",
-    "@wldeveloperapps/ui": "file:../../dist/wldeveloperapps-ui-0.1.0-alpha.3.tgz",
+    "@wldeveloperapps/ui": "file:../../dist/wldeveloperapps-ui-0.1.0-alpha.4.tgz",
     "clsx": "^2.1.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

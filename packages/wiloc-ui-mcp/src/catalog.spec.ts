@@ -183,7 +183,7 @@ describe('@wldeveloperapps/ui-mcp catalog', () => {
     expect(installation?.body).not.toMatch(/@spartan-ng\/helm/);
     expect(installation?.body).toContain('@theme inline');
     expect(installation?.body).toContain('postcss.config.json');
-    expect(installation?.body).toContain('wldeveloperapps-ui-0.1.0-alpha.3.tgz');
+    expect(installation?.body).toContain('wldeveloperapps-ui-0.1.0-alpha.4.tgz');
     expect(installation?.body).toContain('npm.pkg.github.com');
     expect(installation?.body).toContain('@wldeveloperapps/ui/styles/index.css');
     expect(listDocTopics().map((topic) => topic.id)).toEqual(
