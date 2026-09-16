@@ -6,7 +6,7 @@ const PATTERN_NAMES = new Set(['picklist', 'file-upload', 'stepper']);
 
 const SPARTAN_LEAK = /@spartan-ng|\bBrn[A-Z]|\bHlm[A-Z]/;
 
-export const WI_PACKAGE_VERSION = '0.1.0-alpha.4';
+export const WI_PACKAGE_VERSION = '0.1.0-alpha.5';
 
 export const WI_ENTRY_POINTS: readonly WiEntryPointInfo[] = [
   {
@@ -16,7 +16,8 @@ export const WI_ENTRY_POINTS: readonly WiEntryPointInfo[] = [
   { entryPoint: '@wldeveloperapps/ui/button', description: 'button[wiButton], a[wiButton]' },
   {
     entryPoint: '@wldeveloperapps/ui/forms',
-    description: 'Input, otp, checkbox, switch, select, listbox, picklist, datepicker, date-range, file-upload',
+    description:
+      'Input, otp, checkbox, switch, select, listbox, picklist, datepicker, date-range, file-upload',
   },
   {
     entryPoint: '@wldeveloperapps/ui/data-display',

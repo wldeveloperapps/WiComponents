@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.5
+
+Quinto corte interno de `@wldeveloperapps/ui` y `@wldeveloperapps/ui-mcp`. API experimental: puede cambiar en el siguiente alpha.
+
+### Fixed
+
+- `wi-date-range`: al modificar un rango ya relleno, el panel ya no se cierra al elegir el inicio; el fin se puede completar en la misma apertura
+
 ## 0.1.0-alpha.4
 
 Cuarto corte interno de `@wldeveloperapps/ui` y `@wldeveloperapps/ui-mcp`. API experimental: puede cambiar en el siguiente alpha.
