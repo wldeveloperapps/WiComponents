@@ -97,7 +97,7 @@ describe('WiCardComponent', () => {
     expect(el.classList.contains('gap-2')).toBe(true);
     expect(el.classList.contains('overflow-hidden')).toBe(false);
     expect(el.className).toContain('bg-surface');
-    expect(el.className).toContain('border-outline-variant');
+    expect(el.className).not.toContain('border-outline-variant');
     expect(el.className).toContain('rounded-control-lg');
   });
 
@@ -157,7 +157,10 @@ describe('WiCardComponent', () => {
     expect(root.querySelector('wi-card-content')?.classList.contains('wi-card__content')).toBe(
       true,
     );
-    expect(root.querySelector('wi-card-footer')?.classList.contains('wi-card__footer')).toBe(true);
+    const footer = root.querySelector('wi-card-footer');
+    expect(footer?.classList.contains('wi-card__footer')).toBe(true);
+    expect(footer?.classList.contains('border-t')).toBe(true);
+    expect(footer?.className).toContain('border-outline-variant');
   });
 
   it('can be created without throwing (SSR-safe construction)', () => {
