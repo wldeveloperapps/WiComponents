@@ -9,3 +9,9 @@ export type WiDateDisabled = (date: Date) => boolean;
 
 /** Formateador del valor mostrado en el trigger. */
 export type WiFormatDate = (date: Date) => string;
+
+/**
+ * Patrón de display en el trigger (`YYYY`, `YY`, `MM`, `DD`, `HH`, `mm`).
+ * Solo afecta a la UI; la serialización API sigue siendo civil `YYYY-MM-DD` o UTC.
+ */
+export type WiDisplayDateFormat = string;

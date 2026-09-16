@@ -37,122 +37,31 @@ import {
 } from '@spartan-ng/brain/popover';
 
 import { WiIconComponent } from '@wldeveloperapps/ui/icon';
+import { formatWiDate } from './wi-date';
+import {
+  WI_DATEPICKER_DAY_BUTTON_CLASSES,
+  WI_DATEPICKER_NAV_BUTTON_CLASSES,
+  WI_DATEPICKER_PANEL_CLASSES,
+  WI_DATEPICKER_TIME_INPUT_CLASSES,
+  WI_DATEPICKER_TRIGGER_BASE_CLASSES,
+  WI_DATEPICKER_TRIGGER_SIZE_CLASSES,
+} from './wi-datepicker.chrome';
 import { injectWiDatepickerTimeI18n } from './wi-datepicker.i18n';
+import { injectWiTimeZoneId } from './wi-datepicker.timezone';
 import type {
   WiDateDisabled,
   WiDatepickerSize,
+  WiDisplayDateFormat,
   WiFormatDate,
   WiWeekday,
 } from './wi-datepicker.types';
 
-const TRIGGER_BASE_CLASSES = [
-  'wi-datepicker__trigger',
-  'flex',
-  'w-full',
-  'min-w-0',
-  'items-center',
-  'justify-between',
-  'gap-2',
-  'rounded-control',
-  'border',
-  'border-outline-variant',
-  'bg-surface',
-  'text-on-surface',
-  'transition-colors',
-  'outline-none',
-  'cursor-pointer',
-  'focus-visible:ring-2',
-  'focus-visible:ring-ring',
-  'focus-visible:ring-offset-2',
-  'focus-visible:ring-offset-background',
-  'disabled:pointer-events-none',
-  'disabled:cursor-not-allowed',
-  'disabled:opacity-50',
-  'aria-invalid:border-error',
-  'aria-invalid:focus-visible:ring-error',
-  'data-[placeholder]:text-on-surface-variant',
-].join(' ');
-
-const TRIGGER_SIZE_CLASSES: Record<WiDatepickerSize, string> = {
-  sm: 'h-control-sm px-3 text-sm',
-  md: 'h-control-md px-3 text-sm',
-  lg: 'h-control-lg px-4 text-base',
-};
-
-const PANEL_CLASSES = [
-  'wi-datepicker__panel',
-  'z-50',
-  'w-fit',
-  'overflow-hidden',
-  'rounded-control',
-  'border',
-  'border-outline-variant',
-  'bg-surface',
-  'text-on-surface',
-  'shadow-md',
-  'p-3',
-].join(' ');
-
-/** Variantes `data-[…=true]` alineadas con BrnCalendarCellButton / Helm. */
-const DAY_BUTTON_CLASSES = [
-  'wi-datepicker__day',
-  'inline-flex',
-  'size-8',
-  'items-center',
-  'justify-center',
-  'rounded-control',
-  'text-sm',
-  'outline-none',
-  'cursor-pointer',
-  'transition-colors',
-  'hover:bg-surface-variant',
-  'focus-visible:ring-2',
-  'focus-visible:ring-ring',
-  'data-[outside=true]:text-on-surface-variant',
-  'data-[outside=true]:opacity-60',
-  'data-[today=true]:border',
-  'data-[today=true]:border-outline-variant',
-  'data-[selected-single=true]:bg-primary',
-  'data-[selected-single=true]:text-on-primary',
-  'data-[selected-single=true]:hover:bg-primary',
-  'data-[disabled=true]:pointer-events-none',
-  'data-[disabled=true]:opacity-40',
-].join(' ');
-
-const NAV_BUTTON_CLASSES = [
-  'inline-flex',
-  'size-8',
-  'items-center',
-  'justify-center',
-  'rounded-control',
-  'text-on-surface',
-  'outline-none',
-  'cursor-pointer',
-  'hover:bg-surface-variant',
-  'focus-visible:ring-2',
-  'focus-visible:ring-ring',
-  'disabled:pointer-events-none',
-  'disabled:opacity-40',
-].join(' ');
-
-const TIME_INPUT_CLASSES = [
-  'wi-datepicker__time-input',
-  'h-control-sm',
-  'w-12',
-  'rounded-control',
-  'border',
-  'border-outline',
-  'bg-surface',
-  'px-1',
-  'text-center',
-  'text-sm',
-  'text-on-surface',
-  'outline-none',
-  'focus-visible:ring-2',
-  'focus-visible:ring-ring',
-  'disabled:cursor-not-allowed',
-  'disabled:opacity-50',
-].join(' ');
+const TRIGGER_BASE_CLASSES = `wi-datepicker__trigger ${WI_DATEPICKER_TRIGGER_BASE_CLASSES}`;
+const TRIGGER_SIZE_CLASSES = WI_DATEPICKER_TRIGGER_SIZE_CLASSES;
+const PANEL_CLASSES = `wi-datepicker__panel ${WI_DATEPICKER_PANEL_CLASSES}`;
+const DAY_BUTTON_CLASSES = `wi-datepicker__day ${WI_DATEPICKER_DAY_BUTTON_CLASSES}`;
+const NAV_BUTTON_CLASSES = WI_DATEPICKER_NAV_BUTTON_CLASSES;
+const TIME_INPUT_CLASSES = `wi-datepicker__time-input ${WI_DATEPICKER_TIME_INPUT_CLASSES}`;
 
 let nextDatepickerId = 0;
 
@@ -400,6 +309,8 @@ export class WiDatepickerComponent implements ControlValueAccessor, FormValueCon
   private readonly dateAdapter = injectDateAdapter<Date>();
   private readonly calendarI18n = injectBrnCalendarI18n();
   protected readonly timeI18n = injectWiDatepickerTimeI18n();
+  /** TZ del site (provider); no muta el valor naive del control. */
+  protected readonly siteTimeZoneId = injectWiTimeZoneId();
   private readonly popover = viewChild(BrnPopover);
   private readonly calendar = viewChild(BrnCalendar);
   private readonly hourInput = viewChild<ElementRef<HTMLInputElement>>('hourInput');
@@ -484,6 +395,8 @@ export class WiDatepickerComponent implements ControlValueAccessor, FormValueCon
   readonly dateDisabled = input<WiDateDisabled>(() => false);
   readonly weekStartsOn = input<WiWeekday | undefined>(undefined);
   readonly formatDate = input<WiFormatDate | undefined>(undefined);
+  /** Patrón de display (`YYYY/MM/DD`, …). `formatDate` tiene prioridad si está definido. */
+  readonly displayFormat = input<WiDisplayDateFormat | undefined>(undefined);
 
   readonly clearLabel = input('Clear');
   readonly calendarLabel = input('Open calendar');
@@ -541,6 +454,10 @@ export class WiDatepickerComponent implements ControlValueAccessor, FormValueCon
     const custom = this.formatDate();
     if (custom) {
       return custom(current);
+    }
+    const pattern = this.displayFormat();
+    if (pattern) {
+      return formatWiDate(current, pattern);
     }
     if (this.showTime()) {
       return current.toLocaleString(undefined, {

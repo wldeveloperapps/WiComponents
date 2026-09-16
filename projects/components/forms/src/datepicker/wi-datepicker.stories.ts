@@ -7,8 +7,8 @@ import { getDatepickerDemoCopy, type StorybookLocale } from '../../../.storybook
 import { provideWiIcons } from '../../../icon/src/public-api';
 import { WI_HEROICONS_CURATED } from '../../../icon/heroicons/src/curated';
 import { WiDatepickerComponent } from './wi-datepicker.component';
-import { WiDateRangeComponent } from './wi-date-range.component';
-import { toLocalDateString } from './wi-date';
+import { datepickerValueToUtcIso, toLocalDateString } from './wi-date';
+import { provideWiTimeZone } from './wi-datepicker.timezone';
 
 /** Preview civil (helpers públicos; evitar `toISOString` / `json`). */
 function formatLocalDate(date: Date | null | undefined): string {
@@ -36,14 +36,6 @@ function datepickerCopy(globals: { locale?: string } | undefined) {
 type WiDatepickerStoryArgs = WiDatepickerComponent & {
   valueChange: ReturnType<typeof fn>;
   touch: ReturnType<typeof fn>;
-  /** WiDateRange: cambio del model `start`. */
-  startChange: ReturnType<typeof fn>;
-  /** WiDateRange: cambio del model `end`. */
-  endChange: ReturnType<typeof fn>;
-  /** WiDateRange: touch del picker de inicio. */
-  startTouch: ReturnType<typeof fn>;
-  /** WiDateRange: touch del picker de fin. */
-  endTouch: ReturnType<typeof fn>;
 };
 
 const meta: Meta<WiDatepickerStoryArgs> = {
@@ -53,30 +45,35 @@ const meta: Meta<WiDatepickerStoryArgs> = {
   parameters: {
     layout: 'centered',
     controls: {
-      exclude: [
-        'calendarDate',
-        'focusedDate',
-        'displayText',
-        'hasValue',
-        'headerLabel',
-        'isDisabled',
-        'popoverState',
-        'resolvedAriaLabel',
-        'resolvedId',
-        'shouldAutoClose',
-        'timeInputId',
-        'timeValue',
-        'triggerClasses',
-        'dayButtonClasses',
-        'navButtonClasses',
-        'panelClasses',
-        'timeInputClasses',
+      include: [
+        'value',
+        'size',
+        'showTime',
+        'clearable',
+        'disabled',
+        'readonly',
+        'invalid',
+        'required',
+        'displayFormat',
+        'formatDate',
+        'placeholder',
+        'clearLabel',
+        'calendarLabel',
+        'timeLabel',
+        'ariaLabel',
+        'ariaDescribedBy',
+        'autoCloseOnSelect',
+        'min',
+        'max',
+        'weekStartsOn',
+        'id',
+        'name',
       ],
     },
     docs: {
       description: {
         component:
-          'Selector de fecha (y hora opcional). Locale del calendario vía `provideWiCalendarI18n` (toolbar Locale de Storybook; ver Documentation/I18n). Rango con `wi-date-range` (dos pickers). Requiere CSS de overlays CDK/Spartan e icono `calendar` registrado. El valor es un `Date` en hora local; no uses `toISOString()` / `json` para mostrar el día civil. Events: `valueChange`, `touch` (datepicker); `startChange` / `endChange`, `startTouch` / `endTouch` (date-range).',
+          'Selector de fecha (y hora opcional). Locale vía `provideWiCalendarI18n`. Formato del trigger: `displayFormat` (tokens) o `formatDate` (callback; gana). TZ del site: `provideWiTimeZone` (no muta el Date naive). Rango en un input: ver **Forms/WiDateRange**. Events: `valueChange`, `touch`.',
       },
     },
   },
@@ -85,7 +82,7 @@ const meta: Meta<WiDatepickerStoryArgs> = {
       providers: [provideWiIcons(WI_HEROICONS_CURATED)],
     }),
     moduleMetadata({
-      imports: [WiDatepickerComponent, WiDateRangeComponent, ReactiveFormsModule],
+      imports: [WiDatepickerComponent, ReactiveFormsModule],
     }),
   ],
   argTypes: {
@@ -98,6 +95,7 @@ const meta: Meta<WiDatepickerStoryArgs> = {
     disabled: { control: 'boolean' },
     invalid: { control: 'boolean' },
     required: { control: 'boolean' },
+    displayFormat: { control: 'text' },
     placeholder: { control: 'text' },
     clearLabel: { control: 'text' },
     calendarLabel: { control: 'text' },
@@ -115,30 +113,36 @@ const meta: Meta<WiDatepickerStoryArgs> = {
       table: { category: 'Events' },
       control: false,
     },
-    startChange: {
-      action: 'startChange',
-      description: 'Se emite al cambiar la fecha de inicio (wi-date-range)',
-      table: { category: 'Events' },
-      control: false,
-    },
-    endChange: {
-      action: 'endChange',
-      description: 'Se emite al cambiar la fecha de fin (wi-date-range)',
-      table: { category: 'Events' },
-      control: false,
-    },
-    startTouch: {
-      action: 'startTouch',
-      description: 'Se emite al tocar el picker de inicio (wi-date-range)',
-      table: { category: 'Events' },
-      control: false,
-    },
-    endTouch: {
-      action: 'endTouch',
-      description: 'Se emite al tocar el picker de fin (wi-date-range)',
-      table: { category: 'Events' },
-      control: false,
-    },
+    // Internos: no editables en Docs (evitan Set object → error)
+    calendar: { table: { disable: true }, control: false },
+    calendarI18n: { table: { disable: true }, control: false },
+    cvaDisabled: { table: { disable: true }, control: false },
+    dateAdapter: { table: { disable: true }, control: false },
+    generatedId: { table: { disable: true }, control: false },
+    hourInput: { table: { disable: true }, control: false },
+    minuteInput: { table: { disable: true }, control: false },
+    onChange: { table: { disable: true }, control: false },
+    onTouched: { table: { disable: true }, control: false },
+    popover: { table: { disable: true }, control: false },
+    siteTimeZoneId: { table: { disable: true }, control: false },
+    timeEditing: { table: { disable: true }, control: false },
+    timeI18n: { table: { disable: true }, control: false },
+    calendarDate: { table: { disable: true }, control: false },
+    focusedDate: { table: { disable: true }, control: false },
+    displayText: { table: { disable: true }, control: false },
+    hasValue: { table: { disable: true }, control: false },
+    headerLabel: { table: { disable: true }, control: false },
+    isDisabled: { table: { disable: true }, control: false },
+    popoverState: { table: { disable: true }, control: false },
+    resolvedAriaLabel: { table: { disable: true }, control: false },
+    resolvedId: { table: { disable: true }, control: false },
+    shouldAutoClose: { table: { disable: true }, control: false },
+    timeInputId: { table: { disable: true }, control: false },
+    triggerClasses: { table: { disable: true }, control: false },
+    dayButtonClasses: { table: { disable: true }, control: false },
+    navButtonClasses: { table: { disable: true }, control: false },
+    panelClasses: { table: { disable: true }, control: false },
+    timeInputClasses: { table: { disable: true }, control: false },
   },
   args: {
     size: 'md',
@@ -154,10 +158,6 @@ const meta: Meta<WiDatepickerStoryArgs> = {
     ariaLabel: 'Fecha',
     valueChange: fn(),
     touch: fn(),
-    startChange: fn(),
-    endChange: fn(),
-    startTouch: fn(),
-    endTouch: fn(),
   },
 };
 
@@ -360,37 +360,50 @@ export const WithTime: Story = {
   },
 };
 
-export const Range: Story = {
+export const DisplayFormats: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Mismo día civil con distintos `displayFormat`. Solo UI; serialización API = `toLocalDateString` → `YYYY-MM-DD`.',
+      },
+    },
+  },
   render: (args, { globals }) => {
     const t = datepickerCopy(globals);
     return {
       props: {
         ...args,
-        start: null as Date | null,
-        end: null as Date | null,
+        value: new Date(2026, 8, 9),
+        ariaLabel: t.ariaLabel,
+        formatHint: t.formatHint,
         formatLocalDate,
-        startPlaceholder: t.startPlaceholder,
-        endPlaceholder: t.endPlaceholder,
-        startAriaLabel: t.startAriaLabel,
-        endAriaLabel: t.endAriaLabel,
       },
       template: `
-      <div style="width:36rem;">
-        <wi-date-range
-          [start]="start"
-          (startChange)="start = $event; startChange($event)"
-          [end]="end"
-          (endChange)="end = $event; endChange($event)"
-          (startTouch)="startTouch()"
-          (endTouch)="endTouch()"
-          clearable
-          [startPlaceholder]="startPlaceholder"
-          [endPlaceholder]="endPlaceholder"
-          [startAriaLabel]="startAriaLabel"
-          [endAriaLabel]="endAriaLabel"
+      <div style="display:flex;flex-direction:column;gap:1rem;width:20rem;">
+        <wi-datepicker
+          [value]="value"
+          (valueChange)="value = $event; valueChange($event)"
+          (touch)="touch()"
+          displayFormat="YYYY/MM/DD"
+          [ariaLabel]="ariaLabel"
         />
-        <p style="margin-top:0.75rem;font-size:0.875rem;opacity:0.7;">
-          start: {{ formatLocalDate(start) }} — end: {{ formatLocalDate(end) }}
+        <wi-datepicker
+          [value]="value"
+          (valueChange)="value = $event; valueChange($event)"
+          (touch)="touch()"
+          displayFormat="DD/MM/YYYY"
+          [ariaLabel]="ariaLabel"
+        />
+        <wi-datepicker
+          [value]="value"
+          (valueChange)="value = $event; valueChange($event)"
+          (touch)="touch()"
+          displayFormat="YYYY-MM-DD"
+          [ariaLabel]="ariaLabel"
+        />
+        <p style="font-size:0.75rem;opacity:0.7;">
+          {{ formatHint }} civil: {{ formatLocalDate(value) }}
         </p>
       </div>
     `,
@@ -398,35 +411,56 @@ export const Range: Story = {
   },
 };
 
-export const RangeWithTime: Story = {
+export const SiteTimeZone: Story = {
+  decorators: [
+    applicationConfig({
+      providers: [
+        provideWiIcons(WI_HEROICONS_CURATED),
+        provideWiTimeZone('America/Lima'),
+      ],
+    }),
+  ],
+  parameters: {
+    docs: {
+      description: {
+        story:
+          '`provideWiTimeZone(\'America/Lima\')`. El texto del input no cambia; `datepickerValueToUtcIso` interpreta la pared de reloj en la TZ del site.',
+      },
+    },
+  },
   render: (args, { globals }) => {
     const t = datepickerCopy(globals);
+    const tz = 'America/Lima';
     return {
       props: {
         ...args,
-        start: null as Date | null,
-        end: null as Date | null,
-        startPlaceholder: t.startPlaceholder,
-        endPlaceholder: t.endPlaceholder,
-        startAriaLabel: t.startAriaLabel,
-        endAriaLabel: t.endAriaLabel,
+        value: new Date(2026, 8, 9, 10, 0),
+        ariaLabel: t.ariaLabelDateTime,
+        timeLabel: t.timeLabel,
+        tzHint: t.tzHint,
+        tz,
+        toUtc: (d: Date | null) => (d ? datepickerValueToUtcIso(d, tz) : '—'),
+        formatLocalDateTime,
       },
       template: `
-      <div style="width:36rem;">
-        <wi-date-range
-          [start]="start"
-          (startChange)="start = $event; startChange($event)"
-          [end]="end"
-          (endChange)="end = $event; endChange($event)"
-          (startTouch)="startTouch()"
-          (endTouch)="endTouch()"
+      <div style="width:22rem;">
+        <wi-datepicker
+          [value]="value"
+          (valueChange)="value = $event; valueChange($event)"
+          (touch)="touch()"
           showTime
           clearable
-          [startPlaceholder]="startPlaceholder"
-          [endPlaceholder]="endPlaceholder"
-          [startAriaLabel]="startAriaLabel"
-          [endAriaLabel]="endAriaLabel"
+          displayFormat="DD/MM/YYYY HH:mm"
+          [timeLabel]="timeLabel"
+          [ariaLabel]="ariaLabel"
         />
+        <p style="margin-top:0.75rem;font-size:0.8rem;opacity:0.75;">
+          naive: {{ formatLocalDateTime(value) }}
+        </p>
+        <p style="font-size:0.8rem;opacity:0.75;">
+          UTC ({{ tz }}): {{ toUtc(value) }}
+        </p>
+        <p style="font-size:0.75rem;opacity:0.65;">{{ tzHint }}</p>
       </div>
     `,
     };

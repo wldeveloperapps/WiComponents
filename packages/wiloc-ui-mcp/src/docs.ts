@@ -156,8 +156,10 @@ La librería no llama a \`NgZone\`. La app debe usar APIs de plataforma si hidra
     id: 'i18n',
     title: 'i18n',
     body: `La librería no trae diccionarios. Dos canales:
-- Provider (\`provideWiCalendarI18n\` / \`provideWiDataDisplayI18n\` / \`provideWiOverlaysI18n\`): chrome (meses, paginación, aria del botón X, toast).
+- Provider (\`provideWiCalendarI18n\` / \`provideWiDataDisplayI18n\` / \`provideWiOverlaysI18n\` / \`provideWiTimeZone\`): chrome (meses, paginación, aria del botón X, toast) y TZ IANA del site.
 - Input / proyección / pipe Transloco: copy de esa pantalla (placeholder, título del dialog, cabeceras).
+
+\`provideWiTimeZone('America/Lima')\` aporta el default del site para mapear Date naive ↔ Instant UTC (\`datepickerValueToUtcIso\`). El control **no** reinterpreta el Date con esa TZ.
 
 Apps Wiloc con Transloco (recomendado):
 - JSON: añadir claves \`wi.*\` a \`src/assets/i18n/es.json\` y \`en.json\` (los archivos que ya carga Transloco). No crear carpeta aparte.
@@ -181,6 +183,8 @@ Ver \`wi_view\` de toast, datepicker y table para campos concretos.`,
     id: 'forms',
     title: 'Formularios',
     body: `Controles reales (input, checkbox, switch, select, listbox, otp, datepicker, picklist) implementan CVA / FormValueControl.
+
+\`wi-date-range\` es un único input con calendario de rango (\`start\`/\`end\` models). \`displayFormat\` (tokens YYYY/MM/DD…) o \`formatDate\` controlan el texto del trigger (solo UI). TZ del site: \`provideWiTimeZone\`. Ver \`wi_view\` / \`wi_usage\` de \`date-range\`.
 
 No hay \`wi-form-field\` en 0.1.0-alpha.3: label, descripción y error los compone la app (\`<label>\` + \`role="alert"\` + \`aria-describedby\`).
 

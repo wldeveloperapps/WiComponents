@@ -17,6 +17,7 @@ import {
 import {
   WiCheckboxComponent,
   WiDatepickerComponent,
+  WiDateRangeComponent,
   WiFileUploadComponent,
   type WiFileUploadRejection,
   WiInputComponent,
@@ -80,6 +81,7 @@ const ALERT_TAB_IDS = {
     WiCardHeaderComponent,
     WiCardTitleComponent,
     WiDatepickerComponent,
+    WiDateRangeComponent,
     WiDialogCloseDirective,
     WiDialogComponent,
     WiDialogContentComponent,
@@ -137,6 +139,8 @@ export class App {
   protected readonly role = signal<string | null>(null);
   protected readonly assignedMembers = signal<string[]>([]);
   protected readonly date = signal<Date | null>(null);
+  protected readonly rangeStart = signal<Date | null>(null);
+  protected readonly rangeEnd = signal<Date | null>(null);
   protected readonly uploadFiles = signal<readonly File[]>([]);
   protected readonly uploadLoading = signal(false);
   protected readonly uploadStatus = signal<string | null>(null);

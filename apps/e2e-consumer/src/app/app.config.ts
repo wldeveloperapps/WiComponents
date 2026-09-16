@@ -1,7 +1,7 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideWiDataDisplayI18n } from '@wldeveloperapps/ui/data-display';
-import { provideWiCalendarI18n } from '@wldeveloperapps/ui/forms';
+import { provideWiCalendarI18n, provideWiTimeZone } from '@wldeveloperapps/ui/forms';
 import { provideWiIcons } from '@wldeveloperapps/ui/icon';
 import { provideWiOverlaysI18n } from '@wldeveloperapps/ui/overlays';
 import {
@@ -41,6 +41,7 @@ export const appConfig: ApplicationConfig = {
       'x-mark': { outline: xMarkOutline },
     }),
     provideWiCalendarI18n(createCalendarI18n()),
+    provideWiTimeZone('Europe/Madrid'),
     provideWiDataDisplayI18n(createDataDisplayI18n()),
     provideWiOverlaysI18n(createOverlaysI18n()),
   ],

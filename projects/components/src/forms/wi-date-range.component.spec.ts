@@ -48,42 +48,151 @@ describe('WiDateRangeComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(WiDateRangeComponent);
-    fixture.componentRef.setInput('startAriaLabel', 'Inicio');
-    fixture.componentRef.setInput('endAriaLabel', 'Fin');
+    fixture.componentRef.setInput('ariaLabel', 'Rango de fechas');
     fixture.detectChanges();
     await fixture.whenStable();
   });
 
-  it('renders two datepickers under wi-date-range host', () => {
+  function trigger(): HTMLButtonElement {
+    return fixture.nativeElement.querySelector('.wi-date-range__trigger');
+  }
+
+  it('renders a single trigger under wi-date-range host (no nested datepickers)', () => {
     expect(fixture.nativeElement.classList.contains('wi-date-range')).toBe(true);
-    const pickers = fixture.debugElement.queryAll(By.directive(WiDatepickerComponent));
-    expect(pickers.length).toBe(2);
+    expect(trigger()).toBeTruthy();
+    expect(fixture.debugElement.queryAll(By.directive(WiDatepickerComponent)).length).toBe(0);
   });
 
-  it('wires start/end models independently', () => {
-    const start = new Date(2026, 0, 1);
-    const end = new Date(2026, 0, 10);
+  it('wires start/end models independently and shows displayFormat text', () => {
+    const start = new Date(2026, 8, 9);
+    const end = new Date(2026, 8, 16);
     fixture.componentRef.setInput('start', start);
     fixture.componentRef.setInput('end', end);
+    fixture.componentRef.setInput('displayFormat', 'DD/MM/YYYY');
     fixture.detectChanges();
 
     expect(fixture.componentInstance.start()?.getTime()).toBe(start.getTime());
     expect(fixture.componentInstance.end()?.getTime()).toBe(end.getTime());
+    expect(trigger().textContent).toContain('09/09/2026 - 16/09/2026');
   });
 
-  it('passes max of end to start picker and min of start to end picker', () => {
-    const start = new Date(2026, 5, 1);
-    const end = new Date(2026, 5, 20);
-    fixture.componentRef.setInput('start', start);
-    fixture.componentRef.setInput('end', end);
+  it('shows placeholder when empty', () => {
+    fixture.componentRef.setInput('placeholder', 'Selecciona un rango…');
+    fixture.detectChanges();
+    expect(trigger().textContent).toContain('Selecciona un rango…');
+  });
+
+  it('prefers formatDate over displayFormat', () => {
+    fixture.componentRef.setInput('start', new Date(2026, 8, 9));
+    fixture.componentRef.setInput('end', new Date(2026, 8, 16));
+    fixture.componentRef.setInput('displayFormat', 'YYYY/MM/DD');
+    fixture.componentRef.setInput('formatDate', (d: Date) => `D:${d.getDate()}`);
+    fixture.detectChanges();
+    expect(trigger().textContent).toContain('D:9 - D:16');
+  });
+
+  it('disables the trigger and marks invalid', () => {
+    fixture.componentRef.setInput('disabled', true);
+    fixture.componentRef.setInput('invalid', true);
+    fixture.detectChanges();
+    expect(trigger().disabled).toBe(true);
+    expect(trigger().getAttribute('aria-invalid')).toBe('true');
+  });
+
+  it('clears both ends when clearable', () => {
+    fixture.componentRef.setInput('clearable', true);
+    fixture.componentRef.setInput('start', new Date(2026, 8, 9));
+    fixture.componentRef.setInput('end', new Date(2026, 8, 16));
     fixture.detectChanges();
 
-    const pickers = fixture.debugElement.queryAll(By.directive(WiDatepickerComponent));
-    const startPicker = pickers[0].componentInstance as WiDatepickerComponent;
-    const endPicker = pickers[1].componentInstance as WiDatepickerComponent;
+    const clearBtn = fixture.nativeElement.querySelector(
+      '.wi-date-range__clear',
+    ) as HTMLButtonElement;
+    expect(clearBtn).toBeTruthy();
+    clearBtn.click();
+    fixture.detectChanges();
 
-    expect(startPicker.max()?.getTime()).toBe(end.getTime());
-    expect(endPicker.min()?.getTime()).toBe(start.getTime());
+    expect(fixture.componentInstance.start()).toBeNull();
+    expect(fixture.componentInstance.end()).toBeNull();
+  });
+
+  it('selects a range via calendar cells and paints middle days', async () => {
+    fixture.componentRef.setInput('autoCloseOnSelect', false);
+    fixture.detectChanges();
+
+    trigger().click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const days = Array.from(
+      document.querySelectorAll('.wi-date-range__day:not([data-outside="true"])'),
+    ) as HTMLButtonElement[];
+    const day9 = days.find((d) => d.textContent?.trim() === '9' && !d.disabled);
+    const day16 = days.find((d) => d.textContent?.trim() === '16' && !d.disabled);
+    expect(day9).toBeTruthy();
+    expect(day16).toBeTruthy();
+
+    day9!.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    day16!.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(fixture.componentInstance.start()?.getDate()).toBe(9);
+    expect(fixture.componentInstance.end()?.getDate()).toBe(16);
+
+    const middle = document.querySelector('.wi-date-range__day[data-range-middle="true"]');
+    expect(middle).toBeTruthy();
+  });
+
+  it('shows two time groups when showTime is enabled', async () => {
+    fixture.componentRef.setInput('showTime', true);
+    fixture.componentRef.setInput('start', new Date(2026, 8, 9, 10, 0));
+    fixture.componentRef.setInput('end', new Date(2026, 8, 16, 18, 30));
+    fixture.componentRef.setInput('autoCloseOnSelect', false);
+    fixture.detectChanges();
+
+    trigger().click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(document.querySelector('.wi-date-range__time-start')).toBeTruthy();
+    expect(document.querySelector('.wi-date-range__time-end')).toBeTruthy();
+    const inputs = document.querySelectorAll('.wi-date-range__time-input');
+    expect(inputs.length).toBe(4);
+  });
+
+  it('merges start time from inputs', async () => {
+    fixture.componentRef.setInput('showTime', true);
+    fixture.componentRef.setInput('start', new Date(2026, 8, 9, 10, 0));
+    fixture.componentRef.setInput('end', new Date(2026, 8, 16, 18, 0));
+    fixture.componentRef.setInput('autoCloseOnSelect', false);
+    fixture.detectChanges();
+
+    trigger().click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const hour = document.querySelector('[id$="-start-hour"]') as HTMLInputElement;
+    const minute = document.querySelector('[id$="-start-minute"]') as HTMLInputElement;
+    expect(hour).toBeTruthy();
+    expect(minute).toBeTruthy();
+
+    hour.focus();
+    hour.value = '11';
+    minute.value = '45';
+    hour.dispatchEvent(new Event('input'));
+    minute.dispatchEvent(new Event('input'));
+    hour.blur();
+    minute.blur();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await new Promise<void>((resolve) => queueMicrotask(() => resolve()));
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.start()?.getHours()).toBe(11);
+    expect(fixture.componentInstance.start()?.getMinutes()).toBe(45);
   });
 
   it('is SSR-safe on init', () => {

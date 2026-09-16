@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.1.0-alpha.4 (unreleased)
+
+### Breaking
+
+- `wi-date-range`: un único input con calendario de rango (ya no dos `wi-datepicker`). Eliminados inputs/outputs duplicados (`startPlaceholder` / `endPlaceholder` / `startTouch` / `endTouch` / …). API alineada al datepicker: `placeholder`, `ariaLabel`, `calendarLabel`, `invalid`, `touch`, `startTimeLabel` / `endTimeLabel`.
+
+### Added
+
+- `displayFormat` en `wi-datepicker` y `wi-date-range` (tokens `YYYY` `YY` `MM` `DD` `HH` `mm`); `formatDate` sigue teniendo prioridad
+- Helpers `formatWiDate` / `formatWiDateRange`
+- `provideWiTimeZone` / `injectWiTimeZoneId` (TZ IANA del site; no muta el Date naive)
+- Stories Forms/WiDateRange (Selected, DisplayFormats, WithTime, SiteTimeZone, …)
+- MCP: entrada de catálogo `date-range` (`wi_view` / `wi_usage` / `wi_search`)
+
 ## 0.1.0-alpha.3
 
 Tercer corte interno de `@wldeveloperapps/ui` y `@wldeveloperapps/ui-mcp`. API experimental.

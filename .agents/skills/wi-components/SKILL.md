@@ -46,7 +46,7 @@ No exponer Spartan. No wrappers sin valor. No lógica de negocio de producto. Lo
 - [ ] Tokens; sin Tailwind dinámico; SSR/zoneless
 - [ ] Teclado + nombre accesible + disabled
 - [ ] Tests unitarios (`*.spec.ts`)
-- [ ] Stories + actions (skill `storybook`)
+- [ ] Stories + actions + Controls solo API pública (skill `storybook`)
 - [ ] Responsive ~320px en layouts/recipes
 - [ ] Export entry + `exports`/aliases si entry nuevo
 - [ ] MCP registry (solo API pública)

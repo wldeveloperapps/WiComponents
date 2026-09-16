@@ -1,5 +1,7 @@
 import {
   datepickerValueToUtcIso,
+  formatWiDate,
+  formatWiDateRange,
   fromLocalDateString,
   isLocalDateString,
   requireTimeZoneId,
@@ -7,6 +9,12 @@ import {
   utcIsoToDatepickerValue,
   zonedPartsToUtcDate,
 } from '../../forms/src/datepicker/wi-date';
+import {
+  injectWiTimeZoneId,
+  provideWiTimeZone,
+} from '../../forms/src/datepicker/wi-datepicker.timezone';
+import { Component } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 describe('wi-date helpers', () => {
   describe('civil local date', () => {
@@ -33,6 +41,24 @@ describe('wi-date helpers', () => {
       expect(isLocalDateString('2026-02-30')).toBe(false);
       expect(isLocalDateString('15/07/2026')).toBe(false);
       expect(() => fromLocalDateString('2026-13-01')).toThrow();
+    });
+  });
+
+  describe('display format', () => {
+    it('formatWiDate replaces YYYY MM DD HH mm tokens', () => {
+      const date = new Date(2026, 8, 9, 14, 5, 0, 0);
+      expect(formatWiDate(date, 'YYYY/MM/DD')).toBe('2026/09/09');
+      expect(formatWiDate(date, 'DD/MM/YYYY')).toBe('09/09/2026');
+      expect(formatWiDate(date, 'YY-MM-DD HH:mm')).toBe('26-09-09 14:05');
+    });
+
+    it('formatWiDateRange joins both ends or shows a single side', () => {
+      const start = new Date(2026, 8, 9);
+      const end = new Date(2026, 8, 16);
+      expect(formatWiDateRange(start, end, 'DD/MM/YYYY')).toBe('09/09/2026 - 16/09/2026');
+      expect(formatWiDateRange(start, null, 'DD/MM/YYYY')).toBe('09/09/2026');
+      expect(formatWiDateRange(null, end, 'DD/MM/YYYY')).toBe('16/09/2026');
+      expect(formatWiDateRange(null, null, 'DD/MM/YYYY')).toBe('');
     });
   });
 
@@ -79,5 +105,38 @@ describe('wi-date helpers', () => {
       // SGT = UTC+8 → 01:15Z
       expect(iso).toBe('2026-07-15T01:15:00.000Z');
     });
+  });
+});
+
+@Component({
+  template: '',
+})
+class TimeZoneProbeComponent {
+  readonly timeZoneId = injectWiTimeZoneId();
+}
+
+describe('provideWiTimeZone', () => {
+  it('injects the provided IANA zone', async () => {
+    await TestBed.configureTestingModule({
+      imports: [TimeZoneProbeComponent],
+      providers: [provideWiTimeZone('America/Lima')],
+    }).compileComponents();
+
+    const fixture: ComponentFixture<TimeZoneProbeComponent> =
+      TestBed.createComponent(TimeZoneProbeComponent);
+    expect(fixture.componentInstance.timeZoneId).toBe('America/Lima');
+  });
+
+  it('returns null when not provided', async () => {
+    await TestBed.configureTestingModule({
+      imports: [TimeZoneProbeComponent],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(TimeZoneProbeComponent);
+    expect(fixture.componentInstance.timeZoneId).toBeNull();
+  });
+
+  it('rejects empty timeZoneId at provide time', () => {
+    expect(() => provideWiTimeZone('')).toThrow(/timeZoneId is required/);
   });
 });

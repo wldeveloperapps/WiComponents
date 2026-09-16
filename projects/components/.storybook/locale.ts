@@ -285,6 +285,13 @@ export interface DatepickerDemoCopy {
   startAriaLabel: string;
   endAriaLabel: string;
   valuePrefix: string;
+  rangePlaceholder: string;
+  rangeAriaLabel: string;
+  rangeCalendarLabel: string;
+  startTimeLabel: string;
+  endTimeLabel: string;
+  formatHint: string;
+  tzHint: string;
 }
 
 const DATEPICKER_COPY: Record<StorybookLocale, DatepickerDemoCopy> = {
@@ -306,6 +313,14 @@ const DATEPICKER_COPY: Record<StorybookLocale, DatepickerDemoCopy> = {
     startAriaLabel: 'Fecha inicio',
     endAriaLabel: 'Fecha fin',
     valuePrefix: 'Valor',
+    rangePlaceholder: 'Selecciona un rango…',
+    rangeAriaLabel: 'Rango de fechas',
+    rangeCalendarLabel: 'Abrir calendario de rango',
+    startTimeLabel: 'Inicio',
+    endTimeLabel: 'Fin',
+    formatHint: 'Solo display (UI). El payload civil sigue siendo YYYY-MM-DD.',
+    tzHint:
+      'provideWiTimeZone no mueve el texto del input; interpreta el Date naive al serializar a UTC.',
   },
   en: {
     placeholder: 'Select a date…',
@@ -325,6 +340,14 @@ const DATEPICKER_COPY: Record<StorybookLocale, DatepickerDemoCopy> = {
     startAriaLabel: 'Start date',
     endAriaLabel: 'End date',
     valuePrefix: 'Value',
+    rangePlaceholder: 'Select a range…',
+    rangeAriaLabel: 'Date range',
+    rangeCalendarLabel: 'Open range calendar',
+    startTimeLabel: 'Start',
+    endTimeLabel: 'End',
+    formatHint: 'Display only (UI). Civil API payload remains YYYY-MM-DD.',
+    tzHint:
+      'provideWiTimeZone does not shift the input text; it interprets the naive Date when serializing to UTC.',
   },
 };
 

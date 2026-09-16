@@ -123,6 +123,21 @@ describe('WiDatepickerComponent', () => {
     expect(trigger().textContent).toContain('D:15');
   });
 
+  it('uses displayFormat when formatDate is not set', () => {
+    fixture.componentRef.setInput('value', new Date(2026, 8, 9));
+    fixture.componentRef.setInput('displayFormat', 'YYYY/MM/DD');
+    fixture.detectChanges();
+    expect(trigger().textContent).toContain('2026/09/09');
+  });
+
+  it('prefers formatDate over displayFormat', () => {
+    fixture.componentRef.setInput('value', new Date(2026, 8, 9));
+    fixture.componentRef.setInput('displayFormat', 'YYYY/MM/DD');
+    fixture.componentRef.setInput('formatDate', () => 'custom');
+    fixture.detectChanges();
+    expect(trigger().textContent).toContain('custom');
+  });
+
   it('commits value through the model and clears when clearable', async () => {
     fixture.componentRef.setInput('clearable', true);
     fixture.componentRef.setInput('value', new Date(2026, 0, 5));

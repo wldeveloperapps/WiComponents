@@ -6,6 +6,8 @@
  * aporta `timeZoneId` (IANA; en IIoT suele ser la TZ del site).
  */
 
+import type { WiDisplayDateFormat } from './wi-datepicker.types';
+
 /** Cadena de día civil `YYYY-MM-DD`. */
 export type WiLocalDateString = string;
 
@@ -27,6 +29,47 @@ const LOCAL_DATE_RE = /^(\d{4})-(\d{2})-(\d{2})$/;
 
 function pad2(value: number): string {
   return String(value).padStart(2, '0');
+}
+
+/**
+ * Formatea un `Date` naive del picker con tokens de display.
+ * Tokens: `YYYY`, `YY`, `MM`, `DD`, `HH`, `mm` (getters locales del Date).
+ * Solo UI — no usar para serialización HTTP.
+ */
+export function formatWiDate(date: Date, pattern: WiDisplayDateFormat): string {
+  const year = date.getFullYear();
+  const month = pad2(date.getMonth() + 1);
+  const day = pad2(date.getDate());
+  const hours = pad2(date.getHours());
+  const minutes = pad2(date.getMinutes());
+  return pattern
+    .replace(/YYYY/g, String(year))
+    .replace(/YY/g, String(year).slice(-2))
+    .replace(/MM/g, month)
+    .replace(/DD/g, day)
+    .replace(/HH/g, hours)
+    .replace(/mm/g, minutes);
+}
+
+/**
+ * Formatea un rango para el trigger. Si falta un extremo, no inventa el otro.
+ */
+export function formatWiDateRange(
+  start: Date | null,
+  end: Date | null,
+  pattern: WiDisplayDateFormat,
+  separator = ' - ',
+): string {
+  if (start && end) {
+    return `${formatWiDate(start, pattern)}${separator}${formatWiDate(end, pattern)}`;
+  }
+  if (start) {
+    return formatWiDate(start, pattern);
+  }
+  if (end) {
+    return formatWiDate(end, pattern);
+  }
+  return '';
 }
 
 /**

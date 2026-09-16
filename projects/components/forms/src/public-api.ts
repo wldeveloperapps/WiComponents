@@ -48,6 +48,7 @@ export { WiPicklistComponent, WiPicklistItemDirective } from './picklist/wi-pick
 export type {
   WiDateDisabled,
   WiDatepickerSize,
+  WiDisplayDateFormat,
   WiFormatDate,
   WiWeekday,
 } from './datepicker/wi-datepicker.types';
@@ -57,12 +58,15 @@ export type {
   WiMonthLabels,
 } from './datepicker/wi-datepicker.i18n';
 export { provideWiCalendarI18n } from './datepicker/wi-datepicker.i18n';
+export { injectWiTimeZoneId, provideWiTimeZone } from './datepicker/wi-datepicker.timezone';
 export { WiDatepickerComponent } from './datepicker/wi-datepicker.component';
 export { WiDateRangeComponent } from './datepicker/wi-date-range.component';
 export type { WiLocalDateString, WiTimeZoneId, WiZonedDateTimeParts } from './datepicker/wi-date';
 export {
   datepickerValueToUtcDate,
   datepickerValueToUtcIso,
+  formatWiDate,
+  formatWiDateRange,
   fromLocalDateString,
   isLocalDateString,
   requireTimeZoneId,

@@ -11,6 +11,7 @@ export { wiCheckboxRegistryEntry } from './checkbox.js';
 export { wiSwitchRegistryEntry } from './switch.js';
 export { wiSelectRegistryEntry } from './select.js';
 export { wiDatepickerRegistryEntry } from './datepicker.js';
+export { wiDateRangeRegistryEntry } from './date-range.js';
 export { wiTooltipRegistryEntry } from './tooltip.js';
 export { wiMenuRegistryEntry } from './menu.js';
 export { wiTableRegistryEntry } from './table.js';

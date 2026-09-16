@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { provideWiDataDisplayI18n } from '@wldeveloperapps/ui/data-display';
-import { provideWiCalendarI18n } from '@wldeveloperapps/ui/forms';
+import { provideWiCalendarI18n, provideWiTimeZone } from '@wldeveloperapps/ui/forms';
 import { provideWiIcons } from '@wldeveloperapps/ui/icon';
 import { calendarOutline, homeOutline, xMarkOutline } from '@wldeveloperapps/ui/icon/heroicons';
 import { provideWiOverlaysI18n } from '@wldeveloperapps/ui/overlays';
@@ -51,6 +51,7 @@ describe('App', () => {
           'x-mark': { outline: xMarkOutline },
         }),
         provideWiCalendarI18n(createCalendarI18n()),
+        provideWiTimeZone('Europe/Madrid'),
         provideWiDataDisplayI18n(createDataDisplayI18n()),
         provideWiOverlaysI18n(createOverlaysI18n()),
       ],

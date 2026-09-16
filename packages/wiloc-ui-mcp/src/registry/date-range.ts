@@ -2,52 +2,47 @@
  * Registry seed for @wldeveloperapps/ui-mcp.
  * Documenta solo API pública — no Spartan ni rutas internas.
  */
-export const wiDatepickerRegistryEntry = {
-  name: 'datepicker',
-  selector: 'wi-datepicker',
+export const wiDateRangeRegistryEntry = {
+  name: 'date-range',
+  selector: 'wi-date-range',
   entryPoint: '@wldeveloperapps/ui/forms',
   status: 'experimental' as const,
   exports: [
-    'WiDatepickerComponent',
     'WiDateRangeComponent',
-    'provideWiCalendarI18n',
-    'provideWiTimeZone',
-    'injectWiTimeZoneId',
     'WiDatepickerSize',
     'WiWeekday',
     'WiDateDisabled',
     'WiFormatDate',
     'WiDisplayDateFormat',
-    'WiCalendarI18n',
-    'WiMonthLabels',
-    'WiLocalDateString',
-    'WiTimeZoneId',
-    'WiZonedDateTimeParts',
-    'toLocalDateString',
-    'fromLocalDateString',
-    'isLocalDateString',
     'formatWiDate',
     'formatWiDateRange',
-    'requireTimeZoneId',
+    'provideWiCalendarI18n',
+    'provideWiTimeZone',
+    'injectWiTimeZoneId',
+    'toLocalDateString',
+    'fromLocalDateString',
     'datepickerValueToUtcIso',
-    'datepickerValueToUtcDate',
     'utcIsoToDatepickerValue',
-    'utcDateToDatepickerValue',
-    'zonedPartsToUtcDate',
-    'utcDateToZonedParts',
+    'requireTimeZoneId',
   ],
   inputs: [
     {
-      name: 'value',
+      name: 'start',
       type: 'Date | null (model)',
       default: 'null',
-      description: 'Valor del control. Compatible con Signal Forms ([formField]) y two-way binding',
+      description: 'Fecha de inicio del rango (two-way / Signal Forms)',
+    },
+    {
+      name: 'end',
+      type: 'Date | null (model)',
+      default: 'null',
+      description: 'Fecha de fin del rango (two-way / Signal Forms)',
     },
     {
       name: 'showTime',
       type: 'boolean',
       default: false,
-      description: 'Muestra selector de hora en el panel; el Date guarda fecha+hora',
+      description: 'Dos grupos HH:MM (inicio/fin) en el panel; el Date guarda fecha+hora',
     },
     {
       name: 'size',
@@ -59,19 +54,32 @@ export const wiDatepickerRegistryEntry = {
       name: 'placeholder',
       type: 'string',
       default: "''",
-      description: 'Texto cuando no hay valor',
+      description: 'Texto del trigger cuando no hay start ni end',
+    },
+    {
+      name: 'displayFormat',
+      type: 'WiDisplayDateFormat | undefined',
+      default: undefined,
+      description:
+        'Patrón de display (YYYY, YY, MM, DD, HH, mm). Solo UI; no cambia los Dates ni el payload',
+    },
+    {
+      name: 'formatDate',
+      type: 'WiFormatDate | undefined',
+      default: undefined,
+      description: 'Formateador por extremo; tiene prioridad sobre displayFormat',
     },
     {
       name: 'min',
       type: 'Date | undefined',
       default: undefined,
-      description: 'Fecha mínima seleccionable',
+      description: 'Fecha mínima seleccionable en el calendario',
     },
     {
       name: 'max',
       type: 'Date | undefined',
       default: undefined,
-      description: 'Fecha máxima seleccionable',
+      description: 'Fecha máxima seleccionable en el calendario',
     },
     {
       name: 'dateDisabled',
@@ -86,35 +94,22 @@ export const wiDatepickerRegistryEntry = {
       description: 'Primer día de la semana (0=domingo); si se omite, usa i18n',
     },
     {
-      name: 'formatDate',
-      type: 'WiFormatDate | undefined',
-      default: undefined,
-      description: 'Formateador del texto del trigger; tiene prioridad sobre displayFormat',
-    },
-    {
-      name: 'displayFormat',
-      type: 'WiDisplayDateFormat | undefined',
-      default: undefined,
-      description:
-        'Patrón de display (YYYY, YY, MM, DD, HH, mm). Solo UI; no cambia el Date ni el payload',
-    },
-    {
       name: 'autoCloseOnSelect',
       type: 'boolean | undefined',
       default: 'true si !showTime; false con showTime',
-      description: 'Cierra el panel al elegir un día',
+      description: 'Cierra el panel al completar start y end',
     },
     {
       name: 'clearable',
       type: 'boolean',
       default: false,
-      description: 'Muestra botón para limpiar el valor',
+      description: 'Botón para limpiar start y end',
     },
     {
       name: 'clearLabel',
       type: 'string',
       default: 'Clear',
-      description: 'aria-label del botón clear (inyectable / i18n app)',
+      description: 'aria-label del botón clear (i18n app)',
     },
     {
       name: 'calendarLabel',
@@ -123,22 +118,28 @@ export const wiDatepickerRegistryEntry = {
       description: 'aria-label por defecto del trigger si no hay ariaLabel',
     },
     {
-      name: 'timeLabel',
+      name: 'startTimeLabel',
       type: 'string',
-      default: 'Time',
-      description: 'Etiqueta visible del grupo de hora (si showTime)',
+      default: 'Start',
+      description: 'Etiqueta del grupo de hora de inicio (si showTime)',
+    },
+    {
+      name: 'endTimeLabel',
+      type: 'string',
+      default: 'End',
+      description: 'Etiqueta del grupo de hora de fin (si showTime)',
     },
     {
       name: 'id',
       type: 'string | undefined',
-      default: 'auto (wi-datepicker-N)',
+      default: 'auto (wi-date-range-N)',
       description: 'id del trigger para asociar labels',
     },
     {
       name: 'name',
       type: 'string',
       default: "''",
-      description: 'name del control / Signal Forms',
+      description: 'name del control',
     },
     {
       name: 'disabled',
@@ -181,7 +182,7 @@ export const wiDatepickerRegistryEntry = {
     {
       name: 'touch',
       type: 'void',
-      description: 'Emite al cerrar el panel (touched Signal Forms / CVA)',
+      description: 'Emite al cerrar el panel (touched)',
     },
   ],
   variants: {
@@ -189,10 +190,9 @@ export const wiDatepickerRegistryEntry = {
   },
   related: [
     {
-      name: 'date-range',
-      selector: 'wi-date-range',
-      description:
-        'Rango en un único input (models start/end). Ver entrada de catálogo date-range / wi_view("date-range").',
+      name: 'datepicker',
+      selector: 'wi-datepicker',
+      description: 'Fecha (o fecha+hora) en un único valor. Ver wi_view("datepicker").',
     },
   ],
   keyboard: [
@@ -200,26 +200,26 @@ export const wiDatepickerRegistryEntry = {
     'Enter / Space: abre el calendario desde el trigger',
     'Escape: cierra el panel',
     'Flechas / Home / End / PageUp / PageDown: navegan días en la rejilla',
+    'Primer clic en día = start; segundo = end (si el segundo es anterior, se reordenan)',
   ],
   a11yNotes: [
-    'El trigger expone aria-haspopup=dialog y aria-expanded',
-    'Días deshabilitados con aria-disabled',
-    'Textos de navegación e i18n vía provideWiCalendarI18n (sin copy hardcodeado de producto)',
-    'Plantilla i18n: inputs placeholder/clearLabel/calendarLabel/timeLabel/ariaLabel + provideWiCalendarI18n (months, weekdays, labelPrevious/Next, hourPlaceholder/minutePlaceholder/hourAriaLabel/minuteAriaLabel)',
-    'Icono calendar debe registrarse con provideWiIcons',
-    'Overlays: la app debe incluir CSS de CDK Overlay / Spartan popover',
-    'El control captura componentes de fecha/hora; no adivina TZ. provideWiTimeZone + helpers toLocalDateString / datepickerValueToUtcIso. Ver docs/datepicker-international.md',
+    'Un único trigger con aria-haspopup=dialog y aria-expanded',
+    'Días de rango: data-range-start / data-range-end / data-range-middle',
+    'Textos de navegación e i18n vía provideWiCalendarI18n',
+    'Copy de producto (placeholder, ariaLabel, startTimeLabel, endTimeLabel) lo provee la app',
+    'Icono calendar vía provideWiIcons',
+    'Overlays: CSS de CDK Overlay / Spartan popover en la app',
+    'Models start/end independientes; validar start ≤ end en la app/back',
+    'displayFormat solo UI; civil → toLocalDateString; con hora → datepickerValueToUtcIso + provideWiTimeZone / timeZoneId',
+    'Ver docs/datepicker-international.md y componente relacionado datepicker',
   ],
   example: {
     import: `import {
-  WiDatepickerComponent,
   WiDateRangeComponent,
   provideWiCalendarI18n,
   provideWiTimeZone,
   toLocalDateString,
-  fromLocalDateString,
   datepickerValueToUtcIso,
-  utcIsoToDatepickerValue,
   requireTimeZoneId,
   type WiMonthLabels,
 } from '@wldeveloperapps/ui/forms';
@@ -251,47 +251,36 @@ provideWiCalendarI18n({
 provideWiTimeZone(site.timeZoneId);
 
 // Civil → API
-const payloadDate = date ? toLocalDateString(date) : null;
-// API → picker
-date = payloadDate ? fromLocalDateString(payloadDate) : null;
+const fromPayload = from ? toLocalDateString(from) : null;
+const toPayload = to ? toLocalDateString(to) : null;
 
-// Con hora + TZ del site (IIoT)
+// Con hora + TZ del site
 const tz = requireTimeZoneId(site.timeZoneId);
-const iso = dateTime ? datepickerValueToUtcIso(dateTime, tz) : null;
-dateTime = iso ? utcIsoToDatepickerValue(iso, tz) : null;`,
-    template: `<!-- Labels / i18n: siempre desde la app (no hay diccionario en @wldeveloperapps/ui) -->
-<label for="hire-date">Fecha de alta</label>
-<wi-datepicker
-  id="hire-date"
-  [(value)]="date"
-  clearable
-  displayFormat="DD/MM/YYYY"
-  placeholder="Selecciona una fecha…"
-  clearLabel="Limpiar"
-  calendarLabel="Abrir calendario"
-  ariaLabel="Fecha de alta"
-/>
-
-<!-- Con hora (mapear con timeZoneId del site/usuario) -->
-<wi-datepicker
-  [(value)]="dateTime"
-  showTime
-  displayFormat="DD/MM/YYYY HH:mm"
-  timeLabel="Hora"
-  placeholder="Fecha y hora…"
-  ariaLabel="Fecha y hora"
-/>
-
-<!-- Rango (un input) -->
+const fromIso = from ? datepickerValueToUtcIso(from, tz) : null;
+const toIso = to ? datepickerValueToUtcIso(to, tz) : null;`,
+    template: `<label for="period">Periodo</label>
 <wi-date-range
+  id="period"
   [(start)]="from"
   [(end)]="to"
   clearable
   displayFormat="DD/MM/YYYY"
   placeholder="Selecciona un rango…"
-  ariaLabel="Rango de fechas"
-  calendarLabel="Abrir calendario de rango"
   clearLabel="Limpiar"
+  calendarLabel="Abrir calendario de rango"
+  ariaLabel="Periodo"
+/>
+
+<!-- Con hora -->
+<wi-date-range
+  [(start)]="from"
+  [(end)]="to"
+  showTime
+  displayFormat="DD/MM/YYYY HH:mm"
+  startTimeLabel="Inicio"
+  endTimeLabel="Fin"
+  placeholder="Fecha y hora…"
+  ariaLabel="Rango con hora"
 />`,
   },
 };

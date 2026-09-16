@@ -18,7 +18,9 @@ describe('@wldeveloperapps/ui-mcp catalog', () => {
     expect(names).toContain('table');
     expect(names).toContain('toast');
     expect(names).toContain('breadcrumb');
-    expect(names.length).toBeGreaterThanOrEqual(26);
+    expect(names).toContain('datepicker');
+    expect(names).toContain('date-range');
+    expect(names.length).toBeGreaterThanOrEqual(27);
   });
 
   it('marks picklist, file-upload and stepper as patterns', () => {
@@ -105,6 +107,62 @@ describe('@wldeveloperapps/ui-mcp catalog', () => {
     expect(otp!.example.template).toContain('<wi-otp');
     expect(otp!.example.template).toContain('[length]="6"');
     expect(otp!.example.template).not.toContain('maxLength');
+  });
+
+  it('documents wi-date-range as a single-input range with public API', () => {
+    const range = getCatalogItem('wi-date-range');
+    expect(range).toBeDefined();
+    expect(range!.name).toBe('date-range');
+    expect(getCatalogItem('date-range')?.selector).toBe('wi-date-range');
+    expect(range!.entryPoint).toBe('@wldeveloperapps/ui/forms');
+    const inputNames = range!.inputs.map((field) => field.name);
+    expect(inputNames).toEqual(
+      expect.arrayContaining([
+        'start',
+        'end',
+        'showTime',
+        'displayFormat',
+        'formatDate',
+        'placeholder',
+        'startTimeLabel',
+        'endTimeLabel',
+        'clearable',
+        'ariaLabel',
+      ]),
+    );
+    expect(inputNames).not.toContain('startPlaceholder');
+    expect(inputNames).not.toContain('endPlaceholder');
+    expect(range!.outputs.map((field) => field.name)).toContain('touch');
+    expect(range!.exports).toEqual(
+      expect.arrayContaining([
+        'WiDateRangeComponent',
+        'formatWiDateRange',
+        'provideWiTimeZone',
+        'injectWiTimeZoneId',
+      ]),
+    );
+    expect(range!.example.template).toContain('<wi-date-range');
+    expect(range!.example.template).toContain('[(start)]');
+    expect(range!.example.template).toContain('[(end)]');
+    expect(range!.example.template).toContain('displayFormat');
+    expect(range!.example.import).toContain('provideWiTimeZone');
+    expect(range!.example.template).not.toContain('startPlaceholder');
+  });
+
+  it('documents wi-datepicker displayFormat and timezone helpers', () => {
+    const picker = getCatalogItem('datepicker');
+    expect(picker).toBeDefined();
+    expect(picker!.inputs.map((field) => field.name)).toContain('displayFormat');
+    expect(picker!.exports).toEqual(
+      expect.arrayContaining([
+        'provideWiTimeZone',
+        'injectWiTimeZoneId',
+        'formatWiDate',
+        'WiDisplayDateFormat',
+      ]),
+    );
+    expect(picker!.example.template).toContain('displayFormat');
+    expect(picker!.example.import).toContain('provideWiTimeZone');
   });
 
   it('search ranks table above unrelated hits', () => {

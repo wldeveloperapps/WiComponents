@@ -105,6 +105,9 @@ interface UiMessages {
   datepicker: string;
   dateAria: string;
   openCalendar: string;
+  dateRange: string;
+  dateRangeAria: string;
+  dateRangePlaceholder: string;
   fileUpload: string;
   chooseFile: string;
   noFileChosen: string;
@@ -210,6 +213,9 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     datepicker: 'Datepicker',
     dateAria: 'Fecha',
     openCalendar: 'Abrir calendario',
+    dateRange: 'Rango de fechas',
+    dateRangeAria: 'Rango de fechas',
+    dateRangePlaceholder: 'Selecciona un rango…',
     fileUpload: 'File upload',
     chooseFile: 'Elegir archivo',
     noFileChosen: 'Ningún archivo seleccionado',
@@ -329,6 +335,9 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     datepicker: 'Datepicker',
     dateAria: 'Date',
     openCalendar: 'Open calendar',
+    dateRange: 'Date range',
+    dateRangeAria: 'Date range',
+    dateRangePlaceholder: 'Select a range…',
     fileUpload: 'File upload',
     chooseFile: 'Choose file',
     noFileChosen: 'No file chosen',
