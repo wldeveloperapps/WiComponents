@@ -116,6 +116,43 @@ describe('WiDateRangeComponent', () => {
     expect(fixture.componentInstance.end()).toBeNull();
   });
 
+  it('keeps the panel open when rewriting a complete range', async () => {
+    fixture.componentRef.setInput('start', new Date(2026, 8, 9));
+    fixture.componentRef.setInput('end', new Date(2026, 8, 16));
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    trigger().click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(trigger().getAttribute('aria-expanded')).toBe('true');
+
+    const inMonthDays = () =>
+      Array.from(
+        document.querySelectorAll('.wi-date-range__day:not([data-outside="true"])'),
+      ) as HTMLButtonElement[];
+
+    const day5 = inMonthDays().find((d) => d.textContent?.trim() === '5' && !d.disabled);
+    expect(day5).toBeTruthy();
+    day5!.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(trigger().getAttribute('aria-expanded')).toBe('true');
+    expect(fixture.componentInstance.start()?.getDate()).toBe(5);
+    expect(fixture.componentInstance.end()).toBeNull();
+
+    const day12 = inMonthDays().find((d) => d.textContent?.trim() === '12' && !d.disabled);
+    expect(day12).toBeTruthy();
+    day12!.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(fixture.componentInstance.start()?.getDate()).toBe(5);
+    expect(fixture.componentInstance.end()?.getDate()).toBe(12);
+    expect(trigger().getAttribute('aria-expanded')).toBe('false');
+  });
+
   it('selects a range via calendar cells and paints middle days', async () => {
     fixture.componentRef.setInput('autoCloseOnSelect', false);
     fixture.detectChanges();

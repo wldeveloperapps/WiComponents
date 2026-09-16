@@ -535,12 +535,21 @@ export class WiDateRangeComponent {
     if (this.isDisabled() || this.readonly()) {
       return;
     }
+    const hadCompleteRange = this.start() != null && this.end() != null;
     this.calendarStart.set(date);
     const next = date ? this.mergeDayWithTime(date, this.start()) : null;
     if (!this.sameInstant(this.start(), next)) {
       this.start.set(next);
     }
-    this.maybeAutoClose();
+    // Brain resets a complete range on the next start click (end → undefined).
+    // Clear end immediately so auto-close does not treat the previous end as
+    // a completed selection, and the binding does not push the old end back.
+    if (hadCompleteRange && date) {
+      this.calendarEnd.set(undefined);
+      if (this.end() != null) {
+        this.end.set(null);
+      }
+    }
   }
 
   protected onCalendarEndChange(date: Date | undefined): void {
@@ -552,7 +561,9 @@ export class WiDateRangeComponent {
     if (!this.sameInstant(this.end(), next)) {
       this.end.set(next);
     }
-    this.maybeAutoClose();
+    if (date) {
+      this.maybeAutoClose();
+    }
   }
 
   private maybeAutoClose(): void {
