@@ -14,8 +14,8 @@
       "@wldeveloperapps/ui/data-display": ["./data-display/src/public-api.ts"],
       "@wldeveloperapps/ui/navigation": ["./navigation/src/public-api.ts"],
       "@wldeveloperapps/ui/overlays": ["./overlays/src/public-api.ts"],
-      "@wldeveloperapps/ui/icon": ["./icon/src/public-api.ts"],
-      "@wldeveloperapps/ui/icon/heroicons": ["./icon/heroicons/src/public-api.ts"]
+      "@wldeveloperapps/ui/icon/heroicons": ["./icon/heroicons/src/public-api.ts"],
+      "@wldeveloperapps/ui/icon": ["./icon/src/public-api.ts"]
     }
   },
   "include": [

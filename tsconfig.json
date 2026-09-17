@@ -8,6 +8,30 @@
       ],
       "@wldeveloperapps/ui-internal/helm/*": [
         "./projects/components/_internal/helm/*"
+      ],
+      "@wldeveloperapps/ui/core": [
+        "./projects/components/core/src/public-api.ts"
+      ],
+      "@wldeveloperapps/ui/button": [
+        "./projects/components/button/src/public-api.ts"
+      ],
+      "@wldeveloperapps/ui/forms": [
+        "./projects/components/forms/src/public-api.ts"
+      ],
+      "@wldeveloperapps/ui/data-display": [
+        "./projects/components/data-display/src/public-api.ts"
+      ],
+      "@wldeveloperapps/ui/navigation": [
+        "./projects/components/navigation/src/public-api.ts"
+      ],
+      "@wldeveloperapps/ui/overlays": [
+        "./projects/components/overlays/src/public-api.ts"
+      ],
+      "@wldeveloperapps/ui/icon/heroicons": [
+        "./projects/components/icon/heroicons/src/public-api.ts"
+      ],
+      "@wldeveloperapps/ui/icon": [
+        "./projects/components/icon/src/public-api.ts"
       ]
     },
 
