@@ -43,7 +43,7 @@ export const WI_ENTRY_POINTS: readonly WiEntryPointInfo[] = [
   },
   {
     entryPoint: '@wldeveloperapps/ui/styles/toast.css',
-    description: 'Estilos del toaster (importar si usas toast)',
+    description: 'Estilos del toast (importar si usas toast)',
   },
 ];
 

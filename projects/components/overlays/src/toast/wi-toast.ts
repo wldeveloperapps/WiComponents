@@ -45,7 +45,7 @@ function createToast(message: string, options?: WiToastOptions): WiToastId {
 /**
  * API imperativa de toasts (`wiToast`).
  *
- * Requiere un `<wi-toaster />` montado una vez (p. ej. en el root de la app).
+ * Requiere un `<wi-toast />` montado una vez (p. ej. en el root de la app).
  * No clona `MessageService` de Prime: API propia tipada.
  *
  * ```ts

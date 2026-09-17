@@ -4,11 +4,11 @@
  */
 export const wiToastRegistryEntry = {
   name: 'toast',
-  selector: 'wi-toaster',
+  selector: 'wi-toast',
   entryPoint: '@wldeveloperapps/ui/overlays',
   status: 'experimental' as const,
   exports: [
-    'WiToasterComponent',
+    'WiToastComponent',
     'WiToast',
     'wiToast',
     'WiToastId',
@@ -92,7 +92,7 @@ export const wiToastRegistryEntry = {
       {
         name: 'toastCloseLabel',
         description:
-          'aria-label del botón cerrar de cada toast (Brain hardcodea inglés; wi-toaster lo sustituye)',
+          'aria-label del botón cerrar de cada toast (Brain hardcodea inglés; wi-toast lo sustituye)',
         default: 'Close toast',
       },
       {
@@ -117,20 +117,20 @@ export const wiToastRegistryEntry = {
   ],
   parts: [
     {
-      selector: 'wi-toaster',
-      description: 'Host global (una vez en el root). Disparar con wiToast o inject(WiToast).',
+      selector: 'wi-toast',
+      description: 'Viewport global (una vez en el root). Disparar con wiToast o inject(WiToast).',
     },
   ],
   keyboard: [
     'Alt+T enfoca el área de notificaciones (configurable con hotKey)',
-    'Escape colapsa el stack si el foco está en el toaster',
+    'Escape colapsa el stack si el foco está en el toast',
     'Tab / foco en toast; botón cerrar y acciones accesibles',
   ],
   a11yNotes:
-    'Cada toast: role=status, aria-atomic, aria-live polite (assertive si important). Viewport vía CDK Overlay en document.body. theme=auto sigue .wi-dark. Copy de producto vía wiToast (app i18n). Chrome a11y: provideWiOverlaysI18n.toastCloseLabel / toastRegionLabel (Brain hardcodea inglés; wi-toaster lo sustituye). Importar @wldeveloperapps/ui/styles/toast.css (o styles/index.css).',
+    'Cada toast: role=status, aria-atomic, aria-live polite (assertive si important). Viewport vía CDK Overlay en document.body. theme=auto sigue .wi-dark. Copy de producto vía wiToast (app i18n). Chrome a11y: provideWiOverlaysI18n.toastCloseLabel / toastRegionLabel (Brain hardcodea inglés; wi-toast lo sustituye). Importar @wldeveloperapps/ui/styles/toast.css (o styles/index.css).',
   example: {
     import: `import {
-  WiToasterComponent,
+  WiToastComponent,
   wiToast,
   WiToast,
   provideWiOverlaysI18n,
@@ -141,10 +141,10 @@ provideWiOverlaysI18n({
   toastRegionLabel: () => 'Notificaciones',
 });
 
-// Root: <wi-toaster />
+// Root: <wi-toast />
 wiToast.success('Guardado', { description: 'El registro se actualizó' });
 inject(WiToast).error('Error', { important: true });`,
     template: `<router-outlet />
-<wi-toaster />`,
+<wi-toast />`,
   },
 } as const;

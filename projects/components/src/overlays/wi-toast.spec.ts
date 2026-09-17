@@ -5,12 +5,12 @@ import { WI_DARK_CLASS } from '../../core/src/wi-theme';
 import { provideWiOverlaysI18n } from '../../overlays/src/wi-overlays.i18n';
 import { wiToast } from '../../overlays/src/toast/wi-toast';
 import { WiToast } from '../../overlays/src/toast/wi-toast.service';
-import { WiToasterComponent } from '../../overlays/src/toast/wi-toaster.component';
+import { WiToastComponent } from '../../overlays/src/toast/wi-toast.component';
 
 @Component({
-  imports: [WiToasterComponent],
+  imports: [WiToastComponent],
   template: `
-    <wi-toaster [closeButton]="true" [duration]="4000" />
+    <wi-toast [closeButton]="true" [duration]="4000" />
     <button type="button" data-testid="trigger" (click)="onClick()">Trigger</button>
   `,
 })
@@ -20,7 +20,7 @@ class WiToastHostComponent {
   }
 }
 
-describe('WiToasterComponent / wiToast', () => {
+describe('WiToastComponent / wiToast', () => {
   let fixture: ComponentFixture<WiToastHostComponent>;
 
   beforeEach(async () => {
@@ -72,18 +72,18 @@ describe('WiToasterComponent / wiToast', () => {
   }
 
   it('attaches viewport via CDK overlay on document.body (viewport, not story container)', async () => {
-    const host = fixture.nativeElement.querySelector('wi-toaster') as HTMLElement;
+    const host = fixture.nativeElement.querySelector('wi-toast') as HTMLElement;
     expect(host).toBeTruthy();
-    expect(host.getAttribute('data-slot')).toBe('toaster');
+    expect(host.getAttribute('data-slot')).toBe('toast');
 
     const overlayContainer = document.querySelector('.cdk-overlay-container');
     expect(overlayContainer).toBeTruthy();
     expect(overlayContainer?.parentElement).toBe(document.body);
 
-    const pane = document.querySelector('.wi-toaster-overlay, .cdk-overlay-pane');
+    const pane = document.querySelector('.wi-toast-overlay, .cdk-overlay-pane');
     expect(pane).toBeTruthy();
 
-    expect(TestBed.createComponent(WiToasterComponent).componentInstance.position()).toBe(
+    expect(TestBed.createComponent(WiToastComponent).componentInstance.position()).toBe(
       'top-right',
     );
   });
@@ -162,14 +162,14 @@ describe('WiToasterComponent / wiToast', () => {
   });
 
   it('can be created without throwing (SSR-safe construction)', () => {
-    const toasterFixture = TestBed.createComponent(WiToasterComponent);
-    expect(() => toasterFixture.detectChanges()).not.toThrow();
-    expect(toasterFixture.componentInstance).toBeTruthy();
-    toasterFixture.destroy();
+    const toastFixture = TestBed.createComponent(WiToastComponent);
+    expect(() => toastFixture.detectChanges()).not.toThrow();
+    expect(toastFixture.componentInstance).toBeTruthy();
+    toastFixture.destroy();
   });
 });
 
-describe('WiToasterComponent chrome i18n', () => {
+describe('WiToastComponent chrome i18n', () => {
   let fixture: ComponentFixture<WiToastHostComponent>;
 
   beforeEach(async () => {

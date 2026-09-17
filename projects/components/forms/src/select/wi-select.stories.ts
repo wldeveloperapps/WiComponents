@@ -21,12 +21,89 @@ type WiSelectStoryArgs = WiSelectComponent & {
   touch: ReturnType<typeof fn>;
 };
 
+const hideFromDocs = { table: { disable: true }, control: false } as const;
+
+const hiddenSelectInternals: Record<string, typeof hideFromDocs> = {
+  itemTemplateDir: hideFromDocs,
+  selectedTemplateDir: hideFromDocs,
+  triggerIconDir: hideFromDocs,
+  generatedId: hideFromDocs,
+  cvaDisabled: hideFromDocs,
+  injector: hideFromDocs,
+  brnSelectMultiple: hideFromDocs,
+  selectTrigger: hideFromDocs,
+  onChange: hideFromDocs,
+  onTouched: hideFromDocs,
+  panelClasses: hideFromDocs,
+  optionClasses: hideFromDocs,
+  optionCheckClasses: hideFromDocs,
+  chipClasses: hideFromDocs,
+  chipRemoveClasses: hideFromDocs,
+  resolvedId: hideFromDocs,
+  isDisabled: hideFromDocs,
+  triggerClasses: hideFromDocs,
+  multiTriggerClasses: hideFromDocs,
+  resolvedItemTemplate: hideFromDocs,
+  resolvedSelectedTemplate: hideFromDocs,
+  triggerIconTemplate: hideFromDocs,
+  multiValue: hideFromDocs,
+  hasSelection: hideFromDocs,
+  displayLabel: hideFromDocs,
+  itemToStringFn: hideFromDocs,
+  compareWithFn: hideFromDocs,
+  writeValue: hideFromDocs,
+  registerOnChange: hideFromDocs,
+  registerOnTouched: hideFromDocs,
+  setDisabledState: hideFromDocs,
+  onValueChange: hideFromDocs,
+  onMultiValueChange: hideFromDocs,
+  onClosed: hideFromDocs,
+  onClear: hideFromDocs,
+  onChipRemovePointerDown: hideFromDocs,
+  onRemoveSelected: hideFromDocs,
+  resetMultiTypeahead: hideFromDocs,
+  selectedItemLabel: hideFromDocs,
+  chipRemoveAriaLabel: hideFromDocs,
+  trackSelected: hideFromDocs,
+  resolveOptionValue: hideFromDocs,
+  resolveOptionLabel: hideFromDocs,
+  trackOption: hideFromDocs,
+  itemContext: hideFromDocs,
+  selectedContext: hideFromDocs,
+};
+
 const meta: Meta<WiSelectStoryArgs> = {
   title: 'Forms/WiSelect',
   component: WiSelectComponent,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
+    controls: {
+      include: [
+        'value',
+        'multiple',
+        'options',
+        'optionLabel',
+        'optionValue',
+        'compareWith',
+        'size',
+        'placeholder',
+        'emptyText',
+        'clearable',
+        'clearLabel',
+        'removeChipLabel',
+        'id',
+        'name',
+        'disabled',
+        'invalid',
+        'required',
+        'ariaLabel',
+        'ariaDescribedBy',
+        'itemTemplate',
+        'selectedTemplate',
+        'icon',
+      ],
+    },
     docs: {
       description: {
         component:
@@ -62,12 +139,22 @@ const meta: Meta<WiSelectStoryArgs> = {
     emptyText: { control: 'text' },
     clearLabel: { control: 'text' },
     removeChipLabel: { control: 'text' },
+    optionLabel: { control: 'text' },
+    optionValue: { control: 'text' },
+    id: { control: 'text' },
+    name: { control: 'text' },
     ariaLabel: { control: 'text' },
+    ariaDescribedBy: { control: 'text' },
     icon: {
       control: 'text',
       description:
         'Nombre de cualquier icono registrado con provideWiIcons (p. ej. funnel, clock, calendar)',
     },
+    options: { control: 'object' },
+    value: { control: false },
+    compareWith: { control: false },
+    itemTemplate: { control: false },
+    selectedTemplate: { control: false },
     valueChange: {
       action: 'valueChange',
       description: 'Se emite al cambiar el valor',
@@ -80,6 +167,7 @@ const meta: Meta<WiSelectStoryArgs> = {
       table: { category: 'Events' },
       control: false,
     },
+    ...hiddenSelectInternals,
   },
   args: {
     size: 'md',
@@ -92,8 +180,14 @@ const meta: Meta<WiSelectStoryArgs> = {
     emptyText: 'Sin opciones',
     clearLabel: 'Limpiar',
     removeChipLabel: 'Quitar',
+    optionLabel: '',
+    optionValue: '',
+    id: '',
+    name: '',
     ariaLabel: 'Fruta',
+    ariaDescribedBy: '',
     icon: '',
+    options: fruitOptions,
     valueChange: fn(),
     touch: fn(),
   },
@@ -106,8 +200,7 @@ export const Default: Story = {
   render: (args) => ({
     props: {
       ...args,
-      options: fruitOptions,
-      value: null as string | null,
+      value: args.value ?? null,
     },
     template: `
       <div style="width:20rem;">
@@ -116,6 +209,8 @@ export const Default: Story = {
           (valueChange)="value = $event; valueChange($event)"
           (touch)="touch()"
           [options]="options"
+          [optionLabel]="optionLabel || undefined"
+          [optionValue]="optionValue || undefined"
           [size]="size"
           [multiple]="multiple"
           [clearable]="clearable"
@@ -125,7 +220,11 @@ export const Default: Story = {
           [placeholder]="placeholder"
           [emptyText]="emptyText"
           [clearLabel]="clearLabel"
+          [removeChipLabel]="removeChipLabel"
+          [id]="id || undefined"
+          [name]="name"
           [ariaLabel]="ariaLabel"
+          [ariaDescribedBy]="ariaDescribedBy || null"
           [icon]="icon || undefined"
         />
       </div>

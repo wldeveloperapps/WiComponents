@@ -264,6 +264,90 @@ describe('WiSelectComponent', () => {
     expect(document.querySelector('[brnSelectContent]')).toBeTruthy();
   });
 
+  it('keeps trigger focus after toggling an option with the mouse in multiple mode', async () => {
+    fixture.componentRef.setInput('multiple', true);
+    fixture.componentInstance.value.set([]);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const button = trigger();
+    button.focus();
+    button.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const option = document.querySelector('[brnSelectItem]') as HTMLElement | null;
+    expect(option).toBeTruthy();
+    option?.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true }));
+    option?.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(fixture.componentInstance.value()).toEqual(['One']);
+    expect(document.activeElement).toBe(button);
+  });
+
+  it('keeps trigger focus after removing a chip while the panel is open', async () => {
+    fixture.componentRef.setInput('multiple', true);
+    fixture.componentInstance.value.set(['One', 'Two']);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const button = trigger();
+    button.focus();
+    button.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const removeFirst = fixture.nativeElement.querySelector(
+      '.wi-select__chip-remove',
+    ) as HTMLElement | null;
+    removeFirst?.dispatchEvent(
+      new PointerEvent('pointerdown', { bubbles: true, cancelable: true }),
+    );
+    removeFirst?.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(fixture.componentInstance.value()).toEqual(['Two']);
+    expect(document.activeElement).toBe(button);
+  });
+
+  it('starts a fresh typeahead query after toggling a multiple option', async () => {
+    fixture.componentRef.setInput('multiple', true);
+    fixture.componentInstance.value.set([]);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const button = trigger();
+    button.focus();
+    button.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    button.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 't', bubbles: true, cancelable: true }),
+    );
+    const options = Array.from(document.querySelectorAll('[brnSelectItem]')) as HTMLElement[];
+    options[1]?.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true }));
+    options[1]?.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(fixture.componentInstance.value()).toEqual(['Two']);
+    expect(document.activeElement).toBe(button);
+
+    button.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'o', bubbles: true, cancelable: true }),
+    );
+    await new Promise((r) => setTimeout(r, 250));
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const highlighted = document.querySelector('[data-highlighted]');
+    expect(highlighted?.textContent).toContain('One');
+  });
+
   it('resolves optionLabel and optionValue for object options', async () => {
     fixture.componentRef.setInput('options', [
       { id: 's1', name: 'Site One' },

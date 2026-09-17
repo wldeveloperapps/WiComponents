@@ -11,7 +11,7 @@ import {
 } from '../../../.storybook/locale';
 import { wiToast } from './wi-toast';
 import type { WiToastPosition, WiToastTheme } from './wi-toast.types';
-import { WiToasterComponent } from './wi-toaster.component';
+import { WiToastComponent } from './wi-toast.component';
 
 interface StoryArgs {
   position: WiToastPosition;
@@ -19,8 +19,44 @@ interface StoryArgs {
   closeButton: boolean;
   duration: number;
   theme: WiToastTheme;
+  invert: boolean;
+  expand: boolean;
+  visibleToasts: number;
+  offset: string | number | null;
+  hotKey: string[];
   actionClick: ReturnType<typeof fn>;
 }
+
+const hideFromDocs = { table: { disable: true }, control: false } as const;
+
+/** Internos de `WiToastComponent` que autodocs extrae como Properties / Methods. */
+const hiddenToastInternals: Record<string, typeof hideFromDocs> = {
+  destroyRef: hideFromDocs,
+  document: hideFromDocs,
+  documentTheme: hideFromDocs,
+  overlay: hideFromDocs,
+  overlayRef: hideFromDocs,
+  overlaysI18n: hideFromDocs,
+  platformId: hideFromDocs,
+  portalTpl: hideFromDocs,
+  resolvedTheme: hideFromDocs,
+  toastOptions: hideFromDocs,
+  tokenStyle: hideFromDocs,
+  viewContainerRef: hideFromDocs,
+  applyChromeI18n: hideFromDocs,
+  attachOverlay: hideFromDocs,
+  syncDocumentTheme: hideFromDocs,
+};
+
+const USAGE_SOURCE = `import { inject } from '@angular/core';
+import { WiToast, WiToastComponent, wiToast } from '@wldeveloperapps/ui/overlays';
+
+// <router-outlet />
+// <wi-toast />
+
+wiToast.success('Guardado', { description: 'El registro se actualizó' });
+inject(WiToast).error('Error', { important: true });
+`;
 
 function localeFromGlobals(globals: { locale?: string } | undefined): StorybookLocale {
   return globals?.locale === 'en' ? 'en' : 'es';
@@ -31,11 +67,11 @@ function toastCopy(globals: { locale?: string } | undefined): ToastDemoCopy {
 }
 
 /**
- * Canvas: monta `wi-toaster` + demo.
+ * Canvas: monta `wi-toast` + demo.
  * Docs: aviso (el card de autodocs no puede anclar overlays al viewport).
  * Copy de demo: toolbar Locale (ES/EN) vía `getToastDemoCopy` — no hardcodear idioma.
  */
-const toasterDecorator = (
+const toastDecorator = (
   storyFn: () => { template?: string; props?: Record<string, unknown> },
   context: { viewMode?: string; globals?: { locale?: string } },
 ) => {
@@ -60,12 +96,17 @@ const toasterDecorator = (
     ...story,
     props: story.props,
     template: `
-      <wi-toaster
+      <wi-toast
         [position]="position"
         [theme]="theme"
         [richColors]="richColors"
         [closeButton]="closeButton"
         [duration]="duration"
+        [invert]="invert"
+        [expand]="expand"
+        [visibleToasts]="visibleToasts"
+        [offset]="offset"
+        [hotKey]="hotKey"
       />
       ${story.template ?? ''}
     `,
@@ -74,31 +115,76 @@ const toasterDecorator = (
 
 const meta: Meta<StoryArgs> = {
   title: 'Overlays/WiToast',
-  component: WiToasterComponent,
+  component: WiToastComponent,
   tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
+    controls: {
+      include: [
+        'position',
+        'theme',
+        'duration',
+        'closeButton',
+        'richColors',
+        'expand',
+        'visibleToasts',
+        'offset',
+        'invert',
+        'hotKey',
+      ],
+    },
     docs: {
+      source: {
+        type: 'code',
+        language: 'ts',
+        code: USAGE_SOURCE,
+      },
       description: {
         component: `
-Notificaciones toast (API propia \`WiToast*\`).
+Notificaciones globales. Monta \`<wi-toast />\` **una vez** en el root y dispara cada toast por código.
 
-- Montar \`<wi-toaster />\` **una vez** en el root de la app.
-- Viewport vía CDK Overlay en \`document.body\` → esquina del **viewport** (\`top-right\` por defecto).
-- Tema \`auto\`: sigue \`.wi-dark\` en \`<html>\` (toolbar **Tema**).
-- Chrome a11y: \`provideWiOverlaysI18n\` (\`toastCloseLabel\`, \`toastRegionLabel\`).
-- Copy de producto: la app (toolbar **Locale** en Storybook simula ES/EN).
-- **Demos interactivas solo en Canvas**.
-- Disparar: \`wiToast\` / \`inject(WiToast)\`.
+## \`<wi-toast />\`
+
+Importar estilos: \`@wldeveloperapps/ui/styles/toast.css\` (o \`styles/index.css\`).
+
+\`\`\`html
+<router-outlet />
+<wi-toast />
+\`\`\`
+
+La tabla es la API de \`<wi-toast />\`: solo inputs. El componente no tiene outputs ni métodos públicos.
+
+## \`wiToast\` / \`inject(WiToast)\`
+
+Misma API; el servicio encaja mejor en DI y tests.
+
+\`\`\`ts
+import { inject } from '@angular/core';
+import { WiToast, wiToast } from '@wldeveloperapps/ui/overlays';
+
+wiToast.success('Guardado', { description: 'El registro se actualizó' });
+inject(WiToast).error('Error', { important: true });
+\`\`\`
+
+Métodos: \`show\` / \`message\`, \`success\`, \`info\`, \`warning\`, \`error\`, \`loading\`, \`promise\`, \`dismiss\`.
+Opciones por toast (\`WiToastOptions\`): \`description\`, \`duration\`, \`action\`, \`cancel\`, \`important\`, \`position\`, …
+
+## i18n
+
+- Texto de cada toast: la app (i18n de producto).
+- Aria del botón cerrar y de la región: \`provideWiOverlaysI18n\` (\`toastCloseLabel\`, \`toastRegionLabel\`).
+- Tema \`auto\`: sigue \`.wi-dark\` en \`<html>\`.
+
+Las demos interactivas están en **Canvas** (el preview de Docs no ancla el overlay al viewport).
         `,
       },
     },
   },
   decorators: [
     moduleMetadata({
-      imports: [WiToasterComponent, WiButtonDirective],
+      imports: [WiToastComponent, WiButtonDirective],
     }),
-    toasterDecorator,
+    toastDecorator,
   ],
   argTypes: {
     position: {
@@ -111,20 +197,47 @@ Notificaciones toast (API propia \`WiToast*\`).
         'bottom-center',
         'bottom-right',
       ] satisfies WiToastPosition[],
+      description: 'Esquina del viewport. Default `top-right`.',
     },
     theme: {
       control: 'select',
       options: ['auto', 'light', 'dark', 'system'] satisfies WiToastTheme[],
-      description: '`auto` sigue toolbar Tema (`.wi-dark`).',
+      description: '`auto` (recomendado) sigue `.wi-dark` en `<html>`.',
     },
-    richColors: { control: 'boolean' },
-    closeButton: { control: 'boolean' },
-    duration: { control: 'number' },
-    actionClick: {
-      action: 'actionClick',
-      table: { category: 'Events' },
+    richColors: {
+      control: 'boolean',
+      description: 'Colores semánticos en success / error / warning / info.',
+    },
+    closeButton: {
+      control: 'boolean',
+      description: 'Botón cerrar en todos los toasts.',
+    },
+    duration: {
+      control: 'number',
+      description: 'Duración por defecto (ms). Cada toast puede sustituirla.',
+    },
+    invert: {
+      control: 'boolean',
+      description: 'Invierte el contraste del toast respecto al tema.',
+    },
+    expand: {
+      control: 'boolean',
+      description: 'Apila toasts uno debajo de otro (`false` = stack colapsado).',
+    },
+    visibleToasts: {
+      control: 'number',
+      description: 'Máximo de toasts visibles a la vez (el resto queda en cola).',
+    },
+    offset: {
       control: false,
+      description: 'Offset desde el borde del viewport.',
     },
+    hotKey: {
+      control: false,
+      description: 'Atajo para enfocar el área de notificaciones. Default Alt+T.',
+    },
+    actionClick: hideFromDocs,
+    ...hiddenToastInternals,
   },
   args: {
     position: 'top-right',
@@ -132,6 +245,11 @@ Notificaciones toast (API propia \`WiToast*\`).
     richColors: false,
     closeButton: true,
     duration: 4000,
+    invert: false,
+    expand: true,
+    visibleToasts: 5,
+    offset: null,
+    hotKey: ['altKey', 'KeyT'],
     actionClick: fn(),
   },
 };
@@ -146,6 +264,14 @@ const canvasShell = (inner: string) => `
 `;
 
 export const Default: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Monta `<wi-toast />` y dispara un toast con `wiToast(...)` o `inject(WiToast)`.',
+      },
+    },
+  },
   render: (args, { globals }) => {
     const copy = toastCopy(globals);
     return {
@@ -197,6 +323,14 @@ export const Variants: Story = {
 export const WithDescriptionAndAction: Story = {
   name: 'With description / action',
   tags: ['!autodocs'],
+  argTypes: {
+    actionClick: {
+      action: 'actionClick',
+      description: 'Demo: clic en la acción del toast (no es un output de `wi-toast`).',
+      table: { category: 'Events' },
+      control: false,
+    },
+  },
   render: (args, { globals }) => {
     const copy = toastCopy(globals);
     return {

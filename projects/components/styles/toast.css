@@ -1,4 +1,4 @@
-.wi-toaster-overlay.cdk-overlay-pane {
+.wi-toast-overlay.cdk-overlay-pane {
   /* Pane a viewport completo; los toasts gestionan sus propios pointer-events. */
   pointer-events: none !important;
   position: fixed !important;
@@ -10,7 +10,7 @@
   transform: none !important;
 }
 
-.wi-toaster-overlay .wi-toaster__viewport,
-.wi-toaster-overlay [data-sonner-toaster] {
+.wi-toast-overlay .wi-toast__viewport,
+.wi-toast-overlay [data-sonner-toaster] {
   pointer-events: auto;
 }

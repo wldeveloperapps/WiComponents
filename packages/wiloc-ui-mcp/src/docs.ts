@@ -120,7 +120,7 @@ document.documentElement.classList.toggle(WI_DARK_CLASS, dark);
 No uses \`.dark\` ni \`data-theme\`. El preset de Spartan Brain espera \`.dark\`; \`@custom-variant dark (&:where(.wi-dark, .wi-dark *));\` lo redirige.
 
 Overlays portaled a \`document.body\` heredan el tema si \`wi-dark\` está en \`<html>\`.
-Toast: \`<wi-toaster theme="auto" />\` sigue \`.wi-dark\`.`,
+Toast: \`<wi-toast theme="auto" />\` sigue \`.wi-dark\`.`,
   },
   {
     id: 'icons',

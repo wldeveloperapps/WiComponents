@@ -7,7 +7,7 @@ import type { WiToastId, WiToastOptions, WiToastPromiseMessages } from './wi-toa
  * Servicio inyectable del toast (misma API que `wiToast`).
  *
  * Preferible en DI / tests; la función `wiToast` sirve en handlers sueltos.
- * Requiere `<wi-toaster />` en el árbol de la app.
+ * Requiere `<wi-toast />` en el árbol de la app.
  */
 @Service()
 export class WiToast {

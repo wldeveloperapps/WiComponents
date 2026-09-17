@@ -23,8 +23,8 @@ import { WI_DARK_CLASS } from '@wldeveloperapps/ui/core';
 import { injectWiOverlaysI18n } from '../wi-overlays.i18n';
 import type { WiToastPosition, WiToastTheme } from './wi-toast.types';
 
-/** Estilos del toaster anclados a tokens `--wi-color-*` / `--wi-radius-*`. */
-const WI_TOASTER_TOKEN_STYLE: Record<string, string> = {
+/** Estilos del viewport anclados a tokens `--wi-color-*` / `--wi-radius-*`. */
+const WI_TOAST_TOKEN_STYLE: Record<string, string> = {
   '--normal-bg': 'var(--wi-color-surface)',
   '--normal-text': 'var(--wi-color-on-surface)',
   '--normal-border': 'var(--wi-color-outline-variant)',
@@ -44,7 +44,7 @@ const WI_TOASTER_TOKEN_STYLE: Record<string, string> = {
 };
 
 /**
- * Host global de toasts (`wi-toaster`).
+ * Viewport global de toasts (`wi-toast`).
  *
  * Montar una sola vez en el root. El viewport se adjunta con CDK Overlay a
  * `document.body` (fuera de contenedores con `transform`), anclado al viewport.
@@ -55,22 +55,22 @@ const WI_TOASTER_TOKEN_STYLE: Record<string, string> = {
  *
  * ```html
  * <router-outlet />
- * <wi-toaster />
+ * <wi-toast />
  * ```
  */
 @Component({
-  selector: 'wi-toaster',
+  selector: 'wi-toast',
   imports: [BrnSonnerToaster],
   host: {
-    'data-slot': 'toaster',
-    class: 'wi-toaster',
-    // El host en el árbol de la app no pinta nada; el viewport vive en el overlay.
+    'data-slot': 'toast',
+    class: 'wi-toast',
+    // El elemento en el árbol de la app no pinta nada; el viewport vive en el overlay.
     style: 'display: contents',
   },
   template: `
     <ng-template #portal>
       <brn-sonner-toaster
-        class="wi-toaster__viewport"
+        class="wi-toast__viewport"
         [invert]="invert()"
         [theme]="resolvedTheme()"
         [position]="position()"
@@ -87,7 +87,7 @@ const WI_TOASTER_TOKEN_STYLE: Record<string, string> = {
     </ng-template>
   `,
 })
-export class WiToasterComponent {
+export class WiToastComponent {
   private readonly document = inject(DOCUMENT);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly overlay = inject(Overlay);
@@ -142,7 +142,7 @@ export class WiToasterComponent {
     return theme === 'auto' ? this.documentTheme() : theme;
   });
 
-  protected readonly tokenStyle = computed(() => WI_TOASTER_TOKEN_STYLE);
+  protected readonly tokenStyle = computed(() => WI_TOAST_TOKEN_STYLE);
 
   protected readonly toastOptions = computed(() => ({
     classes: {
@@ -195,7 +195,7 @@ export class WiToasterComponent {
       hasBackdrop: false,
       scrollStrategy: this.overlay.scrollStrategies.noop(),
       positionStrategy: this.overlay.position().global(),
-      panelClass: 'wi-toaster-overlay',
+      panelClass: 'wi-toast-overlay',
     });
 
     // Pane a pantalla completa, sin capturar clics (los toasts sí).

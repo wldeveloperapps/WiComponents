@@ -1,5 +1,5 @@
 /**
- * Tipos públicos del toast (`wiToast` / `wi-toaster`).
+ * Tipos públicos del toast (`wiToast` / `wi-toast`).
  * No reexportan APIs de Spartan.
  */
 
@@ -26,11 +26,11 @@ export interface WiToastCancel {
 export interface WiToastOptions {
   id?: WiToastId;
   description?: string;
-  /** Ms hasta auto-cierre. Default del toaster (4000). */
+  /** Ms hasta auto-cierre. Default del viewport (4000). */
   duration?: number;
   /** Si `false`, no se puede descartar por swipe / botón. Default `true`. */
   dismissible?: boolean;
-  /** Override del close button del toaster para este toast. */
+  /** Override del close button del viewport para este toast. */
   closeButton?: boolean;
   /** `aria-live="assertive"` cuando es crítico. Default `false`. */
   important?: boolean;

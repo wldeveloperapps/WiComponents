@@ -175,11 +175,11 @@ Overlays portaled a `body` heredan el tema si la clase está en `<html>`.
 ## 5. Toast (si lo usas)
 
 1. Importa `@wldeveloperapps/ui/styles/toast.css`.
-2. Monta `<wi-toaster />` **una vez** en el root.
+2. Monta `<wi-toast />` **una vez** en el root.
 3. Dispara con `wiToast` / `inject(WiToast)`.
 
 ```html
-<wi-toaster theme="auto" /> <router-outlet />
+<wi-toast theme="auto" /> <router-outlet />
 ```
 
 ---
@@ -192,7 +192,7 @@ Entry points públicos. Nunca Spartan, nunca rutas `src/`:
 import { WI_DARK_CLASS } from '@wldeveloperapps/ui/core';
 import { WiButtonDirective } from '@wldeveloperapps/ui/button';
 import { WiInputComponent, WiSelectComponent } from '@wldeveloperapps/ui/forms';
-import { WiDialogComponent, WiToasterComponent } from '@wldeveloperapps/ui/overlays';
+import { WiDialogComponent, WiToastComponent } from '@wldeveloperapps/ui/overlays';
 import { WiTableComponent } from '@wldeveloperapps/ui/data-display';
 import { WiTabsComponent } from '@wldeveloperapps/ui/navigation';
 import { provideWiIcons, WiIconComponent } from '@wldeveloperapps/ui/icon';
@@ -229,7 +229,7 @@ Para que Cursor use la API pública (no Spartan). Pasos, tools y diagnóstico: p
 - [ ] `provideWiIcons` con los glifos que pintas
 - [ ] `provideWiCalendarI18n` / `provideWiDataDisplayI18n` / `provideWiOverlaysI18n` según dominios
 - [ ] Tema: la app aplica `WI_DARK_CLASS` en `<html>`
-- [ ] `<wi-toaster />` en el root si hay toasts
+- [ ] `<wi-toast />` en el root si hay toasts
 - [ ] Imports `@wldeveloperapps/ui/{entry}`
 - [ ] MCP `@wldeveloperapps/ui-mcp` en la app (agentes)
 

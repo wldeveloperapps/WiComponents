@@ -1,17 +1,21 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
+  afterNextRender,
   booleanAttribute,
   Component,
   computed,
   contentChild,
   Directive,
+  ElementRef,
   forwardRef,
   inject,
+  Injector,
   input,
   model,
   output,
   signal,
   TemplateRef,
+  viewChild,
 } from '@angular/core';
 import { type ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import type { FormValueControl } from '@angular/forms/signals';
@@ -293,6 +297,7 @@ export class WiSelectTriggerIconDirective {
         <div class="relative w-full">
           <button
             brnSelectTrigger
+            #selectTrigger
             [id]="resolvedId()"
             [forceInvalid]="invalid()"
             [class]="triggerClasses()"
@@ -372,7 +377,12 @@ export class WiSelectTriggerIconDirective {
           <div brnSelectContent [class]="panelClasses">
             <div brnSelectList class="wi-select__list flex flex-col p-1">
               @for (option of options(); track trackOption($index, option)) {
-                <div [class]="optionClasses" brnSelectItem [value]="resolveOptionValue(option)">
+                <div
+                  [class]="optionClasses"
+                  brnSelectItem
+                  [value]="resolveOptionValue(option)"
+                  (mousedown)="$event.preventDefault()"
+                >
                   <span class="min-w-0 flex-1 truncate">
                     @if (resolvedItemTemplate(); as itemTpl) {
                       <ng-container *ngTemplateOutlet="itemTpl; context: itemContext(option)" />
@@ -419,6 +429,7 @@ export class WiSelectTriggerIconDirective {
         <div class="relative w-full">
           <button
             brnSelectTrigger
+            #selectTrigger
             [id]="resolvedId()"
             [forceInvalid]="invalid()"
             [class]="multiTriggerClasses()"
@@ -445,6 +456,7 @@ export class WiSelectTriggerIconDirective {
                         [class]="chipRemoveClasses"
                         [attr.aria-label]="chipRemoveAriaLabel(item)"
                         [attr.aria-disabled]="isDisabled() || null"
+                        (pointerdown)="onChipRemovePointerDown($event)"
                         (click)="onRemoveSelected($event, item)"
                         (keydown.enter)="onRemoveSelected($event, item)"
                         (keydown.space)="onRemoveSelected($event, item)"
@@ -533,7 +545,12 @@ export class WiSelectTriggerIconDirective {
           <div brnSelectContent [class]="panelClasses">
             <div brnSelectList class="wi-select__list flex flex-col p-1">
               @for (option of options(); track trackOption($index, option)) {
-                <div [class]="optionClasses" brnSelectItem [value]="resolveOptionValue(option)">
+                <div
+                  [class]="optionClasses"
+                  brnSelectItem
+                  [value]="resolveOptionValue(option)"
+                  (mousedown)="$event.preventDefault()"
+                >
                   <span class="min-w-0 flex-1 truncate">
                     @if (resolvedItemTemplate(); as itemTpl) {
                       <ng-container *ngTemplateOutlet="itemTpl; context: itemContext(option)" />
@@ -617,6 +634,9 @@ export class WiSelectComponent implements ControlValueAccessor, FormValueControl
 
   private readonly generatedId = `wi-select-${++nextSelectId}`;
   private readonly cvaDisabled = signal(false);
+  private readonly injector = inject(Injector);
+  private readonly brnSelectMultiple = viewChild(BrnSelectMultiple);
+  private readonly selectTrigger = viewChild<ElementRef<HTMLButtonElement>>('selectTrigger');
 
   private onChange: (value: unknown) => void = () => undefined;
   private onTouched: () => void = () => undefined;
@@ -707,9 +727,11 @@ export class WiSelectComponent implements ControlValueAccessor, FormValueControl
     const normalized = Array.isArray(next) ? next : [];
     this.value.set(normalized);
     this.onChange(normalized);
+    this.resetMultiTypeahead();
   }
 
   protected onClosed(): void {
+    this.brnSelectMultiple()?.keyManager.cancelTypeahead();
     this.onTouched();
     this.touch.emit();
   }
@@ -725,6 +747,14 @@ export class WiSelectComponent implements ControlValueAccessor, FormValueControl
     this.onChange(next);
     this.onTouched();
     this.touch.emit();
+    if (this.multiple()) {
+      this.resetMultiTypeahead();
+    }
+  }
+
+  protected onChipRemovePointerDown(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   protected onRemoveSelected(event: Event, itemValue: unknown): void {
@@ -738,6 +768,21 @@ export class WiSelectComponent implements ControlValueAccessor, FormValueControl
     this.onChange(next);
     this.onTouched();
     this.touch.emit();
+    this.resetMultiTypeahead();
+  }
+
+  /**
+   * El typeahead del CDK vive en el trigger. Al marcar/desmarcar en multiple el panel
+   * sigue abierto: hay que vaciar el buffer y devolver el foco al combobox.
+   */
+  private resetMultiTypeahead(): void {
+    this.brnSelectMultiple()?.keyManager.cancelTypeahead();
+    afterNextRender(
+      () => {
+        this.selectTrigger()?.nativeElement.focus();
+      },
+      { injector: this.injector },
+    );
   }
 
   protected selectedItemLabel(formValue: unknown): string {
