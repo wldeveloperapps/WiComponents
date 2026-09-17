@@ -15,6 +15,8 @@ export interface WiDataDisplayI18n {
   nextLabel: () => string;
   filterPlaceholder: () => string;
   selectPlaceholder: () => string;
+  /** Aria del aspa para limpiar el filtro select. */
+  selectClearLabel: () => string;
   filterOperatorAriaLabel: () => string;
   /** Aria del control de filtro; `{header}` = cabecera de columna. */
   filterAriaLabel: (header: string) => string;
@@ -42,6 +44,7 @@ const defaultDataDisplayI18n: WiDataDisplayI18n = {
   nextLabel: () => 'Next',
   filterPlaceholder: () => 'Type to search',
   selectPlaceholder: () => 'Select one',
+  selectClearLabel: () => 'Clear',
   filterOperatorAriaLabel: () => 'Filter operator',
   filterAriaLabel: (header) => `Filter ${header}`,
   columnVisibilitySummary: () => '{visible} of {total} columns visible',

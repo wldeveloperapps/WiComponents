@@ -55,7 +55,7 @@ export const wiTableRegistryEntry = {
       type: 'readonly WiColumnDef[]',
       default: 'required',
       description:
-        'Definición declarativa (la app adapta metadatos). Campos: id, header, field?, sortable?, filterable?, filterType? (text|select), filterOptions?, filterPlaceholder?, visible?, showFrom? (always|sm|md|compact|lg; omitido = compact / 960px de contenedor). Agnóstica a producto',
+        'Definición declarativa (la app adapta metadatos). Campos: id, header, field?, sortable?, filterable?, filterType? (text → wi-input | select → wi-select), filterOptions?, filterPlaceholder?, visible?, showFrom? (always|sm|md|compact|lg; omitido = compact / 960px de contenedor). Agnóstica a producto',
     },
     {
       name: 'data',
@@ -178,7 +178,13 @@ export const wiTableRegistryEntry = {
       name: 'selectPlaceholder',
       type: 'string | undefined',
       default: 'undefined → i18n.selectPlaceholder',
-      description: 'Placeholder de filtro select',
+      description: 'Placeholder de filtro select (wi-select)',
+    },
+    {
+      name: 'selectClearLabel',
+      type: 'string | undefined',
+      default: 'undefined → i18n.selectClearLabel',
+      description: 'Aria del aspa para limpiar el filtro select',
     },
     {
       name: 'filterOperatorAriaLabel',
@@ -282,8 +288,13 @@ export const wiTableRegistryEntry = {
       },
       {
         name: 'selectPlaceholder',
-        description: 'Placeholder filtro select',
+        description: 'Placeholder filtro select (wi-select)',
         default: 'Select one',
+      },
+      {
+        name: 'selectClearLabel',
+        description: 'Aria del aspa para limpiar el filtro select',
+        default: 'Clear',
       },
       {
         name: 'filterOperatorAriaLabel',
@@ -377,7 +388,7 @@ export const wiTableRegistryEntry = {
     'Paginación por botones Anterior / Siguiente / número',
   ],
   a11yNotes:
-    'Host role=region + aria-label (ariaLabel / tableAriaLabel). Tabla semántica con aria-sort. Filtros con aria-label por columna vía filterAriaLabel(header). Chevron cuando hay columnas fuera de la fila (showFrom vs ancho del contenedor) con expandRowAriaLabel / collapseRowAriaLabel. Visibilidad vía wi-menu, oculta en compacto. Labels de chrome: provideWiDataDisplayI18n (sin copy hardcodeado ES). Cabeceras y datos: solo la app.',
+    'Host role=region + aria-label (ariaLabel / tableAriaLabel). Tabla semántica con aria-sort. Filtros con aria-label por columna vía filterAriaLabel(header). filterType text usa wi-input (size sm, type search); select usa wi-select (size sm, clearable). Chevron cuando hay columnas fuera de la fila (showFrom vs ancho del contenedor) con expandRowAriaLabel / collapseRowAriaLabel. Visibilidad vía wi-menu, oculta en compacto. Labels de chrome: provideWiDataDisplayI18n (sin copy hardcodeado ES). Cabeceras y datos: solo la app.',
   example: {
     import: `import {
   WiTableComponent,

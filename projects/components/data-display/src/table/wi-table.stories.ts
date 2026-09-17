@@ -10,10 +10,12 @@ import {
   WiMenuItemDirective,
   WiMenuTriggerDirective,
 } from '../../../overlays/src/public-api';
-import type { WiColumnDef } from './wi-column.types';
-import { WiTableCellDirective } from './wi-table-cell.directive';
-import { WiTableComponent } from './wi-table.component';
-import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
+import {
+  WiTableCellDirective,
+  WiTableComponent,
+  WiTableRowActionsDirective,
+  type WiColumnDef,
+} from '../public-api';
 
 interface DemoRow {
   id: string;
@@ -31,7 +33,6 @@ const COLUMNS: WiColumnDef[] = [
     field: 'lastSeen',
     sortable: true,
     filterable: true,
-    filterPlaceholder: 'Escribir para buscar',
     showFrom: 'always',
   },
   {
@@ -40,7 +41,6 @@ const COLUMNS: WiColumnDef[] = [
     field: 'eid',
     sortable: true,
     filterable: true,
-    filterPlaceholder: 'Escribir para buscar',
     showFrom: 'md',
   },
   {
@@ -49,7 +49,6 @@ const COLUMNS: WiColumnDef[] = [
     field: 'name',
     sortable: true,
     filterable: true,
-    filterPlaceholder: 'Escribir para buscar',
     showFrom: 'always',
   },
   {
@@ -59,7 +58,6 @@ const COLUMNS: WiColumnDef[] = [
     sortable: true,
     filterable: true,
     filterType: 'select',
-    filterPlaceholder: 'Seleccionar uno',
     filterOptions: [
       { label: 'Civil', value: 'CIVIL' },
       { label: 'Other', value: 'OTHER' },
@@ -73,7 +71,6 @@ const COLUMNS: WiColumnDef[] = [
     sortable: true,
     filterable: true,
     filterType: 'select',
-    filterPlaceholder: 'Seleccionar uno',
     showFrom: 'lg',
     filterOptions: [
       { label: 'JV', value: 'JV' },
@@ -154,7 +151,91 @@ type StoryArgs = WiTableComponent<DemoRow> & {
   sortChange: ReturnType<typeof fn>;
   pageChange: ReturnType<typeof fn>;
   filtersChange: ReturnType<typeof fn>;
+  pageIndexChange: ReturnType<typeof fn>;
+  visibleColumnIdsChange: ReturnType<typeof fn>;
 };
+
+const hideFromDocs = { table: { disable: true }, control: false } as const;
+
+const hiddenTableInternals: Record<string, typeof hideFromDocs> = {
+  i18n: hideFromDocs,
+  host: hideFromDocs,
+  destroyRef: hideFromDocs,
+  containerWidth: hideFromDocs,
+  cellDirs: hideFromDocs,
+  rowActionDirs: hideFromDocs,
+  cellTemplateMap: hideFromDocs,
+  isClientMode: hideFromDocs,
+  clientProcessed: hideFromDocs,
+  expandedRowKeys: hideFromDocs,
+  resolvedEmptyMessage: hideFromDocs,
+  resolvedAriaLabel: hideFromDocs,
+  resolvedFilterPlaceholder: hideFromDocs,
+  resolvedSelectPlaceholder: hideFromDocs,
+  resolvedSelectClearLabel: hideFromDocs,
+  resolvedFilterOperatorAriaLabel: hideFromDocs,
+  resolvedRowActionsHeader: hideFromDocs,
+  resolvedExpandColumnHeader: hideFromDocs,
+  resolvedExpandRowAriaLabel: hideFromDocs,
+  resolvedCollapseRowAriaLabel: hideFromDocs,
+  resolvedFilterOperators: hideFromDocs,
+  displayColumns: hideFromDocs,
+  effectiveWidth: hideFromDocs,
+  inlineColumns: hideFromDocs,
+  collapseColumns: hideFromDocs,
+  showRowExpand: hideFromDocs,
+  isCompact: hideFromDocs,
+  rowActionsTemplate: hideFromDocs,
+  displayRows: hideFromDocs,
+  effectiveTotal: hideFromDocs,
+  totalPages: hideFromDocs,
+  showPagination: hideFromDocs,
+  showFilterRow: hideFromDocs,
+  resultCountLabel: hideFromDocs,
+  colspan: hideFromDocs,
+  hasRowActions: hideFromDocs,
+  cellTemplate: hideFromDocs,
+  cellText: hideFromDocs,
+  cellContext: hideFromDocs,
+  cellOutletContext: hideFromDocs,
+  trackRow: hideFromDocs,
+  isRowExpanded: hideFromDocs,
+  toggleRowExpand: hideFromDocs,
+  filterValue: hideFromDocs,
+  filterSelectValue: hideFromDocs,
+  filterAriaLabel: hideFromDocs,
+  ariaSort: hideFromDocs,
+  sortIcon: hideFromDocs,
+  onSortClick: hideFromDocs,
+  onFilterValue: hideFromDocs,
+  onFilterSelectValue: hideFromDocs,
+  onFilterOperator: hideFromDocs,
+  applyFilters: hideFromDocs,
+  goToPage: hideFromDocs,
+};
+
+const TABLE_TEMPLATE = `
+  <div class="bg-background p-6 text-on-background">
+    <wi-table
+      class="w-full"
+      [columns]="columns"
+      [data]="data"
+      [pageSize]="pageSize"
+      [showFilters]="showFilters"
+      [columnVisibility]="columnVisibility"
+      [showResultCount]="showResultCount"
+      [compact]="compact"
+      [emptyMessage]="emptyMessage"
+      [filters]="filters"
+      trackBy="id"
+      (sortChange)="sortChange($event)"
+      (pageChange)="pageChange($event)"
+      (filtersChange)="filtersChange($event)"
+      (pageIndexChange)="pageIndexChange($event)"
+      (visibleColumnIdsChange)="visibleColumnIdsChange($event)"
+    />
+  </div>
+`;
 
 const meta: Meta<StoryArgs> = {
   title: 'Data display/WiTable',
@@ -162,12 +243,49 @@ const meta: Meta<StoryArgs> = {
   tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
+    controls: {
+      include: [
+        'columns',
+        'data',
+        'totalItems',
+        'visibleColumnIds',
+        'sort',
+        'filters',
+        'pageIndex',
+        'pageSize',
+        'showFilters',
+        'columnVisibility',
+        'showResultCount',
+        'compact',
+        'emptyMessage',
+        'ariaLabel',
+        'paginationAriaLabel',
+        'previousLabel',
+        'nextLabel',
+        'filterPlaceholder',
+        'selectPlaceholder',
+        'selectClearLabel',
+        'filterOperatorAriaLabel',
+        'columnVisibilityLabel',
+        'columnVisibilityMenuLabel',
+        'columnVisibilityAriaLabel',
+        'resultCountTemplate',
+        'rowActionsHeader',
+        'expandColumnHeader',
+        'expandRowAriaLabel',
+        'collapseRowAriaLabel',
+        'trackBy',
+        'filterOperators',
+      ],
+    },
     docs: {
       description: {
         component: `
 Tabla declarativa del design system. La app pasa \`WiColumnDef\` + filas (p. ej. desde metadatos).
 
 **Default** = API mínima. **Recipe /** = composición de producto (toolbar, menú de fila) — no son inputs nuevos.
+
+Los filtros texto usan \`wi-input\` (\`size="sm"\`, \`type="search"\`). Los \`filterType: 'select'\` usan \`wi-select\` (\`size="sm"\`, clearable). Ver **Filter by select**. Placeholders y chrome reaccionan al toolbar Locale.
 
 **Compacto (automático) y desplegable:**
 
@@ -204,6 +322,7 @@ Tabla declarativa del design system. La app pasa \`WiColumnDef\` + filas (p. ej.
     }),
   ],
   argTypes: {
+    ...hiddenTableInternals,
     pageSize: { control: { type: 'number', min: 1, max: 20 } },
     showFilters: { control: 'boolean' },
     columnVisibility: { control: 'boolean' },
@@ -227,20 +346,49 @@ Tabla declarativa del design system. La app pasa \`WiColumnDef\` + filas (p. ej.
         'Auto (null): según el ancho del contenedor y `showFrom` de cada columna. Compacto fuerza solo `always` en la fila; Ancho muestra todas. El chevron sale si hay columnas fuera de la fila.',
     },
     emptyMessage: { control: 'text' },
-    columns: { table: { disable: true } },
-    data: { table: { disable: true } },
+    ariaLabel: { control: 'text' },
+    paginationAriaLabel: { control: 'text' },
+    previousLabel: { control: 'text' },
+    nextLabel: { control: 'text' },
+    filterPlaceholder: { control: 'text' },
+    selectPlaceholder: { control: 'text' },
+    selectClearLabel: { control: 'text' },
+    columns: { control: false },
+    data: { control: false },
+    totalItems: { control: 'number' },
+    visibleColumnIds: { control: false },
+    sort: { control: false },
+    filters: { control: false },
+    pageIndex: { control: { type: 'number', min: 0 } },
+    trackBy: { control: false },
+    filterOperators: { control: false },
     sortChange: {
       action: 'sortChange',
+      description: 'Se emite al cambiar la ordenación (model sort)',
       table: { category: 'Events' },
       control: false,
     },
     pageChange: {
       action: 'pageChange',
+      description: 'Se emite al cambiar de página { pageIndex, pageSize }',
       table: { category: 'Events' },
       control: false,
     },
     filtersChange: {
       action: 'filtersChange',
+      description: 'Se emite al cambiar los filtros (model filters)',
+      table: { category: 'Events' },
+      control: false,
+    },
+    pageIndexChange: {
+      action: 'pageIndexChange',
+      description: 'Output del model pageIndex',
+      table: { category: 'Events' },
+      control: false,
+    },
+    visibleColumnIdsChange: {
+      action: 'visibleColumnIdsChange',
+      description: 'Output del model visibleColumnIds',
       table: { category: 'Events' },
       control: false,
     },
@@ -253,10 +401,12 @@ Tabla declarativa del design system. La app pasa \`WiColumnDef\` + filas (p. ej.
     columnVisibility: true,
     showResultCount: false,
     compact: null,
-    emptyMessage: 'No hay datos',
+    filters: [],
     sortChange: fn(),
     pageChange: fn(),
     filtersChange: fn(),
+    pageIndexChange: fn(),
+    visibleColumnIdsChange: fn(),
   },
 };
 
@@ -269,31 +419,37 @@ export const Default: Story = {
     docs: {
       description: {
         story:
-          'Estrecha el canvas: el chevron aparece cuando alguna columna no cumple su `showFrom`. Última posición y Nombre (`always`) se quedan; EID entra desde 768px (`md`); Disciplina desde 960px (default `compact`); Empresa desde 1024px (`lg`).',
+          'Estrecha el canvas: el chevron aparece cuando alguna columna no cumple su `showFrom`. Última posición y Nombre (`always`) se quedan; EID entra desde 768px (`md`); Disciplina desde 960px (default `compact`); Empresa desde 1024px (`lg`). Filtros texto = `wi-input`; filtros select = `wi-select`.',
       },
     },
   },
   render: (args) => ({
     props: args,
-    template: `
-      <div class="bg-background p-6 text-on-background">
-        <wi-table
-          class="w-full"
-          [columns]="columns"
-          [data]="data"
-          [pageSize]="pageSize"
-          [showFilters]="showFilters"
-          [columnVisibility]="columnVisibility"
-          [showResultCount]="showResultCount"
-          [compact]="compact"
-          [emptyMessage]="emptyMessage"
-          trackBy="id"
-          (sortChange)="sortChange($event)"
-          (pageChange)="pageChange($event)"
-          (filtersChange)="filtersChange($event)"
-        />
-      </div>
-    `,
+    template: TABLE_TEMPLATE,
+  }),
+};
+
+/** Filtro por `wi-select` ya aplicado (cliente). */
+export const FilterBySelect: Story = {
+  name: 'Filter by select',
+  args: {
+    compact: false,
+    columnVisibility: false,
+    pageSize: 8,
+    showResultCount: true,
+    filters: [{ columnId: 'discipline', value: 'CIVIL', operator: 'equals' }],
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Filtro `filterType: "select"` con `wi-select`. Arranca en Disciplina = Civil (3 filas). Cambia o limpia el select: `(filtersChange)` emite y la tabla filtra en cliente. Layout ancho (`compact=false`) para ver ambos selects (Disciplina y Empresa).',
+      },
+    },
+  },
+  render: (args) => ({
+    props: args,
+    template: TABLE_TEMPLATE,
   }),
 };
 
@@ -306,22 +462,7 @@ export const Plain: Story = {
   },
   render: (args) => ({
     props: args,
-    template: `
-      <div class="bg-background p-6 text-on-background">
-        <wi-table
-          class="w-full"
-          [columns]="columns"
-          [data]="data"
-          [pageSize]="pageSize"
-          [showFilters]="showFilters"
-          [columnVisibility]="columnVisibility"
-          [compact]="compact"
-          trackBy="id"
-          (sortChange)="sortChange($event)"
-          (pageChange)="pageChange($event)"
-        />
-      </div>
-    `,
+    template: TABLE_TEMPLATE,
   }),
 };
 
@@ -347,6 +488,7 @@ export const WithCellTemplate: Story = {
           trackBy="id"
           (sortChange)="sortChange($event)"
           (pageChange)="pageChange($event)"
+          (filtersChange)="filtersChange($event)"
         >
           <ng-template [wiTableCell]="'name'" let-row>
             <span class="font-medium text-on-surface">{{ row.name }}</span>
@@ -368,19 +510,7 @@ export const Empty: Story = {
   },
   render: (args) => ({
     props: args,
-    template: `
-      <div class="bg-background p-6 text-on-background">
-        <wi-table
-          class="w-full"
-          [columns]="columns"
-          [data]="data"
-          [emptyMessage]="emptyMessage"
-          [showFilters]="showFilters"
-          [columnVisibility]="columnVisibility"
-          [compact]="compact"
-        />
-      </div>
-    `,
+    template: TABLE_TEMPLATE,
   }),
 };
 
@@ -392,7 +522,6 @@ export const RecipeResultsToolbar: Story = {
   name: 'Recipe / Results toolbar',
   args: {
     showResultCount: true,
-    resultCountTemplate: '{count} resultados',
   },
   parameters: {
     docs: {
@@ -417,7 +546,6 @@ export const RecipeResultsToolbar: Story = {
           [showFilters]="showFilters"
           [columnVisibility]="columnVisibility"
           [showResultCount]="showResultCount"
-          [resultCountTemplate]="resultCountTemplate"
           [compact]="compact"
           trackBy="id"
           (sortChange)="sortChange($event)"
@@ -511,5 +639,22 @@ export const NarrowCompact: Story = {
         </div>
       </div>
     `,
+  }),
+};
+
+export const DarkMode: Story = {
+  globals: {
+    theme: 'dark',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Misma API que Default sobre `.wi-dark`. Los `wi-select` de filtro heredan tokens.',
+      },
+    },
+  },
+  render: (args) => ({
+    props: args,
+    template: TABLE_TEMPLATE,
   }),
 };

@@ -36,6 +36,32 @@ const ROWS: Row[] = [
   { id: '4', name: 'Gamma', score: 5, company: 'Nova' },
 ];
 
+class ResizeObserverStub {
+  observe(): void {
+    /* no-op for jsdom */
+  }
+  unobserve(): void {
+    /* no-op for jsdom */
+  }
+  disconnect(): void {
+    /* no-op for jsdom */
+  }
+}
+
+beforeAll(() => {
+  Object.defineProperty(globalThis, 'ResizeObserver', {
+    writable: true,
+    configurable: true,
+    value: ResizeObserverStub,
+  });
+
+  Object.defineProperty(Element.prototype, 'scrollIntoView', {
+    writable: true,
+    configurable: true,
+    value: () => undefined,
+  });
+});
+
 @Component({
   imports: [WiTableComponent, WiTableCellDirective, WiTableRowActionsDirective],
   template: `
@@ -107,6 +133,8 @@ describe('WiTableComponent', () => {
     expect(el.classList.contains('wi-table')).toBe(true);
     expect(el.querySelector('wi-column-visibility')).toBeTruthy();
     expect(el.querySelectorAll('.wi-table__filter-input, .wi-table__filter-select').length).toBe(2);
+    expect(el.querySelector('wi-input.wi-table__filter-input')).toBeTruthy();
+    expect(el.querySelector('wi-select.wi-table__filter-select')).toBeTruthy();
     expect(el.querySelectorAll('tbody tr').length).toBe(2);
   });
 
@@ -124,7 +152,9 @@ describe('WiTableComponent', () => {
   });
 
   it('filters rows and resets page', async () => {
-    const input = table().querySelector('.wi-table__filter-input') as HTMLInputElement;
+    const input = table().querySelector(
+      'wi-input.wi-table__filter-input input',
+    ) as HTMLInputElement;
     input.value = 'Alpha';
     input.dispatchEvent(new Event('input'));
     fixture.detectChanges();
@@ -133,6 +163,30 @@ describe('WiTableComponent', () => {
     expect(host.lastFilters).toEqual([{ columnId: 'name', value: 'Alpha', operator: 'contains' }]);
     expect(table().querySelectorAll('tbody tr').length).toBe(1);
     expect(table().textContent).toContain('Alpha');
+  });
+
+  it('filters rows with wi-select and resets page', async () => {
+    const trigger = table().querySelector(
+      '.wi-table__filter-select button[brnSelectTrigger]',
+    ) as HTMLButtonElement;
+    expect(trigger).toBeTruthy();
+    trigger.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const option = Array.from(document.querySelectorAll('[brnSelectItem]')).find(
+      (node) => node.textContent?.trim() === 'Nova',
+    ) as HTMLElement | undefined;
+    expect(option).toBeTruthy();
+    option?.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(host.lastFilters).toEqual([{ columnId: 'company', value: 'Nova', operator: 'equals' }]);
+    expect(table().querySelectorAll('tbody tr.wi-table__row').length).toBe(2);
+    expect(table().textContent).toContain('Alpha');
+    expect(table().textContent).toContain('Gamma');
+    expect(table().textContent).not.toContain('Zeta');
   });
 
   it('paginates with numbered buttons', async () => {

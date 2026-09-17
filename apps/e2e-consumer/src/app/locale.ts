@@ -463,6 +463,7 @@ export function createDataDisplayI18n(): Partial<WiDataDisplayI18n> {
     nextLabel: () => (es() ? 'Siguiente' : 'Next'),
     filterPlaceholder: () => (es() ? 'Escribir para buscar' : 'Type to search'),
     selectPlaceholder: () => (es() ? 'Seleccionar uno' : 'Select one'),
+    selectClearLabel: () => (es() ? 'Limpiar' : 'Clear'),
     filterOperatorAriaLabel: () => (es() ? 'Operador de filtro' : 'Filter operator'),
     filterAriaLabel: (header) => (es() ? `Filtrar ${header}` : `Filter ${header}`),
     columnVisibilitySummary: () =>

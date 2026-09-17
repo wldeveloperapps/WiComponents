@@ -15,7 +15,12 @@ import {
   signal,
 } from '@angular/core';
 
-import { WiMenuComponent, WiMenuItemDirective, WiMenuTriggerDirective } from '@wldeveloperapps/ui/overlays';
+import { WiInputComponent, WiSelectComponent } from '@wldeveloperapps/ui/forms';
+import {
+  WiMenuComponent,
+  WiMenuItemDirective,
+  WiMenuTriggerDirective,
+} from '@wldeveloperapps/ui/overlays';
 
 import type {
   WiColumnDef,
@@ -68,6 +73,8 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
     WiMenuComponent,
     WiMenuItemDirective,
     WiMenuTriggerDirective,
+    WiInputComponent,
+    WiSelectComponent,
   ],
   template: `
     <div
@@ -209,27 +216,28 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
                       [class.min-w-[8rem]]="!isCompact()"
                     >
                       @if (column.filterType === 'select') {
-                        <select
-                          class="wi-table__filter-select h-control-sm w-full min-w-0 rounded-control border border-outline-variant bg-surface px-2 text-sm text-on-surface outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                          [attr.aria-label]="filterAriaLabel(column)"
-                          [value]="filterValue(column.id)"
-                          (change)="onFilterValue(column, eventValue($event))"
-                        >
-                          <option value="">
-                            {{ column.filterPlaceholder || resolvedSelectPlaceholder() }}
-                          </option>
-                          @for (option of column.filterOptions ?? []; track option.value) {
-                            <option [value]="option.value">{{ option.label }}</option>
-                          }
-                        </select>
+                        <wi-select
+                          class="wi-table__filter-select min-w-0"
+                          size="sm"
+                          clearable
+                          optionLabel="label"
+                          optionValue="value"
+                          [options]="column.filterOptions ?? []"
+                          [placeholder]="column.filterPlaceholder || resolvedSelectPlaceholder()"
+                          [clearLabel]="resolvedSelectClearLabel()"
+                          [ariaLabel]="filterAriaLabel(column)"
+                          [value]="filterSelectValue(column.id)"
+                          (valueChange)="onFilterSelectValue(column, $event)"
+                        />
                       } @else {
-                        <input
+                        <wi-input
+                          class="wi-table__filter-input min-w-0"
+                          size="sm"
                           type="search"
-                          class="wi-table__filter-input h-control-sm w-full min-w-0 rounded-control border border-outline-variant bg-surface px-2 text-sm text-on-surface outline-none placeholder:text-on-surface-variant focus-visible:ring-2 focus-visible:ring-ring"
-                          [attr.aria-label]="filterAriaLabel(column)"
+                          [ariaLabel]="filterAriaLabel(column)"
                           [placeholder]="column.filterPlaceholder || resolvedFilterPlaceholder()"
                           [value]="filterValue(column.id)"
-                          (input)="onFilterValue(column, eventValue($event))"
+                          (valueChange)="onFilterValue(column, $event)"
                         />
                         <button
                           type="button"
@@ -310,7 +318,9 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
                 </td>
               }
               @if (rowActionsTemplate(); as actionsTpl) {
-                <td class="wi-table__td wi-table__td--actions w-32 px-2 py-2 align-middle whitespace-nowrap">
+                <td
+                  class="wi-table__td wi-table__td--actions w-32 px-2 py-2 align-middle whitespace-nowrap"
+                >
                   <ng-container
                     [ngTemplateOutlet]="actionsTpl"
                     [ngTemplateOutletContext]="{ $implicit: row, row: row }"
@@ -437,6 +447,7 @@ export class WiTableComponent<T = unknown> {
   readonly nextLabel = input<string | undefined>(undefined);
   readonly filterPlaceholder = input<string | undefined>(undefined);
   readonly selectPlaceholder = input<string | undefined>(undefined);
+  readonly selectClearLabel = input<string | undefined>(undefined);
   readonly filterOperatorAriaLabel = input<string | undefined>(undefined);
   readonly columnVisibilityLabel = input<string | undefined>(undefined);
   readonly columnVisibilityMenuLabel = input<string | undefined>(undefined);
@@ -490,6 +501,9 @@ export class WiTableComponent<T = unknown> {
   );
   protected readonly resolvedSelectPlaceholder = computed(
     () => this.selectPlaceholder() ?? this.i18n.selectPlaceholder(),
+  );
+  protected readonly resolvedSelectClearLabel = computed(
+    () => this.selectClearLabel() ?? this.i18n.selectClearLabel(),
   );
   protected readonly resolvedFilterOperatorAriaLabel = computed(
     () => this.filterOperatorAriaLabel() ?? this.i18n.filterOperatorAriaLabel(),
@@ -602,14 +616,6 @@ export class WiTableComponent<T = unknown> {
     computation: () => new Set<string | number>(),
   });
 
-  eventValue(event: Event): string {
-    const target = event.target;
-    if (target instanceof HTMLInputElement || target instanceof HTMLSelectElement) {
-      return target.value;
-    }
-    return '';
-  }
-
   hasRowActions(): boolean {
     return this.rowActionsTemplate() != null;
   }
@@ -668,6 +674,11 @@ export class WiTableComponent<T = unknown> {
     return wiGetColumnFilter(this.filters(), columnId)?.value ?? '';
   }
 
+  filterSelectValue(columnId: string): string | null {
+    const value = this.filterValue(columnId);
+    return value === '' ? null : value;
+  }
+
   filterAriaLabel(column: WiColumnDef): string {
     return this.i18n.filterAriaLabel(column.header);
   }
@@ -715,6 +726,14 @@ export class WiTableComponent<T = unknown> {
       operator: existing?.operator ?? (column.filterType === 'select' ? 'equals' : 'contains'),
     });
     this.applyFilters(next);
+  }
+
+  onFilterSelectValue(column: WiColumnDef, value: unknown): void {
+    if (value == null || value === '') {
+      this.applyFilters(this.filters().filter((filter) => filter.columnId !== column.id));
+      return;
+    }
+    this.onFilterValue(column, String(value));
   }
 
   onFilterOperator(column: WiColumnDef, operator: WiFilterOperator): void {

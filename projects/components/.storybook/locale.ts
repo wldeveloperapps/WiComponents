@@ -106,6 +106,7 @@ export function createStorybookDataDisplayI18n(): Partial<WiDataDisplayI18n> {
     nextLabel: () => (isEs() ? 'Siguiente' : 'Next'),
     filterPlaceholder: () => (isEs() ? 'Escribir para buscar' : 'Type to search'),
     selectPlaceholder: () => (isEs() ? 'Seleccionar uno' : 'Select one'),
+    selectClearLabel: () => (isEs() ? 'Limpiar' : 'Clear'),
     filterOperatorAriaLabel: () => (isEs() ? 'Operador de filtro' : 'Filter operator'),
     filterAriaLabel: (header) => (isEs() ? `Filtrar ${header}` : `Filter ${header}`),
     columnVisibilitySummary: () =>
@@ -222,7 +223,7 @@ const TOAST_COPY: Record<StorybookLocale, ToastDemoCopy> = {
     darkDescription: 'Toolbar Dark + theme auto → .wi-dark',
     darkButton: 'Toast dark',
     docsNotice:
-      'En Docs no se demuestran toasts en vivo: el preview de documentación está contenido y no refleja el anclaje al viewport. Abre cualquier historia en la pestaña Canvas (Default, Variants, Light/Dark mode, …) para probar posición y tema.',
+      'El preview de Docs no ancla el toast al viewport. Abre Canvas para disparar toasts y probar posición o tema.',
   },
   en: {
     showButton: 'Show toast (top right)',
@@ -258,7 +259,7 @@ const TOAST_COPY: Record<StorybookLocale, ToastDemoCopy> = {
     darkDescription: 'Toolbar Dark + theme auto → .wi-dark',
     darkButton: 'Toast dark',
     docsNotice:
-      'Docs does not run live toasts: the documentation preview is contained and does not reflect viewport anchoring. Open any story in the Canvas tab (Default, Variants, Light/Dark mode, …) to try position and theme.',
+      'The Docs preview does not anchor toasts to the viewport. Open Canvas to fire toasts and try position or theme.',
   },
 };
 
