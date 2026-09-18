@@ -128,7 +128,7 @@ function pad2(value: number): string {
           [attr.data-placeholder]="hasValue() ? null : ''"
           [attr.name]="name() || null"
         >
-          <span class="min-w-0 flex-1 truncate text-left">
+          <span class="min-w-0 flex-1 truncate text-left pr-6">
             @if (hasValue()) {
               {{ displayText() }}
             } @else {
