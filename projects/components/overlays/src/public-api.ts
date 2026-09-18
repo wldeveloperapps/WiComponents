@@ -15,6 +15,14 @@ export {
 } from './dialog/wi-dialog.component';
 
 export type {
+  WiConfirmation,
+  WiConfirmationConfirmVariant,
+  WiConfirmationRequest,
+  WiConfirmationResult,
+} from './confirmation/wi-confirmation.types';
+export { WiConfirmationService } from './confirmation/wi-confirmation.service';
+
+export type {
   WiConfirmDialogConfirmVariant,
   WiConfirmDialogSize,
   WiConfirmDialogState,

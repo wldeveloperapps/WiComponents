@@ -1,4 +1,5 @@
 import { Directionality } from '@angular/cdk/bidi';
+import { Component, inject, input } from '@angular/core';
 import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { applicationConfig, moduleMetadata } from '@storybook/angular-vite';
 import { fn } from 'storybook/test';
@@ -10,12 +11,14 @@ import type {
   WiConfirmPopupSize,
 } from './wi-confirm-popup.types';
 import {
+  WiConfirmationService,
   WiConfirmPopupComponent,
   WiConfirmPopupTriggerDirective,
   provideWiOverlaysI18n,
 } from '../public-api';
 
 interface WiConfirmPopupStoryArgs {
+  key: string;
   size: WiConfirmPopupSize;
   align: WiConfirmPopupAlign;
   sideOffset: number;
@@ -32,21 +35,335 @@ interface WiConfirmPopupStoryArgs {
   stateChanged: ReturnType<typeof fn>;
 }
 
-const confirmImports = [WiConfirmPopupComponent, WiConfirmPopupTriggerDirective, WiButtonDirective];
+const hideFromDocs = { table: { disable: true }, control: false } as const;
+
+const hiddenConfirmPopupInternals: Record<string, typeof hideFromDocs> = {
+  brn: hideFromDocs,
+  document: hideFromDocs,
+  host: hideFromDocs,
+  overlaysI18n: hideFromDocs,
+  origin: hideFromDocs,
+  confirmation: hideFromDocs,
+  titleDomId: hideFromDocs,
+  descriptionDomId: hideFromDocs,
+  resolvedTitle: hideFromDocs,
+  resolvedDescription: hideFromDocs,
+  resolvedConfirmLabel: hideFromDocs,
+  resolvedConfirmVariant: hideFromDocs,
+  resolvedShowCancel: hideFromDocs,
+  chromeCancelLabel: hideFromDocs,
+  contentClasses: hideFromDocs,
+  panelState: hideFromDocs,
+  overlayId: hideFromDocs,
+  open: hideFromDocs,
+  close: hideFromDocs,
+  onConfirm: hideFromDocs,
+  onCancel: hideFromDocs,
+};
+
+const SERVICE_USAGE_SOURCE = `import { Component, inject } from '@angular/core';
+import {
+  WiConfirmationService,
+  WiConfirmDialogComponent,
+  WiConfirmPopupComponent,
+} from '@wldeveloperapps/ui/overlays';
+import { WiButtonDirective } from '@wldeveloperapps/ui/button';
+
+@Component({
+  selector: 'app-shell',
+  imports: [WiConfirmDialogComponent, WiConfirmPopupComponent, WiButtonDirective],
+  template: \`
+    <!-- Hosts en el root (una vez). Sin key = caso típico. -->
+    <wi-confirm-dialog />
+    <wi-confirm-popup />
+
+    <button wiButton type="button" variant="danger" (click)="deleteRow($event)">
+      Eliminar (abre popup anclado)
+    </button>
+  \`,
+})
+export class AppShell {
+  private readonly confirmation = inject(WiConfirmationService);
+
+  // Con target → WiConfirmationService abre el popup (anclado al botón)
+  deleteRow(event: Event): void {
+    void this.confirmation.confirm({
+      target: event.currentTarget as HTMLElement,
+      title: 'Eliminar fila',
+      description: 'Esta acción no se puede deshacer.',
+      confirmLabel: 'Eliminar',
+      confirmVariant: 'danger',
+      accept: () => this.delete(),
+      reject: () => {},
+    });
+  }
+
+  private delete(): void {
+    // lógica de la app
+  }
+}
+`;
+
+/**
+ * Demo de Storybook = mismo patrón que la app (host + servicio + target).
+ * `onAccept` / `onReject` solo alimentan Actions; en la app van a tu lógica.
+ */
+@Component({
+  selector: 'wi-confirm-popup-via-service-demo',
+  imports: [WiConfirmPopupComponent, WiButtonDirective],
+  template: `
+    <wi-confirm-popup />
+
+    <button wiButton type="button" variant="danger" (click)="deleteRow($event)">
+      Eliminar fila
+    </button>
+  `,
+})
+class ConfirmPopupViaServiceDemo {
+  private readonly confirmation = inject(WiConfirmationService);
+
+  readonly onAccept = input<() => void>(() => undefined);
+  readonly onReject = input<() => void>(() => undefined);
+
+  deleteRow(event: Event): void {
+    void this.confirmation.confirm({
+      target: event.currentTarget as HTMLElement,
+      title: 'Eliminar fila',
+      description: 'Esta acción no se puede deshacer.',
+      confirmLabel: 'Eliminar',
+      confirmVariant: 'danger',
+      accept: this.onAccept(),
+      reject: this.onReject(),
+    });
+  }
+}
+
+const SERVICE_KEY_USAGE_SOURCE = `import { Component, inject } from '@angular/core';
+import {
+  WiConfirmationService,
+  WiConfirmPopupComponent,
+} from '@wldeveloperapps/ui/overlays';
+import { WiButtonDirective } from '@wldeveloperapps/ui/button';
+
+@Component({
+  selector: 'app-shell',
+  imports: [WiConfirmPopupComponent, WiButtonDirective],
+  template: \`
+    <wi-confirm-popup key="delete-row" />
+    <wi-confirm-popup key="archive-row" />
+
+    <button wiButton type="button" variant="danger" (click)="deleteRow($event)">
+      Eliminar
+    </button>
+    <button wiButton type="button" (click)="archiveRow($event)">
+      Archivar
+    </button>
+  \`,
+})
+export class AppShell {
+  private readonly confirmation = inject(WiConfirmationService);
+
+  deleteRow(event: Event): void {
+    void this.confirmation.confirm({
+      key: 'delete-row',
+      target: event.currentTarget as HTMLElement,
+      title: 'Eliminar fila',
+      confirmLabel: 'Eliminar',
+      confirmVariant: 'danger',
+      accept: () => this.delete(),
+    });
+  }
+
+  archiveRow(event: Event): void {
+    void this.confirmation.confirm({
+      key: 'archive-row',
+      target: event.currentTarget as HTMLElement,
+      title: 'Archivar fila',
+      confirmLabel: 'Archivar',
+      accept: () => this.archive(),
+    });
+  }
+
+  private delete(): void {}
+  private archive(): void {}
+}
+`;
+
+@Component({
+  selector: 'wi-confirm-popup-via-service-key-demo',
+  imports: [WiConfirmPopupComponent, WiButtonDirective],
+  template: `
+    <div class="flex flex-col gap-4">
+      <wi-confirm-popup key="delete-row" />
+      <wi-confirm-popup key="archive-row" />
+
+      <div class="flex flex-wrap gap-2">
+        <button wiButton type="button" variant="danger" (click)="deleteRow($event)">
+          Eliminar
+        </button>
+        <button wiButton type="button" (click)="archiveRow($event)">
+          Archivar
+        </button>
+      </div>
+    </div>
+  `,
+})
+class ConfirmPopupViaServiceKeyDemo {
+  private readonly confirmation = inject(WiConfirmationService);
+
+  readonly onAccept = input<() => void>(() => undefined);
+  readonly onReject = input<() => void>(() => undefined);
+
+  deleteRow(event: Event): void {
+    void this.confirmation.confirm({
+      key: 'delete-row',
+      target: event.currentTarget as HTMLElement,
+      title: 'Eliminar fila',
+      description: 'No se puede deshacer.',
+      confirmLabel: 'Eliminar',
+      confirmVariant: 'danger',
+      accept: this.onAccept(),
+      reject: this.onReject(),
+    });
+  }
+
+  archiveRow(event: Event): void {
+    void this.confirmation.confirm({
+      key: 'archive-row',
+      target: event.currentTarget as HTMLElement,
+      title: 'Archivar fila',
+      description: 'Podrás restaurarla más tarde.',
+      confirmLabel: 'Archivar',
+      confirmVariant: 'primary',
+      accept: this.onAccept(),
+      reject: this.onReject(),
+    });
+  }
+}
+
+@Component({
+  selector: 'wi-confirm-popup-table-service-demo',
+  imports: [WiConfirmPopupComponent, WiButtonDirective],
+  template: `
+    <!-- Un solo host para todas las filas -->
+    <wi-confirm-popup key="row-delete" align="end" />
+
+    <div class="w-full max-w-md overflow-hidden rounded-control border border-outline-variant">
+      @for (site of sites; track site) {
+        <div
+          class="flex items-center justify-between gap-4 border-b border-outline-variant px-4 py-3 last:border-b-0"
+        >
+          <span class="text-sm text-on-surface">{{ site }}</span>
+          <button
+            wiButton
+            type="button"
+            size="sm"
+            variant="danger"
+            (click)="deleteRow($event, site)"
+          >
+            Eliminar
+          </button>
+        </div>
+      }
+    </div>
+  `,
+})
+class ConfirmPopupTableServiceDemo {
+  private readonly confirmation = inject(WiConfirmationService);
+
+  readonly sites = ['Sitio A', 'Sitio B', 'Sitio C'];
+  readonly onAccept = input<() => void>(() => undefined);
+  readonly onReject = input<() => void>(() => undefined);
+
+  deleteRow(event: Event, site: string): void {
+    void this.confirmation.confirm({
+      key: 'row-delete',
+      target: event.currentTarget as HTMLElement,
+      title: `Eliminar ${site}`,
+      description: 'Esta acción no se puede deshacer.',
+      confirmLabel: 'Eliminar',
+      confirmVariant: 'danger',
+      accept: this.onAccept(),
+      reject: this.onReject(),
+    });
+  }
+}
+
+const confirmImports = [
+  WiConfirmPopupComponent,
+  WiConfirmPopupTriggerDirective,
+  WiButtonDirective,
+  ConfirmPopupViaServiceDemo,
+  ConfirmPopupViaServiceKeyDemo,
+  ConfirmPopupTableServiceDemo,
+];
 
 const meta: Meta<WiConfirmPopupStoryArgs> = {
   title: 'Overlays/WiConfirmPopup',
+  component: WiConfirmPopupComponent,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
+    controls: {
+      include: [
+        'key',
+        'state',
+        'size',
+        'align',
+        'sideOffset',
+        'offsetX',
+        'title',
+        'description',
+        'confirmLabel',
+        'cancelLabel',
+        'confirmVariant',
+        'showCancel',
+        'loading',
+        'closeOnOutsidePointerEvents',
+      ],
+    },
     docs: {
       description: {
         component: `
 Confirmación compacta anclada al trigger (\`wi-confirm-popup\`).
 
-- API: \`title\`, \`description?\`, \`confirmLabel\`, \`cancelLabel?\`, \`confirmVariant\` (\`primary\` | \`danger\`), \`size\` (\`sm\` | \`md\`), \`align\`, \`sideOffset\`, \`loading\`, \`showCancel\`.
+## Modo declarativo (trigger)
+
+- API: \`title\`, \`description?\`, \`confirmLabel\`, \`cancelLabel?\`, \`confirmVariant\` (\`primary\` | \`danger\`), \`size\` (\`sm\` | \`md\`), \`align\`, \`sideOffset\`, \`loading\`, \`showCancel\`, \`key?\`.
 - Apertura: \`wiConfirmPopupTrigger\` (ancla al host) o \`open(origin)\` / \`[(state)]\`.
 - Events: \`confirmed\`, \`cancelled\`, \`stateChanged\`, \`closed\`.
+
+## Modo servicio (\`WiConfirmationService\`) — recomendado
+
+Monta los hosts **una vez** en el root / layout:
+
+\`\`\`html
+<wi-confirm-dialog />
+<wi-confirm-popup />
+\`\`\`
+
+Luego, en cualquier sitio de la app, solo usas el servicio. **Sin \`key\`, elige dialog vs popup según \`target\`:**
+
+| \`confirm({...})\` | Qué abre |
+| --- | --- |
+| **Sin** \`target\` | \`wi-confirm-dialog\` (modal centrado) |
+| **Con** \`target\` (HTMLElement) | \`wi-confirm-popup\` (anclado a ese elemento) |
+
+\`\`\`ts
+// Popup — obligatorio pasar target
+this.confirmation.confirm({
+  target: event.currentTarget as HTMLElement,
+  title: 'Eliminar',
+  confirmLabel: 'Eliminar',
+  confirmVariant: 'danger',
+  accept: () => this.delete(),
+});
+\`\`\`
+
+\`key\` es **opcional**: solo si montas varios popups (o varios dialogs) y necesitas dirigir a uno concreto. Ver ViaServiceKey / ViaServiceTable.
+
+Escape / clic fuera → \`'dismissed'\` (no llama \`reject\`).
+
 - A11y: \`role=alertdialog\` sin backdrop; cierra con Escape y clic fuera. Un overlay CDK anidado no cierra el popup.
 - Diferencia vs \`wi-confirm-dialog\`: popup contextual anclado; dialog modal centrado.
 - Copy: textos desde la app; chrome cancel vía \`provideWiOverlaysI18n({ confirmCancelLabel })\`.
@@ -68,6 +385,12 @@ Confirmación compacta anclada al trigger (\`wi-confirm-popup\`).
     }),
   ],
   argTypes: {
+    ...hiddenConfirmPopupInternals,
+    key: {
+      control: 'text',
+      table: { category: 'Service' },
+      description: 'Key para WiConfirmationService',
+    },
     size: {
       control: 'select',
       options: ['sm', 'md'],
@@ -137,6 +460,7 @@ Confirmación compacta anclada al trigger (\`wi-confirm-popup\`).
     },
   },
   args: {
+    key: '',
     size: 'sm',
     align: 'center',
     sideOffset: 8,
@@ -324,7 +648,7 @@ export const InTableRow: Story = {
     docs: {
       description: {
         story:
-          'Uso típico: confirmar una acción de fila sin modal a pantalla completa. El popup se ancla al botón de la fila.',
+          'Uso típico declarativo: un popup por fila. Para un solo host compartido, ver ViaServiceTable.',
       },
     },
   },
@@ -426,6 +750,107 @@ export const NarrowViewport: Story = {
           </button>
         </wi-confirm-popup>
       </div>
+    `,
+  }),
+};
+
+export const ViaService: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: `
+Caso típico: hosts en el root **sin** \`key\`.
+
+- \`confirm({ target })\` → abre este **popup** anclado al elemento.
+- \`confirm({...})\` **sin** \`target\` → abriría el dialog (ver WiConfirmDialog → ViaService).
+
+\`target\` es obligatorio para el popup (sirve para anclar y para que el servicio sepa que no es un dialog).
+        `,
+      },
+      source: {
+        type: 'code',
+        language: 'ts',
+        code: SERVICE_USAGE_SOURCE,
+      },
+    },
+  },
+  render: (args) => ({
+    props: {
+      onAccept: args.confirmed,
+      onReject: args.cancelled,
+    },
+    template: `
+      <wi-confirm-popup-via-service-demo
+        [onAccept]="onAccept"
+        [onReject]="onReject"
+      />
+    `,
+  }),
+};
+
+export const ViaServiceKey: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: `
+**Opcional.** Solo si necesitas **varios** \`wi-confirm-popup\` a la vez.
+
+Sin \`key\`, dialog vs popup se decide por \`target\` (ver ViaService).  
+Con \`key\` + \`target\`, eliges **cuál** popup de varios.
+
+Si te basta un popup en el root, **no uses key**.
+        `,
+      },
+      source: {
+        type: 'code',
+        language: 'ts',
+        code: SERVICE_KEY_USAGE_SOURCE,
+      },
+    },
+  },
+  render: (args) => ({
+    props: {
+      onAccept: args.confirmed,
+      onReject: args.cancelled,
+    },
+    template: `
+      <wi-confirm-popup-via-service-key-demo
+        [onAccept]="onAccept"
+        [onReject]="onReject"
+      />
+    `,
+  }),
+};
+
+export const ViaServiceTable: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: `
+Un solo host en el root para **todas** las filas (no un popup por fila).
+
+Aquí usamos \`key="row-delete"\` solo como nombre del host compartido; lo importante es \`target\` en cada \`confirm()\` para anclar al botón de la fila.
+
+Contrasta con InTableRow (modo declarativo: un popup por fila).
+        `,
+      },
+      source: {
+        type: 'code',
+        language: 'ts',
+        code: SERVICE_USAGE_SOURCE,
+      },
+    },
+  },
+  render: (args) => ({
+    props: {
+      onAccept: args.confirmed,
+      onReject: args.cancelled,
+    },
+    template: `
+      <wi-confirm-popup-table-service-demo
+        [onAccept]="onAccept"
+        [onReject]="onReject"
+      />
     `,
   }),
 };

@@ -13,16 +13,26 @@ export const wiConfirmDialogRegistryEntry = {
     'WiConfirmDialogSize',
     'WiConfirmDialogState',
     'WiConfirmDialogConfirmVariant',
+    'WiConfirmationService',
+    'WiConfirmation',
+    'WiConfirmationResult',
     'WiOverlaysI18n',
     'provideWiOverlaysI18n',
   ],
   inputs: [
     {
+      name: 'key',
+      type: 'string | undefined',
+      default: 'undefined',
+      description:
+        'Key para WiConfirmationService. Sin key: recibe peticiones sin key y sin target. Con key: solo esa key.',
+    },
+    {
       name: 'state',
       type: "WiConfirmDialogState ('open' | 'closed')",
       default: 'closed',
       description:
-        'Estado controlado (model two-way). Alternativa: wiConfirmDialogTrigger / open()',
+        'Estado controlado (model two-way). Alternativa: wiConfirmDialogTrigger / open() / WiConfirmationService',
     },
     {
       name: 'size',
@@ -33,9 +43,10 @@ export const wiConfirmDialogRegistryEntry = {
     },
     {
       name: 'title',
-      type: 'string (required)',
-      default: '—',
-      description: 'Título accesible; lo aporta la app (i18n de producto)',
+      type: 'string | undefined',
+      default: 'undefined',
+      description:
+        'Título accesible. Obligatorio en modo trigger; en modo servicio llega vía confirm({ title })',
     },
     {
       name: 'description',
@@ -45,9 +56,10 @@ export const wiConfirmDialogRegistryEntry = {
     },
     {
       name: 'confirmLabel',
-      type: 'string (required)',
-      default: '—',
-      description: 'Label del botón de confirmación (app / i18n)',
+      type: 'string | undefined',
+      default: 'undefined',
+      description:
+        'Label del botón de confirmación. Obligatorio en modo trigger; vía servicio en confirm({ confirmLabel })',
     },
     {
       name: 'cancelLabel',
@@ -106,7 +118,12 @@ export const wiConfirmDialogRegistryEntry = {
   parts: [
     {
       selector: '[wiConfirmDialogTrigger]',
-      description: 'Abre el confirm al click (o wiConfirmDialogTriggerFor)',
+      description: 'Abre el confirm al click (modo declarativo; o wiConfirmDialogTriggerFor)',
+    },
+    {
+      selector: 'wi-confirm-dialog',
+      description:
+        'Host para WiConfirmationService: montar una vez (opcionalmente con key) y llamar confirm()',
     },
   ],
   keyboard: [
@@ -115,25 +132,28 @@ export const wiConfirmDialogRegistryEntry = {
     'Focus trap y restore focus al cerrar',
   ],
   a11yNotes:
-    'role=alertdialog + aria-modal. Título vía title (aria-labelledby). Descripción opcional (aria-describedby). Sin botón X: la decisión es confirmar o cancelar. Overlays portaled heredan .wi-dark del documento.',
+    'role=alertdialog + aria-modal. Título vía title / confirm({ title }) (aria-labelledby). Descripción opcional (aria-describedby). Sin botón X: la decisión es confirmar o cancelar. Overlays portaled heredan .wi-dark del documento.',
   example: {
-    import: `import {
+    import: `import { inject } from '@angular/core';
+import {
+  WiConfirmationService,
   WiConfirmDialogComponent,
-  WiConfirmDialogTriggerDirective,
   provideWiOverlaysI18n,
 } from '@wldeveloperapps/ui/overlays';
-import { WiButtonDirective } from '@wldeveloperapps/ui/button';
 
-provideWiOverlaysI18n({ confirmCancelLabel: () => 'Cancelar' });`,
-    template: `<wi-confirm-dialog
-  title="Eliminar sitio"
-  description="Esta acción no se puede deshacer."
-  confirmLabel="Eliminar"
-  confirmVariant="danger"
-  (confirmed)="onConfirm()"
-  (cancelled)="onCancel()"
->
-  <button wiButton type="button" variant="danger" wiConfirmDialogTrigger>Eliminar</button>
-</wi-confirm-dialog>`,
+provideWiOverlaysI18n({ confirmCancelLabel: () => 'Cancelar' });
+
+private readonly confirmation = inject(WiConfirmationService);
+
+deleteItem(): void {
+  void this.confirmation.confirm({
+    title: 'Eliminar sitio',
+    description: 'Esta acción no se puede deshacer.',
+    confirmLabel: 'Eliminar',
+    confirmVariant: 'danger',
+    accept: () => this.delete(),
+  });
+}`,
+    template: `<wi-confirm-dialog />`,
   },
 } as const;

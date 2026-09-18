@@ -1,9 +1,10 @@
 import { Directionality } from '@angular/cdk/bidi';
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { WiButtonDirective } from '../../button/src/public-api';
+import { WiConfirmationService } from '../../overlays/src/confirmation/wi-confirmation.service';
 import {
   WiConfirmPopupComponent,
   WiConfirmPopupTriggerDirective,
@@ -286,6 +287,51 @@ describe('WiConfirmPopupComponent', () => {
       const pane = document.querySelector('.cdk-overlay-pane');
       expect(pane?.getAttribute('role')).toBe('alertdialog');
       expect(pane?.getAttribute('aria-labelledby')).toBeTruthy();
+    });
+  });
+
+  describe('via WiConfirmationService', () => {
+    @Component({
+      selector: 'wi-confirm-popup-service-host',
+      imports: [WiConfirmPopupComponent],
+      template: `
+        <wi-confirm-popup />
+        <button type="button" data-testid="anchor">Anchor</button>
+      `,
+    })
+    class ServiceHostComponent {
+      readonly confirmation = inject(WiConfirmationService);
+    }
+
+    let fixture: ComponentFixture<ServiceHostComponent>;
+
+    beforeEach(async () => {
+      await TestBed.configureTestingModule({
+        imports: [ServiceHostComponent],
+        providers: [
+          Directionality,
+          provideWiOverlaysI18n({ confirmCancelLabel: () => 'Cancel' }),
+        ],
+      }).compileComponents();
+
+      fixture = TestBed.createComponent(ServiceHostComponent);
+      fixture.detectChanges();
+      await fixture.whenStable();
+    });
+
+    it('opens from confirm({ target }) and applies request copy', async () => {
+      const anchor = fixture.nativeElement.querySelector(
+        '[data-testid="anchor"]',
+      ) as HTMLElement;
+      void fixture.componentInstance.confirmation.confirm({
+        target: anchor,
+        title: 'Via service popup',
+        confirmLabel: 'Confirm',
+      });
+      fixture.detectChanges();
+      await waitForPanel(true);
+
+      expect(popupTitle()?.textContent).toContain('Via service popup');
     });
   });
 });

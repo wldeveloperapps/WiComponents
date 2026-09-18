@@ -37,6 +37,29 @@ describe('@wldeveloperapps/ui-mcp catalog', () => {
     expect(getCatalogItem('button[wiButton], a[wiButton]')?.name).toBe('button');
   });
 
+  it('documents WiConfirmationService on confirm-dialog and confirm-popup', () => {
+    const dialog = getCatalogItem('confirm-dialog');
+    const popup = getCatalogItem('confirm-popup');
+    expect(dialog).toBeDefined();
+    expect(popup).toBeDefined();
+
+    expect(dialog!.exports).toEqual(
+      expect.arrayContaining(['WiConfirmationService', 'WiConfirmation', 'WiConfirmationResult']),
+    );
+    expect(popup!.exports).toEqual(
+      expect.arrayContaining(['WiConfirmationService', 'WiConfirmation', 'WiConfirmationResult']),
+    );
+
+    expect(dialog!.inputs.map((field) => field.name)).toEqual(expect.arrayContaining(['key']));
+    expect(popup!.inputs.map((field) => field.name)).toEqual(expect.arrayContaining(['key']));
+
+    expect(dialog!.example.import).toContain('confirm(');
+    expect(dialog!.example.template).toContain('wi-confirm-dialog');
+    expect(popup!.example.import).toContain('confirm(');
+    expect(popup!.example.template).toContain('wi-confirm-popup');
+    expect(popup!.example.import).toContain('target');
+  });
+
   it('documents wi-table public API used by consumer apps', () => {
     const table = getCatalogItem('table');
     expect(table).toBeDefined();

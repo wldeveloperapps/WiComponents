@@ -21,6 +21,7 @@ import {
 import { BrnDialog, provideBrnDialogDefaultOptions } from '@spartan-ng/brain/dialog';
 import { WiButtonDirective } from '@wldeveloperapps/ui/button';
 
+import { bindWiConfirmationHost } from '../confirmation/wi-confirmation-host';
 import type {
   WiConfirmDialogConfirmVariant,
   WiConfirmDialogSize,
@@ -169,9 +170,10 @@ export class WiConfirmDialogTriggerDirective {
 /**
  * Diálogo de confirmación compacto (`wi-confirm-dialog`).
  *
- * Pattern sobre alert-dialog: título / descripción / cancelar / confirmar.
- * Los textos los aporta la app (i18n). Brain gestiona portal, foco y `role=alertdialog`.
- * Por defecto no cierra con Escape ni backdrop (`disableClose`).
+ * Dos modos:
+ * 1. Declarativo (trigger + inputs + outputs).
+ * 2. Imperativo vía `WiConfirmationService.confirm()` + host montado
+ *    (`<wi-confirm-dialog />` o con `key`).
  *
  * ```html
  * <wi-confirm-dialog
@@ -235,15 +237,15 @@ export class WiConfirmDialogTriggerDirective {
             data-slot="confirm-dialog-title"
             class="wi-confirm-dialog__title text-base leading-none font-semibold text-on-surface"
           >
-            {{ title() }}
+            {{ resolvedTitle() }}
           </h2>
-          @if (description()) {
+          @if (resolvedDescription()) {
             <p
               brnAlertDialogDescription
               data-slot="confirm-dialog-description"
               class="wi-confirm-dialog__description text-sm text-on-surface-variant"
             >
-              {{ description() }}
+              {{ resolvedDescription() }}
             </p>
           }
         </div>
@@ -252,23 +254,23 @@ export class WiConfirmDialogTriggerDirective {
           data-slot="confirm-dialog-footer"
           class="wi-confirm-dialog__footer flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-2"
         >
-          @if (showCancel()) {
+          @if (resolvedShowCancel()) {
             <button wiButton
               type="button"
               variant="secondary"
               [disabled]="loading()"
               (click)="onCancel()"
             >
-              {{ resolvedCancelLabel() }}
+              {{ chromeCancelLabel() }}
             </button>
           }
           <button wiButton
             type="button"
-            [variant]="confirmVariant()"
+            [variant]="resolvedConfirmVariant()"
             [loading]="loading()"
             (click)="onConfirm()"
           >
-            {{ confirmLabel() }}
+            {{ resolvedConfirmLabel() }}
           </button>
         </div>
       </div>
@@ -279,20 +281,29 @@ export class WiConfirmDialogComponent {
   private readonly brn = inject(BrnDialog);
   private readonly overlaysI18n = injectWiOverlaysI18n();
 
+  /**
+   * Key para `WiConfirmationService`. Sin key: recibe peticiones sin key y sin `target`.
+   */
+  readonly key = input<string | undefined>(undefined);
+
   /** Estado controlado (two-way). */
   readonly state = model<WiConfirmDialogState>('closed');
 
   /** Ancho del panel: sm → 24rem, md → 32rem. */
   readonly size = input<WiConfirmDialogSize>('sm');
 
-  /** Título accesible (obligatorio; lo aporta la app). */
-  readonly title = input.required<string>();
+  /**
+   * Título accesible. Obligatorio en modo trigger; en modo servicio llega vía `confirm()`.
+   */
+  readonly title = input<string | undefined>(undefined);
 
   /** Descripción opcional. */
   readonly description = input<string | undefined>(undefined);
 
-  /** Label del botón de confirmación (obligatorio; lo aporta la app). */
-  readonly confirmLabel = input.required<string>();
+  /**
+   * Label del botón de confirmación. Obligatorio en modo trigger; vía servicio en `confirm()`.
+   */
+  readonly confirmLabel = input<string | undefined>(undefined);
 
   /** Override de `provideWiOverlaysI18n` (`confirmCancelLabel`). */
   readonly cancelLabel = input<string | undefined>(undefined);
@@ -319,8 +330,29 @@ export class WiConfirmDialogComponent {
 
   protected readonly panelState = computed(() => this.brn.stateComputed());
 
-  protected readonly resolvedCancelLabel = computed(
-    () => this.cancelLabel() ?? this.overlaysI18n.confirmCancelLabel(),
+  private readonly confirmation = bindWiConfirmationHost({
+    kind: 'dialog',
+    key: this.key,
+    title: this.title,
+    description: this.description,
+    confirmLabel: this.confirmLabel,
+    cancelLabel: this.cancelLabel,
+    confirmVariant: this.confirmVariant,
+    showCancel: this.showCancel,
+    openFromRequest: () => this.open(),
+    closeOverlay: () => this.close(),
+  });
+
+  protected readonly resolvedTitle = this.confirmation.resolvedTitle;
+  protected readonly resolvedDescription = this.confirmation.resolvedDescription;
+  protected readonly resolvedConfirmLabel = this.confirmation.resolvedConfirmLabel;
+  protected readonly resolvedConfirmVariant = this.confirmation.resolvedConfirmVariant;
+  protected readonly resolvedShowCancel = this.confirmation.resolvedShowCancel;
+
+  protected readonly chromeCancelLabel = computed(
+    () =>
+      this.confirmation.resolvedCancelLabelOverride() ??
+      this.overlaysI18n.confirmCancelLabel(),
   );
 
   protected readonly contentClasses = computed(() => {
@@ -346,12 +378,17 @@ export class WiConfirmDialogComponent {
         if (this.state() !== actual) {
           this.state.set(actual);
         }
+        if (actual === 'closed') {
+          this.confirmation.dismissIfActive();
+        }
       });
     });
   }
 
   open(): void {
     this.state.set('open');
+    // Forzar apertura si el model ya era 'open' (p. ej. reemplazo de petición).
+    this.brn.open();
   }
 
   close(result?: unknown): void {
@@ -363,6 +400,10 @@ export class WiConfirmDialogComponent {
       return;
     }
     this.confirmed.emit();
+    if (this.confirmation.activeRequest()) {
+      this.confirmation.settle('confirmed');
+      return;
+    }
     this.brn.close('confirmed');
   }
 
@@ -371,6 +412,10 @@ export class WiConfirmDialogComponent {
       return;
     }
     this.cancelled.emit();
+    if (this.confirmation.activeRequest()) {
+      this.confirmation.settle('cancelled');
+      return;
+    }
     this.brn.close('cancelled');
   }
 }

@@ -1,8 +1,9 @@
 import { Directionality } from '@angular/cdk/bidi';
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WiButtonDirective } from '../../button/src/public-api';
+import { WiConfirmationService } from '../../overlays/src/confirmation/wi-confirmation.service';
 import {
   WiConfirmDialogComponent,
   WiConfirmDialogTriggerDirective,
@@ -218,6 +219,48 @@ describe('WiConfirmDialogComponent', () => {
       expect(cancelBtn?.disabled).toBe(true);
       expect(confirmBtn?.disabled).toBe(true);
       expect(confirmBtn?.getAttribute('aria-busy')).toBe('true');
+    });
+  });
+
+  describe('via WiConfirmationService', () => {
+    @Component({
+      selector: 'wi-confirm-dialog-service-host',
+      imports: [WiConfirmDialogComponent],
+      template: `<wi-confirm-dialog />`,
+    })
+    class ServiceHostComponent {
+      readonly confirmation = inject(WiConfirmationService);
+    }
+
+    let fixture: ComponentFixture<ServiceHostComponent>;
+
+    beforeEach(async () => {
+      await TestBed.configureTestingModule({
+        imports: [ServiceHostComponent],
+        providers: [
+          Directionality,
+          provideWiOverlaysI18n({ confirmCancelLabel: () => 'Cancel' }),
+        ],
+      }).compileComponents();
+
+      fixture = TestBed.createComponent(ServiceHostComponent);
+      fixture.detectChanges();
+      await fixture.whenStable();
+    });
+
+    it('opens from confirm() and applies request copy', async () => {
+      void fixture.componentInstance.confirmation.confirm({
+        title: 'Via service',
+        description: 'Service description',
+        confirmLabel: 'Confirm',
+      });
+      fixture.detectChanges();
+      await waitForPanel(true);
+
+      expect(dialogTitle()?.textContent).toContain('Via service');
+      expect(
+        document.querySelector('[data-slot="confirm-dialog-description"]')?.textContent,
+      ).toContain('Service description');
     });
   });
 });

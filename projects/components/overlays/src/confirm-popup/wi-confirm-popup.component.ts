@@ -22,6 +22,7 @@ import {
 } from '@spartan-ng/brain/popover';
 import { WiButtonDirective } from '@wldeveloperapps/ui/button';
 
+import { bindWiConfirmationHost } from '../confirmation/wi-confirmation-host';
 import { bindOutsidePointerDismiss } from '../outside-pointer-dismiss';
 import { injectWiOverlaysI18n } from '../wi-overlays.i18n';
 import type {
@@ -151,9 +152,9 @@ export class WiConfirmPopupTriggerDirective {
 /**
  * Confirmación compacta anclada al trigger (`wi-confirm-popup`).
  *
- * Pattern sobre popover: título / descripción / cancelar / confirmar, sin backdrop modal.
- * Cierra con Escape y clic fuera. Un overlay CDK anidado no cuenta como "fuera".
- * Los textos los aporta la app (i18n).
+ * Dos modos:
+ * 1. Declarativo (trigger + inputs + outputs).
+ * 2. Imperativo vía `WiConfirmationService.confirm({ target, … })` + host montado.
  *
  * ```html
  * <wi-confirm-popup
@@ -205,7 +206,7 @@ export class WiConfirmPopupTriggerDirective {
         role="presentation"
         [attr.data-state]="panelState()"
         [attr.aria-labelledby]="titleDomId"
-        [attr.aria-describedby]="description() ? descriptionDomId : null"
+        [attr.aria-describedby]="resolvedDescription() ? descriptionDomId : null"
         [class]="contentClasses()"
       >
         <div
@@ -217,15 +218,15 @@ export class WiConfirmPopupTriggerDirective {
             data-slot="confirm-popup-title"
             class="wi-confirm-popup__title text-sm leading-none font-semibold text-on-surface"
           >
-            {{ title() }}
+            {{ resolvedTitle() }}
           </h2>
-          @if (description()) {
+          @if (resolvedDescription()) {
             <p
               [id]="descriptionDomId"
               data-slot="confirm-popup-description"
               class="wi-confirm-popup__description text-sm text-on-surface-variant"
             >
-              {{ description() }}
+              {{ resolvedDescription() }}
             </p>
           }
         </div>
@@ -234,7 +235,7 @@ export class WiConfirmPopupTriggerDirective {
           data-slot="confirm-popup-footer"
           class="wi-confirm-popup__footer flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-2"
         >
-          @if (showCancel()) {
+          @if (resolvedShowCancel()) {
             <button wiButton
               type="button"
               variant="secondary"
@@ -242,17 +243,17 @@ export class WiConfirmPopupTriggerDirective {
               [disabled]="loading()"
               (click)="onCancel()"
             >
-              {{ resolvedCancelLabel() }}
+              {{ chromeCancelLabel() }}
             </button>
           }
           <button wiButton
             type="button"
             size="sm"
-            [variant]="confirmVariant()"
+            [variant]="resolvedConfirmVariant()"
             [loading]="loading()"
             (click)="onConfirm()"
           >
-            {{ confirmLabel() }}
+            {{ resolvedConfirmLabel() }}
           </button>
         </div>
       </div>
@@ -269,20 +270,29 @@ export class WiConfirmPopupComponent {
   protected readonly titleDomId = `wi-confirm-popup-title-${++titleIdSequence}`;
   protected readonly descriptionDomId = `wi-confirm-popup-description-${titleIdSequence}`;
 
+  /**
+   * Key para `WiConfirmationService`. Sin key: recibe peticiones sin key **con** `target`.
+   */
+  readonly key = input<string | undefined>(undefined);
+
   /** Estado controlado (two-way). Preferible abrir vía trigger para anclar al origen. */
   readonly state = model<WiConfirmPopupState>('closed');
 
   /** Ancho del panel: sm → 18rem, md → 24rem. */
   readonly size = input<WiConfirmPopupSize>('sm');
 
-  /** Título accesible (obligatorio; lo aporta la app). */
-  readonly title = input.required<string>();
+  /**
+   * Título accesible. Obligatorio en modo trigger; en modo servicio llega vía `confirm()`.
+   */
+  readonly title = input<string | undefined>(undefined);
 
   /** Descripción opcional. */
   readonly description = input<string | undefined>(undefined);
 
-  /** Label del botón de confirmación (obligatorio; lo aporta la app). */
-  readonly confirmLabel = input.required<string>();
+  /**
+   * Label del botón de confirmación. Obligatorio en modo trigger; vía servicio en `confirm()`.
+   */
+  readonly confirmLabel = input<string | undefined>(undefined);
 
   /** Override de `provideWiOverlaysI18n` (`confirmCancelLabel`). */
   readonly cancelLabel = input<string | undefined>(undefined);
@@ -313,8 +323,32 @@ export class WiConfirmPopupComponent {
 
   protected readonly panelState = computed(() => this.brn.stateComputed());
 
-  protected readonly resolvedCancelLabel = computed(
-    () => this.cancelLabel() ?? this.overlaysI18n.confirmCancelLabel(),
+  private readonly confirmation = bindWiConfirmationHost({
+    kind: 'popup',
+    key: this.key,
+    title: this.title,
+    description: this.description,
+    confirmLabel: this.confirmLabel,
+    cancelLabel: this.cancelLabel,
+    confirmVariant: this.confirmVariant,
+    showCancel: this.showCancel,
+    openFromRequest: (request) => {
+      const target = request.target;
+      this.open(target instanceof HTMLElement ? target : undefined);
+    },
+    closeOverlay: () => this.close(),
+  });
+
+  protected readonly resolvedTitle = this.confirmation.resolvedTitle;
+  protected readonly resolvedDescription = this.confirmation.resolvedDescription;
+  protected readonly resolvedConfirmLabel = this.confirmation.resolvedConfirmLabel;
+  protected readonly resolvedConfirmVariant = this.confirmation.resolvedConfirmVariant;
+  protected readonly resolvedShowCancel = this.confirmation.resolvedShowCancel;
+
+  protected readonly chromeCancelLabel = computed(
+    () =>
+      this.confirmation.resolvedCancelLabelOverride() ??
+      this.overlaysI18n.confirmCancelLabel(),
   );
 
   protected readonly contentClasses = computed(() => {
@@ -340,13 +374,16 @@ export class WiConfirmPopupComponent {
         if (this.state() !== actual) {
           this.state.set(actual);
         }
+        if (actual === 'closed') {
+          this.confirmation.dismissIfActive();
+        }
       });
     });
 
     effect(() => {
       const open = this.brn.stateComputed() === 'open';
       const labelledBy = this.titleDomId;
-      const describedBy = this.description() ? this.descriptionDomId : null;
+      const describedBy = this.resolvedDescription() ? this.descriptionDomId : null;
       untracked(() => {
         if (!open) {
           return;
@@ -388,6 +425,8 @@ export class WiConfirmPopupComponent {
       this.origin = origin;
     }
     this.state.set('open');
+    // Forzar apertura si el model ya era 'open' (p. ej. reemplazo de petición).
+    this.brn.open();
   }
 
   close(result?: unknown): void {
@@ -399,6 +438,10 @@ export class WiConfirmPopupComponent {
       return;
     }
     this.confirmed.emit();
+    if (this.confirmation.activeRequest()) {
+      this.confirmation.settle('confirmed');
+      return;
+    }
     this.brn.close('confirmed');
   }
 
@@ -407,6 +450,10 @@ export class WiConfirmPopupComponent {
       return;
     }
     this.cancelled.emit();
+    if (this.confirmation.activeRequest()) {
+      this.confirmation.settle('cancelled');
+      return;
+    }
     this.brn.close('cancelled');
   }
 }

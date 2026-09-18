@@ -14,16 +14,26 @@ export const wiConfirmPopupRegistryEntry = {
     'WiConfirmPopupSize',
     'WiConfirmPopupState',
     'WiConfirmPopupConfirmVariant',
+    'WiConfirmationService',
+    'WiConfirmation',
+    'WiConfirmationResult',
     'WiOverlaysI18n',
     'provideWiOverlaysI18n',
   ],
   inputs: [
     {
+      name: 'key',
+      type: 'string | undefined',
+      default: 'undefined',
+      description:
+        'Key para WiConfirmationService. Sin key: recibe peticiones sin key con target. Con key: solo esa key.',
+    },
+    {
       name: 'state',
       type: "WiConfirmPopupState ('open' | 'closed')",
       default: 'closed',
       description:
-        'Estado controlado (model two-way). Preferible wiConfirmPopupTrigger / open(origin) para anclar al trigger',
+        'Estado controlado (model two-way). Preferible wiConfirmPopupTrigger / open(origin) / WiConfirmationService.confirm({ target })',
     },
     {
       name: 'size',
@@ -52,9 +62,10 @@ export const wiConfirmPopupRegistryEntry = {
     },
     {
       name: 'title',
-      type: 'string (required)',
-      default: '—',
-      description: 'Título accesible; lo aporta la app (i18n de producto)',
+      type: 'string | undefined',
+      default: 'undefined',
+      description:
+        'Título accesible. Obligatorio en modo trigger; en modo servicio llega vía confirm({ title })',
     },
     {
       name: 'description',
@@ -64,9 +75,10 @@ export const wiConfirmPopupRegistryEntry = {
     },
     {
       name: 'confirmLabel',
-      type: 'string (required)',
-      default: '—',
-      description: 'Label del botón de confirmación (app / i18n)',
+      type: 'string | undefined',
+      default: 'undefined',
+      description:
+        'Label del botón de confirmación. Obligatorio en modo trigger; vía servicio en confirm({ confirmLabel })',
     },
     {
       name: 'cancelLabel',
@@ -133,35 +145,45 @@ export const wiConfirmPopupRegistryEntry = {
   parts: [
     {
       selector: '[wiConfirmPopupTrigger]',
-      description: 'Abre el confirm anclado al host (o wiConfirmPopupTriggerFor)',
+      description: 'Abre el confirm anclado al host (modo declarativo; o wiConfirmPopupTriggerFor)',
+    },
+    {
+      selector: 'wi-confirm-popup',
+      description:
+        'Host para WiConfirmationService: montar una vez (key opcional) y llamar confirm({ target })',
     },
   ],
   keyboard: [
-    'Escape cierra por defecto (disableClose=false)',
+    'Escape cierra por defecto (disableClose=false) → resultado dismissed (no reject)',
     'Tab / Shift+Tab entre botones del panel',
     'Clic fuera cierra (closeOnOutsidePointerEvents); overlays CDK anidados no cuentan como fuera',
     'Focus al primer tabbable al abrir; restore al trigger al cerrar',
   ],
   a11yNotes:
-    'role=alertdialog en el pane (sin backdrop / aria-modal=false). Título vía title (aria-labelledby). Descripción opcional (aria-describedby). Anclado al trigger; sin modal a pantalla completa. Un overlay CDK anidado no cierra el popup. Overlays portaled heredan .wi-dark del documento.',
+    'role=alertdialog en el pane (sin backdrop / aria-modal=false). Título vía title / confirm({ title }) (aria-labelledby). Descripción opcional (aria-describedby). Anclado al trigger o a confirm({ target }); sin modal a pantalla completa. Un overlay CDK anidado no cierra el popup. Overlays portaled heredan .wi-dark del documento.',
   example: {
-    import: `import {
+    import: `import { inject } from '@angular/core';
+import {
+  WiConfirmationService,
   WiConfirmPopupComponent,
-  WiConfirmPopupTriggerDirective,
   provideWiOverlaysI18n,
 } from '@wldeveloperapps/ui/overlays';
-import { WiButtonDirective } from '@wldeveloperapps/ui/button';
 
-provideWiOverlaysI18n({ confirmCancelLabel: () => 'Cancelar' });`,
-    template: `<wi-confirm-popup
-  title="Eliminar fila"
-  description="Esta acción no se puede deshacer."
-  confirmLabel="Eliminar"
-  confirmVariant="danger"
-  (confirmed)="onConfirm()"
-  (cancelled)="onCancel()"
->
-  <button wiButton type="button" variant="danger" wiConfirmPopupTrigger>Eliminar</button>
-</wi-confirm-popup>`,
+provideWiOverlaysI18n({ confirmCancelLabel: () => 'Cancelar' });
+
+private readonly confirmation = inject(WiConfirmationService);
+
+deleteRow(event: Event): void {
+  void this.confirmation.confirm({
+    key: 'row-delete',
+    target: event.currentTarget as HTMLElement,
+    title: 'Eliminar fila',
+    description: 'Esta acción no se puede deshacer.',
+    confirmLabel: 'Eliminar',
+    confirmVariant: 'danger',
+    accept: () => this.delete(),
+  });
+}`,
+    template: `<wi-confirm-popup key="row-delete" />`,
   },
 } as const;
