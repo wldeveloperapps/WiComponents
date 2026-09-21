@@ -247,6 +247,8 @@ describe('@wldeveloperapps/ui-mcp catalog', () => {
     expect(overlays?.body).toContain('cdkScrollable');
     expect(overlays?.body).toContain('z-index 1000');
     expect(overlays?.body).toContain('1100');
+    expect(overlays?.body).toContain('header');
+    expect(overlays?.body).toContain('sidebar');
     expect(overlays?.body).not.toMatch(/@spartan-ng\/helm/);
   });
 });

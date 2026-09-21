@@ -1,5 +1,6 @@
 /**
  * Stacking de overlays CDK cuando el panel anclado no va al top-layer (`usePopover: false`).
  * Sin estas reglas el calendario / select queda debajo de cards y de `overflow: auto`.
+ * Header / migas: z-index 10. Overlay: 1000. Sidebar: 1100.
  */
 @import '@angular/cdk/overlay-prebuilt.css';

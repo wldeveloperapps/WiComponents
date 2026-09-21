@@ -63,17 +63,27 @@ interface NestedScrollStoryArgs {
 
 const NESTED_SCROLL_TEMPLATE = `
   <div class="bg-background text-on-background">
-    <div
-      class="sticky top-0 flex h-10 items-center border-b border-outline-variant bg-surface-container px-4 text-sm font-medium text-on-surface"
-      style="z-index: 1100"
-    >
-      Chrome de app (z-index 1100) — el menú debe quedar debajo, no en top-layer
-    </div>
-    <div class="p-4">
+    <div class="relative flex min-h-[100dvh]">
+      <aside
+        class="sticky top-0 flex w-44 shrink-0 flex-col gap-2 self-start border-r border-outline-variant bg-surface-container px-3 py-4 text-sm font-medium text-on-surface"
+        style="z-index: 1100; height: 100dvh"
+        data-testid="nested-sidebar"
+      >
+        Sidebar (z-index 1100) — el menú queda debajo
+      </aside>
+      <div class="flex min-w-0 flex-1 flex-col">
+        <header
+          class="sticky top-0 flex h-10 items-center border-b border-outline-variant bg-surface-container px-4 text-sm font-medium text-on-surface"
+          style="z-index: 10"
+          data-testid="nested-header"
+        >
+          Header / migas (z-index 10) — el desplegable queda encima
+        </header>
+        <div class="p-4">
     <p class="mb-3 max-w-xl text-sm text-on-surface-variant">
       Abre un panel y haz scroll <strong>dentro del recuadro</strong> (no de la ventana). El overlay
-      debe seguir al trigger. El menú se pinta a z-index 1000: encima del recuadro y
-      <strong>debajo</strong> de esta barra (chrome 1100).
+      debe seguir al trigger. El menú se pinta a z-index 1000: encima del recuadro y del header
+      (10), y <strong>debajo</strong> del sidebar (1100).
     </p>
     <div
       class="overflow-auto rounded-control border border-outline-variant bg-surface p-4"
@@ -139,6 +149,8 @@ const NESTED_SCROLL_TEMPLATE = `
       </div>
       <div style="height: 480px" aria-hidden="true"></div>
     </div>
+        </div>
+      </div>
     </div>
   </div>
 `;
@@ -155,7 +167,7 @@ Regresión de overlays anclados al trigger dentro de un \`overflow: auto\` (shel
 
 CDK \`reposition\` solo oye window y \`cdkScrollable\`. Sin este arreglo el panel se queda fijo en el viewport al hacer scroll interno.
 
-**Z-index:** contrato y tabla de capas en **Documentation → Z-index**. Aquí: portal CDK a \`1000\` (no top-layer). La barra de chrome de esta story va a \`1100\`: el menú no debe pintarse encima. Cards / overflow sin z-index quedan debajo del panel.
+**Z-index:** contrato y tabla de capas en **Documentation → Z-index**. Aquí: portal CDK a \`1000\` (no top-layer). El sidebar va a \`1100\` (el menú no se pinta encima). Header / migas van a \`10\` (el desplegable sí queda encima). Cards / overflow sin z-index quedan debajo del panel.
 
 Incluye Select, Datepicker, Menu y filtro / visibilidad de \`wi-table\`. Diálogos, confirm modal y toast sí pueden ir al top-layer.
         `,

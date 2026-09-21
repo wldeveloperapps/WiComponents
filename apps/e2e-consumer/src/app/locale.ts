@@ -162,7 +162,8 @@ interface UiMessages {
   tableFilterStatus: string;
   nestedScroll: string;
   nestedScrollHint: string;
-  nestedChrome: string;
+  nestedSidebar: string;
+  nestedHeader: string;
   nestedSitePlaceholder: string;
   nestedSiteAria: string;
   nestedDateAria: string;
@@ -281,8 +282,9 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     tableFilterStatus: 'Todos los estados',
     nestedScroll: 'Overflow anidado',
     nestedScrollHint:
-      'Abre un panel y haz scroll dentro del recuadro. El overlay sigue al trigger (z-index 1000). El menú queda bajo el chrome de app (1100), no en top-layer.',
-    nestedChrome: 'Chrome de app (z-index 1100) — el menú queda debajo',
+      'Abre un panel y haz scroll dentro del recuadro. El overlay sigue al trigger (z-index 1000). Queda encima del header/migas (10) y bajo el sidebar (1100), no en top-layer.',
+    nestedSidebar: 'Sidebar (z-index 1100) — el menú queda debajo',
+    nestedHeader: 'Header / migas (z-index 10) — el desplegable queda encima',
     nestedSitePlaceholder: 'Elige un sitio',
     nestedSiteAria: 'Sitio (overflow)',
     nestedDateAria: 'Fecha (overflow)',
@@ -415,8 +417,9 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     tableFilterStatus: 'All statuses',
     nestedScroll: 'Nested overflow',
     nestedScrollHint:
-      'Open a panel and scroll inside the box. The overlay follows the trigger (z-index 1000). The menu stays under app chrome (1100), not on the top layer.',
-    nestedChrome: 'App chrome (z-index 1100) — the menu stays underneath',
+      'Open a panel and scroll inside the box. The overlay follows the trigger (z-index 1000). It paints over the header/breadcrumbs (10) and under the sidebar (1100), not on the top layer.',
+    nestedSidebar: 'Sidebar (z-index 1100) — the menu stays underneath',
+    nestedHeader: 'Header / breadcrumbs (z-index 10) — the menu paints on top',
     nestedSitePlaceholder: 'Choose a site',
     nestedSiteAria: 'Site (overflow)',
     nestedDateAria: 'Date (overflow)',

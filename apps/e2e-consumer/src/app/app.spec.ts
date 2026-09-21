@@ -335,6 +335,14 @@ describe('App', () => {
 
     const root = fixture.nativeElement as HTMLElement;
     expect(root.querySelector('[data-testid="nested-scroll-container"]')).toBeTruthy();
+    expect(root.querySelector('[data-testid="nested-sidebar"]')).toBeTruthy();
+    expect(root.querySelector('[data-testid="nested-header"]')).toBeTruthy();
+    expect((root.querySelector('[data-testid="nested-sidebar"]') as HTMLElement).style.zIndex).toBe(
+      '1100',
+    );
+    expect((root.querySelector('[data-testid="nested-header"]') as HTMLElement).style.zIndex).toBe(
+      '10',
+    );
     expect(root.querySelector('[data-testid="nested-select"]')).toBeTruthy();
     expect(root.querySelector('[data-testid="nested-datepicker"]')).toBeTruthy();
     expect(root.querySelector('[data-testid="nested-menu-trigger"]')).toBeTruthy();

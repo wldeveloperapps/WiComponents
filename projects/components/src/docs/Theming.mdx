@@ -32,7 +32,7 @@ La librería **no** toca `document.documentElement`. La app importa CSS y aplica
 | PostCSS Tailwind v4          | `postcss.config.json` en la **raíz de la app Angular**               | No hace falta `tailwind.config.js`                     |
 | Tabs                         | `@import '@wldeveloperapps/ui/styles/tabs.css'` en el CSS global               | Solo si usas `wi-tabs`                                 |
 | Toast                        | `@import '@wldeveloperapps/ui/styles/toast.css'` + `<wi-toast />` en el root | Solo si usas toast                                     |
-| Overlay stacking             | Anclados: `z-index: 1000`. Chrome de app: `1100`.                    | Detalle: **Z-index**. No top-layer en menús            |
+| Overlay stacking             | Anclados: `1000`. Header/migas: `10`. Sidebar: `1100`.               | Detalle: **Z-index**. No top-layer en menús            |
 | Dark mode                    | Clase `wi-dark` en `<html>` (`WI_DARK_CLASS`)                        | No `.dark` ni `data-theme`                             |
 
 Si la app **ya tiene** hoja global (PrimeNG, etc.): **añade** los `@import` de Wiloc ahí. No sustituyas el tema de Prime de golpe ni dupliques `@import 'tailwindcss/...'` si ya está.

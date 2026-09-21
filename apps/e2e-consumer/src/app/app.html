@@ -392,76 +392,88 @@
           {{ t().nestedScroll }}
         </h2>
         <p class="text-sm text-on-surface-variant">{{ t().nestedScrollHint }}</p>
-        <div
-          class="sticky top-0 flex h-10 items-center rounded-t-control border border-b-0 border-outline-variant bg-surface-container px-3 text-sm font-medium text-on-surface"
-          style="z-index: 1100"
-        >
-          {{ t().nestedChrome }}
-        </div>
-        <div
-          class="overflow-auto rounded-b-control border border-outline-variant bg-surface p-4"
-          style="height: 300px"
-          data-testid="nested-scroll-container"
-        >
-          <div class="flex max-w-sm flex-col gap-4">
-            <label class="flex flex-col gap-1 text-sm text-on-surface">
-              <span>{{ t().select }}</span>
-              <wi-select
-                data-testid="nested-select"
-                [(value)]="nestedSite"
-                [options]="nestedSiteOptions"
-                optionLabel="name"
-                optionValue="id"
-                [placeholder]="t().nestedSitePlaceholder"
-                [ariaLabel]="t().nestedSiteAria"
-              />
-            </label>
-            <label class="flex flex-col gap-1 text-sm text-on-surface">
-              <span>{{ t().datepicker }}</span>
-              <wi-datepicker
-                data-testid="nested-datepicker"
-                [(value)]="nestedDate"
-                displayFormat="DD/MM/YYYY"
-                [ariaLabel]="t().nestedDateAria"
-                [calendarLabel]="t().nestedCalendarLabel"
-              />
-            </label>
-            <div class="flex flex-col gap-1 text-sm text-on-surface">
-              <span>{{ t().nestedMenu }}</span>
-              <button
-                wiButton
-                type="button"
-                data-testid="nested-menu-trigger"
-                [wiMenuTrigger]="nestedMenu"
-              >
-                {{ t().nestedMenu }}
-              </button>
-              <ng-template #nestedMenu>
-                <wi-menu>
-                  <button type="button" wiMenuItem>{{ t().nestedMenuEdit }}</button>
-                  <button type="button" wiMenuItem>{{ t().nestedMenuDuplicate }}</button>
-                </wi-menu>
-              </ng-template>
+        <div class="relative flex overflow-hidden rounded-control border border-outline-variant">
+          <div
+            class="flex w-40 shrink-0 flex-col border-r border-outline-variant bg-surface-container px-3 py-3 text-sm font-medium text-on-surface"
+            style="z-index: 1100"
+            data-testid="nested-sidebar"
+          >
+            {{ t().nestedSidebar }}
+          </div>
+          <div class="flex min-w-0 flex-1 flex-col">
+            <div
+              class="sticky top-0 flex h-10 items-center border-b border-outline-variant bg-surface-container px-3 text-sm font-medium text-on-surface"
+              style="z-index: 10"
+              data-testid="nested-header"
+            >
+              {{ t().nestedHeader }}
+            </div>
+            <div
+              class="overflow-auto bg-surface p-4"
+              style="height: 300px"
+              data-testid="nested-scroll-container"
+            >
+              <div class="flex max-w-sm flex-col gap-4">
+                <label class="flex flex-col gap-1 text-sm text-on-surface">
+                  <span>{{ t().select }}</span>
+                  <wi-select
+                    data-testid="nested-select"
+                    [(value)]="nestedSite"
+                    [options]="nestedSiteOptions"
+                    optionLabel="name"
+                    optionValue="id"
+                    [placeholder]="t().nestedSitePlaceholder"
+                    [ariaLabel]="t().nestedSiteAria"
+                  />
+                </label>
+                <label class="flex flex-col gap-1 text-sm text-on-surface">
+                  <span>{{ t().datepicker }}</span>
+                  <wi-datepicker
+                    data-testid="nested-datepicker"
+                    [(value)]="nestedDate"
+                    displayFormat="DD/MM/YYYY"
+                    [ariaLabel]="t().nestedDateAria"
+                    [calendarLabel]="t().nestedCalendarLabel"
+                  />
+                </label>
+                <div class="flex flex-col gap-1 text-sm text-on-surface">
+                  <span>{{ t().nestedMenu }}</span>
+                  <button
+                    wiButton
+                    type="button"
+                    data-testid="nested-menu-trigger"
+                    [wiMenuTrigger]="nestedMenu"
+                  >
+                    {{ t().nestedMenu }}
+                  </button>
+                  <ng-template #nestedMenu>
+                    <wi-menu>
+                      <button type="button" wiMenuItem>{{ t().nestedMenuEdit }}</button>
+                      <button type="button" wiMenuItem>{{ t().nestedMenuDuplicate }}</button>
+                    </wi-menu>
+                  </ng-template>
+                </div>
+              </div>
+              <div class="mt-6">
+                <wi-table
+                  class="w-full min-w-0"
+                  data-testid="nested-table"
+                  [columns]="nestedTableColumns()"
+                  [data]="nestedTableRows()"
+                  [(filters)]="nestedTableFilters"
+                  [pageSize]="5"
+                  [showFilters]="true"
+                  [columnVisibility]="true"
+                  [compact]="false"
+                  [showResultCount]="false"
+                  [ariaLabel]="t().nestedTableAria"
+                  [emptyMessage]="t().tableEmpty"
+                  trackBy="id"
+                />
+              </div>
+              <div style="height: 480px" aria-hidden="true"></div>
             </div>
           </div>
-          <div class="mt-6">
-            <wi-table
-              class="w-full min-w-0"
-              data-testid="nested-table"
-              [columns]="nestedTableColumns()"
-              [data]="nestedTableRows()"
-              [(filters)]="nestedTableFilters"
-              [pageSize]="5"
-              [showFilters]="true"
-              [columnVisibility]="true"
-              [compact]="false"
-              [showResultCount]="false"
-              [ariaLabel]="t().nestedTableAria"
-              [emptyMessage]="t().tableEmpty"
-              trackBy="id"
-            />
-          </div>
-          <div style="height: 480px" aria-hidden="true"></div>
         </div>
       </section>
     </wi-card-content>

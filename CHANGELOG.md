@@ -11,7 +11,7 @@ Sexto corte interno de `@wldeveloperapps/ui` y `@wldeveloperapps/ui-mcp`. API ex
 ### Added
 
 - `WiConfirmationService`: bus único para `wi-confirm-dialog` (modal) y `wi-confirm-popup` (anclado) con `key` / `target`
-- Overlays anclados siguen al trigger en scroll anidado (`overflow: auto` interno); contrato de z-index `1000` (panel) / `1100` (chrome de app); `styles/overlay.css`; docs **Z-index**; story Nested scroll; e2e Playwright
+- Overlays anclados siguen al trigger en scroll anidado (`overflow: auto` interno); contrato de z-index `10` (header/migas) / `1000` (panel) / `1100` (sidebar); `styles/overlay.css`; docs **Z-index**; story Nested scroll; e2e Playwright
 - Filtros de `wi-table`: `wi-input` y `wi-select` (mismo chrome que forms)
 
 ### Fixed

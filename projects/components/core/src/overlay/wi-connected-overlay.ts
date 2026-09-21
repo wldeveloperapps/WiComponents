@@ -11,7 +11,10 @@ const SCROLLABLE_OVERFLOW = new Set(['auto', 'scroll', 'overlay']);
 const PATCHED = Symbol.for('wi.connectedOverlay.patched');
 const STACKING_STYLE_ID = 'wi-connected-overlay-stacking';
 
-/** CDK overlay-prebuilt: sin esto, al salir del top-layer el panel queda bajo cards / overflow. */
+/**
+ * CDK overlay-prebuilt: sin esto, al salir del top-layer el panel queda bajo cards / overflow.
+ * Capas de app: header/migas `z-index: 10` (< 1000); overlay `1000`; sidebar `1100`.
+ */
 const STACKING_CSS = `
 .cdk-overlay-container {
   position: fixed;
@@ -194,7 +197,8 @@ function bindConnectedOverlay(overlayRef: OverlayRef): void {
 
 /**
  * Intercepta overlays CDK anclados a un origen:
- * - `usePopover: false` (el panel no salta al top-layer; stacking CDK z-index 1000).
+ * - `usePopover: false` (el panel no salta al top-layer; stacking CDK z-index 1000:
+ *   encima de header/migas a 10, debajo del sidebar a 1100).
  * - Reposiciona al hacer scroll en overflow anidado (no solo window / `cdkScrollable`).
  *
  * Lo invocan los componentes Wi de overlay; las apps no tienen que parchear Overlay ni

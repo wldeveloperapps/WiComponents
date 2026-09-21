@@ -187,13 +187,14 @@ Ver \`wi_view\` de toast, datepicker y table para campos concretos.`,
 No usan el top-layer de Popover API. Stacking fijo de la librería:
 
 - Contenido de página (card, \`overflow: auto\`): z-index auto. El panel anclado se pinta **encima** para no quedar tapado.
+- Header / migas: la app pone **z-index < 1000** (Wiloc: **10**). El desplegable **sí** se pinta encima.
 - Overlay anclado (menú, select, datepicker, filtros): portal CDK **z-index 1000**.
-- Chrome de la app (sidebar / topbar): la app pone **z-index > 1000** (Wiloc: **1100**). El menú **no** debe salir por encima del chrome.
+- Sidebar: la app pone **z-index > 1000** (Wiloc: **1100**). El menú **no** debe salir por encima del sidebar.
 - Dialog, confirm modal y toast: sí pueden ir a top-layer (por encima de cualquier z-index).
 
-No subas el z-index global del overlay por encima del sidebar. No hace falta \`cdkScrollable\` ni parchear \`Overlay.prototype\`. Scroll de ventana sigue funcionando.
+No subas el z-index global del overlay por encima del sidebar. No pongas el header / las migas a 1100. No hace falta \`cdkScrollable\` ni parchear \`Overlay.prototype\`. Scroll de ventana sigue funcionando.
 
-Storybook: **Documentation → Z-index** (contrato) y **Overlays → Nested scroll** (demo: contenedor 300px overflow auto + chrome a 1100). El canvas hace scroll de ventana (CDK sí lo oye); el recuadro reproduce el shell de producto.`,
+Storybook: **Documentation → Z-index** (contrato) y **Overlays → Nested scroll** (demo: contenedor 300px overflow auto + sidebar 1100 + header 10). El canvas hace scroll de ventana (CDK sí lo oye); el recuadro reproduce el shell de producto.`,
   },
   {
     id: 'forms',
