@@ -234,6 +234,8 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
                           class="wi-table__filter-input min-w-0"
                           size="sm"
                           type="search"
+                          autocomplete="off"
+                          [name]="'wi-table-filter-' + column.id"
                           [ariaLabel]="filterAriaLabel(column)"
                           [placeholder]="column.filterPlaceholder || resolvedFilterPlaceholder()"
                           [value]="filterValue(column.id)"

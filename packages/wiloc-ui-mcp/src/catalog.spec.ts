@@ -210,7 +210,15 @@ describe('@wldeveloperapps/ui-mcp catalog', () => {
     expect(installation?.body).toContain('npm.pkg.github.com');
     expect(installation?.body).toContain('@wldeveloperapps/ui/styles/index.css');
     expect(listDocTopics().map((topic) => topic.id)).toEqual(
-      expect.arrayContaining(['installation', 'tokens', 'dark-mode', 'icons', 'ssr', 'i18n']),
+      expect.arrayContaining([
+        'installation',
+        'tokens',
+        'dark-mode',
+        'icons',
+        'ssr',
+        'i18n',
+        'overlays',
+      ]),
     );
   });
 
@@ -231,5 +239,14 @@ describe('@wldeveloperapps/ui-mcp catalog', () => {
     expect(i18n?.body).toContain('wi.calendar');
     expect(i18n?.body).toContain('ENVIRONMENT_INITIALIZER');
     expect(i18n?.body).not.toMatch(/@spartan-ng\/helm/);
+  });
+
+  it('documents nested-scroll connected overlays', () => {
+    const overlays = getDocTopic('overlays');
+    expect(overlays?.body).toContain('overflow: auto|scroll');
+    expect(overlays?.body).toContain('cdkScrollable');
+    expect(overlays?.body).toContain('z-index 1000');
+    expect(overlays?.body).toContain('1100');
+    expect(overlays?.body).not.toMatch(/@spartan-ng\/helm/);
   });
 });

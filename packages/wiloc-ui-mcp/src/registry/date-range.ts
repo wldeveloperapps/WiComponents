@@ -208,7 +208,7 @@ export const wiDateRangeRegistryEntry = {
     'Textos de navegación e i18n vía provideWiCalendarI18n',
     'Copy de producto (placeholder, ariaLabel, startTimeLabel, endTimeLabel) lo provee la app',
     'Icono calendar vía provideWiIcons',
-    'Overlays: CSS de CDK Overlay / Spartan popover en la app',
+    'Overlays: CSS de CDK Overlay / Spartan popover en la app. El panel sigue al trigger en scroll anidado',
     'Models start/end independientes; validar start ≤ end en la app/back',
     'displayFormat solo UI; civil → toLocalDateString; con hora → datepickerValueToUtcIso + provideWiTimeZone / timeZoneId',
     'Ver docs/datepicker-international.md y componente relacionado datepicker',

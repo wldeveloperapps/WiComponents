@@ -163,6 +163,8 @@ describe('WiTableComponent', () => {
     expect(host.lastFilters).toEqual([{ columnId: 'name', value: 'Alpha', operator: 'contains' }]);
     expect(table().querySelectorAll('tbody tr').length).toBe(1);
     expect(table().textContent).toContain('Alpha');
+    expect(input.getAttribute('autocomplete')).toBe('off');
+    expect(input.getAttribute('name')).toBe('wi-table-filter-name');
   });
 
   it('filters rows with wi-select and resets page', async () => {

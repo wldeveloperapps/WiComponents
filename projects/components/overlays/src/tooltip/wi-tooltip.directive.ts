@@ -6,7 +6,11 @@ import {
   provideBrnTooltipGroup,
 } from '@spartan-ng/brain/tooltip';
 
+import { applyWiConnectedOverlayPatch } from '@wldeveloperapps/ui/core';
+
 import type { WiTooltipGroupOptions, WiTooltipPosition } from './wi-tooltip.types';
+
+applyWiConnectedOverlayPatch();
 
 const TOOLTIP_CONTENT_CLASSES = [
   'wi-tooltip',

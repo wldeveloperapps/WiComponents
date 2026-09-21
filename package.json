@@ -13,6 +13,7 @@
     "e2e-consumer:sync": "node scripts/sync-e2e-consumer.mjs",
     "e2e-consumer:serve": "pnpm --dir apps/e2e-consumer start",
     "e2e-consumer:build": "pnpm --dir apps/e2e-consumer build",
+    "e2e-consumer:e2e": "pnpm --dir apps/e2e-consumer e2e",
     "generate:icons": "node scripts/generate-heroicons.mjs",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",

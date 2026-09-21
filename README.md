@@ -742,6 +742,7 @@ pnpm pack:lib              # build + pack → dist/wldeveloperapps-ui-*.tgz
 pnpm e2e-consumer:sync     # pack + instalar el .tgz en e2e-consumer
 pnpm e2e-consumer:build    # compilar contra el paquete
 pnpm e2e-consumer:serve    # smoke manual en http://localhost:4200
+pnpm e2e-consumer:e2e      # Playwright: overlay anclado en overflow interno
 ```
 
 Esto permite detectar:

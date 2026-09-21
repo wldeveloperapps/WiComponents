@@ -388,7 +388,7 @@ export const wiTableRegistryEntry = {
     'Paginación por botones Anterior / Siguiente / número',
   ],
   a11yNotes:
-    'Host role=region + aria-label (ariaLabel / tableAriaLabel). Tabla semántica con aria-sort. Filtros con aria-label por columna vía filterAriaLabel(header). filterType text usa wi-input (size sm, type search); select usa wi-select (size sm, clearable). Chevron cuando hay columnas fuera de la fila (showFrom vs ancho del contenedor) con expandRowAriaLabel / collapseRowAriaLabel. Visibilidad vía wi-menu, oculta en compacto. Labels de chrome: provideWiDataDisplayI18n (sin copy hardcodeado ES). Cabeceras y datos: solo la app.',
+    'Host role=region + aria-label (ariaLabel / tableAriaLabel). Tabla semántica con aria-sort. Filtros con aria-label por columna vía filterAriaLabel(header). filterType text usa wi-input (size sm, type search, autocomplete off: el nativo se despega en overflow interno); select usa wi-select (size sm, clearable). Chevron cuando hay columnas fuera de la fila (showFrom vs ancho del contenedor) con expandRowAriaLabel / collapseRowAriaLabel. Visibilidad vía wi-menu, oculta en compacto. Los desplegables (filtro select, operador, columnas) siguen al trigger en scroll anidado. Labels de chrome: provideWiDataDisplayI18n (sin copy hardcodeado ES). Cabeceras y datos: solo la app.',
   example: {
     import: `import {
   WiTableComponent,

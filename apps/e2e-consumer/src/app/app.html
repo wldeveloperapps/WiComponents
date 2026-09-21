@@ -5,7 +5,8 @@
       <h1 class="text-xl font-semibold text-on-background">{{ title }}</h1>
     </div>
     <div class="flex shrink-0 gap-2">
-      <button wiButton
+      <button
+        wiButton
         type="button"
         variant="outline"
         size="sm"
@@ -14,7 +15,8 @@
       >
         {{ locale() === 'es' ? 'EN' : 'ES' }}
       </button>
-      <button wiButton
+      <button
+        wiButton
         type="button"
         variant="outline"
         size="sm"
@@ -36,7 +38,8 @@
       <section class="flex flex-col gap-3" aria-labelledby="buttons-heading">
         <h2 id="buttons-heading" class="text-sm font-medium text-on-surface">{{ t().buttons }}</h2>
         <div class="flex flex-wrap gap-2">
-          <button wiButton
+          <button
+            wiButton
             type="button"
             variant="primary"
             (click)="simulateLoading()"
@@ -46,7 +49,8 @@
             {{ t().primary }}
           </button>
           <button wiButton type="button" variant="secondary">{{ t().secondary }}</button>
-          <button wiButton
+          <button
+            wiButton
             type="button"
             variant="danger"
             iconOnly
@@ -227,9 +231,9 @@
       <section class="flex flex-col gap-3" aria-labelledby="dialog-heading">
         <h2 id="dialog-heading" class="text-sm font-medium text-on-surface">{{ t().dialog }}</h2>
         <wi-dialog size="md">
-          <button wiButton type="button" variant="outline" wiDialogTrigger>{{
-            t().openDialog
-          }}</button>
+          <button wiButton type="button" variant="outline" wiDialogTrigger>
+            {{ t().openDialog }}
+          </button>
           <ng-template wiDialogPortal>
             <wi-dialog-content [closeLabel]="t().closeDialog">
               <wi-dialog-header>
@@ -251,9 +255,9 @@
       <section class="flex flex-col gap-3" aria-labelledby="popover-heading">
         <h2 id="popover-heading" class="text-sm font-medium text-on-surface">{{ t().popover }}</h2>
         <wi-popover>
-          <button wiButton type="button" variant="outline" wiPopoverTrigger>{{
-            t().openPopover
-          }}</button>
+          <button wiButton type="button" variant="outline" wiPopoverTrigger>
+            {{ t().openPopover }}
+          </button>
           <ng-template wiPopoverPortal>
             <wi-popover-content>
               <wi-popover-header>
@@ -327,7 +331,8 @@
           <div wiStepperPanel="apps" class="flex min-h-24 min-w-0 flex-col justify-between gap-4">
             <p class="text-sm text-on-surface">{{ t().stepperAppsBody }}</p>
             <div class="flex flex-wrap gap-2">
-              <button wiButton
+              <button
+                wiButton
                 type="button"
                 variant="outline"
                 size="sm"
@@ -345,7 +350,8 @@
             class="flex min-h-24 min-w-0 flex-col justify-between gap-4"
           >
             <p class="text-sm text-on-surface">{{ t().stepperSummaryBody }}</p>
-            <button wiButton
+            <button
+              wiButton
               type="button"
               variant="outline"
               size="sm"
@@ -379,6 +385,84 @@
             }}
           </ng-template>
         </wi-table>
+      </section>
+
+      <section class="flex min-w-0 flex-col gap-3" aria-labelledby="nested-scroll-heading">
+        <h2 id="nested-scroll-heading" class="text-sm font-medium text-on-surface">
+          {{ t().nestedScroll }}
+        </h2>
+        <p class="text-sm text-on-surface-variant">{{ t().nestedScrollHint }}</p>
+        <div
+          class="sticky top-0 flex h-10 items-center rounded-t-control border border-b-0 border-outline-variant bg-surface-container px-3 text-sm font-medium text-on-surface"
+          style="z-index: 1100"
+        >
+          {{ t().nestedChrome }}
+        </div>
+        <div
+          class="overflow-auto rounded-b-control border border-outline-variant bg-surface p-4"
+          style="height: 300px"
+          data-testid="nested-scroll-container"
+        >
+          <div class="flex max-w-sm flex-col gap-4">
+            <label class="flex flex-col gap-1 text-sm text-on-surface">
+              <span>{{ t().select }}</span>
+              <wi-select
+                data-testid="nested-select"
+                [(value)]="nestedSite"
+                [options]="nestedSiteOptions"
+                optionLabel="name"
+                optionValue="id"
+                [placeholder]="t().nestedSitePlaceholder"
+                [ariaLabel]="t().nestedSiteAria"
+              />
+            </label>
+            <label class="flex flex-col gap-1 text-sm text-on-surface">
+              <span>{{ t().datepicker }}</span>
+              <wi-datepicker
+                data-testid="nested-datepicker"
+                [(value)]="nestedDate"
+                displayFormat="DD/MM/YYYY"
+                [ariaLabel]="t().nestedDateAria"
+                [calendarLabel]="t().nestedCalendarLabel"
+              />
+            </label>
+            <div class="flex flex-col gap-1 text-sm text-on-surface">
+              <span>{{ t().nestedMenu }}</span>
+              <button
+                wiButton
+                type="button"
+                data-testid="nested-menu-trigger"
+                [wiMenuTrigger]="nestedMenu"
+              >
+                {{ t().nestedMenu }}
+              </button>
+              <ng-template #nestedMenu>
+                <wi-menu>
+                  <button type="button" wiMenuItem>{{ t().nestedMenuEdit }}</button>
+                  <button type="button" wiMenuItem>{{ t().nestedMenuDuplicate }}</button>
+                </wi-menu>
+              </ng-template>
+            </div>
+          </div>
+          <div class="mt-6">
+            <wi-table
+              class="w-full min-w-0"
+              data-testid="nested-table"
+              [columns]="nestedTableColumns()"
+              [data]="nestedTableRows()"
+              [(filters)]="nestedTableFilters"
+              [pageSize]="5"
+              [showFilters]="true"
+              [columnVisibility]="true"
+              [compact]="false"
+              [showResultCount]="false"
+              [ariaLabel]="t().nestedTableAria"
+              [emptyMessage]="t().tableEmpty"
+              trackBy="id"
+            />
+          </div>
+          <div style="height: 480px" aria-hidden="true"></div>
+        </div>
       </section>
     </wi-card-content>
     <wi-card-footer class="justify-end">

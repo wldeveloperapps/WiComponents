@@ -180,6 +180,22 @@ Sin Transloco: signal \`appLocale\` + ternarios ES/EN (ver \`apps/e2e-consumer\`
 Ver \`wi_view\` de toast, datepicker y table para campos concretos.`,
   },
   {
+    id: 'overlays',
+    title: 'Overlays anclados y scroll anidado',
+    body: `Los paneles conectados a un trigger (\`wi-select\`, \`wi-datepicker\` / \`wi-date-range\`, \`wi-menu\`, \`wi-popover\`, filtros y visibilidad de \`wi-table\`, tooltip, confirm-popup) se reposicionan al hacer scroll en un contenedor con \`overflow: auto|scroll\` (shell 100dvh). No hace falta \`cdkScrollable\` en la app ni parchear \`Overlay.prototype\`.
+
+No usan el top-layer de Popover API. Stacking fijo de la librería:
+
+- Contenido de página (card, \`overflow: auto\`): z-index auto. El panel anclado se pinta **encima** para no quedar tapado.
+- Overlay anclado (menú, select, datepicker, filtros): portal CDK **z-index 1000**.
+- Chrome de la app (sidebar / topbar): la app pone **z-index > 1000** (Wiloc: **1100**). El menú **no** debe salir por encima del chrome.
+- Dialog, confirm modal y toast: sí pueden ir a top-layer (por encima de cualquier z-index).
+
+No subas el z-index global del overlay por encima del sidebar. No hace falta \`cdkScrollable\` ni parchear \`Overlay.prototype\`. Scroll de ventana sigue funcionando.
+
+Storybook: **Documentation → Z-index** (contrato) y **Overlays → Nested scroll** (demo: contenedor 300px overflow auto + chrome a 1100). El canvas hace scroll de ventana (CDK sí lo oye); el recuadro reproduce el shell de producto.`,
+  },
+  {
     id: 'forms',
     title: 'Formularios',
     body: `Controles reales (input, checkbox, switch, select, listbox, otp, datepicker, picklist) implementan CVA / FormValueControl.

@@ -19,7 +19,7 @@ const meta: Meta<WiInputStoryArgs> = {
     docs: {
       description: {
         component:
-          'Campo de texto. `placeholder` / `ariaLabel` / hints vía la app (ver Documentation/I18n). Compatible con Reactive Forms y Signal Forms. Events: `valueChange`, `touch`.',
+          'Campo de texto. `placeholder` / `ariaLabel` / hints vía la app (ver Documentation/I18n). Compatible con Reactive Forms y Signal Forms. Events: `valueChange`, `touch`. El autocompletado nativo se ancla al viewport (se despega en overflow interno); en shells con scroll usa `autocomplete="off"` (los filtros de `wi-table` ya lo hacen).',
       },
     },
   },
@@ -42,6 +42,7 @@ const meta: Meta<WiInputStoryArgs> = {
     readonly: { control: 'boolean' },
     invalid: { control: 'boolean' },
     required: { control: 'boolean' },
+    autocomplete: { control: 'text' },
     ariaLabel: { control: 'text' },
     valueChange: {
       action: 'valueChange',
@@ -92,6 +93,7 @@ export const Default: Story = {
           [readonly]="readonly"
           [invalid]="invalid"
           [required]="required"
+          [autocomplete]="autocomplete"
           [ariaLabel]="ariaLabel"
         />
       </div>

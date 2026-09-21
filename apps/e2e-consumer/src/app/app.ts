@@ -38,6 +38,9 @@ import {
   WiDialogPortalDirective,
   WiDialogTitleComponent,
   WiDialogTriggerDirective,
+  WiMenuComponent,
+  WiMenuItemDirective,
+  WiMenuTriggerDirective,
   WiPopoverCloseDirective,
   WiPopoverComponent,
   WiPopoverContentComponent,
@@ -91,6 +94,9 @@ const ALERT_TAB_IDS = {
     WiDialogPortalDirective,
     WiDialogTitleComponent,
     WiDialogTriggerDirective,
+    WiMenuComponent,
+    WiMenuItemDirective,
+    WiMenuTriggerDirective,
     WiFileUploadComponent,
     WiPopoverCloseDirective,
     WiPopoverComponent,
@@ -136,6 +142,9 @@ export class App {
   protected readonly termsControl = new FormControl(false, { nonNullable: true });
   protected readonly notificationsControl = new FormControl(false, { nonNullable: true });
   protected readonly fruit = signal<string | null>(null);
+  protected readonly nestedSite = signal<string | null>(null);
+  protected readonly nestedDate = signal<Date | null>(null);
+  protected readonly nestedTableFilters = signal<readonly WiColumnFilter[]>([]);
   protected readonly role = signal<string | null>(null);
   protected readonly assignedMembers = signal<string[]>([]);
   protected readonly date = signal<Date | null>(null);
@@ -225,6 +234,37 @@ export class App {
 
   protected readonly tableRows = computed(() => this.t().tableRows);
 
+  protected readonly nestedSiteOptions = [
+    { id: 'alpha', name: 'Alpha' },
+    { id: 'beta', name: 'Beta' },
+    { id: 'gamma', name: 'Gamma' },
+  ] as const;
+
+  protected readonly nestedTableColumns = computed((): WiColumnDef[] => {
+    const m = this.t();
+    return [
+      {
+        id: 'name',
+        header: m.tableColName,
+        field: 'name',
+        sortable: true,
+        filterable: true,
+        showFrom: 'always',
+      },
+      {
+        id: 'status',
+        header: m.tableColStatus,
+        field: 'status',
+        sortable: true,
+        filterable: true,
+        filterType: 'select',
+        filterOptions: m.tableStatusOptions,
+      },
+    ];
+  });
+
+  protected readonly nestedTableRows = computed(() => this.t().tableRows.slice(0, 3));
+
   constructor() {
     effect(() => {
       this.document.documentElement.lang = this.locale();
@@ -240,6 +280,9 @@ export class App {
   protected toggleLanguage(): void {
     toggleAppLocale();
     this.fruit.set(null);
+    this.nestedSite.set(null);
+    this.nestedDate.set(null);
+    this.nestedTableFilters.set([]);
     this.role.set(null);
     this.assignedMembers.set([]);
     this.uploadFiles.set([]);

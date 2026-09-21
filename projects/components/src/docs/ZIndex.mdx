@@ -1,0 +1,92 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta
+  title="Documentation/Z-index"
+  parameters={{
+    viewMode: 'docs',
+    previewTabs: {
+      canvas: { hidden: true },
+    },
+    docs: {
+      toc: true,
+    },
+  }}
+/>
+
+# Z-index de overlays
+
+Cómo se apilan menús, selects y datepickers respecto al chrome de la app (sidebar / topbar).
+
+Demo viva: **Overlays → Nested scroll**. Instalación del paquete: **Instalación**.
+
+---
+
+## Por qué no usamos el top-layer
+
+En Angular 22, CDK Overlay usa por defecto la Popover API (`usePopover: true`). Eso sube el panel al **top-layer** del navegador: queda por encima de **cualquier** `z-index`, incluido el sidebar.
+
+En producto (shell 100dvh, sidebar `position: fixed`) el menú no debe tapar el chrome. La librería deja los paneles **anclados al trigger** en el portal CDK clásico, con `z-index: 1000`.
+
+---
+
+## Capas (contrato)
+
+De abajo hacia arriba:
+
+| Capa | z-index | Qué entra |
+| ---- | ------- | --------- |
+| Contenido de página | `auto` | card, tabla, `overflow: auto` |
+| Overlay anclado | **`1000`** | `wi-menu`, `wi-select`, datepicker / date-range, filtros y visibilidad de `wi-table`, popover, tooltip, confirm-popup |
+| Chrome de la app | **`> 1000`** (Wiloc: **`1100`**) | sidebar fixed, topbar |
+| Top-layer (Popover API) | por encima de cualquier z-index | `wi-dialog`, confirm modal, toast |
+
+El menú **sí** se pinta encima de una card o de un recuadro con overflow (si no, el desplegable queda tapado). **No** se pinta encima del sidebar si este va a `1100`.
+
+---
+
+## Qué tiene que hacer la app
+
+Sidebar / topbar:
+
+```css
+.app-sidebar {
+  position: fixed;
+  z-index: 1100;
+}
+```
+
+- No parchees `Overlay` ni pongas `cdkScrollable` en cada contenedor.
+- No subas el z-index de los paneles anclados por encima del chrome.
+- No pongas `isolation: isolate` ni un `z-index` alto en cards / shells de contenido: crearían un stacking context y el panel (portal a `body`, `1000`) puede quedar debajo o “salir” raro.
+
+---
+
+## Scroll anidado
+
+El panel sigue al trigger si el scroll es de un `overflow: auto | scroll` interno (no solo de ventana). Eso es el caso del shell de producto.
+
+Compruébalo en **Overlays → Nested scroll**: hay una barra de chrome a `1100`. Abre Acciones o un filtro: el menú queda **bajo** esa barra y **encima** del recuadro.
+
+---
+
+## Qué no mezclar
+
+| Sí | No |
+| -- | -- |
+| Menú / select / datepicker a `1000` | Esos mismos en top-layer |
+| Sidebar a `1100` | Sidebar sin z-index (el menú lo tapa) |
+| Dialog / toast en top-layer | Esperar que un menú tape el dialog |
+
+---
+
+## Autocompletado nativo de `wi-input`
+
+El desplegable de **autocompletado del navegador** no es un overlay CDK. Se ancla al viewport: si el input está en un `overflow: auto` y haces scroll interno, **se despega** del campo. No se puede reposicionar desde la librería.
+
+En filtros de `wi-table` va `autocomplete="off"`. En cualquier `wi-input` dentro de un shell con scroll interno, pasa `autocomplete="off"` (o un token concreto tipo `username`) si no quieres esa lista nativa.
+
+---
+
+## Dónde está en el código de la lib
+
+La librería inyecta el stacking CDK (`z-index: 1000` en `.cdk-overlay-container` / pane) al cargar un overlay anclado. Opcional en la app: `@import '@wldeveloperapps/ui/styles/overlay.css'`.

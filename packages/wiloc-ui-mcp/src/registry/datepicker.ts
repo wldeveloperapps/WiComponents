@@ -207,7 +207,7 @@ export const wiDatepickerRegistryEntry = {
     'Textos de navegación e i18n vía provideWiCalendarI18n (sin copy hardcodeado de producto)',
     'Plantilla i18n: inputs placeholder/clearLabel/calendarLabel/timeLabel/ariaLabel + provideWiCalendarI18n (months, weekdays, labelPrevious/Next, hourPlaceholder/minutePlaceholder/hourAriaLabel/minuteAriaLabel)',
     'Icono calendar debe registrarse con provideWiIcons',
-    'Overlays: la app debe incluir CSS de CDK Overlay / Spartan popover',
+    'Overlays: la app debe incluir CSS de CDK Overlay / Spartan popover. El calendario anclado sigue al trigger en scroll anidado; no hace falta cdkScrollable',
     'El control captura componentes de fecha/hora; no adivina TZ. provideWiTimeZone + helpers toLocalDateString / datepickerValueToUtcIso. Ver docs/datepicker-international.md',
   ],
   example: {

@@ -160,6 +160,17 @@ interface UiMessages {
   tableFilterName: string;
   tableFilterCity: string;
   tableFilterStatus: string;
+  nestedScroll: string;
+  nestedScrollHint: string;
+  nestedChrome: string;
+  nestedSitePlaceholder: string;
+  nestedSiteAria: string;
+  nestedDateAria: string;
+  nestedCalendarLabel: string;
+  nestedMenu: string;
+  nestedMenuEdit: string;
+  nestedMenuDuplicate: string;
+  nestedTableAria: string;
   fruits: readonly [string, string, string];
   roles: readonly [string, string, string];
   members: readonly { id: string; name: string }[];
@@ -268,6 +279,18 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     tableFilterName: 'Buscar nombre',
     tableFilterCity: 'Buscar ciudad',
     tableFilterStatus: 'Todos los estados',
+    nestedScroll: 'Overflow anidado',
+    nestedScrollHint:
+      'Abre un panel y haz scroll dentro del recuadro. El overlay sigue al trigger (z-index 1000). El menú queda bajo el chrome de app (1100), no en top-layer.',
+    nestedChrome: 'Chrome de app (z-index 1100) — el menú queda debajo',
+    nestedSitePlaceholder: 'Elige un sitio',
+    nestedSiteAria: 'Sitio (overflow)',
+    nestedDateAria: 'Fecha (overflow)',
+    nestedCalendarLabel: 'Abrir calendario (overflow)',
+    nestedMenu: 'Acciones',
+    nestedMenuEdit: 'Editar',
+    nestedMenuDuplicate: 'Duplicar',
+    nestedTableAria: 'Sitios (overflow)',
     fruits: ['Manzana', 'Naranja', 'Plátano'],
     roles: ['Admin', 'Editor', 'Viewer'],
     members: [
@@ -390,6 +413,18 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     tableFilterName: 'Search name',
     tableFilterCity: 'Search city',
     tableFilterStatus: 'All statuses',
+    nestedScroll: 'Nested overflow',
+    nestedScrollHint:
+      'Open a panel and scroll inside the box. The overlay follows the trigger (z-index 1000). The menu stays under app chrome (1100), not on the top layer.',
+    nestedChrome: 'App chrome (z-index 1100) — the menu stays underneath',
+    nestedSitePlaceholder: 'Choose a site',
+    nestedSiteAria: 'Site (overflow)',
+    nestedDateAria: 'Date (overflow)',
+    nestedCalendarLabel: 'Open calendar (overflow)',
+    nestedMenu: 'Actions',
+    nestedMenuEdit: 'Edit',
+    nestedMenuDuplicate: 'Duplicate',
+    nestedTableAria: 'Sites (overflow)',
     fruits: ['Apple', 'Orange', 'Banana'],
     roles: ['Admin', 'Editor', 'Viewer'],
     members: [

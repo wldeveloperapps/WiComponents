@@ -48,6 +48,10 @@
       "style": "./styles/toast.css",
       "default": "./styles/toast.css"
     },
+    "./styles/overlay.css": {
+      "style": "./styles/overlay.css",
+      "default": "./styles/overlay.css"
+    },
     "./styles/index.css": {
       "style": "./styles/index.css",
       "default": "./styles/index.css"

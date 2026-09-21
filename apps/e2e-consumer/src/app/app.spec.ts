@@ -196,9 +196,7 @@ describe('App', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const move = section?.querySelector(
-      '.wi-picklist__move-to-target',
-    ) as HTMLButtonElement | null;
+    const move = section?.querySelector('.wi-picklist__move-to-target') as HTMLButtonElement | null;
     expect(move).toBeTruthy();
     move?.click();
     fixture.detectChanges();
@@ -293,27 +291,29 @@ describe('App', () => {
     await fixture.whenStable();
 
     const root = fixture.nativeElement as HTMLElement;
-    const tableHost = root.querySelector('wi-table');
-    expect(tableHost?.getAttribute('aria-label')).toBe('Sitios de ejemplo');
+    const tableHost = root.querySelector(
+      'wi-table[aria-label="Sitios de ejemplo"]',
+    ) as HTMLElement | null;
+    expect(tableHost).toBeTruthy();
     expect(root.textContent).toContain('Inventario smoke');
     expect(root.textContent).toContain('8 resultados');
-    expect(root.querySelectorAll('wi-table tbody tr').length).toBe(3);
-    expect(root.textContent).toContain('Norte');
-    expect(root.textContent).not.toContain('Oeste');
+    expect(tableHost?.querySelectorAll('tbody tr').length).toBe(3);
+    expect(tableHost?.textContent).toContain('Norte');
+    expect(tableHost?.textContent).not.toContain('Oeste');
 
-    const next = root.querySelector(
-      'wi-table button[aria-label="Siguiente"]',
+    const next = tableHost?.querySelector(
+      'button[aria-label="Siguiente"]',
     ) as HTMLButtonElement | null;
     expect(next).toBeTruthy();
     next?.click();
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expect(root.textContent).toContain('Oeste');
-    expect(root.textContent).not.toContain('Norte');
+    expect(tableHost?.textContent).toContain('Oeste');
+    expect(tableHost?.textContent).not.toContain('Norte');
 
-    const cityFilter = root.querySelector(
-      'wi-table input[aria-label="Filtrar Ciudad"]',
+    const cityFilter = tableHost?.querySelector(
+      'input[aria-label="Filtrar Ciudad"]',
     ) as HTMLInputElement | null;
     expect(cityFilter).toBeTruthy();
     cityFilter!.value = 'Madrid';
@@ -322,9 +322,22 @@ describe('App', () => {
     await fixture.whenStable();
 
     expect(root.textContent).toContain('2 resultados');
-    expect(root.querySelectorAll('wi-table tbody tr').length).toBe(2);
-    expect(root.textContent).toContain('Norte');
-    expect(root.textContent).toContain('Centro');
-    expect(root.textContent).not.toContain('Sevilla');
+    expect(tableHost?.querySelectorAll('tbody tr').length).toBe(2);
+    expect(tableHost?.textContent).toContain('Norte');
+    expect(tableHost?.textContent).toContain('Centro');
+    expect(tableHost?.textContent).not.toContain('Sevilla');
+  });
+
+  it('should render the nested overflow regression island', async () => {
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const root = fixture.nativeElement as HTMLElement;
+    expect(root.querySelector('[data-testid="nested-scroll-container"]')).toBeTruthy();
+    expect(root.querySelector('[data-testid="nested-select"]')).toBeTruthy();
+    expect(root.querySelector('[data-testid="nested-datepicker"]')).toBeTruthy();
+    expect(root.querySelector('[data-testid="nested-menu-trigger"]')).toBeTruthy();
+    expect(root.querySelector('[data-testid="nested-table"]')).toBeTruthy();
   });
 });

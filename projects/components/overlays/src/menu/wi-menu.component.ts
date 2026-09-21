@@ -29,8 +29,11 @@ import {
   type MenuAlign,
   type MenuSide,
 } from '@spartan-ng/brain/core';
+import { applyWiConnectedOverlayPatch } from '@wldeveloperapps/ui/core';
 
 import type { WiMenuAlign, WiMenuItemVariant, WiMenuSide } from './wi-menu.types';
+
+applyWiConnectedOverlayPatch();
 
 const MENU_CONTENT_CLASSES = [
   'wi-menu',

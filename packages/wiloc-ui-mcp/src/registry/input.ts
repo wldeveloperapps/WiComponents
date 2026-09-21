@@ -49,7 +49,8 @@ export const wiInputRegistryEntry = {
       name: 'autocomplete',
       type: 'string | null',
       default: null,
-      description: 'autocomplete nativo',
+      description:
+        'autocomplete nativo. El desplegable del navegador se ancla al viewport (se despega en overflow interno). En shells con scroll interno usar "off".',
     },
     {
       name: 'disabled',

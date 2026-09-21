@@ -35,7 +35,7 @@ import {
   provideBrnPopoverConfig,
   provideBrnPopoverDefaultOptions,
 } from '@spartan-ng/brain/popover';
-
+import { applyWiConnectedOverlayPatch } from '@wldeveloperapps/ui/core';
 import { WiIconComponent } from '@wldeveloperapps/ui/icon';
 import { formatWiDate } from './wi-date';
 import {
@@ -55,6 +55,8 @@ import type {
   WiFormatDate,
   WiWeekday,
 } from './wi-datepicker.types';
+
+applyWiConnectedOverlayPatch();
 
 const TRIGGER_BASE_CLASSES = `wi-datepicker__trigger ${WI_DATEPICKER_TRIGGER_BASE_CLASSES}`;
 const TRIGGER_SIZE_CLASSES = WI_DATEPICKER_TRIGGER_SIZE_CLASSES;

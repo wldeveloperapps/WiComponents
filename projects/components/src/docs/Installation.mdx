@@ -22,6 +22,7 @@ Referencia runnable: `apps/e2e-consumer` (consume el `.tgz`, no el source del mo
 Otras páginas de este apartado:
 
 - **Tema** — estilos: CSS global, PostCSS, `@theme`, `.wi-dark`
+- **Z-index** — apilamiento de menús vs sidebar (`1000` / `1100` / top-layer)
 - **I18n** — providers, Transloco (`assets/i18n`) e inputs de copy
 - **MCP** — `@wldeveloperapps/ui-mcp` en Cursor / VS Code
 
@@ -172,7 +173,29 @@ Overlays portaled a `body` heredan el tema si la clase está en `<html>`.
 
 ---
 
-## 5. Toast (si lo usas)
+## 5. Z-index de overlays
+
+Los paneles **anclados al trigger** (select, datepicker, menú, filtros de tabla, popover, tooltip, confirm-popup) **no** van al top-layer del Popover API. Así el chrome de la app (sidebar / topbar) puede taparlos.
+
+| Capa | z-index | Qué entra |
+| ---- | ------- | --------- |
+| Contenido de página | `auto` | card, tabla, `overflow: auto` |
+| Overlay anclado | **`1000`** (portal CDK) | menú, select, datepicker, filtros |
+| Chrome de la app | **`> 1000`** (Wiloc: **`1100`**) | sidebar fixed, topbar |
+| Top-layer (Popover API) | por encima de cualquier z-index | dialog, confirm modal, toast |
+
+Contrato para la app:
+
+- Sidebar / topbar: `position: fixed` y `z-index: 1100` (o mayor que 1000). El menú **no** debe pintarse encima.
+- No subas el overlay anclado por encima del chrome. No hace falta `cdkScrollable` ni parchear `Overlay`.
+- Cards y recuadros sin z-index quedan **debajo** del panel (si no, el desplegable se oculta al abrir).
+- El panel sigue al trigger si el scroll es de un `overflow: auto|scroll` interno.
+
+Demo: Storybook **Documentation → Z-index** y **Overlays → Nested scroll**; `apps/e2e-consumer` (barra de chrome a 1100).
+
+---
+
+## 6. Toast (si lo usas)
 
 1. Importa `@wldeveloperapps/ui/styles/toast.css`.
 2. Monta `<wi-toast />` **una vez** en el root.
@@ -184,7 +207,7 @@ Overlays portaled a `body` heredan el tema si la clase está en `<html>`.
 
 ---
 
-## 6. Imports canónicos
+## 7. Imports canónicos
 
 Entry points públicos. Nunca Spartan, nunca rutas `src/`:
 
@@ -212,7 +235,7 @@ import { trashOutline } from '@wldeveloperapps/ui/icon/heroicons';
 
 ---
 
-## 7. MCP en la app (`@wldeveloperapps/ui-mcp`)
+## 8. MCP en la app (`@wldeveloperapps/ui-mcp`)
 
 Para que Cursor use la API pública (no Spartan). Pasos, tools y diagnóstico: página **MCP**.
 
@@ -232,6 +255,7 @@ Para que Cursor use la API pública (no Spartan). Pasos, tools y diagnóstico: p
 - [ ] `<wi-toast />` en el root si hay toasts
 - [ ] Imports `@wldeveloperapps/ui/{entry}`
 - [ ] MCP `@wldeveloperapps/ui-mcp` en la app (agentes)
+- [ ] Chrome de app (sidebar/topbar) a `z-index > 1000` (Wiloc: `1100`) para que el menú no lo tape
 
 ---
 
@@ -243,3 +267,4 @@ Para que Cursor use la API pública (no Spartan). Pasos, tools y diagnóstico: p
 - Importar `heroicons` / PrimeIcons; el catálogo es `@wldeveloperapps/ui/icon/heroicons`.
 - Esperar diccionarios ES/EN dentro de la librería.
 - Hardcodear datos de producto en los componentes: la app los aporta por inputs / proyección.
+- Poner menús anclados en top-layer ni subir su z-index por encima del sidebar (`1100`).

@@ -21,10 +21,13 @@ import {
   provideBrnPopoverConfig,
   provideBrnPopoverDefaultOptions,
 } from '@spartan-ng/brain/popover';
+import { applyWiConnectedOverlayPatch } from '@wldeveloperapps/ui/core';
 
 import { bindOutsidePointerDismiss } from '../outside-pointer-dismiss';
 import { WI_POPOVER_SIZE } from './wi-popover.tokens';
 import type { WiPopoverSize, WiPopoverState } from './wi-popover.types';
+
+applyWiConnectedOverlayPatch();
 
 const PANEL_BASE_CLASSES = 'wi-popover__pane';
 

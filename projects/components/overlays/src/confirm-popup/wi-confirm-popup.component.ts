@@ -21,6 +21,7 @@ import {
   provideBrnPopoverDefaultOptions,
 } from '@spartan-ng/brain/popover';
 import { WiButtonDirective } from '@wldeveloperapps/ui/button';
+import { applyWiConnectedOverlayPatch } from '@wldeveloperapps/ui/core';
 
 import { bindWiConfirmationHost } from '../confirmation/wi-confirmation-host';
 import { bindOutsidePointerDismiss } from '../outside-pointer-dismiss';
@@ -30,6 +31,8 @@ import type {
   WiConfirmPopupSize,
   WiConfirmPopupState,
 } from './wi-confirm-popup.types';
+
+applyWiConnectedOverlayPatch();
 
 const PANEL_BASE_CLASSES = 'wi-confirm-popup__pane';
 

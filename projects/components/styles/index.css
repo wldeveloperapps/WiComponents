@@ -16,6 +16,7 @@
 
 @import '@spartan-ng/brain/hlm-tailwind-preset.css';
 @import './tokens.css';
+@import './overlay.css';
 @import './tabs.css';
 @import './toast.css';
 

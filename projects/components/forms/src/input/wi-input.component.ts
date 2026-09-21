@@ -95,6 +95,10 @@ export class WiInputComponent implements ControlValueAccessor, FormValueControl<
   readonly placeholder = input('');
   readonly id = input<string | undefined>(undefined);
   readonly name = input<string>('');
+  /**
+   * Autocompletado nativo del navegador. El desplegable nativo se ancla al viewport
+   * y se despega si el campo está en un `overflow: auto`. En esos shells usar `'off'`.
+   */
   readonly autocomplete = input<string | null>(null);
   readonly ariaLabel = input<string | null>(null);
   readonly ariaDescribedBy = input<string | null>(null);

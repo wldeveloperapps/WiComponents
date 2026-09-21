@@ -107,7 +107,7 @@ export const wiMenuRegistryEntry = {
     'Escape cierra y restaura el foco al trigger',
   ],
   a11yNotes:
-    'role=menu en el panel; menuitem / menuitemradio en ítems. El trigger debe tener nombre accesible (texto o aria-label), sobre todo si es icon-only. Overlays portaled heredan .wi-dark del documento.',
+    'role=menu en el panel; menuitem / menuitemradio en ítems. El trigger debe tener nombre accesible (texto o aria-label), sobre todo si es icon-only. Overlays portaled heredan .wi-dark del documento. El panel sigue al trigger en scroll anidado (overflow interno); no hace falta cdkScrollable en la app. z-index 1000 (no top-layer): queda bajo el chrome de app (sidebar 1100) y encima de cards sin z-index.',
   example: {
     import: `import {
   WiMenuComponent,

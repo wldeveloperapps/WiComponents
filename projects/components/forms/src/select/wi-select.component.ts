@@ -40,7 +40,10 @@ import type {
   WiSelectSelectedContext,
   WiSelectSize,
 } from './wi-select.types';
+import { applyWiConnectedOverlayPatch } from '@wldeveloperapps/ui/core';
 import { WiIconComponent } from '@wldeveloperapps/ui/icon';
+
+applyWiConnectedOverlayPatch();
 
 const TRIGGER_BASE_CLASSES = [
   'wi-select__trigger',

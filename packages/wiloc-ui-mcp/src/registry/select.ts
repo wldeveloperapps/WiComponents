@@ -174,7 +174,7 @@ export const wiSelectRegistryEntry = {
     'typeahead',
   ],
   a11yNotes:
-    'Trigger role=combobox + listbox. Asociar label vía id o ariaLabel. Icono de trigger decorativo (aria-hidden); registrar el glifo con provideWiIcons. clearLabel obligatorio si clearable. En multiple, cada chip tiene aspa con aria-label vía removeChipLabel. Textos i18n (placeholder, emptyText, clearLabel, removeChipLabel, ariaLabel) los provee la app; @wldeveloperapps/ui no incluye diccionarios. Requiere CSS de overlays CDK/Spartan en la app.',
+    'Requiere CSS de overlays CDK/Spartan en la app. El panel anclado sigue al trigger en scroll anidado (overflow interno); no hace falta cdkScrollable en la app.',
   example: {
     import: `import { WiSelectComponent } from '@wldeveloperapps/ui/forms';
 import { provideWiIcons } from '@wldeveloperapps/ui/icon';
