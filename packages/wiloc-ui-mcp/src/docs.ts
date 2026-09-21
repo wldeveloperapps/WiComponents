@@ -4,13 +4,13 @@ export const WI_DOCS_TOPICS: readonly WiDocsTopic[] = [
   {
     id: 'installation',
     title: 'Instalación de @wldeveloperapps/ui',
-    body: `Instala el paquete alineado con esta versión del MCP (0.1.0-alpha.5). API experimental.
+    body: `Instala el paquete alineado con esta versión del MCP (0.1.0-alpha.6). API experimental.
 
 \`\`\`bash
 # .npmrc: @wldeveloperapps:registry=https://npm.pkg.github.com
-pnpm add @wldeveloperapps/ui@0.1.0-alpha.5
+pnpm add @wldeveloperapps/ui@0.1.0-alpha.6
 # o desde el artefacto local:
-pnpm add ./wldeveloperapps-ui-0.1.0-alpha.5.tgz
+pnpm add ./wldeveloperapps-ui-0.1.0-alpha.6.tgz
 \`\`\`
 
 Peers: Angular 22, @angular/aria, @angular/cdk, @angular/forms, @spartan-ng/brain, rxjs, clsx.
@@ -202,7 +202,7 @@ Storybook: **Documentation → Z-index** (contrato) y **Overlays → Nested scro
 
 \`wi-date-range\` es un único input con calendario de rango (\`start\`/\`end\` models). \`displayFormat\` (tokens YYYY/MM/DD…) o \`formatDate\` controlan el texto del trigger (solo UI). TZ del site: \`provideWiTimeZone\`. Ver \`wi_view\` / \`wi_usage\` de \`date-range\`.
 
-No hay \`wi-form-field\` en 0.1.0-alpha.5: label, descripción y error los compone la app (\`<label>\` + \`role="alert"\` + \`aria-describedby\`).
+No hay \`wi-form-field\` en 0.1.0-alpha.6: label, descripción y error los compone la app (\`<label>\` + \`role="alert"\` + \`aria-describedby\`).
 
 Password: usa \`<wi-input type="password">\`, no hay componente aparte.
 Select múltiple: \`<wi-select [multiple]="true">\`.`,

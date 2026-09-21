@@ -157,12 +157,12 @@ Las aplicaciones Wiloc deben consumir `@wldeveloperapps/ui`, no Spartan. El serv
 ### Estado
 
 ```text
-Estado: usable en 0.1.0-alpha.5
+Estado: usable en 0.1.0-alpha.6
 Paquete: @wldeveloperapps/ui-mcp
 Ubicación: packages/wiloc-ui-mcp/
 ```
 
-Alinear la versión del MCP con la de `@wldeveloperapps/ui`. En este corte ambas son `0.1.0-alpha.5`.
+Alinear la versión del MCP con la de `@wldeveloperapps/ui`. En este corte ambas son `0.1.0-alpha.6`.
 
 ### Tools
 
@@ -372,7 +372,7 @@ Composiciones orientadas a casos de uso frecuentes:
 
 ## Componentes iniciales
 
-La demanda viva y el estado de cada capacidad están en [`docs/coverage-inventory.md`](docs/coverage-inventory.md). El corte actual es `0.1.0-alpha.5` (API experimental).
+La demanda viva y el estado de cada capacidad están en [`docs/coverage-inventory.md`](docs/coverage-inventory.md). El corte actual es `0.1.0-alpha.6` (API experimental).
 
 ### Fase 1 (histórico / roadmap)
 
@@ -798,6 +798,7 @@ Durante el desarrollo se utilizarán versiones prerelease:
 0.1.0-alpha.3
 0.1.0-alpha.4
 0.1.0-alpha.5
+0.1.0-alpha.6
 0.1.0-beta.1
 ```
 
@@ -811,11 +812,11 @@ Registry: **GitHub Packages** (`https://npm.pkg.github.com`), scope `@wldevelope
 
 CI (`/.github/workflows/ci.yml`) corre lint, tests y build en `main` y PRs.
 
-Publicación (`/.github/workflows/publish.yml`): al empujar un tag `v*` (debe coincidir con la versión, p. ej. `v0.1.0-alpha.5`) o con **Run workflow**. Publica `@wldeveloperapps/ui` y `@wldeveloperapps/ui-mcp` con dist-tag `alpha` / `beta` / `latest`.
+Publicación (`/.github/workflows/publish.yml`): al empujar un tag `v*` (debe coincidir con la versión, p. ej. `v0.1.0-alpha.6`) o con **Run workflow**. Publica `@wldeveloperapps/ui` y `@wldeveloperapps/ui-mcp` con dist-tag `alpha` / `beta` / `latest`.
 
 ```bash
-git tag v0.1.0-alpha.5
-git push origin v0.1.0-alpha.5
+git tag v0.1.0-alpha.6
+git push origin v0.1.0-alpha.6
 ```
 
 Las apps consumidoras:
@@ -826,7 +827,7 @@ Las apps consumidoras:
 ```
 
 ```bash
-pnpm add @wldeveloperapps/ui@0.1.0-alpha.5
+pnpm add @wldeveloperapps/ui@0.1.0-alpha.6
 ```
 
 ---
@@ -1036,10 +1037,10 @@ Cuando se adapte código procedente de Spartan u otras librerías:
 
 ## Estado del proyecto
 
-Corte interno `0.1.0-alpha.5`. La API es experimental y puede cambiar sin semver estable.
+Corte interno `0.1.0-alpha.6`. La API es experimental y puede cambiar sin semver estable.
 
 ```text
-Versión actual: 0.1.0-alpha.5
+Versión actual: 0.1.0-alpha.6
 Estado: experimental / alpha
 ```
 

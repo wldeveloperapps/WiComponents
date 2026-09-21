@@ -15,7 +15,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Instalación de `@wldeveloperapps/ui`
 
-Guía para montar la librería en una **aplicación Angular consumidora**. Corte actual: **`0.1.0-alpha.5`** (API experimental).
+Guía para montar la librería en una **aplicación Angular consumidora**. Corte actual: **`0.1.0-alpha.6`** (API experimental).
 
 Referencia runnable: `apps/e2e-consumer` (consume el `.tgz`, no el source del monorepo).
 
@@ -53,7 +53,7 @@ En el `.npmrc` de la app:
 ```
 
 ```bash
-pnpm add @wldeveloperapps/ui@0.1.0-alpha.5
+pnpm add @wldeveloperapps/ui@0.1.0-alpha.6
 ```
 
 En CI de la app (mismo org): `permissions: packages: read` y `NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}` en `pnpm install`. Da acceso al repo consumidor en GitHub → Package `@wldeveloperapps/ui` → Package settings → Manage Actions access.
@@ -65,7 +65,7 @@ Artefacto local (opcional, smoke sin registry):
 pnpm pack:lib
 
 # en la app (el nombre lo fija `pnpm pack`: scope-name-version.tgz)
-pnpm add ./wldeveloperapps-ui-0.1.0-alpha.5.tgz
+pnpm add ./wldeveloperapps-ui-0.1.0-alpha.6.tgz
 ```
 
 Instala también los peers que la app aún no tenga:

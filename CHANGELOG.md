@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.1.0-alpha.6
+
+Sexto corte interno de `@wldeveloperapps/ui` y `@wldeveloperapps/ui-mcp`. API experimental: puede cambiar en el siguiente alpha.
+
+### Breaking
+
+- Viewport de toasts: selector `wi-toaster` → `wi-toast`; `WiToasterComponent` → `WiToastComponent`. En el root: `<wi-toast />`
+
+### Added
+
+- `WiConfirmationService`: bus único para `wi-confirm-dialog` (modal) y `wi-confirm-popup` (anclado) con `key` / `target`
+- Overlays anclados siguen al trigger en scroll anidado (`overflow: auto` interno); contrato de z-index `1000` (panel) / `1100` (chrome de app); `styles/overlay.css`; docs **Z-index**; story Nested scroll; e2e Playwright
+- Filtros de `wi-table`: `wi-input` y `wi-select` (mismo chrome que forms)
+
+### Fixed
+
+- Padding de alineación de texto en `wi-datepicker` / `wi-date-range`
+
 ## 0.1.0-alpha.5
 
 Quinto corte interno de `@wldeveloperapps/ui` y `@wldeveloperapps/ui-mcp`. API experimental: puede cambiar en el siguiente alpha.
