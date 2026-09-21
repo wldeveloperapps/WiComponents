@@ -12,7 +12,7 @@ import { provideWiOverlaysI18n } from '../../overlays/src/wi-overlays.i18n';
   imports: [WiConfirmDialogComponent],
   template: `
     <wi-confirm-dialog [key]="dialogKey()" />
-    <button type="button" data-testid="trigger" (click)="onDelete($event)">Delete</button>
+    <button type="button" data-testid="trigger" (click)="onDelete()">Delete</button>
   `,
 })
 class ConfirmationDialogHostComponent {
@@ -22,7 +22,7 @@ class ConfirmationDialogHostComponent {
   readonly rejected = signal(0);
   lastResult: string | undefined;
 
-  onDelete(event: Event): void {
+  onDelete(): void {
     void this.confirmation
       .confirm({
         key: this.dialogKey(),
@@ -152,10 +152,7 @@ describe('WiConfirmationService', () => {
     return document.querySelector('[data-slot="confirm-popup-content"]');
   }
 
-  async function waitFor(
-    predicate: () => boolean,
-    label = 'condition',
-  ): Promise<void> {
+  async function waitFor(predicate: () => boolean, label = 'condition'): Promise<void> {
     const deadline = Date.now() + 2000;
     while (Date.now() < deadline) {
       if (predicate()) {
@@ -172,10 +169,7 @@ describe('WiConfirmationService', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
         imports: [ConfirmationDialogHostComponent],
-        providers: [
-          Directionality,
-          provideWiOverlaysI18n({ confirmCancelLabel: () => 'Cancel' }),
-        ],
+        providers: [Directionality, provideWiOverlaysI18n({ confirmCancelLabel: () => 'Cancel' })],
       }).compileComponents();
 
       fixture = TestBed.createComponent(ConfirmationDialogHostComponent);
@@ -225,10 +219,7 @@ describe('WiConfirmationService', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
         imports: [ConfirmationPopupHostComponent],
-        providers: [
-          Directionality,
-          provideWiOverlaysI18n({ confirmCancelLabel: () => 'Cancel' }),
-        ],
+        providers: [Directionality, provideWiOverlaysI18n({ confirmCancelLabel: () => 'Cancel' })],
       }).compileComponents();
 
       fixture = TestBed.createComponent(ConfirmationPopupHostComponent);
@@ -274,10 +265,7 @@ describe('WiConfirmationService', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
         imports: [ConfirmationKeyedHostsComponent],
-        providers: [
-          Directionality,
-          provideWiOverlaysI18n({ confirmCancelLabel: () => 'Cancel' }),
-        ],
+        providers: [Directionality, provideWiOverlaysI18n({ confirmCancelLabel: () => 'Cancel' })],
       }).compileComponents();
 
       fixture = TestBed.createComponent(ConfirmationKeyedHostsComponent);
@@ -311,10 +299,7 @@ describe('WiConfirmationService', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
         imports: [ConfirmationDialogHostComponent],
-        providers: [
-          Directionality,
-          provideWiOverlaysI18n({ confirmCancelLabel: () => 'Cancel' }),
-        ],
+        providers: [Directionality, provideWiOverlaysI18n({ confirmCancelLabel: () => 'Cancel' })],
       }).compileComponents();
 
       fixture = TestBed.createComponent(ConfirmationDialogHostComponent);
@@ -358,10 +343,7 @@ describe('WiConfirmationService', () => {
     it('opens using the last registered host', async () => {
       await TestBed.configureTestingModule({
         imports: [ConfirmationMultiSameKeyComponent],
-        providers: [
-          Directionality,
-          provideWiOverlaysI18n({ confirmCancelLabel: () => 'Cancel' }),
-        ],
+        providers: [Directionality, provideWiOverlaysI18n({ confirmCancelLabel: () => 'Cancel' })],
       }).compileComponents();
 
       const fixture = TestBed.createComponent(ConfirmationMultiSameKeyComponent);
