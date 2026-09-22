@@ -125,22 +125,70 @@ Toast: \`<wi-toast theme="auto" />\` sigue \`.wi-dark\`.`,
   {
     id: 'icons',
     title: 'Iconos',
-    body: `API: \`<wi-icon>\` + \`provideWiIcons\` desde \`@wldeveloperapps/ui/icon\`.
-Glifos oficiales: \`@wldeveloperapps/ui/icon/heroicons\` (subconjunto ~79). Importa solo los que uses.
+    body: `## Contrato
+
+- Render: \`<wi-icon>\` desde \`@wldeveloperapps/ui/icon\`.
+- Registro: \`provideWiIcons({ … })\` (varias llamadas se combinan; multi).
+- Glifos oficiales: \`@wldeveloperapps/ui/icon/heroicons\` (~80 nombres kebab-case, outline + solid).
+- Catálogo visual: Storybook → **Icon → WiIcon → Catalog**.
+- \`WI_HEROICONS_CURATED\` es **solo** Storybook/demos. En apps importa glifos individuales.
+
+## 1) Icono oficial (app)
 
 \`\`\`ts
-import { provideWiIcons } from '@wldeveloperapps/ui/icon';
-import { trashOutline } from '@wldeveloperapps/ui/icon/heroicons';
+import { provideWiIcons, WiIconComponent } from '@wldeveloperapps/ui/icon';
+import { trashOutline, trashSolid } from '@wldeveloperapps/ui/icon/heroicons';
 
-provideWiIcons({ trash: { outline: trashOutline } });
+// app.config.ts (o providers del feature)
+provideWiIcons({
+  trash: { outline: trashOutline, solid: trashSolid },
+});
 \`\`\`
+
+\`\`\`html
+<wi-icon name="trash" />
+<wi-icon name="trash" variant="solid" class="text-error" />
+\`\`\`
+
+Importa **solo** los glifos que registres (tree shaking). El \`name\` del template debe coincidir con la clave de \`provideWiIcons\`.
+
+## 2) Icono custom (app cliente)
+
+Define un \`WiIconGlyph\` tipado (viewBox + nodes). Sin \`innerHTML\` ni strings SVG crudos.
+
+\`\`\`ts
+import { provideWiIcons, type WiIconGlyph } from '@wldeveloperapps/ui/icon';
+
+const brandMark: WiIconGlyph = {
+  viewBox: '0 0 24 24',
+  nodes: [{ tag: 'path', attrs: { d: 'M12 2 2 22h20L12 2Z' } }],
+  // preserveColors: true  // opcional: logos multicolor
+};
+
+provideWiIcons({
+  'brand-mark': { solid: brandMark },
+});
+\`\`\`
+
+\`\`\`html
+<wi-icon name="brand-mark" variant="solid" label="Marca" />
+\`\`\`
+
+Misma API que los oficiales. Tags SVG permitidos: path, circle, rect, line, polyline, polygon, g.
+
+## Accesibilidad y estilo
 
 - Sin \`label\` → decorativo (\`aria-hidden\`).
 - Con \`label\` → \`role="img"\` + \`aria-label\`.
-- Color: \`currentColor\`.
-- Custom: objeto \`WiIconGlyph\` (viewBox + nodes). Sin innerHTML.
+- Botón solo-icono: el nombre accesible va en el **botón** (\`aria-label\`), el \`wi-icon\` sigue decorativo.
+- Color: \`currentColor\` / clases en el host (\`class="text-error"\`). No hay input \`color\`.
 
-No uses PrimeIcons. Mapa pi-* → wi: docs/icons-prime-migration.md del repo de la librería.`,
+## Qué no hacer
+
+- No \`import … from 'heroicons'\` / \`@heroicons/…\` / PrimeIcons (\`pi-*\`).
+- No registrar todo el catálogo de golpe en la app.
+- Mapa Prime → Wi: \`docs/icons-prime-migration.md\` del repo de la librería.
+- Detalle de componente: \`wi_view("icon")\` / \`wi_usage("icon")\`.`,
   },
   {
     id: 'ssr',

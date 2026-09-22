@@ -198,6 +198,17 @@ describe('@wldeveloperapps/ui-mcp catalog', () => {
     expect(leaks).toEqual([]);
   });
 
+  it('documents icons registration for official and custom glyphs', () => {
+    const icons = getDocTopic('icons');
+    expect(icons?.body).toContain('provideWiIcons');
+    expect(icons?.body).toContain('@wldeveloperapps/ui/icon/heroicons');
+    expect(icons?.body).toContain('WiIconGlyph');
+    expect(icons?.body).toContain('brand-mark');
+    expect(icons?.body).toContain('WI_HEROICONS_CURATED');
+    expect(icons?.body).toContain('tree shaking');
+    expect(icons?.body).toContain("No `import … from 'heroicons'`");
+  });
+
   it('documents installation without Spartan UI imports', () => {
     const installation = getDocTopic('installation');
     expect(installation?.body).toContain('@wldeveloperapps/ui/styles/tokens.css');

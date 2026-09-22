@@ -26,7 +26,8 @@ export const WI_ENTRY_POINTS: readonly WiEntryPointInfo[] = [
   { entryPoint: '@wldeveloperapps/ui/icon', description: 'wi-icon + provideWiIcons' },
   {
     entryPoint: '@wldeveloperapps/ui/icon/heroicons',
-    description: 'Glifos Heroicons curados (importar solo los usados)',
+    description:
+      'Glifos oficiales (~80): importa individuales + provideWiIcons. Custom: WiIconGlyph en la app. Ver wi_docs("icons")',
   },
   {
     entryPoint: '@wldeveloperapps/ui/overlays',

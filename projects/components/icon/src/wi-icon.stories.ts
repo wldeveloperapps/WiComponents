@@ -27,6 +27,39 @@ const meta: Meta<WiIconComponent> = {
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
+    docs: {
+      description: {
+        component: `
+### Cómo usarlo en la app
+
+1. **Registrar** glifos con \`provideWiIcons\` en \`app.config\` (o providers del feature).
+2. **Renderizar** \`<wi-icon name="…">\` — el \`name\` debe coincidir con la clave registrada.
+3. Oficiales: importa de \`@wldeveloperapps/ui/icon/heroicons\` **solo** los que uses.
+4. Custom: define un \`WiIconGlyph\` en la app y regístralo igual (ver story **Custom Icon**).
+5. Catálogo completo: story **Catalog** ({{COUNT}} nombres oficiales).
+
+\`\`\`ts
+import { provideWiIcons, WiIconComponent } from '@wldeveloperapps/ui/icon';
+import { trashOutline, trashSolid } from '@wldeveloperapps/ui/icon/heroicons';
+
+provideWiIcons({
+  trash: { outline: trashOutline, solid: trashSolid },
+});
+\`\`\`
+
+\`\`\`html
+<wi-icon name="trash" />
+<wi-icon name="trash" variant="solid" class="text-error" />
+\`\`\`
+
+**No** uses \`WI_HEROICONS_CURATED\` en apps (es para Storybook). **No** importes el paquete npm \`heroicons\`.
+Color: \`currentColor\` / clases en el host. A11y: sin \`label\` → decorativo; con \`label\` → nombre accesible; botón solo-icono → \`aria-label\` en el botón.
+        `.replace('{{COUNT}}', String(Object.keys(WI_HEROICONS_CURATED).length)),
+      },
+    },
+    controls: {
+      include: ['name', 'variant', 'size', 'label'],
+    },
   },
   decorators: [
     applicationConfig({
@@ -42,7 +75,10 @@ const meta: Meta<WiIconComponent> = {
     }),
   ],
   argTypes: {
-    name: { control: 'text' },
+    name: {
+      control: 'text',
+      description: 'Clave registrada con provideWiIcons (oficial o custom)',
+    },
     variant: {
       control: 'select',
       options: ['outline', 'solid'],
@@ -51,7 +87,10 @@ const meta: Meta<WiIconComponent> = {
       control: 'select',
       options: ['xs', 'sm', 'md', 'lg', 'xl'],
     },
-    label: { control: 'text' },
+    label: {
+      control: 'text',
+      description: 'null → decorativo; con texto → role=img + aria-label',
+    },
   },
   args: {
     name: 'home',
@@ -147,6 +186,14 @@ export const Colors: Story = {
 };
 
 export const Decorative: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Sin `label`: el icono es decorativo (`aria-hidden`). El significado lo aporta el texto del botón.',
+      },
+    },
+  },
   render: () => ({
     template: `
       <button type="button" style="display:inline-flex;align-items:center;gap:0.5rem;">
@@ -158,6 +205,13 @@ export const Decorative: Story = {
 };
 
 export const AccessibleLabel: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: 'Con `label`: el SVG expone `role="img"` + `aria-label` (icono con significado propio).',
+      },
+    },
+  },
   args: {
     name: 'exclamation-triangle',
     label: 'Advertencia',
@@ -178,6 +232,14 @@ export const InsideButton: Story = {
 };
 
 export const IconOnlyButton: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Botón solo-icono: el nombre accesible va en el **botón** (`aria-label`). El `wi-icon` sigue sin `label` (decorativo).',
+      },
+    },
+  },
   render: () => ({
     template: `
       <button type="button" aria-label="Eliminar usuario" style="display:inline-flex;padding:0.5rem;">
@@ -188,6 +250,34 @@ export const IconOnlyButton: Story = {
 };
 
 export const CustomIcon: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: `
+Icono **custom de la app** (no viene de Heroicons). En la app consumidora:
+
+\`\`\`ts
+import { provideWiIcons, type WiIconGlyph } from '@wldeveloperapps/ui/icon';
+
+const worker: WiIconGlyph = {
+  viewBox: '0 0 32 32',
+  nodes: [{ tag: 'path', attrs: { d: '…' } }],
+};
+
+provideWiIcons({
+  worker: { solid: worker },
+});
+\`\`\`
+
+\`\`\`html
+<wi-icon name="worker" variant="solid" label="Trabajador" />
+\`\`\`
+
+Misma API que los oficiales. Tags permitidos: path, circle, rect, line, polyline, polygon, g.
+        `,
+      },
+    },
+  },
   args: {
     name: 'worker',
     variant: 'solid',
@@ -197,11 +287,11 @@ export const CustomIcon: Story = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="display:flex;flex-direction:column;align-items:center;gap:12px;font:14px/1.4 system-ui;color:#111;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:12px;font:14px/1.4 system-ui;color:#111;max-width:28rem;text-align:center;">
         <wi-icon [name]="name" [variant]="variant" [size]="size" [label]="label" />
         <span>
-          Custom de app: <code>worker</code> (registrado con
-          <code>provideWiIcons</code>, no viene de Heroicons)
+          Custom de app: <code>worker</code> — registrado con
+          <code>provideWiIcons</code> en la app, no en el paquete heroicons.
         </span>
       </div>
     `,
@@ -209,12 +299,27 @@ export const CustomIcon: Story = {
 };
 
 export const MissingIcon: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: 'Nombre no registrado: no renderiza nada (warning en desarrollo).',
+      },
+    },
+  },
   args: {
     name: 'not-registered',
   },
 };
 
 export const MissingVariant: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Si pides `solid` y solo hay `outline`, hace fallback a la otra variante (warning en desarrollo).',
+      },
+    },
+  },
   decorators: [
     applicationConfig({
       providers: [
@@ -237,14 +342,39 @@ export const Catalog: Story = {
   parameters: {
     layout: 'padded',
     controls: { disable: true },
+    docs: {
+      description: {
+        story: `
+Lista **completa** del catálogo oficial (\`@wldeveloperapps/ui/icon/heroicons\`).
+Cada celda muestra outline | solid y el \`name\` a registrar.
+
+En la app **no** registres todo el set: importa el glifo concreto y pásalo a \`provideWiIcons\`.
+
+\`\`\`ts
+import { eyeOutline, eyeSlashOutline } from '@wldeveloperapps/ui/icon/heroicons';
+
+provideWiIcons({
+  eye: { outline: eyeOutline },
+  'eye-slash': { outline: eyeSlashOutline },
+});
+\`\`\`
+        `,
+      },
+    },
   },
   render: () => ({
     props: { names: catalogNames },
     template: `
       <div style="font:14px/1.4 system-ui;color:#111;">
-        <p style="margin:0 0 1rem;">
-          Catálogo oficial: {{ names.length }} iconos (outline | solid).
-          Registra solo los que uses con <code>provideWiIcons</code>.
+        <p style="margin:0 0 0.5rem;">
+          Catálogo oficial: <strong>{{ names.length }}</strong> iconos (outline | solid).
+        </p>
+        <p style="margin:0 0 1rem;color:#4b5563;">
+          Copia el <code>name</code> de la celda → importa
+          <code>…Outline</code> / <code>…Solid</code> desde
+          <code>@wldeveloperapps/ui/icon/heroicons</code> →
+          <code>provideWiIcons</code> con esa clave.
+          Custom de app: ver story <strong>Custom Icon</strong>.
         </p>
         <div
           style="
