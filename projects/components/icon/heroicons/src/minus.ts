@@ -3,14 +3,14 @@ import type { WiIconGlyph } from '@wldeveloperapps/ui/icon';
 
 /** Heroicons 24/outline/minus */
 export const minusOutline: WiIconGlyph = {
-  viewBox: '0 0 24 24',
+  viewBox: "0 0 24 24",
   nodes: [
-    {
-      tag: 'path',
+{
+      tag: "path",
       attrs: {
-        'stroke-linecap': 'round',
-        'stroke-linejoin': 'round',
-        d: 'M5 12h14',
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round",
+        d: "M5 12h14",
       },
     },
   ],
@@ -18,14 +18,14 @@ export const minusOutline: WiIconGlyph = {
 
 /** Heroicons 24/solid/minus */
 export const minusSolid: WiIconGlyph = {
-  viewBox: '0 0 24 24',
+  viewBox: "0 0 24 24",
   nodes: [
-    {
-      tag: 'path',
+{
+      tag: "path",
       attrs: {
-        'fill-rule': 'evenodd',
-        d: 'M4.25 12a.75.75 0 0 1 .75-.75h14a.75.75 0 0 1 0 1.5H5a.75.75 0 0 1-.75-.75Z',
-        'clip-rule': 'evenodd',
+        "fill-rule": "evenodd",
+        d: "M4.25 12a.75.75 0 0 1 .75-.75h14a.75.75 0 0 1 0 1.5H5a.75.75 0 0 1-.75-.75Z",
+        "clip-rule": "evenodd",
       },
     },
   ],

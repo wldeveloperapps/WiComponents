@@ -3,14 +3,14 @@ import type { WiIconGlyph } from '@wldeveloperapps/ui/icon';
 
 /** Heroicons 24/outline/check */
 export const checkOutline: WiIconGlyph = {
-  viewBox: '0 0 24 24',
+  viewBox: "0 0 24 24",
   nodes: [
-    {
-      tag: 'path',
+{
+      tag: "path",
       attrs: {
-        'stroke-linecap': 'round',
-        'stroke-linejoin': 'round',
-        d: 'm4.5 12.75 6 6 9-13.5',
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round",
+        d: "m4.5 12.75 6 6 9-13.5",
       },
     },
   ],
@@ -18,14 +18,14 @@ export const checkOutline: WiIconGlyph = {
 
 /** Heroicons 24/solid/check */
 export const checkSolid: WiIconGlyph = {
-  viewBox: '0 0 24 24',
+  viewBox: "0 0 24 24",
   nodes: [
-    {
-      tag: 'path',
+{
+      tag: "path",
       attrs: {
-        'fill-rule': 'evenodd',
-        d: 'M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z',
-        'clip-rule': 'evenodd',
+        "fill-rule": "evenodd",
+        d: "M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z",
+        "clip-rule": "evenodd",
       },
     },
   ],
