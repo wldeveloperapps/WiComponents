@@ -10,6 +10,7 @@ import {
   model,
   output,
 } from '@angular/core';
+import { findOverflowAncestors } from '@wldeveloperapps/ui/core';
 import { WiIconComponent } from '@wldeveloperapps/ui/icon';
 
 import type { WiSpeedDialDirection, WiSpeedDialItem } from './wi-speed-dial.types';
@@ -75,7 +76,7 @@ const DIRECTION_TOOLBAR_CLASSES: Record<WiSpeedDialDirection, string> = {
  * 1. Cerrado → se ve el botón de tres puntos.
  * 2. Clic → se muestran las acciones de `items` y un botón X para cerrar.
  * 3. Clic en una acción → emite `itemClick` (la app decide qué hacer).
- * 4. Clic en X, Escape o fuera → cierra el dial.
+ * 4. Clic en X, Escape, fuera o scroll fuera → cierra el dial.
  *
  * Cada acción icon-only muestra tooltip con `item.label` (desactivable con
  * `[tooltips]="false"`). El nombre accesible sigue en `aria-label`.
@@ -230,17 +231,35 @@ export class WiSpeedDialComponent {
         }
       };
 
-      const timerId = this.document.defaultView?.setTimeout(() => {
+      const onScrollOutside = (event: Event): void => {
+        const target = event.target;
+        if (target instanceof Node && this.elementRef.nativeElement.contains(target)) {
+          return;
+        }
+        this.open.set(false);
+      };
+
+      const view = this.document.defaultView;
+      const ancestors = findOverflowAncestors(this.elementRef.nativeElement);
+      const timerId = view?.setTimeout(() => {
         this.document.addEventListener('pointerdown', onPointerDown, true);
         this.document.addEventListener('keydown', onKeyDown);
+        view?.addEventListener('scroll', onScrollOutside, { passive: true, capture: true });
+        for (const element of ancestors) {
+          element.addEventListener('scroll', onScrollOutside, { passive: true });
+        }
       }, 0);
 
       onCleanup(() => {
         if (timerId !== undefined) {
-          this.document.defaultView?.clearTimeout(timerId);
+          view?.clearTimeout(timerId);
         }
         this.document.removeEventListener('pointerdown', onPointerDown, true);
         this.document.removeEventListener('keydown', onKeyDown);
+        view?.removeEventListener('scroll', onScrollOutside, true);
+        for (const element of ancestors) {
+          element.removeEventListener('scroll', onScrollOutside);
+        }
       });
     });
   }

@@ -199,6 +199,20 @@ describe('WiSpeedDialComponent', () => {
     expect(host.open()).toBe(false);
   });
 
+  it('closes on scroll outside the host', async () => {
+    host.open.set(true);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await new Promise<void>((resolve) => setTimeout(resolve, 0));
+    await new Promise<void>((resolve) => setTimeout(resolve, 160));
+
+    window.dispatchEvent(new Event('scroll'));
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(host.open()).toBe(false);
+  });
+
   it('can be created without throwing (SSR-safe construction)', () => {
     const dialFixture = TestBed.createComponent(WiSpeedDialComponent);
     dialFixture.componentRef.setInput('items', ITEMS);

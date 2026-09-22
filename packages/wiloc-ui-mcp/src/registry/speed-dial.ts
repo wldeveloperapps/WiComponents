@@ -93,7 +93,7 @@ export const wiSpeedDialRegistryEntry = {
     { key: 'Home / End', description: 'Primera / última acción' },
   ],
   a11yNotes:
-    'Trigger con aria-expanded + aria-haspopup. Abierto: botón X (closeLabel / dialogCloseLabel) + acciones. Cada acción es botón con aria-label (item.label). Tooltip complementario vía wiTooltip (no sustituye aria-label). Cierre por X, Escape y clic fuera. Iconos decorativos vía wi-icon sin label.',
+    'Trigger con aria-expanded + aria-haspopup. Abierto: botón X (closeLabel / dialogCloseLabel) + acciones. Cada acción es botón con aria-label (item.label). Tooltip complementario vía wiTooltip (no sustituye aria-label). Cierre por X, Escape, clic fuera y scroll fuera del host. Iconos decorativos vía wi-icon sin label.',
   example: {
     import: `import { WiSpeedDialComponent, type WiSpeedDialItem } from '@wldeveloperapps/ui/overlays';
 import { provideWiIcons } from '@wldeveloperapps/ui/icon';`,

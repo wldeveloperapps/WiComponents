@@ -182,7 +182,12 @@ Ver \`wi_view\` de toast, datepicker y table para campos concretos.`,
   {
     id: 'overlays',
     title: 'Overlays anclados y scroll anidado',
-    body: `Los paneles conectados a un trigger (\`wi-select\`, \`wi-datepicker\` / \`wi-date-range\`, \`wi-menu\`, \`wi-popover\`, filtros y visibilidad de \`wi-table\`, tooltip, confirm-popup) se reposicionan al hacer scroll en un contenedor con \`overflow: auto|scroll\` (shell 100dvh). No hace falta \`cdkScrollable\` en la app ni parchear \`Overlay.prototype\`.
+    body: `Los paneles conectados a un trigger viven en portal CDK dentro de \`overflow: auto|scroll\` (shell 100dvh). No hace falta \`cdkScrollable\` en la app ni parchear \`Overlay.prototype\`.
+
+Política de scroll:
+
+- **Cierran** al scroll fuera del panel: \`wi-select\`, \`wi-menu\`, filtros/visibilidad de \`wi-table\`, \`[wiTooltip]\`, \`wi-speed-dial\`. Scroll **dentro** de la lista del panel no cierra.
+- **Siguen** al trigger (reposicionan): \`wi-datepicker\` / \`wi-date-range\`, \`wi-popover\`, \`wi-confirm-popup\`.
 
 No usan el top-layer de Popover API. Stacking fijo de la librería:
 

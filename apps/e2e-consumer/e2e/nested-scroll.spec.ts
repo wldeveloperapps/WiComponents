@@ -57,6 +57,22 @@ async function expectOverlayFollowsTrigger(
   ).toBeLessThan(FOLLOW_TOLERANCE_PX);
 }
 
+async function expectOverlayClosesOnScroll(
+  page: Page,
+  panel: Locator,
+  scroller: Locator,
+): Promise<void> {
+  const startScroll = await scroller.evaluate((el) => (el as HTMLElement).scrollTop);
+  await expect(panel).toBeVisible();
+
+  await scroller.evaluate((el, top) => {
+    (el as HTMLElement).scrollTop = top;
+  }, startScroll + INNER_SCROLL_PX);
+  await waitForOverlayPaint(page);
+
+  await expect(panel).toBeHidden();
+}
+
 test.describe('nested overflow overlays', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
@@ -67,12 +83,12 @@ test.describe('nested overflow overlays', () => {
     });
   });
 
-  test('select panel follows the trigger when the overflow container scrolls', async ({ page }) => {
+  test('select panel closes when the overflow container scrolls', async ({ page }) => {
     const scroller = page.getByTestId('nested-scroll-container');
     const trigger = page.getByTestId('nested-select').locator('button').first();
     const pane = await openOverlayPane(page, trigger);
     await expect(pane.getByRole('listbox')).toBeVisible();
-    await expectOverlayFollowsTrigger(page, trigger, pane, scroller);
+    await expectOverlayClosesOnScroll(page, pane, scroller);
   });
 
   test('datepicker calendar follows the trigger when the overflow container scrolls', async ({
@@ -85,17 +101,15 @@ test.describe('nested overflow overlays', () => {
     await expectOverlayFollowsTrigger(page, trigger, pane, scroller);
   });
 
-  test('menu follows the trigger when the overflow container scrolls', async ({ page }) => {
+  test('menu closes when the overflow container scrolls', async ({ page }) => {
     const scroller = page.getByTestId('nested-scroll-container');
     const trigger = page.getByTestId('nested-menu-trigger');
     const pane = await openOverlayPane(page, trigger);
     await expect(pane.getByRole('menu')).toBeVisible();
-    await expectOverlayFollowsTrigger(page, trigger, pane, scroller);
+    await expectOverlayClosesOnScroll(page, pane, scroller);
   });
 
-  test('table column filter follows the trigger when the overflow container scrolls', async ({
-    page,
-  }) => {
+  test('table column filter closes when the overflow container scrolls', async ({ page }) => {
     const scroller = page.getByTestId('nested-scroll-container');
     const trigger = page
       .getByTestId('nested-table')
@@ -103,6 +117,6 @@ test.describe('nested overflow overlays', () => {
     await trigger.scrollIntoViewIfNeeded();
     const pane = await openOverlayPane(page, trigger);
     await expect(pane.getByRole('listbox')).toBeVisible();
-    await expectOverlayFollowsTrigger(page, trigger, pane, scroller);
+    await expectOverlayClosesOnScroll(page, pane, scroller);
   });
 });

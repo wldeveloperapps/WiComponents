@@ -282,7 +282,7 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     tableFilterStatus: 'Todos los estados',
     nestedScroll: 'Overflow anidado',
     nestedScrollHint:
-      'Abre un panel y haz scroll dentro del recuadro. El overlay sigue al trigger (z-index 1000). Queda encima del header/migas (10) y bajo el sidebar (1100), no en top-layer.',
+      'Abre un panel y haz scroll dentro del recuadro. Select, menú y filtros se cierran; el datepicker sigue al trigger (z-index 1000). Queda encima del header/migas (10) y bajo el sidebar (1100), no en top-layer.',
     nestedSidebar: 'Sidebar (z-index 1100) — el menú queda debajo',
     nestedHeader: 'Header / migas (z-index 10) — el desplegable queda encima',
     nestedSitePlaceholder: 'Elige un sitio',
@@ -417,7 +417,7 @@ const MESSAGES: Record<AppLocale, UiMessages> = {
     tableFilterStatus: 'All statuses',
     nestedScroll: 'Nested overflow',
     nestedScrollHint:
-      'Open a panel and scroll inside the box. The overlay follows the trigger (z-index 1000). It paints over the header/breadcrumbs (10) and under the sidebar (1100), not on the top layer.',
+      'Open a panel and scroll inside the box. Select, menu and filters close; the datepicker follows the trigger (z-index 1000). It paints over the header/breadcrumbs (10) and under the sidebar (1100), not on the top layer.',
     nestedSidebar: 'Sidebar (z-index 1100) — the menu stays underneath',
     nestedHeader: 'Header / breadcrumbs (z-index 10) — the menu paints on top',
     nestedSitePlaceholder: 'Choose a site',

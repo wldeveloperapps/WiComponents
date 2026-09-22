@@ -73,9 +73,9 @@ Header / migas y sidebar **no** comparten z-index:
 
 ## Scroll anidado
 
-El panel sigue al trigger si el scroll es de un `overflow: auto | scroll` interno (no solo de ventana). Eso es el caso del shell de producto.
+Select, menú, tooltip y filtros de tabla **cierran** al hacer scroll fuera del panel (`overflow: auto | scroll` interno o ventana). Datepicker, date-range, popover y confirm-popup **siguen** al trigger (reposicionan). Scroll dentro de la lista del panel no cierra.
 
-Compruébalo en **Overlays → Nested scroll**: sidebar a `1100`, header a `10`. Abre Acciones o un filtro: el menú queda **bajo** el sidebar, **encima** del header / migas y **encima** del recuadro.
+Compruébalo en **Overlays → Nested scroll**: sidebar a `1100`, header a `10`. Abre Acciones o un filtro y haz scroll: el menú se cierra. Abre el datepicker y haz scroll: el calendario sigue pegado.
 
 ---
 

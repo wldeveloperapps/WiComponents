@@ -331,11 +331,9 @@ import { WiTableRowActionsDirective } from './wi-table-row-actions.directive';
               }
               @for (column of inlineColumns(); track column.id) {
                 <td
-                  class="wi-table__td px-3 py-2"
+                  class="wi-table__td px-3 py-2 align-middle"
                   [class.min-w-0]="isCompact()"
                   [class.overflow-hidden]="isCompact()"
-                  [class.align-top]="isCompact()"
-                  [class.align-middle]="!isCompact()"
                 >
                   <ng-container
                     [ngTemplateOutlet]="cellOutlet"

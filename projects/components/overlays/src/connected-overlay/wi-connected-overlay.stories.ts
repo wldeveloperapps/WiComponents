@@ -81,9 +81,10 @@ const NESTED_SCROLL_TEMPLATE = `
         </header>
         <div class="p-4">
     <p class="mb-3 max-w-xl text-sm text-on-surface-variant">
-      Abre un panel y haz scroll <strong>dentro del recuadro</strong> (no de la ventana). El overlay
-      debe seguir al trigger. El menú se pinta a z-index 1000: encima del recuadro y del header
-      (10), y <strong>debajo</strong> del sidebar (1100).
+      Abre un panel y haz scroll <strong>dentro del recuadro</strong> (no de la ventana).
+      Select, menú y filtros de tabla <strong>se cierran</strong>; el datepicker
+      <strong>sigue</strong> al trigger. El menú se pinta a z-index 1000: encima del recuadro y del
+      header (10), y <strong>debajo</strong> del sidebar (1100).
     </p>
     <div
       class="overflow-auto rounded-control border border-outline-variant bg-surface p-4"
@@ -165,7 +166,7 @@ const meta: Meta<NestedScrollStoryArgs> = {
         component: `
 Regresión de overlays anclados al trigger dentro de un \`overflow: auto\` (shell 100dvh).
 
-CDK \`reposition\` solo oye window y \`cdkScrollable\`. Sin este arreglo el panel se queda fijo en el viewport al hacer scroll interno.
+**Scroll:** select, menú y filtros de tabla **cierran** al hacer scroll fuera del panel. Datepicker / date-range / popover / confirm-popup **siguen** al trigger (reposicionan). Scroll dentro de la lista del panel no cierra.
 
 **Z-index:** contrato y tabla de capas en **Documentation → Z-index**. Aquí: portal CDK a \`1000\` (no top-layer). El sidebar va a \`1100\` (el menú no se pinta encima). Header / migas van a \`10\` (el desplegable sí queda encima). Cards / overflow sin z-index quedan debajo del panel.
 

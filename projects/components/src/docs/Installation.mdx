@@ -191,7 +191,7 @@ Contrato para la app:
 - Header / migas: `z-index: 10` (o cualquier valor `< 1000`). El desplegable **sí** se pinta encima.
 - No subas el overlay anclado por encima del sidebar. No hace falta `cdkScrollable` ni parchear `Overlay`.
 - Cards y recuadros sin z-index quedan **debajo** del panel (si no, el desplegable se oculta al abrir).
-- El panel sigue al trigger si el scroll es de un `overflow: auto|scroll` interno.
+- Select / menú / tooltip / filtros **cierran** al scroll fuera del panel; datepicker / popover / confirm-popup **siguen** al trigger en `overflow: auto|scroll` interno.
 
 Demo: Storybook **Documentation → Z-index** y **Overlays → Nested scroll**; `apps/e2e-consumer` (sidebar 1100, header 10).
 

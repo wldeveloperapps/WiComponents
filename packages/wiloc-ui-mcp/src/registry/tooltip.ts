@@ -52,7 +52,7 @@ export const wiTooltipRegistryEntry = {
   variants: [],
   keyboard: ['Tab (focus muestra el tip en el host focusable)'],
   a11yNotes:
-    'Complementario: no usar como única fuente de información crítica. En icon-only el nombre accesible va en el botón (aria-label). Al abrir, el host recibe aria-describedby apuntando a role=tooltip. El host de [wiTooltip] debe generar caja CSS (evitar display:contents → tip en 0,0). button[wiButton] es inline-flex y admite [wiTooltip] en el mismo elemento. En táctil el soporte hover es limitado.',
+    'Complementario: no usar como única fuente de información crítica. En icon-only el nombre accesible va en el botón (aria-label). Al abrir, el host recibe aria-describedby apuntando a role=tooltip. El host de [wiTooltip] debe generar caja CSS (evitar display:contents → tip en 0,0). button[wiButton] es inline-flex y admite [wiTooltip] en el mismo elemento. En táctil el soporte hover es limitado. Al scroll fuera del tip (overflow interno o ventana) se oculta.',
   example: {
     import: `import { WiTooltipDirective } from '@wldeveloperapps/ui/overlays';`,
     template: `<button wiButton

@@ -174,7 +174,7 @@ export const wiSelectRegistryEntry = {
     'typeahead',
   ],
   a11yNotes:
-    'Requiere CSS de overlays CDK/Spartan en la app. El panel anclado sigue al trigger en scroll anidado (overflow interno); no hace falta cdkScrollable en la app.',
+    'Requiere CSS de overlays CDK/Spartan en la app. Al scroll fuera del panel (overflow interno o ventana) el select se cierra; el scroll dentro de la lista no. No hace falta cdkScrollable en la app.',
   example: {
     import: `import { WiSelectComponent } from '@wldeveloperapps/ui/forms';
 import { provideWiIcons } from '@wldeveloperapps/ui/icon';

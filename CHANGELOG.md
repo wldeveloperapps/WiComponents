@@ -18,6 +18,10 @@ Sexto corte interno de `@wldeveloperapps/ui` y `@wldeveloperapps/ui-mcp`. API ex
 
 - Padding de alineación de texto en `wi-datepicker` / `wi-date-range`
 
+### Changed
+
+- Overlays transitorios (`wi-select`, `wi-menu`, `[wiTooltip]`, filtros de `wi-table`, `wi-speed-dial`) **cierran** al hacer scroll fuera del panel; `wi-datepicker` / `wi-date-range`, `wi-popover` y `wi-confirm-popup` siguen reposicionando
+
 ## 0.1.0-alpha.5
 
 Quinto corte interno de `@wldeveloperapps/ui` y `@wldeveloperapps/ui-mcp`. API experimental: puede cambiar en el siguiente alpha.
