@@ -154,6 +154,18 @@ describe('WiButtonDirective', () => {
       expect(button().getAttribute('aria-busy')).toBe('true');
     });
 
+    it('replaces the icon with the spinner while an icon-only button is loading', () => {
+      fixture.componentInstance.iconOnly.set(true);
+      fixture.componentInstance.loading.set(true);
+      fixture.detectChanges();
+
+      const el = button();
+      expect(el.getAttribute('data-icon-only')).toBe('true');
+      expect(el.getAttribute('data-loading')).toBe('true');
+      expect(el.className).toContain('data-[icon-only]:data-[loading]:*:hidden');
+      expect(el.className).toContain('data-[loading]:before:block');
+    });
+
     it('applies icon-only sizing and aria-label', () => {
       fixture.componentInstance.iconOnly.set(true);
       fixture.componentInstance.ariaLabel.set('Eliminar');

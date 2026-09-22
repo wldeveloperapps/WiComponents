@@ -48,6 +48,7 @@ const HOST_CLASSES = [
   'before:border-t-transparent',
   'data-[loading]:before:block',
   'motion-safe:data-[loading]:before:animate-spin',
+  'data-[icon-only]:data-[loading]:*:hidden',
   'data-[variant=primary]:bg-primary',
   'data-[variant=primary]:text-on-primary',
   'data-[variant=primary]:hover:bg-primary/90',
@@ -87,6 +88,7 @@ const HOST_CLASSES = [
  * - Directivas sobre el elemento nativo: acción → `<button>`; navegación → `<a href>` / `routerLink`.
  * - Variantes y tamaños vía tokens semánticos.
  * - `loading` deshabilita el control, expone `aria-busy` y muestra un spinner CSS.
+ *   Con `iconOnly`, el spinner sustituye al icono.
  * - En `<a>`, `disabled` / `loading` usan `aria-disabled` + `tabindex="-1"` (no existe `disabled` nativo).
  * - Icon-only: `iconOnly` + `ariaLabel` (o `aria-label` nativo).
  *

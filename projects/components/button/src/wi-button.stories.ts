@@ -131,6 +131,12 @@ export const Loading: Story = {
       <div style="display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;">
         <button wiButton type="button" loading>Guardando</button>
         <button wiButton type="button" variant="danger" loading>Eliminando</button>
+        <button wiButton type="button" iconOnly ariaLabel="Crear" loading>
+          <wi-icon name="plus" size="sm" />
+        </button>
+        <button wiButton type="button" variant="outline" iconOnly ariaLabel="Eliminar" loading>
+          <wi-icon name="trash" size="sm" />
+        </button>
       </div>
     `,
   }),

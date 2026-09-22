@@ -31,7 +31,8 @@ export const wiButtonRegistryEntry = {
       name: 'loading',
       type: 'boolean',
       default: false,
-      description: 'Muestra spinner CSS, deshabilita el control y pone aria-busy',
+      description:
+        'Muestra spinner CSS, deshabilita el control y pone aria-busy. Con iconOnly el spinner sustituye al icono',
     },
     {
       name: 'disabled',
