@@ -46,6 +46,7 @@ import { envelopeOutline, envelopeSolid } from './envelope';
 import { exclamationCircleOutline, exclamationCircleSolid } from './exclamation-circle';
 import { exclamationTriangleOutline, exclamationTriangleSolid } from './exclamation-triangle';
 import { eyeOutline, eyeSolid } from './eye';
+import { eyeSlashOutline, eyeSlashSolid } from './eye-slash';
 import { flagOutline, flagSolid } from './flag';
 import { folderOutline, folderSolid } from './folder';
 import { forwardOutline, forwardSolid } from './forward';
@@ -137,6 +138,7 @@ export const WI_HEROICONS_CURATED: WiIconRegistry = {
   'exclamation-circle': { outline: exclamationCircleOutline, solid: exclamationCircleSolid },
   'exclamation-triangle': { outline: exclamationTriangleOutline, solid: exclamationTriangleSolid },
   eye: { outline: eyeOutline, solid: eyeSolid },
+  'eye-slash': { outline: eyeSlashOutline, solid: eyeSlashSolid },
   flag: { outline: flagOutline, solid: flagSolid },
   folder: { outline: folderOutline, solid: folderSolid },
   forward: { outline: forwardOutline, solid: forwardSolid },

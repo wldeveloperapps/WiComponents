@@ -2,6 +2,7 @@ import {
   booleanAttribute,
   Component,
   computed,
+  effect,
   forwardRef,
   input,
   model,
@@ -10,6 +11,13 @@ import {
 } from '@angular/core';
 import { type ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import type { FormValueControl } from '@angular/forms/signals';
+import { WI_ICONS, WiIconComponent } from '@wldeveloperapps/ui/icon';
+import {
+  eyeOutline,
+  eyeSlashOutline,
+  eyeSlashSolid,
+  eyeSolid,
+} from '@wldeveloperapps/ui/icon/heroicons';
 
 import type { WiInputSize, WiInputType } from './wi-input.types';
 
@@ -43,6 +51,32 @@ const SIZE_CLASSES: Record<WiInputSize, string> = {
   lg: 'h-control-lg px-4 text-base',
 };
 
+const TOGGLE_BUTTON_CLASSES = [
+  'absolute',
+  'right-1',
+  'top-1/2',
+  '-translate-y-1/2',
+  'inline-flex',
+  'size-8',
+  'shrink-0',
+  'items-center',
+  'justify-center',
+  'rounded-control',
+  'text-on-surface-variant',
+  'transition-colors',
+  'hover:bg-surface-variant',
+  'focus-visible:outline-none',
+  'focus-visible:ring-2',
+  'focus-visible:ring-ring',
+  'focus-visible:ring-offset-2',
+  'focus-visible:ring-offset-background',
+].join(' ');
+
+const PASSWORD_TOGGLE_ICONS = {
+  eye: { outline: eyeOutline, solid: eyeSolid },
+  'eye-slash': { outline: eyeSlashOutline, solid: eyeSlashSolid },
+};
+
 let nextInputId = 0;
 
 /**
@@ -51,14 +85,21 @@ let nextInputId = 0;
  * - Tokens semánticos y tamaños alineados con `wi-button`.
  * - `FormValueControl` para Signal Forms (`[formField]`).
  * - `ControlValueAccessor` para Reactive Forms / `ngModel`.
+ * - `type="password"` incluye botón de revelar/ocultar (chrome del design system).
  * - Label, hint y error quedan fuera (composición `wi-field` prevista).
  */
 @Component({
   selector: 'wi-input',
+  imports: [WiIconComponent],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => WiInputComponent),
+      multi: true,
+    },
+    {
+      provide: WI_ICONS,
+      useValue: PASSWORD_TOGGLE_ICONS,
       multi: true,
     },
   ],
@@ -66,24 +107,39 @@ let nextInputId = 0;
     class: 'wi-input contents',
   },
   template: `
-    <input
-      [attr.id]="resolvedId()"
-      [attr.name]="name() || null"
-      [attr.type]="type()"
-      [attr.placeholder]="placeholder() || null"
-      [attr.autocomplete]="autocomplete()"
-      [attr.aria-label]="ariaLabel()"
-      [attr.aria-describedby]="ariaDescribedBy()"
-      [attr.aria-invalid]="invalid() || null"
-      [attr.aria-required]="required() || null"
-      [attr.required]="required() || null"
-      [class]="classes()"
-      [value]="value()"
-      [disabled]="isDisabled()"
-      [readonly]="readonly()"
-      (input)="onNativeInput($event)"
-      (blur)="onNativeBlur()"
-    />
+    <div class="relative w-full min-w-0">
+      <input
+        [attr.id]="resolvedId()"
+        [attr.name]="name() || null"
+        [attr.type]="nativeType()"
+        [attr.placeholder]="placeholder() || null"
+        [attr.autocomplete]="autocomplete()"
+        [attr.aria-label]="ariaLabel()"
+        [attr.aria-describedby]="ariaDescribedBy()"
+        [attr.aria-invalid]="invalid() || null"
+        [attr.aria-required]="required() || null"
+        [attr.required]="required() || null"
+        [class]="classes()"
+        [value]="value()"
+        [disabled]="isDisabled()"
+        [readonly]="readonly()"
+        (input)="onNativeInput($event)"
+        (blur)="onNativeBlur()"
+      />
+      @if (showToggle()) {
+        <button
+          type="button"
+          [class]="toggleButtonClasses"
+          [attr.aria-label]="toggleAriaLabel()"
+          [attr.aria-pressed]="revealed()"
+          [attr.aria-controls]="resolvedId()"
+          (mousedown)="$event.preventDefault()"
+          (click)="togglePasswordVisibility()"
+        >
+          <wi-icon [name]="revealed() ? 'eye-slash' : 'eye'" size="sm" />
+        </button>
+      }
+    </div>
   `,
 })
 export class WiInputComponent implements ControlValueAccessor, FormValueControl<string> {
@@ -108,20 +164,54 @@ export class WiInputComponent implements ControlValueAccessor, FormValueControl<
   readonly invalid = input(false, { transform: booleanAttribute });
   readonly required = input(false, { transform: booleanAttribute });
 
+  /** Muestra el botón de revelar/ocultar cuando `type="password"`. */
+  readonly passwordToggle = input(true, { transform: booleanAttribute });
+  /** Nombre accesible del botón cuando la contraseña está oculta. */
+  readonly showPasswordLabel = input('Show password');
+  /** Nombre accesible del botón cuando la contraseña está visible. */
+  readonly hidePasswordLabel = input('Hide password');
+
   /** Emite en blur para Signal Forms (`debounce('blur')`, touched). */
   readonly touch = output<void>();
 
   private readonly generatedId = `wi-input-${++nextInputId}`;
   private readonly cvaDisabled = signal(false);
+  protected readonly revealed = signal(false);
 
   private onChange: (value: string) => void = () => undefined;
   private onTouched: () => void = () => undefined;
+
+  protected readonly toggleButtonClasses = TOGGLE_BUTTON_CLASSES;
 
   protected readonly resolvedId = computed(() => this.id() ?? this.generatedId);
 
   protected readonly isDisabled = computed(() => this.disabled() || this.cvaDisabled());
 
-  protected readonly classes = computed(() => [BASE_CLASSES, SIZE_CLASSES[this.size()]].join(' '));
+  protected readonly showToggle = computed(
+    () => this.type() === 'password' && this.passwordToggle() && !this.isDisabled(),
+  );
+
+  protected readonly nativeType = computed(() =>
+    this.showToggle() && this.revealed() ? 'text' : this.type(),
+  );
+
+  protected readonly toggleAriaLabel = computed(() =>
+    this.revealed() ? this.hidePasswordLabel() : this.showPasswordLabel(),
+  );
+
+  protected readonly classes = computed(() =>
+    [BASE_CLASSES, SIZE_CLASSES[this.size()], this.showToggle() ? 'pr-10' : '']
+      .filter(Boolean)
+      .join(' '),
+  );
+
+  constructor() {
+    effect(() => {
+      if (!this.showToggle()) {
+        this.revealed.set(false);
+      }
+    });
+  }
 
   writeValue(value: string | null): void {
     this.value.set(value ?? '');
@@ -137,6 +227,10 @@ export class WiInputComponent implements ControlValueAccessor, FormValueControl<
 
   setDisabledState(isDisabled: boolean): void {
     this.cvaDisabled.set(isDisabled);
+  }
+
+  protected togglePasswordVisibility(): void {
+    this.revealed.update((current) => !current);
   }
 
   protected onNativeInput(event: Event): void {

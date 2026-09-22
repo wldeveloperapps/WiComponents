@@ -19,7 +19,7 @@ const meta: Meta<WiInputStoryArgs> = {
     docs: {
       description: {
         component:
-          'Campo de texto. `placeholder` / `ariaLabel` / hints vía la app (ver Documentation/I18n). Compatible con Reactive Forms y Signal Forms. Events: `valueChange`, `touch`. El autocompletado nativo se ancla al viewport (se despega en overflow interno); en shells con scroll usa `autocomplete="off"` (los filtros de `wi-table` ya lo hacen).',
+          'Campo de texto. Con `type="password"` incluye botón de revelar/ocultar (`passwordToggle`, labels accesibles). `placeholder` / `ariaLabel` / hints vía la app (ver Documentation/I18n). Compatible con Reactive Forms y Signal Forms. Events: `valueChange`, `touch`. El autocompletado nativo se ancla al viewport (se despega en overflow interno); en shells con scroll usa `autocomplete="off"` (los filtros de `wi-table` ya lo hacen).',
       },
     },
   },
@@ -42,6 +42,18 @@ const meta: Meta<WiInputStoryArgs> = {
     readonly: { control: 'boolean' },
     invalid: { control: 'boolean' },
     required: { control: 'boolean' },
+    passwordToggle: {
+      control: 'boolean',
+      description: 'Botón de revelar/ocultar cuando type="password"',
+    },
+    showPasswordLabel: {
+      control: 'text',
+      description: 'aria-label del botón cuando la contraseña está oculta',
+    },
+    hidePasswordLabel: {
+      control: 'text',
+      description: 'aria-label del botón cuando la contraseña está visible',
+    },
     autocomplete: { control: 'text' },
     ariaLabel: { control: 'text' },
     valueChange: {
@@ -65,6 +77,9 @@ const meta: Meta<WiInputStoryArgs> = {
     readonly: false,
     invalid: false,
     required: false,
+    passwordToggle: true,
+    showPasswordLabel: 'Show password',
+    hidePasswordLabel: 'Hide password',
     ariaLabel: 'Nombre',
     valueChange: fn(),
     touch: fn(),
@@ -93,6 +108,9 @@ export const Default: Story = {
           [readonly]="readonly"
           [invalid]="invalid"
           [required]="required"
+          [passwordToggle]="passwordToggle"
+          [showPasswordLabel]="showPasswordLabel"
+          [hidePasswordLabel]="hidePasswordLabel"
           [autocomplete]="autocomplete"
           [ariaLabel]="ariaLabel"
         />

@@ -160,4 +160,89 @@ describe('WiInputComponent', () => {
     expect(() => inputFixture.detectChanges()).not.toThrow();
     expect(inputFixture.componentInstance).toBeTruthy();
   });
+
+  function passwordToggleButton(): HTMLButtonElement | null {
+    return fixture.nativeElement.querySelector('button[type="button"]');
+  }
+
+  it('does not render a password toggle for non-password types', () => {
+    fixture.componentRef.setInput('type', 'text');
+    fixture.detectChanges();
+    expect(passwordToggleButton()).toBeNull();
+  });
+
+  it('renders a password toggle that reveals and remasks without changing value or focus', () => {
+    fixture.componentRef.setInput('type', 'password');
+    fixture.componentInstance.value.set('secret');
+    fixture.detectChanges();
+
+    const el = nativeInput();
+    el.focus();
+    expect(el.getAttribute('type')).toBe('password');
+    expect(el.className).toContain('pr-10');
+
+    const toggle = passwordToggleButton();
+    expect(toggle).toBeTruthy();
+    expect(toggle?.getAttribute('aria-label')).toBe('Show password');
+    expect(toggle?.getAttribute('aria-pressed')).toBe('false');
+    expect(toggle?.getAttribute('aria-controls')).toBe(el.id);
+
+    toggle?.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true }));
+    toggle?.click();
+    fixture.detectChanges();
+
+    expect(nativeInput().getAttribute('type')).toBe('text');
+    expect(fixture.componentInstance.value()).toBe('secret');
+    expect(document.activeElement).toBe(el);
+    expect(passwordToggleButton()?.getAttribute('aria-label')).toBe('Hide password');
+    expect(passwordToggleButton()?.getAttribute('aria-pressed')).toBe('true');
+
+    passwordToggleButton()?.click();
+    fixture.detectChanges();
+    expect(nativeInput().getAttribute('type')).toBe('password');
+  });
+
+  it('hides the password toggle when passwordToggle is false', () => {
+    fixture.componentRef.setInput('type', 'password');
+    fixture.componentRef.setInput('passwordToggle', false);
+    fixture.detectChanges();
+    expect(passwordToggleButton()).toBeNull();
+    expect(nativeInput().getAttribute('type')).toBe('password');
+  });
+
+  it('removes the toggle and remasks when disabled', () => {
+    fixture.componentRef.setInput('type', 'password');
+    fixture.detectChanges();
+
+    passwordToggleButton()?.click();
+    fixture.detectChanges();
+    expect(nativeInput().getAttribute('type')).toBe('text');
+
+    fixture.componentRef.setInput('disabled', true);
+    fixture.detectChanges();
+
+    expect(passwordToggleButton()).toBeNull();
+    expect(nativeInput().getAttribute('type')).toBe('password');
+    expect(nativeInput().disabled).toBe(true);
+  });
+
+  it('keeps the password toggle when readonly', () => {
+    fixture.componentRef.setInput('type', 'password');
+    fixture.componentRef.setInput('readonly', true);
+    fixture.detectChanges();
+    expect(passwordToggleButton()).toBeTruthy();
+  });
+
+  it('uses custom show/hide password labels', () => {
+    fixture.componentRef.setInput('type', 'password');
+    fixture.componentRef.setInput('showPasswordLabel', 'Mostrar contraseña');
+    fixture.componentRef.setInput('hidePasswordLabel', 'Ocultar contraseña');
+    fixture.detectChanges();
+
+    expect(passwordToggleButton()?.getAttribute('aria-label')).toBe('Mostrar contraseña');
+
+    passwordToggleButton()?.click();
+    fixture.detectChanges();
+    expect(passwordToggleButton()?.getAttribute('aria-label')).toBe('Ocultar contraseña');
+  });
 });

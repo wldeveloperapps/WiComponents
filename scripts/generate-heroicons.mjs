@@ -52,6 +52,7 @@ const ICONS = [
   'exclamation-circle',
   'exclamation-triangle',
   'eye',
+  'eye-slash',
   'flag',
   'folder',
   'forward',

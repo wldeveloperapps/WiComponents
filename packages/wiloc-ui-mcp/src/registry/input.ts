@@ -77,6 +77,24 @@ export const wiInputRegistryEntry = {
       description: 'Marca el campo como requerido (attr + aria-required)',
     },
     {
+      name: 'passwordToggle',
+      type: 'boolean',
+      default: true,
+      description: 'Botón de revelar/ocultar cuando type="password"',
+    },
+    {
+      name: 'showPasswordLabel',
+      type: 'string',
+      default: "'Show password'",
+      description: 'aria-label del botón cuando la contraseña está oculta (i18n de la app)',
+    },
+    {
+      name: 'hidePasswordLabel',
+      type: 'string',
+      default: "'Hide password'",
+      description: 'aria-label del botón cuando la contraseña está visible (i18n de la app)',
+    },
+    {
       name: 'ariaLabel',
       type: 'string | null',
       default: null,
@@ -97,13 +115,20 @@ export const wiInputRegistryEntry = {
     },
   ],
   variants: [],
-  keyboard: ['Tab', 'character input'],
+  keyboard: ['Tab', 'character input', 'Enter/Space on password toggle'],
   a11yNotes:
-    'Input nativo. Asociar label vía id, o ariaLabel. Errores/hints vía ariaDescribedBy (texto de la app). invalid expone aria-invalid. placeholder/ariaLabel son i18n de la app; @wldeveloperapps/ui no incluye diccionarios.',
+    'Input nativo. Asociar label vía id, o ariaLabel. Errores/hints vía ariaDescribedBy (texto de la app). invalid expone aria-invalid. Con type=password el botón de revelar usa showPasswordLabel/hidePasswordLabel, aria-pressed y aria-controls. placeholder/ariaLabel/labels del toggle son i18n de la app; @wldeveloperapps/ui no incluye diccionarios.',
   example: {
     import: `import { WiInputComponent } from '@wldeveloperapps/ui/forms';`,
     template: `<!-- i18n: strings desde la app -->
 <label for="email">Correo</label>
-<wi-input id="email" type="email" placeholder="correo@ejemplo.com" />`,
+<wi-input id="email" type="email" placeholder="correo@ejemplo.com" />
+<label for="password">Contraseña</label>
+<wi-input
+  id="password"
+  type="password"
+  showPasswordLabel="Mostrar contraseña"
+  hidePasswordLabel="Ocultar contraseña"
+/>`,
   },
 } as const;

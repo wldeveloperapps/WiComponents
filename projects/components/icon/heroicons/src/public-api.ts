@@ -43,6 +43,7 @@ export { envelopeOutline, envelopeSolid } from './envelope';
 export { exclamationCircleOutline, exclamationCircleSolid } from './exclamation-circle';
 export { exclamationTriangleOutline, exclamationTriangleSolid } from './exclamation-triangle';
 export { eyeOutline, eyeSolid } from './eye';
+export { eyeSlashOutline, eyeSlashSolid } from './eye-slash';
 export { flagOutline, flagSolid } from './flag';
 export { folderOutline, folderSolid } from './folder';
 export { forwardOutline, forwardSolid } from './forward';

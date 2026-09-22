@@ -210,7 +210,7 @@ Storybook: **Documentation → Z-index** (contrato) y **Overlays → Nested scro
 
 No hay \`wi-form-field\` en 0.1.0-alpha.6: label, descripción y error los compone la app (\`<label>\` + \`role="alert"\` + \`aria-describedby\`).
 
-Password: usa \`<wi-input type="password">\`, no hay componente aparte.
+Password: usa \`<wi-input type="password">\` (botón de revelar/ocultar por defecto; apagar con \`[passwordToggle]="false"\`). No hay componente aparte.
 Select múltiple: \`<wi-select [multiple]="true">\`.`,
   },
 ];
