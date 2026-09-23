@@ -96,7 +96,7 @@ Color: \`currentColor\` / clases en el host. A11y: sin \`label\` → decorativo;
     name: 'home',
     variant: 'outline',
     size: 'lg',
-    label: null,
+    label: '',
   },
 };
 
@@ -139,35 +139,18 @@ export const Sizes: Story = {
   }),
 };
 
-export const Outline: Story = {
-  args: {
-    name: 'trash',
-    variant: 'outline',
-    size: 'xl',
-  },
-  render: (args) => ({
-    props: args,
+export const Variants: Story = {
+  render: () => ({
     template: `
-      <div style="display:flex;align-items:center;gap:12px;font:16px/1.4 system-ui;color:#111;">
-        <wi-icon [name]="name" [variant]="variant" [size]="size" [label]="label" />
-        <span>trash outline</span>
-      </div>
-    `,
-  }),
-};
-
-export const Solid: Story = {
-  args: {
-    name: 'trash',
-    variant: 'solid',
-    size: 'xl',
-  },
-  render: (args) => ({
-    props: args,
-    template: `
-      <div style="display:flex;align-items:center;gap:12px;font:16px/1.4 system-ui;color:#111;">
-        <wi-icon [name]="name" [variant]="variant" [size]="size" [label]="label" />
-        <span>trash solid</span>
+      <div style="display:flex;align-items:center;gap:2rem;font:16px/1.4 system-ui;color:#111;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <wi-icon name="trash" variant="outline" size="xl" />
+          <span>outline</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <wi-icon name="trash" variant="solid" size="xl" />
+          <span>solid</span>
+        </div>
       </div>
     `,
   }),
@@ -181,25 +164,6 @@ export const Colors: Story = {
         <wi-icon name="check" style="color:#16a34a" size="lg" />
         <wi-icon name="information-circle" style="color:#2563eb" size="lg" />
       </div>
-    `,
-  }),
-};
-
-export const Decorative: Story = {
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Sin `label`: el icono es decorativo (`aria-hidden`). El significado lo aporta el texto del botón.',
-      },
-    },
-  },
-  render: () => ({
-    template: `
-      <button type="button" style="display:inline-flex;align-items:center;gap:0.5rem;">
-        <wi-icon name="plus" />
-        Crear usuario
-      </button>
     `,
   }),
 };
@@ -221,11 +185,19 @@ export const AccessibleLabel: Story = {
 };
 
 export const InsideButton: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Sin `label`: el icono es decorativo (`aria-hidden`). El significado lo aporta el texto del botón.',
+      },
+    },
+  },
   render: () => ({
     template: `
       <button type="button" style="display:inline-flex;align-items:center;gap:0.5rem;">
-        <wi-icon name="trash" />
-        Eliminar
+        <wi-icon name="plus" />
+        Crear usuario
       </button>
     `,
   }),

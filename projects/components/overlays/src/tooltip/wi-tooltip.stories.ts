@@ -1,17 +1,31 @@
 import { Directionality } from '@angular/cdk/bidi';
 import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { applicationConfig, moduleMetadata } from '@storybook/angular-vite';
+import { fn } from 'storybook/test';
 
 import { WiButtonDirective } from '../../../button/src/public-api';
 import { trashOutline } from '../../../icon/heroicons/src/trash';
 import { provideWiIcons, WiIconComponent } from '../../../icon/src/public-api';
 import { provideWiTooltipGroup, WiTooltipDirective } from '../public-api';
 
-const meta: Meta = {
+type TooltipStoryArgs = {
+  wiTooltip: string;
+  position: 'top' | 'bottom' | 'left' | 'right';
+  showDelay: number;
+  hideDelay: number;
+  tooltipDisabled: boolean;
+  show: ReturnType<typeof fn>;
+  hide: ReturnType<typeof fn>;
+};
+
+const meta: Meta<TooltipStoryArgs> = {
   title: 'Overlays/WiTooltip',
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
+    controls: {
+      include: ['wiTooltip', 'position', 'showDelay', 'hideDelay', 'tooltipDisabled'],
+    },
     docs: {
       description: {
         component: `
@@ -22,6 +36,7 @@ Tooltip complementario vía \`"wiTooltip"\` (string o \`TemplateRef\`).
 - **Host con caja CSS (obligatorio):** el overlay se ancla con \`getBoundingClientRect()\` del elemento que lleva \`[wiTooltip]\`. Si ese elemento usa \`display: contents\` (u otro modo sin caja), el tip aparece en **(0,0)**. Aplica a wrappers custom, no solo a botones. Ver story **HostMustHaveBox**.
 - \`wi-button\` usa host \`inline-flex\` (medible): se puede poner \`[wiTooltip]\` directamente en \`<button wiButton>\`.
 - Responsive: cerca del borde del viewport el overlay hace flip (\`top\` ↔ \`bottom\`, etc.).
+- Events: \`show\`, \`hide\`.
         `,
       },
     },
@@ -48,6 +63,18 @@ Tooltip complementario vía \`"wiTooltip"\` (string o \`TemplateRef\`).
     showDelay: { control: 'number' },
     hideDelay: { control: 'number' },
     tooltipDisabled: { control: 'boolean' },
+    show: {
+      action: 'show',
+      description: 'Se emite al mostrar el tooltip',
+      table: { category: 'Events' },
+      control: false,
+    },
+    hide: {
+      action: 'hide',
+      description: 'Se emite al ocultar el tooltip',
+      table: { category: 'Events' },
+      control: false,
+    },
   },
   args: {
     wiTooltip: 'Acción de ejemplo',
@@ -55,11 +82,13 @@ Tooltip complementario vía \`"wiTooltip"\` (string o \`TemplateRef\`).
     showDelay: 150,
     hideDelay: 100,
     tooltipDisabled: false,
+    show: fn(),
+    hide: fn(),
   },
 };
 
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<TooltipStoryArgs>;
 
 export const Default: Story = {
   render: (args) => ({
@@ -73,6 +102,8 @@ export const Default: Story = {
         [showDelay]="showDelay"
         [hideDelay]="hideDelay"
         [tooltipDisabled]="tooltipDisabled"
+        (show)="show()"
+        (hide)="hide()"
       >
         Hover o focus
       </button>
@@ -81,26 +112,30 @@ export const Default: Story = {
 };
 
 export const Positions: Story = {
-  render: () => ({
+  render: (args) => ({
+    props: args,
     template: `
       <div class="flex flex-wrap items-center justify-center gap-4 p-8">
-        <button type="button" class="rounded-control border border-outline-variant px-3 py-2 text-sm text-on-surface" wiTooltip="Arriba" position="top">top</button>
-        <button type="button" class="rounded-control border border-outline-variant px-3 py-2 text-sm text-on-surface" wiTooltip="Abajo" position="bottom">bottom</button>
-        <button type="button" class="rounded-control border border-outline-variant px-3 py-2 text-sm text-on-surface" wiTooltip="Izquierda" position="left">left</button>
-        <button type="button" class="rounded-control border border-outline-variant px-3 py-2 text-sm text-on-surface" wiTooltip="Derecha" position="right">right</button>
+        <button type="button" class="rounded-control border border-outline-variant px-3 py-2 text-sm text-on-surface" wiTooltip="Arriba" position="top" (show)="show()" (hide)="hide()">top</button>
+        <button type="button" class="rounded-control border border-outline-variant px-3 py-2 text-sm text-on-surface" wiTooltip="Abajo" position="bottom" (show)="show()" (hide)="hide()">bottom</button>
+        <button type="button" class="rounded-control border border-outline-variant px-3 py-2 text-sm text-on-surface" wiTooltip="Izquierda" position="left" (show)="show()" (hide)="hide()">left</button>
+        <button type="button" class="rounded-control border border-outline-variant px-3 py-2 text-sm text-on-surface" wiTooltip="Derecha" position="right" (show)="show()" (hide)="hide()">right</button>
       </div>
     `,
   }),
 };
 
 export const Disabled: Story = {
-  render: () => ({
+  render: (args) => ({
+    props: args,
     template: `
       <button
         type="button"
         class="rounded-control border border-outline-variant px-3 py-2 text-sm text-on-surface"
         wiTooltip="No debería verse"
         [tooltipDisabled]="true"
+        (show)="show()"
+        (hide)="hide()"
       >
         Tooltip deshabilitado
       </button>
@@ -109,7 +144,8 @@ export const Disabled: Story = {
 };
 
 export const Delays: Story = {
-  render: () => ({
+  render: (args) => ({
+    props: args,
     template: `
       <button
         type="button"
@@ -117,6 +153,8 @@ export const Delays: Story = {
         wiTooltip="Aparece tras 600 ms"
         [showDelay]="600"
         [hideDelay]="200"
+        (show)="show()"
+        (hide)="hide()"
       >
         Delay largo
       </button>
@@ -125,7 +163,8 @@ export const Delays: Story = {
 };
 
 export const IconOnly: Story = {
-  render: () => ({
+  render: (args) => ({
+    props: args,
     template: `
       <button wiButton
         type="button"
@@ -136,6 +175,8 @@ export const IconOnly: Story = {
         position="top"
         [showDelay]="0"
         [hideDelay]="0"
+        (show)="show()"
+        (hide)="hide()"
       >
         <wi-icon name="trash" />
       </button>
@@ -185,7 +226,8 @@ Si un componente propio usa \`contents\` en el host y necesita tooltip/popover, 
       },
     },
   },
-  render: () => ({
+  render: (args) => ({
+    props: args,
     template: `
       <div class="flex flex-col gap-6 text-sm text-on-surface">
         <div class="flex flex-wrap items-center gap-3">
@@ -196,6 +238,8 @@ Si un componente propio usa \`contents\` en el host y necesita tooltip/popover, 
             wiTooltip="Anclado al botón"
             [showDelay]="0"
             [hideDelay]="0"
+            (show)="show()"
+            (hide)="hide()"
           >
             Con caja
           </button>
@@ -205,13 +249,15 @@ Si un componente propio usa \`contents\` en el host y necesita tooltip/popover, 
             wiTooltip="Anclado a wi-button"
             [showDelay]="0"
             [hideDelay]="0"
+            (show)="show()"
+            (hide)="hide()"
           >
             wi-button
           </button>
         </div>
         <div class="flex flex-wrap items-center gap-3">
           <span class="text-on-surface-variant">Incorrecto (contents → 0,0):</span>
-          <span class="contents" wiTooltip="Aparece arriba a la izquierda" [showDelay]="0" [hideDelay]="0">
+          <span class="contents" wiTooltip="Aparece arriba a la izquierda" [showDelay]="0" [hideDelay]="0" (show)="show()" (hide)="hide()">
             <button type="button" class="rounded-control border border-error px-3 py-2 text-error">
               Host sin caja
             </button>
@@ -237,9 +283,10 @@ export const DarkMode: Story = {
       },
     },
   },
-  render: () => ({
+  render: (args) => ({
+    props: args,
     template: `
-      <div class="p-8">
+      <div class="wi-dark p-8 bg-background text-on-background">
         <button
           type="button"
           class="rounded-control bg-primary px-4 py-2 text-sm text-on-primary"
@@ -247,6 +294,8 @@ export const DarkMode: Story = {
           position="bottom"
           [showDelay]="0"
           [hideDelay]="0"
+          (show)="show()"
+          (hide)="hide()"
         >
           Dark mode
         </button>
@@ -261,12 +310,13 @@ export const GroupSkipDelay: Story = {
       providers: [Directionality, provideWiTooltipGroup({ skipDelayDuration: 800 })],
     }),
   ],
-  render: () => ({
+  render: (args) => ({
+    props: args,
     template: `
       <div class="flex flex-wrap gap-3">
-        <button type="button" class="rounded-control border border-outline-variant px-3 py-2 text-sm" wiTooltip="Uno" [showDelay]="200" [hideDelay]="0">Uno</button>
-        <button type="button" class="rounded-control border border-outline-variant px-3 py-2 text-sm" wiTooltip="Dos" [showDelay]="200" [hideDelay]="0">Dos</button>
-        <button type="button" class="rounded-control border border-outline-variant px-3 py-2 text-sm" wiTooltip="Tres" [showDelay]="200" [hideDelay]="0">Tres</button>
+        <button type="button" class="rounded-control border border-outline-variant px-3 py-2 text-sm" wiTooltip="Uno" [showDelay]="200" [hideDelay]="0" (show)="show()" (hide)="hide()">Uno</button>
+        <button type="button" class="rounded-control border border-outline-variant px-3 py-2 text-sm" wiTooltip="Dos" [showDelay]="200" [hideDelay]="0" (show)="show()" (hide)="hide()">Dos</button>
+        <button type="button" class="rounded-control border border-outline-variant px-3 py-2 text-sm" wiTooltip="Tres" [showDelay]="200" [hideDelay]="0" (show)="show()" (hide)="hide()">Tres</button>
       </div>
     `,
   }),
@@ -290,7 +340,8 @@ export const NearViewportEdge: Story = {
       },
     },
   },
-  render: () => ({
+  render: (args) => ({
+    props: args,
     template: `
       <div class="flex min-h-40 items-start justify-center p-2">
         <button
@@ -300,6 +351,8 @@ export const NearViewportEdge: Story = {
           position="top"
           [showDelay]="0"
           [hideDelay]="0"
+          (show)="show()"
+          (hide)="hide()"
         >
           Cerca del borde
         </button>

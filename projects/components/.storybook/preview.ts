@@ -22,6 +22,18 @@ import './palettes/iiot.css';
 
 setCompodocJson(docJson);
 
+/**
+ * En Docs, autodocs monta todas las stories en el mismo documento. Una story
+ * DarkMode con `globals.theme = 'dark'` pondría `.wi-dark` en `<html>` y
+ * contaminaría el resto de previews. Guardamos el tema del toolbar (stories
+ * que no son DarkMode) y las DarkMode usan wrapper local `.wi-dark`.
+ */
+let docsToolbarTheme: 'light' | 'dark' = 'light';
+
+function isDarkModeStoryId(storyId: string): boolean {
+  return /--dark-mode$|--dark$|dark-mode/i.test(storyId);
+}
+
 const preview: Preview = {
   globalTypes: {
     theme: {
@@ -78,11 +90,21 @@ const preview: Preview = {
       ],
     }),
     (storyFn, context) => {
-      const theme = context.globals['theme'] as string;
+      const theme = (context.globals['theme'] as string) === 'dark' ? 'dark' : 'light';
       const locale = (context.globals['locale'] as StorybookLocale) ?? 'es';
       const palette = (context.globals['palette'] as string) ?? STORYBOOK_PALETTES[0].id;
+      const isDocs = context.viewMode === 'docs';
+      const storyId = String(context.id ?? '');
 
-      document.documentElement.classList.toggle(WI_DARK_CLASS, theme === 'dark');
+      if (isDocs) {
+        if (!isDarkModeStoryId(storyId)) {
+          docsToolbarTheme = theme;
+        }
+        document.documentElement.classList.toggle(WI_DARK_CLASS, docsToolbarTheme === 'dark');
+      } else {
+        document.documentElement.classList.toggle(WI_DARK_CLASS, theme === 'dark');
+      }
+
       applyStorybookPalette(palette);
       setStorybookLocale(locale);
       document.documentElement.lang = locale;

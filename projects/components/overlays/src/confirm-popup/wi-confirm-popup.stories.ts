@@ -14,7 +14,6 @@ import {
   WiConfirmationService,
   WiConfirmPopupComponent,
   WiConfirmPopupTriggerDirective,
-  provideWiOverlaysI18n,
 } from '../public-api';
 
 interface WiConfirmPopupStoryArgs {
@@ -186,6 +185,55 @@ export class AppShell {
 
   private delete(): void {}
   private archive(): void {}
+}
+`;
+
+const SERVICE_TABLE_USAGE_SOURCE = `import { Component, inject } from '@angular/core';
+import {
+  WiConfirmationService,
+  WiConfirmPopupComponent,
+} from '@wldeveloperapps/ui/overlays';
+import { WiButtonDirective } from '@wldeveloperapps/ui/button';
+
+@Component({
+  selector: 'app-row-list',
+  imports: [WiConfirmPopupComponent, WiButtonDirective],
+  template: \`
+    <!-- Un solo host para todas las filas -->
+    <wi-confirm-popup key="row-delete" align="end" />
+
+    @for (row of rows; track row.id) {
+      <div class="flex items-center justify-between gap-4 border-b px-4 py-3 last:border-b-0">
+        <span class="text-sm">{{ row.label }}</span>
+        <button wiButton type="button" size="sm" variant="danger" (click)="deleteRow($event, row)">
+          Eliminar
+        </button>
+      </div>
+    }
+  \`,
+})
+export class RowListComponent {
+  private readonly confirmation = inject(WiConfirmationService);
+
+  readonly rows = [
+    { id: 'a', label: 'Fila A' },
+    { id: 'b', label: 'Fila B' },
+    { id: 'c', label: 'Fila C' },
+  ];
+
+  deleteRow(event: Event, row: { id: string; label: string }): void {
+    void this.confirmation.confirm({
+      key: 'row-delete',
+      target: event.currentTarget as HTMLElement,
+      title: \`Eliminar \${row.label}\`,
+      description: 'Esta acción no se puede deshacer.',
+      confirmLabel: 'Eliminar',
+      confirmVariant: 'danger',
+      accept: () => this.remove(row.id),
+    });
+  }
+
+  private remove(_id: string): void {}
 }
 `;
 
@@ -373,12 +421,7 @@ Escape / clic fuera → \`'dismissed'\` (no llama \`reject\`).
   },
   decorators: [
     applicationConfig({
-      providers: [
-        Directionality,
-        provideWiOverlaysI18n({
-          confirmCancelLabel: () => 'Cancelar',
-        }),
-      ],
+      providers: [Directionality],
     }),
     moduleMetadata({
       imports: confirmImports,
@@ -390,6 +433,12 @@ Escape / clic fuera → \`'dismissed'\` (no llama \`reject\`).
       control: 'text',
       table: { category: 'Service' },
       description: 'Key para WiConfirmationService',
+    },
+    state: {
+      control: 'select',
+      options: ['open', 'closed'],
+      table: { category: 'Popup' },
+      description: "Model `open` | `closed`",
     },
     size: {
       control: 'select',
@@ -403,6 +452,15 @@ Escape / clic fuera → \`'dismissed'\` (no llama \`reject\`).
     },
     sideOffset: {
       control: 'number',
+      table: { category: 'Popup' },
+    },
+    offsetX: {
+      control: 'number',
+      table: { category: 'Popup' },
+      description: 'Desplazamiento horizontal del panel',
+    },
+    closeOnOutsidePointerEvents: {
+      control: 'boolean',
       table: { category: 'Popup' },
     },
     title: {
@@ -448,7 +506,7 @@ Escape / clic fuera → \`'dismissed'\` (no llama \`reject\`).
     },
     closed: {
       action: 'closed',
-      description: "Se emite al cerrar ('confirmed' | 'cancelled' | dismiss)",
+      description: "Se emite al cerrar ('confirmed' | 'cancelled' | 'dismissed')",
       table: { category: 'Events' },
       control: false,
     },
@@ -461,9 +519,12 @@ Escape / clic fuera → \`'dismissed'\` (no llama \`reject\`).
   },
   args: {
     key: '',
+    state: 'closed',
     size: 'sm',
     align: 'center',
     sideOffset: 8,
+    offsetX: 0,
+    closeOnOutsidePointerEvents: true,
     title: 'Eliminar fila',
     description: 'Esta acción no se puede deshacer.',
     confirmLabel: 'Eliminar',
@@ -486,9 +547,12 @@ export const Default: Story = {
     props: args,
     template: `
       <wi-confirm-popup
+        [(state)]="state"
         [size]="size"
         [align]="align"
         [sideOffset]="sideOffset"
+        [offsetX]="offsetX"
+        [closeOnOutsidePointerEvents]="closeOnOutsidePointerEvents"
         [title]="title"
         [description]="description"
         [confirmLabel]="confirmLabel"
@@ -532,33 +596,6 @@ export const PrimaryConfirm: Story = {
         (stateChanged)="stateChanged($event)"
       >
         <button wiButton type="button" wiConfirmPopupTrigger>Publicar</button>
-      </wi-confirm-popup>
-    `,
-  }),
-};
-
-export const AlignStart: Story = {
-  args: {
-    align: 'start',
-  },
-  render: (args) => ({
-    props: args,
-    template: `
-      <wi-confirm-popup
-        [size]="size"
-        [align]="align"
-        [sideOffset]="sideOffset"
-        [title]="title"
-        [description]="description"
-        [confirmLabel]="confirmLabel"
-        [cancelLabel]="cancelLabel"
-        [confirmVariant]="confirmVariant"
-        (confirmed)="confirmed()"
-        (cancelled)="cancelled()"
-        (closed)="closed($event)"
-        (stateChanged)="stateChanged($event)"
-      >
-        <button wiButton type="button" variant="danger" wiConfirmPopupTrigger>Eliminar (align start)</button>
       </wi-confirm-popup>
     `,
   }),
@@ -701,7 +738,7 @@ export const DarkMode: Story = {
   render: (args) => ({
     props: args,
     template: `
-      <div class="p-8">
+      <div class="wi-dark p-8 bg-background text-on-background">
         <wi-confirm-popup
           [title]="title"
           [description]="description"
@@ -837,7 +874,7 @@ Contrasta con InTableRow (modo declarativo: un popup por fila).
       source: {
         type: 'code',
         language: 'ts',
-        code: SERVICE_USAGE_SOURCE,
+        code: SERVICE_TABLE_USAGE_SOURCE,
       },
     },
   },

@@ -17,6 +17,25 @@ const meta: Meta<WiOtpStoryArgs> = {
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
+    controls: {
+      include: [
+        'size',
+        'length',
+        'inputMode',
+        'autocomplete',
+        'disabled',
+        'readonly',
+        'invalid',
+        'required',
+        'autofocus',
+        'ariaLabel',
+        'ariaLabelledBy',
+        'ariaDescribedBy',
+        'valueChange',
+        'completed',
+        'touch',
+      ],
+    },
     docs: {
       description: {
         component:
@@ -49,6 +68,8 @@ const meta: Meta<WiOtpStoryArgs> = {
     required: { control: 'boolean' },
     autofocus: { control: 'boolean' },
     ariaLabel: { control: 'text' },
+    ariaLabelledBy: { control: 'text' },
+    ariaDescribedBy: { control: 'text' },
     valueChange: {
       action: 'valueChange',
       description: 'Se emite al cambiar el valor',
@@ -79,6 +100,8 @@ const meta: Meta<WiOtpStoryArgs> = {
     required: false,
     autofocus: false,
     ariaLabel: 'Código de verificación',
+    ariaLabelledBy: '',
+    ariaDescribedBy: '',
     valueChange: fn(),
     completed: fn(),
     touch: fn(),
@@ -111,7 +134,10 @@ export const Default: Story = {
           [readonly]="readonly"
           [invalid]="invalid"
           [required]="required"
+          [autofocus]="autofocus"
           [ariaLabel]="ariaLabel"
+          [ariaLabelledBy]="ariaLabelledBy"
+          [ariaDescribedBy]="ariaDescribedBy"
         />
         <p class="text-xs text-on-surface-variant">Valor: {{ value || '—' }}</p>
       </div>
@@ -290,7 +316,7 @@ export const DarkMode: Story = {
       value: '123',
     },
     template: `
-      <div class="flex min-w-0 flex-col gap-4 rounded-control bg-background p-4 text-on-background">
+      <div class="wi-dark flex min-w-0 flex-col gap-4 rounded-control bg-background p-4 text-on-background">
         <wi-otp [value]="value" (valueChange)="value = $event; valueChange($event)" (completed)="completed($event)" (touch)="touch()" ariaLabel="Default" />
         <wi-otp invalid value="000000" (valueChange)="valueChange($event)" (completed)="completed($event)" (touch)="touch()" ariaLabel="Invalid" />
         <wi-otp disabled value="123456" (valueChange)="valueChange($event)" (completed)="completed($event)" (touch)="touch()" ariaLabel="Disabled" />

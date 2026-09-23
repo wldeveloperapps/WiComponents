@@ -34,7 +34,13 @@ interface WiSpeedDialStoryArgs {
   closeOnSelect: boolean;
   tooltips: boolean;
   triggerIcon: string;
+  ariaLabel: string;
+  closeLabel: string;
   itemClick: ReturnType<typeof fn>;
+}
+
+function storyTextOrFallback(value: string, fallback: string): string {
+  return value.trim() !== '' ? value : fallback;
 }
 
 function localeFromGlobals(globals: { locale?: string } | undefined): StorybookLocale {
@@ -59,6 +65,7 @@ function speedDialCopy(globals: { locale?: string } | undefined): SpeedDialDemoC
         [closeOnSelect]="closeOnSelect()"
         [tooltips]="tooltips()"
         [ariaLabel]="ariaLabel()"
+        [closeLabel]="closeLabel()"
         [triggerIcon]="triggerIcon()"
         (itemClick)="onItem($event)"
       />
@@ -77,6 +84,7 @@ class WiSpeedDialDemoComponent {
   readonly closeOnSelect = input(true);
   readonly tooltips = input(true);
   readonly ariaLabel = input.required<string>();
+  readonly closeLabel = input<string | undefined>(undefined);
   readonly triggerIcon = input('ellipsis-vertical');
   readonly itemClick = output<WiSpeedDialItem>();
 
@@ -166,6 +174,17 @@ const meta: Meta<WiSpeedDialStoryArgs> = {
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
+    controls: {
+      include: [
+        'direction',
+        'disabled',
+        'closeOnSelect',
+        'tooltips',
+        'triggerIcon',
+        'ariaLabel',
+        'closeLabel',
+      ],
+    },
     docs: {
       description: {
         component: `
@@ -186,14 +205,18 @@ const meta: Meta<WiSpeedDialStoryArgs> = {
 
 \`\`\`ts
 actions: WiSpeedDialItem[] = [
-  { id: 'edit', icon: 'pencil', label: 'Editar' },
+  { id: 'history', icon: 'arrow-path', label: 'Historial' },
+  { id: 'schedule', icon: 'calendar', label: 'Calendario' },
   { id: 'delete', icon: 'trash', label: 'Eliminar' },
 ];
 
 onAction(item: WiSpeedDialItem): void {
   switch (item.id) {
-    case 'edit':
-      this.edit();
+    case 'history':
+      this.openHistory();
+      break;
+    case 'schedule':
+      this.openSchedule();
       break;
     case 'delete':
       this.delete();
@@ -234,6 +257,14 @@ Por defecto cada acción muestra tooltip con \`item.label\` (\`[tooltips]="false
     closeOnSelect: { control: 'boolean' },
     tooltips: { control: 'boolean' },
     triggerIcon: { control: 'text' },
+    ariaLabel: {
+      control: 'text',
+      description: 'Nombre accesible del disparador. Vacío en Controls → copy de demo (Locale).',
+    },
+    closeLabel: {
+      control: 'text',
+      description: 'Etiqueta del botón cerrar (abierto). Vacío → i18n de overlays.',
+    },
     itemClick: {
       action: 'itemClick',
       description:
@@ -248,6 +279,8 @@ Por defecto cada acción muestra tooltip con \`item.label\` (\`[tooltips]="false
     closeOnSelect: true,
     tooltips: true,
     triggerIcon: 'ellipsis-vertical',
+    ariaLabel: '',
+    closeLabel: '',
     itemClick: fn(),
   },
 };
@@ -258,13 +291,15 @@ type Story = StoryObj<WiSpeedDialStoryArgs>;
 export const Default: Story = {
   render: (args, { globals }) => {
     const t = speedDialCopy(globals);
+    const closeLabel = args.closeLabel.trim() !== '' ? args.closeLabel : undefined;
     return {
       props: {
         ...args,
         items: t.actionsA,
         hint: t.hintClick,
         lastActionPrefix: t.lastActionPrefix,
-        ariaLabel: t.ariaLabel,
+        ariaLabel: storyTextOrFallback(args.ariaLabel, t.ariaLabel),
+        closeLabel,
       },
       template: `
       <wi-speed-dial-demo
@@ -276,6 +311,7 @@ export const Default: Story = {
         [closeOnSelect]="closeOnSelect"
         [tooltips]="tooltips"
         [ariaLabel]="ariaLabel"
+        [closeLabel]="closeLabel"
         [triggerIcon]="triggerIcon"
         (itemClick)="itemClick($event)"
       />
@@ -425,7 +461,7 @@ export const DarkMode: Story = {
         ariaLabel: t.ariaLabel,
       },
       template: `
-      <div class="rounded-control bg-background p-6 text-on-surface">
+      <div class="wi-dark rounded-control bg-background p-6 text-on-surface">
         <wi-speed-dial-demo
           [items]="items"
           [hint]="hint"

@@ -10,6 +10,21 @@ import { WiDatepickerComponent } from './wi-datepicker.component';
 import { datepickerValueToUtcIso, toLocalDateString } from './wi-date';
 import { provideWiTimeZone } from './wi-datepicker.timezone';
 
+/** Storybook `control: 'date'` puede devolver Date o timestamp. */
+function toOptionalDate(value: unknown): Date | undefined {
+  if (value == null || value === '') {
+    return undefined;
+  }
+  if (value instanceof Date) {
+    return Number.isNaN(value.getTime()) ? undefined : value;
+  }
+  if (typeof value === 'number' || typeof value === 'string') {
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? undefined : date;
+  }
+  return undefined;
+}
+
 /** Preview civil (helpers públicos; evitar `toISOString` / `json`). */
 function formatLocalDate(date: Date | null | undefined): string {
   return date ? toLocalDateString(date) : '—';
@@ -65,6 +80,7 @@ const meta: Meta<WiDatepickerStoryArgs> = {
         'autoCloseOnSelect',
         'min',
         'max',
+        'dateDisabled',
         'weekStartsOn',
         'id',
         'name',
@@ -86,6 +102,10 @@ const meta: Meta<WiDatepickerStoryArgs> = {
     }),
   ],
   argTypes: {
+    value: {
+      control: 'date',
+      description: 'Valor del model (fecha seleccionada)',
+    },
     size: {
       control: 'select',
       options: ['sm', 'md', 'lg'],
@@ -93,14 +113,39 @@ const meta: Meta<WiDatepickerStoryArgs> = {
     showTime: { control: 'boolean' },
     clearable: { control: 'boolean' },
     disabled: { control: 'boolean' },
+    readonly: { control: 'boolean' },
     invalid: { control: 'boolean' },
     required: { control: 'boolean' },
+    autoCloseOnSelect: { control: 'boolean' },
+    weekStartsOn: {
+      control: 'select',
+      options: [0, 1, 2, 3, 4, 5, 6],
+    },
     displayFormat: { control: 'text' },
+    formatDate: {
+      control: false,
+      description: 'Callback de formato del trigger (gana sobre `displayFormat`). No editable en Controls.',
+    },
+    dateDisabled: {
+      control: false,
+      description: 'Callback `(date) => boolean` para deshabilitar días. No editable en Controls.',
+    },
+    min: {
+      control: 'date',
+      description: 'Fecha mínima seleccionable',
+    },
+    max: {
+      control: 'date',
+      description: 'Fecha máxima seleccionable',
+    },
     placeholder: { control: 'text' },
     clearLabel: { control: 'text' },
     calendarLabel: { control: 'text' },
     timeLabel: { control: 'text' },
+    id: { control: 'text' },
+    name: { control: 'text' },
     ariaLabel: { control: 'text' },
+    ariaDescribedBy: { control: 'text' },
     valueChange: {
       action: 'valueChange',
       description: 'Se emite al cambiar el valor (wi-datepicker)',
@@ -145,17 +190,27 @@ const meta: Meta<WiDatepickerStoryArgs> = {
     timeInputClasses: { table: { disable: true }, control: false },
   },
   args: {
+    value: undefined,
     size: 'md',
     showTime: false,
     clearable: false,
     disabled: false,
+    readonly: false,
     invalid: false,
     required: false,
+    autoCloseOnSelect: undefined,
+    weekStartsOn: undefined,
+    displayFormat: '',
     placeholder: 'Selecciona una fecha…',
     clearLabel: 'Limpiar',
     calendarLabel: 'Abrir calendario',
     timeLabel: 'Hora',
+    id: '',
+    name: '',
     ariaLabel: 'Fecha',
+    ariaDescribedBy: '',
+    min: undefined,
+    max: undefined,
     valueChange: fn(),
     touch: fn(),
   },
@@ -175,7 +230,9 @@ export const Default: Story = {
         calendarLabel: t.calendarLabel,
         timeLabel: t.timeLabel,
         ariaLabel: t.ariaLabel,
-        value: null as Date | null,
+        value: toOptionalDate(args.value) ?? null,
+        min: toOptionalDate(args.min),
+        max: toOptionalDate(args.max),
         formatLocalDate,
         valuePrefix: t.valuePrefix,
       },
@@ -189,13 +246,22 @@ export const Default: Story = {
           [showTime]="showTime"
           [clearable]="clearable"
           [disabled]="disabled"
+          [readonly]="readonly"
           [invalid]="invalid"
           [required]="required"
+          [displayFormat]="displayFormat || undefined"
           [placeholder]="placeholder"
           [clearLabel]="clearLabel"
           [calendarLabel]="calendarLabel"
           [timeLabel]="timeLabel"
-          [ariaLabel]="ariaLabel"
+          [id]="id || undefined"
+          [name]="name"
+          [ariaLabel]="ariaLabel || null"
+          [ariaDescribedBy]="ariaDescribedBy || null"
+          [autoCloseOnSelect]="autoCloseOnSelect"
+          [weekStartsOn]="weekStartsOn"
+          [min]="min"
+          [max]="max"
         />
         <p style="margin-top:0.75rem;font-size:0.875rem;opacity:0.7;">
           {{ valuePrefix }}: {{ formatLocalDate(value) }}
@@ -484,7 +550,7 @@ export const DarkMode: Story = {
         calendarLabel: t.calendarLabel,
       },
       template: `
-      <div style="padding:1.5rem;width:22rem;">
+      <div class="wi-dark bg-background text-on-background" style="padding:1.5rem;width:22rem;">
         <wi-datepicker
           [value]="value"
           (valueChange)="value = $event; valueChange($event)"
@@ -562,19 +628,13 @@ export const ReactiveForms: Story = {
       props: {
         ...args,
         control: new FormControl<Date | null>(null),
-        startControl: new FormControl<Date | null>(null),
-        endControl: new FormControl<Date | null>(null),
         formatLocalDate,
         placeholder: t.placeholder,
-        startPlaceholder: t.startPlaceholder,
-        endPlaceholder: t.endPlaceholder,
         ariaLabel: t.ariaLabel,
-        startAriaLabel: t.startAriaLabel,
-        endAriaLabel: t.endAriaLabel,
         valuePrefix: t.valuePrefix,
       },
       template: `
-      <div style="display:flex;flex-direction:column;gap:1.5rem;width:36rem;">
+      <div style="display:flex;flex-direction:column;gap:1.5rem;width:20rem;">
         <wi-datepicker
           [formControl]="control"
           clearable
@@ -584,29 +644,6 @@ export const ReactiveForms: Story = {
           (touch)="touch()"
         />
         <p style="font-size:0.875rem;opacity:0.7;">{{ valuePrefix }}: {{ formatLocalDate(control.value) }}</p>
-
-        <div style="display:flex;gap:0.75rem;">
-          <wi-datepicker
-            class="min-w-0 flex-1"
-            [formControl]="startControl"
-            [max]="endControl.value ?? undefined"
-            clearable
-            [placeholder]="startPlaceholder"
-            [ariaLabel]="startAriaLabel"
-            (valueChange)="valueChange($event)"
-            (touch)="touch()"
-          />
-          <wi-datepicker
-            class="min-w-0 flex-1"
-            [formControl]="endControl"
-            [min]="startControl.value ?? undefined"
-            clearable
-            [placeholder]="endPlaceholder"
-            [ariaLabel]="endAriaLabel"
-            (valueChange)="valueChange($event)"
-            (touch)="touch()"
-          />
-        </div>
       </div>
     `,
     };

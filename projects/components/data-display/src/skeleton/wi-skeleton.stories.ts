@@ -8,12 +8,17 @@ import {
   WiSkeletonComponent,
 } from '../public-api';
 
+const hideFromDocs = { table: { disable: true }, control: false } as const;
+
 const meta: Meta<WiSkeletonComponent> = {
   title: 'Data display/WiSkeleton',
   component: WiSkeletonComponent,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
+    controls: {
+      include: ['shape', 'size', 'width', 'height', 'animated'],
+    },
     docs: {
       description: {
         component: `
@@ -81,9 +86,14 @@ Prioridad: **\`size\` gana siempre** sobre \`width\` y \`height\`. Si defines \`
       control: 'boolean',
       description: 'Animación pulse (`motion-safe:`; respeta reduced-motion).',
     },
+    resolvedWidth: hideFromDocs,
+    resolvedHeight: hideFromDocs,
   },
   args: {
     shape: 'rectangle',
+    size: '',
+    width: '',
+    height: '',
     animated: true,
   },
 };
@@ -98,9 +108,9 @@ export const Default: Story = {
       <div class="w-64">
         <wi-skeleton
           [shape]="shape"
-          [size]="size"
-          [width]="width"
-          [height]="height"
+          [size]="size || undefined"
+          [width]="width || undefined"
+          [height]="height || undefined"
           [animated]="animated"
         />
       </div>
@@ -216,7 +226,7 @@ export const DarkMode: Story = {
   },
   render: () => ({
     template: `
-      <div class="flex w-72 flex-col gap-3 rounded-control bg-background p-4">
+      <div class="wi-dark flex w-72 flex-col gap-3 rounded-control bg-background p-4 text-on-background">
         <wi-skeleton />
         <wi-skeleton width="80%" />
         <div class="flex items-center gap-3">

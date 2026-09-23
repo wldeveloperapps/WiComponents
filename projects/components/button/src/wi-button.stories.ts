@@ -6,12 +6,25 @@ import { plusOutline } from '../../icon/heroicons/src/plus';
 import { trashOutline } from '../../icon/heroicons/src/trash';
 import { WiButtonDirective } from './public-api';
 
+const hideFromDocs = { table: { disable: true }, control: false } as const;
+
 const meta: Meta<WiButtonDirective> = {
   title: 'Button/WiButton',
   component: WiButtonDirective,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
+    controls: {
+      include: [
+        'variant',
+        'size',
+        'type',
+        'loading',
+        'disabled',
+        'iconOnly',
+        'ariaLabel',
+      ],
+    },
     docs: {
       description: {
         component: `
@@ -52,6 +65,9 @@ El host genera caja CSS (\`inline-flex\`), así que overlay como \`[wiTooltip]\`
     disabled: { control: 'boolean' },
     iconOnly: { control: 'boolean' },
     ariaLabel: { control: 'text' },
+    hostClasses: hideFromDocs,
+    isDisabled: hideFromDocs,
+    isAnchor: hideFromDocs,
   },
   args: {
     variant: 'primary',
@@ -60,7 +76,7 @@ El host genera caja CSS (\`inline-flex\`), así que overlay como \`[wiTooltip]\`
     loading: false,
     disabled: false,
     iconOnly: false,
-    ariaLabel: null,
+    ariaLabel: '',
   },
 };
 
@@ -79,7 +95,7 @@ export const Default: Story = {
         [loading]="loading"
         [disabled]="disabled"
         [iconOnly]="iconOnly"
-        [ariaLabel]="ariaLabel"
+        [ariaLabel]="ariaLabel || null"
       >
         Guardar
       </button>
@@ -91,11 +107,11 @@ export const Variants: Story = {
   render: () => ({
     template: `
       <div style="display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;">
-        <button wiButton type="button" variant="primary">Primary</button>
-        <button wiButton type="button" variant="secondary">Secondary</button>
-        <button wiButton type="button" variant="danger">Danger</button>
-        <button wiButton type="button" variant="ghost">Ghost</button>
-        <button wiButton type="button" variant="outline">Outline</button>
+        <button wiButton type="button" variant="primary">Primario</button>
+        <button wiButton type="button" variant="secondary">Secundario</button>
+        <button wiButton type="button" variant="danger">Peligro</button>
+        <button wiButton type="button" variant="ghost">Fantasma</button>
+        <button wiButton type="button" variant="outline">Contorno</button>
       </div>
     `,
   }),
@@ -105,9 +121,9 @@ export const Sizes: Story = {
   render: () => ({
     template: `
       <div style="display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;">
-        <button wiButton type="button" size="sm">Small</button>
-        <button wiButton type="button" size="md">Medium</button>
-        <button wiButton type="button" size="lg">Large</button>
+        <button wiButton type="button" size="sm">Pequeño</button>
+        <button wiButton type="button" size="md">Mediano</button>
+        <button wiButton type="button" size="lg">Grande</button>
       </div>
     `,
   }),
@@ -196,7 +212,7 @@ export const DarkMode: Story = {
   },
   render: () => ({
     template: `
-      <div style="display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;padding:1.5rem;">
+      <div class="wi-dark bg-background text-on-background" style="display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;padding:1.5rem;">
         <button wiButton type="button" variant="primary">Primary</button>
         <button wiButton type="button" variant="secondary">Secondary</button>
         <button wiButton type="button" variant="danger">Danger</button>

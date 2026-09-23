@@ -11,12 +11,17 @@ import {
   WiSpinnerComponent,
 } from '../public-api';
 
+const hideFromDocs = { table: { disable: true }, control: false } as const;
+
 const meta: Meta<WiSpinnerComponent> = {
   title: 'Data display/WiSpinner',
   component: WiSpinnerComponent,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
+    controls: {
+      include: ['size', 'ariaLabel'],
+    },
     docs: {
       description: {
         component: `
@@ -52,6 +57,7 @@ Indicador de carga indeterminado.
       control: 'text',
       description: 'Nombre accesible (`aria-label`). Localizable desde la app.',
     },
+    svgClasses: hideFromDocs,
   },
   args: {
     size: 'md',
@@ -182,7 +188,7 @@ export const DarkMode: Story = {
   },
   render: () => ({
     template: `
-      <div class="flex items-center gap-6 rounded-control bg-background p-4 text-on-surface">
+      <div class="wi-dark flex items-center gap-6 rounded-control bg-background p-4 text-on-surface">
         <wi-spinner size="sm" />
         <wi-spinner />
         <wi-spinner size="lg" />

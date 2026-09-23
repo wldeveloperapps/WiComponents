@@ -262,7 +262,7 @@ export const DarkMode: Story = {
   render: (args) => ({
     props: args,
     template: `
-      <div class="p-8">
+      <div class="wi-dark p-8 bg-background text-on-background">
         <wi-dialog
           [size]="size"
           (closed)="closed($event)"

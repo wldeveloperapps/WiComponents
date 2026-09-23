@@ -10,7 +10,6 @@ import {
   WiConfirmationService,
   WiConfirmDialogComponent,
   WiConfirmDialogTriggerDirective,
-  provideWiOverlaysI18n,
 } from '../public-api';
 
 interface WiConfirmDialogStoryArgs {
@@ -314,12 +313,7 @@ this.confirmation.confirm({
   },
   decorators: [
     applicationConfig({
-      providers: [
-        Directionality,
-        provideWiOverlaysI18n({
-          confirmCancelLabel: () => 'Cancelar',
-        }),
-      ],
+      providers: [Directionality],
     }),
     moduleMetadata({
       imports: confirmImports,
@@ -331,6 +325,12 @@ this.confirmation.confirm({
       control: 'text',
       table: { category: 'Service' },
       description: 'Key para WiConfirmationService',
+    },
+    state: {
+      control: 'select',
+      options: ['open', 'closed'],
+      table: { category: 'Dialog' },
+      description: "Model `open` | `closed`",
     },
     size: {
       control: 'select',
@@ -380,7 +380,7 @@ this.confirmation.confirm({
     },
     closed: {
       action: 'closed',
-      description: "Se emite al cerrar ('confirmed' | 'cancelled')",
+      description: "Se emite al cerrar ('confirmed' | 'cancelled' | 'dismissed')",
       table: { category: 'Events' },
       control: false,
     },
@@ -393,6 +393,7 @@ this.confirmation.confirm({
   },
   args: {
     key: '',
+    state: 'closed',
     size: 'sm',
     title: 'Eliminar sitio',
     description: 'Esta acción no se puede deshacer. Se perderán los datos asociados.',
@@ -416,6 +417,7 @@ export const Default: Story = {
     props: args,
     template: `
       <wi-confirm-dialog
+        [(state)]="state"
         [size]="size"
         [title]="title"
         [description]="description"
@@ -549,7 +551,7 @@ export const DarkMode: Story = {
   render: (args) => ({
     props: args,
     template: `
-      <div class="p-8">
+      <div class="wi-dark p-8 bg-background text-on-background">
         <wi-confirm-dialog
           [title]="title"
           [description]="description"

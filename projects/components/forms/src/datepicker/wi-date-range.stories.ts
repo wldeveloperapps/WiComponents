@@ -9,6 +9,21 @@ import { datepickerValueToUtcIso, toLocalDateString } from './wi-date';
 import { WiDateRangeComponent } from './wi-date-range.component';
 import { provideWiTimeZone } from './wi-datepicker.timezone';
 
+/** Storybook `control: 'date'` puede devolver Date o timestamp. */
+function toOptionalDate(value: unknown): Date | undefined {
+  if (value == null || value === '') {
+    return undefined;
+  }
+  if (value instanceof Date) {
+    return Number.isNaN(value.getTime()) ? undefined : value;
+  }
+  if (typeof value === 'number' || typeof value === 'string') {
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? undefined : date;
+  }
+  return undefined;
+}
+
 function formatLocalDate(date: Date | null | undefined): string {
   return date ? toLocalDateString(date) : '—';
 }
@@ -65,6 +80,7 @@ const meta: Meta<WiDateRangeStoryArgs> = {
         'autoCloseOnSelect',
         'min',
         'max',
+        'dateDisabled',
         'weekStartsOn',
         'id',
         'name',
@@ -86,13 +102,52 @@ const meta: Meta<WiDateRangeStoryArgs> = {
     }),
   ],
   argTypes: {
+    start: {
+      control: 'date',
+      description: 'Inicio del rango (model)',
+    },
+    end: {
+      control: 'date',
+      description: 'Fin del rango (model)',
+    },
     size: { control: 'select', options: ['sm', 'md', 'lg'] },
     showTime: { control: 'boolean' },
     clearable: { control: 'boolean' },
     disabled: { control: 'boolean' },
+    readonly: { control: 'boolean' },
     invalid: { control: 'boolean' },
+    required: { control: 'boolean' },
+    autoCloseOnSelect: { control: 'boolean' },
+    weekStartsOn: {
+      control: 'select',
+      options: [0, 1, 2, 3, 4, 5, 6],
+    },
     displayFormat: { control: 'text' },
+    formatDate: {
+      control: false,
+      description: 'Callback de formato del trigger (gana sobre `displayFormat`). No editable en Controls.',
+    },
+    dateDisabled: {
+      control: false,
+      description: 'Callback `(date) => boolean` para deshabilitar días. No editable en Controls.',
+    },
+    min: {
+      control: 'date',
+      description: 'Fecha mínima seleccionable',
+    },
+    max: {
+      control: 'date',
+      description: 'Fecha máxima seleccionable',
+    },
     placeholder: { control: 'text' },
+    clearLabel: { control: 'text' },
+    calendarLabel: { control: 'text' },
+    startTimeLabel: { control: 'text' },
+    endTimeLabel: { control: 'text' },
+    id: { control: 'text' },
+    name: { control: 'text' },
+    ariaLabel: { control: 'text' },
+    ariaDescribedBy: { control: 'text' },
     startChange: {
       action: 'startChange',
       description: 'Cambia la fecha de inicio',
@@ -140,15 +195,32 @@ const meta: Meta<WiDateRangeStoryArgs> = {
     navButtonClasses: { table: { disable: true }, control: false },
     panelClasses: { table: { disable: true }, control: false },
     timeInputClasses: { table: { disable: true }, control: false },
+    triggerClasses: { table: { disable: true }, control: false },
   },
   args: {
+    start: undefined,
+    end: undefined,
     size: 'md',
     showTime: false,
     clearable: false,
     disabled: false,
+    readonly: false,
     invalid: false,
+    required: false,
+    autoCloseOnSelect: undefined,
+    weekStartsOn: undefined,
     displayFormat: 'DD/MM/YYYY',
     placeholder: 'Selecciona un rango…',
+    clearLabel: 'Limpiar',
+    calendarLabel: 'Abrir calendario',
+    startTimeLabel: 'Inicio',
+    endTimeLabel: 'Fin',
+    id: '',
+    name: '',
+    ariaLabel: 'Rango de fechas',
+    ariaDescribedBy: '',
+    min: undefined,
+    max: undefined,
     startChange: fn(),
     endChange: fn(),
     touch: fn(),
@@ -164,8 +236,10 @@ export const Default: Story = {
     return {
       props: {
         ...args,
-        start: null as Date | null,
-        end: null as Date | null,
+        start: toOptionalDate(args.start) ?? null,
+        end: toOptionalDate(args.end) ?? null,
+        min: toOptionalDate(args.min),
+        max: toOptionalDate(args.max),
         placeholder: t.rangePlaceholder,
         ariaLabel: t.rangeAriaLabel,
         calendarLabel: t.rangeCalendarLabel,
@@ -181,61 +255,29 @@ export const Default: Story = {
           (endChange)="end = $event; endChange($event)"
           (touch)="touch()"
           [size]="size"
-          [displayFormat]="displayFormat"
+          [showTime]="showTime"
+          [displayFormat]="displayFormat || undefined"
           [clearable]="clearable"
           [disabled]="disabled"
+          [readonly]="readonly"
           [invalid]="invalid"
+          [required]="required"
           [placeholder]="placeholder"
           [clearLabel]="clearLabel"
           [calendarLabel]="calendarLabel"
-          [ariaLabel]="ariaLabel"
+          [startTimeLabel]="startTimeLabel"
+          [endTimeLabel]="endTimeLabel"
+          [id]="id || undefined"
+          [name]="name"
+          [ariaLabel]="ariaLabel || null"
+          [ariaDescribedBy]="ariaDescribedBy || null"
+          [autoCloseOnSelect]="autoCloseOnSelect"
+          [weekStartsOn]="weekStartsOn"
+          [min]="min"
+          [max]="max"
         />
         <p style="margin-top:0.75rem;font-size:0.875rem;opacity:0.7;">
           start: {{ formatLocalDate(start) }} — end: {{ formatLocalDate(end) }}
-        </p>
-      </div>
-    `,
-    };
-  },
-};
-
-export const Selected: Story = {
-  name: 'Selected (mockup)',
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Misma presentación que el mockup: un campo con `09/09/2026 - 16/09/2026` e icono de calendario.',
-      },
-    },
-  },
-  render: (args, { globals }) => {
-    const t = datepickerCopy(globals);
-    return {
-      props: {
-        ...args,
-        start: new Date(2026, 8, 9),
-        end: new Date(2026, 8, 16),
-        displayFormat: 'DD/MM/YYYY',
-        ariaLabel: t.rangeAriaLabel,
-        clearLabel: t.clearLabel,
-        formatLocalDate,
-      },
-      template: `
-      <div style="width:22rem;min-width:0;">
-        <wi-date-range
-          [start]="start"
-          (startChange)="start = $event; startChange($event)"
-          [end]="end"
-          (endChange)="end = $event; endChange($event)"
-          (touch)="touch()"
-          clearable
-          displayFormat="DD/MM/YYYY"
-          [clearLabel]="clearLabel"
-          [ariaLabel]="ariaLabel"
-        />
-        <p style="margin-top:0.75rem;font-size:0.875rem;opacity:0.7;">
-          civil: {{ formatLocalDate(start) }} → {{ formatLocalDate(end) }}
         </p>
       </div>
     `,
@@ -517,7 +559,7 @@ export const DarkMode: Story = {
         clearLabel: t.clearLabel,
       },
       template: `
-      <div style="padding:1.5rem;width:22rem;min-width:0;">
+      <div class="wi-dark bg-background text-on-background" style="padding:1.5rem;width:22rem;min-width:0;">
         <wi-date-range
           [start]="start"
           (startChange)="start = $event; startChange($event)"

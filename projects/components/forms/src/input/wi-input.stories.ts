@@ -10,12 +10,56 @@ type WiInputStoryArgs = WiInputComponent & {
   touch: ReturnType<typeof fn>;
 };
 
+const hideFromDocs = { table: { disable: true }, control: false } as const;
+
+const hiddenInputInternals: Record<string, typeof hideFromDocs> = {
+  cvaDisabled: hideFromDocs,
+  onChange: hideFromDocs,
+  onTouched: hideFromDocs,
+  generatedId: hideFromDocs,
+  revealed: hideFromDocs,
+  toggleButtonClasses: hideFromDocs,
+  resolvedId: hideFromDocs,
+  isDisabled: hideFromDocs,
+  showToggle: hideFromDocs,
+  nativeType: hideFromDocs,
+  toggleAriaLabel: hideFromDocs,
+  classes: hideFromDocs,
+  writeValue: hideFromDocs,
+  registerOnChange: hideFromDocs,
+  registerOnTouched: hideFromDocs,
+  setDisabledState: hideFromDocs,
+  togglePasswordVisibility: hideFromDocs,
+  onNativeInput: hideFromDocs,
+  onNativeBlur: hideFromDocs,
+};
+
 const meta: Meta<WiInputStoryArgs> = {
   title: 'Forms/WiInput',
   component: WiInputComponent,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
+    controls: {
+      include: [
+        'value',
+        'size',
+        'type',
+        'placeholder',
+        'id',
+        'name',
+        'autocomplete',
+        'ariaLabel',
+        'ariaDescribedBy',
+        'disabled',
+        'readonly',
+        'invalid',
+        'required',
+        'passwordToggle',
+        'showPasswordLabel',
+        'hidePasswordLabel',
+      ],
+    },
     docs: {
       description: {
         component:
@@ -29,6 +73,7 @@ const meta: Meta<WiInputStoryArgs> = {
     }),
   ],
   argTypes: {
+    value: { control: 'text' },
     size: {
       control: 'select',
       options: ['sm', 'md', 'lg'],
@@ -38,6 +83,9 @@ const meta: Meta<WiInputStoryArgs> = {
       options: ['text', 'email', 'password', 'search', 'tel', 'url', 'number'],
     },
     placeholder: { control: 'text' },
+    id: { control: 'text' },
+    name: { control: 'text' },
+    ariaDescribedBy: { control: 'text' },
     disabled: { control: 'boolean' },
     readonly: { control: 'boolean' },
     invalid: { control: 'boolean' },
@@ -68,18 +116,24 @@ const meta: Meta<WiInputStoryArgs> = {
       table: { category: 'Events' },
       control: false,
     },
+    ...hiddenInputInternals,
   },
   args: {
+    value: '',
     size: 'md',
     type: 'text',
     placeholder: 'Escribe aquí…',
+    id: '',
+    name: '',
+    autocomplete: '',
+    ariaDescribedBy: '',
     disabled: false,
     readonly: false,
     invalid: false,
     required: false,
     passwordToggle: true,
-    showPasswordLabel: 'Show password',
-    hidePasswordLabel: 'Hide password',
+    showPasswordLabel: 'Mostrar contraseña',
+    hidePasswordLabel: 'Ocultar contraseña',
     ariaLabel: 'Nombre',
     valueChange: fn(),
     touch: fn(),
@@ -91,10 +145,7 @@ type Story = StoryObj<WiInputStoryArgs>;
 
 export const Default: Story = {
   render: (args) => ({
-    props: {
-      ...args,
-      value: '',
-    },
+    props: args,
     template: `
       <div style="width:20rem;">
         <wi-input
@@ -104,6 +155,8 @@ export const Default: Story = {
           [size]="size"
           [type]="type"
           [placeholder]="placeholder"
+          [id]="id"
+          [name]="name"
           [disabled]="disabled"
           [readonly]="readonly"
           [invalid]="invalid"
@@ -113,6 +166,7 @@ export const Default: Story = {
           [hidePasswordLabel]="hidePasswordLabel"
           [autocomplete]="autocomplete"
           [ariaLabel]="ariaLabel"
+          [ariaDescribedBy]="ariaDescribedBy"
         />
       </div>
     `,
@@ -241,7 +295,7 @@ export const DarkMode: Story = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="display:flex;flex-direction:column;gap:0.75rem;width:20rem;padding:1.5rem;">
+      <div class="wi-dark bg-background text-on-background" style="display:flex;flex-direction:column;gap:0.75rem;width:20rem;padding:1.5rem;">
         <wi-input placeholder="Default" ariaLabel="Default" (valueChange)="valueChange($event)" (touch)="touch()" />
         <wi-input invalid placeholder="Invalid" ariaLabel="Invalid" (valueChange)="valueChange($event)" (touch)="touch()" />
         <wi-input disabled value="Disabled" ariaLabel="Disabled" (valueChange)="valueChange($event)" (touch)="touch()" />

@@ -85,6 +85,35 @@ const meta: Meta<WiPicklistStoryArgs> = {
   tags: ['autodocs'],
   parameters: {
     layout: 'padded',
+    controls: {
+      include: [
+        'value',
+        'options',
+        'optionLabel',
+        'optionValue',
+        'size',
+        'sourceHeader',
+        'targetHeader',
+        'sourceEmptyText',
+        'targetEmptyText',
+        'sourceAriaLabel',
+        'targetAriaLabel',
+        'moveToTargetLabel',
+        'moveAllToTargetLabel',
+        'moveToSourceLabel',
+        'moveAllToSourceLabel',
+        'id',
+        'name',
+        'ariaLabel',
+        'ariaDescribedBy',
+        'compareWith',
+        'itemTemplate',
+        'disabled',
+        'invalid',
+        'required',
+        'showMoveAll',
+      ],
+    },
     docs: {
       description: {
         component:
@@ -108,15 +137,31 @@ const meta: Meta<WiPicklistStoryArgs> = {
       control: 'select',
       options: ['sm', 'md', 'lg'],
     },
+    optionLabel: { control: 'text' },
+    optionValue: { control: 'text' },
     sourceHeader: { control: 'text' },
     targetHeader: { control: 'text' },
     sourceEmptyText: { control: 'text' },
     targetEmptyText: { control: 'text' },
+    sourceAriaLabel: { control: 'text' },
+    targetAriaLabel: { control: 'text' },
+    moveToTargetLabel: { control: 'text' },
+    moveAllToTargetLabel: { control: 'text' },
+    moveToSourceLabel: { control: 'text' },
+    moveAllToSourceLabel: { control: 'text' },
+    id: { control: 'text' },
+    name: { control: 'text' },
+    ariaDescribedBy: { control: 'text' },
+    compareWith: { control: false },
+    itemTemplate: { control: false },
     disabled: { control: 'boolean' },
     invalid: { control: 'boolean' },
     required: { control: 'boolean' },
     showMoveAll: { control: 'boolean' },
     ariaLabel: { control: 'text' },
+    cvaDisabled: { table: { disable: true }, control: false },
+    onChange: { table: { disable: true }, control: false },
+    onTouched: { table: { disable: true }, control: false },
     valueChange: {
       action: 'valueChange',
       description: 'Se emite al cambiar los asignados',
@@ -132,6 +177,8 @@ const meta: Meta<WiPicklistStoryArgs> = {
   },
   args: {
     size: 'md',
+    optionLabel: '',
+    optionValue: '',
     sourceHeader: 'Disponibles',
     targetHeader: 'Asignados',
     sourceEmptyText: 'Sin disponibles',
@@ -147,6 +194,9 @@ const meta: Meta<WiPicklistStoryArgs> = {
     required: false,
     showMoveAll: true,
     ariaLabel: 'Asignación',
+    id: '',
+    name: '',
+    ariaDescribedBy: '',
     valueChange: fn(),
     touch: fn(),
   },
@@ -156,6 +206,8 @@ export default meta;
 type Story = StoryObj<WiPicklistStoryArgs>;
 
 const BINDINGS = `
+  [optionLabel]="optionLabel || undefined"
+  [optionValue]="optionValue || undefined"
   [size]="size"
   [sourceHeader]="sourceHeader"
   [targetHeader]="targetHeader"
@@ -172,6 +224,9 @@ const BINDINGS = `
   [required]="required"
   [showMoveAll]="showMoveAll"
   [ariaLabel]="ariaLabel"
+  [id]="id"
+  [name]="name"
+  [ariaDescribedBy]="ariaDescribedBy"
   (touch)="touch()"
 `;
 
@@ -425,6 +480,7 @@ export const ReactiveForms: Story = {
             moveToSourceLabel="Quitar de asignados"
             moveAllToSourceLabel="Quitar todos"
             ariaLabel="Reactive"
+            (valueChange)="valueChange($event)"
             (touch)="touch()"
           />
           <p class="mt-2 text-xs text-on-surface-variant">Control: {{ control.value | json }}</p>
@@ -445,7 +501,7 @@ export const DarkMode: Story = {
       value: ['Grapes'] as string[],
     },
     template: `
-      <div class="w-full min-w-0 max-w-3xl p-6">
+      <div class="wi-dark w-full min-w-0 max-w-3xl p-6 bg-background text-on-background">
         <wi-picklist
           [options]="options"
           [value]="value"

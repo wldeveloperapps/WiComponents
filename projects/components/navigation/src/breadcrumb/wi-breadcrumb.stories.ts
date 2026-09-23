@@ -208,11 +208,14 @@ export const ManyItems: Story = {
 
 export const DarkMode: Story = {
   name: 'Dark mode',
+  globals: {
+    theme: 'dark',
+  },
   parameters: {
     docs: {
       description: {
         story:
-          'Cápsula `border-outline-variant` + degradado de tokens; pastilla `bg-primary` / `text-on-primary` en `.wi-dark`.',
+          'Toolbar **Tema → Dark**: cápsula `border-outline-variant` + degradado de tokens; pastilla `bg-primary` / `text-on-primary`.',
       },
     },
   },

@@ -10,12 +10,46 @@ type WiCheckboxStoryArgs = WiCheckboxComponent & {
   touch: ReturnType<typeof fn>;
 };
 
+const hideFromDocs = { table: { disable: true }, control: false } as const;
+
+const hiddenCheckboxInternals: Record<string, typeof hideFromDocs> = {
+  cvaDisabled: hideFromDocs,
+  onChange: hideFromDocs,
+  onTouched: hideFromDocs,
+  generatedId: hideFromDocs,
+  resolvedId: hideFromDocs,
+  isDisabled: hideFromDocs,
+  indicatorClasses: hideFromDocs,
+  controlClasses: hideFromDocs,
+  writeValue: hideFromDocs,
+  registerOnChange: hideFromDocs,
+  registerOnTouched: hideFromDocs,
+  setDisabledState: hideFromDocs,
+  onCheckedChange: hideFromDocs,
+  onBrainTouched: hideFromDocs,
+};
+
 const meta: Meta<WiCheckboxStoryArgs> = {
   title: 'Forms/WiCheckbox',
   component: WiCheckboxComponent,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
+    controls: {
+      include: [
+        'value',
+        'indeterminate',
+        'size',
+        'id',
+        'name',
+        'disabled',
+        'invalid',
+        'required',
+        'ariaLabel',
+        'ariaLabelledBy',
+        'ariaDescribedBy',
+      ],
+    },
     docs: {
       description: {
         component:
@@ -29,6 +63,7 @@ const meta: Meta<WiCheckboxStoryArgs> = {
     }),
   ],
   argTypes: {
+    value: { control: 'boolean' },
     size: {
       control: 'select',
       options: ['sm', 'md', 'lg'],
@@ -37,7 +72,11 @@ const meta: Meta<WiCheckboxStoryArgs> = {
     invalid: { control: 'boolean' },
     required: { control: 'boolean' },
     indeterminate: { control: 'boolean' },
+    id: { control: 'text' },
+    name: { control: 'text' },
     ariaLabel: { control: 'text' },
+    ariaLabelledBy: { control: 'text' },
+    ariaDescribedBy: { control: 'text' },
     valueChange: {
       action: 'valueChange',
       description: 'Se emite al cambiar el valor',
@@ -50,14 +89,20 @@ const meta: Meta<WiCheckboxStoryArgs> = {
       table: { category: 'Events' },
       control: false,
     },
+    ...hiddenCheckboxInternals,
   },
   args: {
+    value: false,
     size: 'md',
     disabled: false,
     invalid: false,
     required: false,
     indeterminate: false,
+    id: '',
+    name: '',
     ariaLabel: 'Aceptar términos',
+    ariaLabelledBy: '',
+    ariaDescribedBy: '',
     valueChange: fn(),
     touch: fn(),
   },
@@ -68,10 +113,7 @@ type Story = StoryObj<WiCheckboxStoryArgs>;
 
 export const Default: Story = {
   render: (args) => ({
-    props: {
-      ...args,
-      value: false,
-    },
+    props: args,
     template: `
       <label class="flex min-w-0 max-w-xs items-center gap-2 text-sm text-on-surface">
         <wi-checkbox
@@ -79,11 +121,15 @@ export const Default: Story = {
           (valueChange)="value = $event; valueChange($event)"
           (touch)="touch()"
           [size]="size"
+          [id]="id || undefined"
+          [name]="name"
           [disabled]="disabled"
           [invalid]="invalid"
           [required]="required"
           [indeterminate]="indeterminate"
-          [ariaLabel]="ariaLabel"
+          [ariaLabel]="ariaLabel || null"
+          [ariaLabelledBy]="ariaLabelledBy || null"
+          [ariaDescribedBy]="ariaDescribedBy || null"
         />
         <span class="min-w-0">Acepto los términos y condiciones</span>
       </label>
@@ -97,38 +143,18 @@ export const Sizes: Story = {
     template: `
       <div class="flex min-w-0 max-w-xs flex-col gap-3">
         <label class="flex items-center gap-2 text-sm text-on-surface">
-          <wi-checkbox size="sm" ariaLabel="Small" (valueChange)="valueChange($event)" (touch)="touch()" />
-          <span>Small</span>
+          <wi-checkbox size="sm" ariaLabel="Pequeño" (valueChange)="valueChange($event)" (touch)="touch()" />
+          <span>Pequeño</span>
         </label>
         <label class="flex items-center gap-2 text-sm text-on-surface">
-          <wi-checkbox size="md" ariaLabel="Medium" (valueChange)="valueChange($event)" (touch)="touch()" />
-          <span>Medium</span>
+          <wi-checkbox size="md" ariaLabel="Mediano" (valueChange)="valueChange($event)" (touch)="touch()" />
+          <span>Mediano</span>
         </label>
         <label class="flex items-center gap-2 text-sm text-on-surface">
-          <wi-checkbox size="lg" ariaLabel="Large" (valueChange)="valueChange($event)" (touch)="touch()" />
-          <span>Large</span>
+          <wi-checkbox size="lg" ariaLabel="Grande" (valueChange)="valueChange($event)" (touch)="touch()" />
+          <span>Grande</span>
         </label>
       </div>
-    `,
-  }),
-};
-
-export const Checked: Story = {
-  render: (args) => ({
-    props: {
-      ...args,
-      value: true,
-    },
-    template: `
-      <label class="flex min-w-0 max-w-xs items-center gap-2 text-sm text-on-surface">
-        <wi-checkbox
-          [value]="value"
-          (valueChange)="value = $event; valueChange($event)"
-          (touch)="touch()"
-          ariaLabel="Activado"
-        />
-        <span>Activado</span>
-      </label>
     `,
   }),
 };
@@ -301,7 +327,7 @@ export const DarkMode: Story = {
   render: (args) => ({
     props: args,
     template: `
-      <div class="flex min-w-0 max-w-xs flex-col gap-3 p-6">
+      <div class="wi-dark flex min-w-0 max-w-xs flex-col gap-3 p-6 bg-background text-on-background">
         <label class="flex items-center gap-2 text-sm text-on-surface">
           <wi-checkbox ariaLabel="Default" (valueChange)="valueChange($event)" (touch)="touch()" />
           <span>Default</span>

@@ -119,6 +119,24 @@ Cuando aplique: Default, Variants, Sizes, Disabled, Loading, long content, Dark 
 
 Documentar comportamiento, no solo escaparate visual. Interacción en componentes complejos.
 
+## Dark mode (Docs + Canvas)
+
+En **Docs** se montan todas las stories en la misma página. Si `DarkMode` solo pone `globals: { theme: 'dark' }`, el decorator de `preview.ts` aplicaría `.wi-dark` en `<html>` y contaminaría el resto de previews aunque el toolbar diga Light.
+
+Reglas:
+
+1. Mantén `globals: { theme: 'dark' }` (Canvas / toolbar).
+2. En Docs, `preview.ts` **no** aplica el override de stories cuyo id sea `*-dark-mode` al `<html>`; el tema de documento sigue al toolbar.
+3. Por tanto, el template de `DarkMode` debe llevar un wrapper local con `wi-dark` + `bg-background` (y `text-on-background` si hay texto), p. ej.:
+
+```html
+<div class="wi-dark flex flex-wrap gap-2 rounded-control bg-background p-4 text-on-background">
+  …
+</div>
+```
+
+Referencia: `wi-chip.stories.ts` (`DarkMode`).
+
 ## Responsive
 
 Layouts / Recipe: `grid-cols-1 sm:…`. Comprobar canvas ~320–400px (regla `responsive`).

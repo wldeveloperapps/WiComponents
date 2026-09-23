@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { applicationConfig, moduleMetadata } from '@storybook/angular-vite';
 import { fn } from 'storybook/test';
@@ -50,7 +50,7 @@ const DEMO_APPS = [
             clickable
             [selected]="isSelected(name)"
             [ariaLabel]="name"
-            (clicked)="toggle(name)"
+            (clicked)="onChipClick(name)"
           >
             {{ name }}
             @if (isSelected(name)) {
@@ -69,9 +69,15 @@ const DEMO_APPS = [
 class WiChipSelectableDemoComponent {
   protected readonly apps = DEMO_APPS;
   private readonly selected = signal<ReadonlySet<string>>(new Set(['Emparejado']));
+  readonly chipClicked = input<(() => void) | undefined>(undefined);
 
   protected isSelected(name: string): boolean {
     return this.selected().has(name);
+  }
+
+  protected onChipClick(name: string): void {
+    this.toggle(name);
+    this.chipClicked()?.();
   }
 
   protected toggle(name: string): void {
@@ -93,10 +99,24 @@ const meta: Meta<WiChipStoryArgs> = {
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
+    controls: {
+      include: [
+        'variant',
+        'size',
+        'radius',
+        'selected',
+        'clickable',
+        'removable',
+        'disabled',
+        'removeLabel',
+        'ariaLabel',
+        'label',
+      ],
+    },
     docs: {
       description: {
         component: `
-Etiqueta compacta para **tags**, **estados**, **filtros** y **selección** (mismo rol que \`p-chip\` en la app).
+Etiqueta compacta para **tags**, **estados**, **filtros** y **selección**.
 
 - API: \`variant\`, \`size\` (\`sm\` default = \`text-xs px-2 py-1\` | \`md\`), \`radius\` (\`control\` default | \`full\` píldora), \`selected\`, \`clickable\`, \`removable\`, \`disabled\`, \`removeLabel\`, \`ariaLabel\`.
 - Radio vía \`radius\`: \`control\` (\`rounded-control\`) o \`full\` (píldora). Neutral: \`surface-variant\` + \`on-surface-variant\`.
@@ -164,10 +184,12 @@ Etiqueta compacta para **tags**, **estados**, **filtros** y **selección** (mism
     removeLabel: {
       control: 'text',
       description: 'Nombre accesible del aspa (`aria-label`). Localizable desde la app.',
+      table: { category: 'inputs' },
     },
     ariaLabel: {
       control: 'text',
       description: 'Nombre accesible del chip (alias `aria-label`).',
+      table: { category: 'inputs' },
     },
     label: {
       control: 'text',
@@ -186,6 +208,7 @@ Etiqueta compacta para **tags**, **estados**, **filtros** y **selección** (mism
       table: { category: 'Events' },
       control: false,
     },
+    removeClasses: { table: { disable: true }, control: false },
   },
   args: {
     variant: 'neutral',
@@ -196,8 +219,8 @@ Etiqueta compacta para **tags**, **estados**, **filtros** y **selección** (mism
     removable: false,
     disabled: false,
     removeLabel: 'Quitar',
-    ariaLabel: null,
-    label: 'User',
+    ariaLabel: '',
+    label: 'Etiqueta',
     removed: fn(),
     clicked: fn(),
   },
@@ -219,7 +242,7 @@ export const Default: Story = {
         [removable]="removable"
         [disabled]="disabled"
         [removeLabel]="removeLabel"
-        [ariaLabel]="ariaLabel"
+        [ariaLabel]="ariaLabel || null"
         (removed)="removed()"
         (clicked)="clicked()"
       >
@@ -248,7 +271,7 @@ export const Sizes: Story = {
   render: () => ({
     template: `
       <div class="flex flex-wrap items-center gap-3">
-        <wi-chip size="sm">User</wi-chip>
+        <wi-chip size="sm">Etiqueta</wi-chip>
         <wi-chip size="md">Cliente web</wi-chip>
       </div>
     `,
@@ -256,12 +279,13 @@ export const Sizes: Story = {
 };
 
 export const Radius: Story = {
-  render: () => ({
+  render: (args) => ({
+    props: args,
     template: `
       <div class="flex flex-wrap items-center gap-3">
         <wi-chip radius="control">Control</wi-chip>
         <wi-chip radius="full">Píldora</wi-chip>
-        <wi-chip radius="full" removable removeLabel="Quitar">Filtro</wi-chip>
+        <wi-chip radius="full" removable removeLabel="Quitar" (removed)="removed()">Filtro</wi-chip>
       </div>
     `,
   }),
@@ -301,7 +325,8 @@ export const WithIcon: Story = {
     selected: false,
   },
 
-  render: () => ({
+  render: (args) => ({
+    props: args,
     template: `
       <div class="flex flex-wrap items-center gap-2">
         <wi-chip>
@@ -312,7 +337,7 @@ export const WithIcon: Story = {
           Completado
           <wi-icon name="check" size="xs" />
         </wi-chip>
-        <wi-chip variant="primary" removable removeLabel="Quitar ubicación">
+        <wi-chip variant="primary" removable removeLabel="Quitar ubicación" (removed)="removed()">
           <wi-icon name="map-pin" size="xs" />
           Madrid
         </wi-chip>
@@ -322,10 +347,11 @@ export const WithIcon: Story = {
 };
 
 export const WithLongContent: Story = {
-  render: () => ({
+  render: (args) => ({
+    props: args,
     template: `
       <div class="w-48">
-        <wi-chip removable removeLabel="Quitar filtro de planta">
+        <wi-chip removable removeLabel="Quitar filtro de planta" (removed)="removed()">
           Planta de ensamblaje norte con recubrimiento especial
         </wi-chip>
       </div>
@@ -353,7 +379,7 @@ export const RecipeTags: Story = {
         <wi-card-content>
           <p class="text-sm text-on-surface">Sitio principal</p>
           <div class="mt-2 flex min-w-0 flex-wrap gap-1">
-            <wi-chip ariaLabel="User">User</wi-chip>
+            <wi-chip ariaLabel="Rol de usuario">Usuario</wi-chip>
           </div>
           <p class="mt-3 text-sm text-on-surface">Aplicaciones</p>
           <div class="mt-2 flex min-w-0 flex-wrap gap-1">
@@ -378,8 +404,9 @@ export const RecipeSelectable: Story = {
       },
     },
   },
-  render: () => ({
-    template: `<wi-chip-selectable-demo />`,
+  render: (args) => ({
+    props: args,
+    template: `<wi-chip-selectable-demo [chipClicked]="clicked" />`,
   }),
 };
 
@@ -417,17 +444,26 @@ export const DarkMode: Story = {
   globals: {
     theme: 'dark',
   },
-  render: () => ({
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'En Docs el tema oscuro va scoped en `.wi-dark` (evita contaminar otros previews). En Canvas, el toolbar Tema también aplica `.wi-dark` en `<html>`.',
+      },
+    },
+  },
+  render: (args) => ({
+    props: args,
     template: `
-      <div class="flex flex-wrap items-center gap-2 rounded-control bg-background p-4">
-        <wi-chip>User</wi-chip>
+      <div class="wi-dark flex flex-wrap items-center gap-2 rounded-control bg-background p-4 text-on-background">
+        <wi-chip>Etiqueta</wi-chip>
         <wi-chip variant="primary">Primary</wi-chip>
         <wi-chip selected>
           Elegida
           <wi-icon name="check" size="xs" />
         </wi-chip>
         <wi-chip variant="warning">Warning</wi-chip>
-        <wi-chip variant="danger" removable removeLabel="Quitar">Danger</wi-chip>
+        <wi-chip variant="danger" removable removeLabel="Quitar" (removed)="removed()">Danger</wi-chip>
       </div>
     `,
   }),

@@ -19,131 +19,122 @@ import {
 
 interface DemoRow {
   id: string;
-  lastSeen: string;
-  eid: string;
-  name: string;
-  discipline: string;
-  company: string;
+  actualizado: string;
+  nombre: string;
+  categoria: string;
+  estado: string;
 }
 
 const COLUMNS: WiColumnDef[] = [
   {
-    id: 'lastSeen',
-    header: 'Última posición',
-    field: 'lastSeen',
+    id: 'actualizado',
+    header: 'Actualizado',
+    field: 'actualizado',
     sortable: true,
     filterable: true,
     showFrom: 'always',
   },
   {
-    id: 'eid',
-    header: 'EID / UID',
-    field: 'eid',
+    id: 'id',
+    header: 'Identificador',
+    field: 'id',
     sortable: true,
     filterable: true,
     showFrom: 'md',
   },
   {
-    id: 'name',
+    id: 'nombre',
     header: 'Nombre',
-    field: 'name',
+    field: 'nombre',
     sortable: true,
     filterable: true,
     showFrom: 'always',
   },
   {
-    id: 'discipline',
-    header: 'Disciplina',
-    field: 'discipline',
+    id: 'categoria',
+    header: 'Categoría',
+    field: 'categoria',
     sortable: true,
     filterable: true,
     filterType: 'select',
     filterOptions: [
-      { label: 'Civil', value: 'CIVIL' },
-      { label: 'Other', value: 'OTHER' },
-      { label: 'Commissioning', value: 'COMMISSIONING' },
+      { label: 'Infraestructura', value: 'INFRA' },
+      { label: 'Operaciones', value: 'OPS' },
+      { label: 'Soporte', value: 'SUPPORT' },
     ],
   },
   {
-    id: 'company',
-    header: 'Empresa',
-    field: 'company',
+    id: 'estado',
+    header: 'Estado',
+    field: 'estado',
     sortable: true,
     filterable: true,
     filterType: 'select',
     showFrom: 'lg',
     filterOptions: [
-      { label: 'JV', value: 'JV' },
-      { label: 'NMDC', value: 'NMDC' },
-      { label: 'TR', value: 'TR' },
+      { label: 'Activo', value: 'ACTIVE' },
+      { label: 'Pendiente', value: 'PENDING' },
+      { label: 'Cerrado', value: 'CLOSED' },
     ],
   },
 ];
 
 const ROWS: DemoRow[] = [
   {
-    id: '1',
-    lastSeen: '2026-08-01 06:41:40',
-    eid: '78419850059687',
-    name: 'Abderrahmen Kirad',
-    discipline: 'OTHER',
-    company: 'JV',
+    id: 'REG-001',
+    actualizado: '2026-08-01 06:41:40',
+    nombre: 'Elemento alpha',
+    categoria: 'OPS',
+    estado: 'ACTIVE',
   },
   {
-    id: '2',
-    lastSeen: '2026-08-01 06:40:12',
-    eid: '78419850059688',
-    name: 'Afsar Ashraf',
-    discipline: 'CIVIL',
-    company: 'NMDC',
+    id: 'REG-002',
+    actualizado: '2026-08-01 06:40:12',
+    nombre: 'Elemento beta',
+    categoria: 'INFRA',
+    estado: 'PENDING',
   },
   {
-    id: '3',
-    lastSeen: '2026-08-01 06:38:55',
-    eid: '78419850059689',
-    name: 'Carla Ruiz',
-    discipline: 'COMMISSIONING',
-    company: 'TR',
+    id: 'REG-003',
+    actualizado: '2026-08-01 06:38:55',
+    nombre: 'Elemento gamma',
+    categoria: 'SUPPORT',
+    estado: 'CLOSED',
   },
   {
-    id: '4',
-    lastSeen: '2026-08-01 06:35:01',
-    eid: '78419850059690',
-    name: 'Diego Soto',
-    discipline: 'CIVIL',
-    company: 'JV',
+    id: 'REG-004',
+    actualizado: '2026-08-01 06:35:01',
+    nombre: 'Elemento delta',
+    categoria: 'INFRA',
+    estado: 'ACTIVE',
   },
   {
-    id: '5',
-    lastSeen: '2026-08-01 06:30:22',
-    eid: '78419850059691',
-    name: 'Elena Gil',
-    discipline: 'OTHER',
-    company: 'NMDC',
+    id: 'REG-005',
+    actualizado: '2026-08-01 06:30:22',
+    nombre: 'Elemento épsilon',
+    categoria: 'OPS',
+    estado: 'PENDING',
   },
   {
-    id: '6',
-    lastSeen: '2026-08-01 06:28:10',
-    eid: '78419850059692',
-    name: 'Farid Khan',
-    discipline: 'CIVIL',
-    company: 'TR',
+    id: 'REG-006',
+    actualizado: '2026-08-01 06:28:10',
+    nombre: 'Elemento zeta',
+    categoria: 'INFRA',
+    estado: 'CLOSED',
   },
   {
-    id: '7',
-    lastSeen: '2026-08-01 06:20:44',
-    eid: '78419850059693',
-    name: 'Gina Pérez',
-    discipline: 'OTHER',
-    company: 'JV',
+    id: 'REG-007',
+    actualizado: '2026-08-01 06:20:44',
+    nombre: 'Elemento eta',
+    categoria: 'OPS',
+    estado: 'ACTIVE',
   },
   {
-    id: '8',
-    lastSeen: '2026-08-01 06:15:03',
-    eid: '78419850059694',
-    name: 'Hugo Martín',
-    discipline: 'COMMISSIONING',
-    company: 'NMDC',
+    id: 'REG-008',
+    actualizado: '2026-08-01 06:15:03',
+    nombre: 'Elemento theta',
+    categoria: 'SUPPORT',
+    estado: 'PENDING',
   },
 ];
 
@@ -220,13 +211,34 @@ const TABLE_TEMPLATE = `
       class="w-full"
       [columns]="columns"
       [data]="data"
+      [totalItems]="totalItems"
+      [visibleColumnIds]="visibleColumnIds"
+      [sort]="sort"
+      [filters]="filters"
+      [pageIndex]="pageIndex"
       [pageSize]="pageSize"
       [showFilters]="showFilters"
       [columnVisibility]="columnVisibility"
       [showResultCount]="showResultCount"
       [compact]="compact"
       [emptyMessage]="emptyMessage"
-      [filters]="filters"
+      [ariaLabel]="ariaLabel"
+      [paginationAriaLabel]="paginationAriaLabel"
+      [previousLabel]="previousLabel"
+      [nextLabel]="nextLabel"
+      [filterPlaceholder]="filterPlaceholder"
+      [selectPlaceholder]="selectPlaceholder"
+      [selectClearLabel]="selectClearLabel"
+      [filterOperatorAriaLabel]="filterOperatorAriaLabel"
+      [columnVisibilityLabel]="columnVisibilityLabel"
+      [columnVisibilityMenuLabel]="columnVisibilityMenuLabel"
+      [columnVisibilityAriaLabel]="columnVisibilityAriaLabel"
+      [resultCountTemplate]="resultCountTemplate"
+      [rowActionsHeader]="rowActionsHeader"
+      [expandColumnHeader]="expandColumnHeader"
+      [expandRowAriaLabel]="expandRowAriaLabel"
+      [collapseRowAriaLabel]="collapseRowAriaLabel"
+      [filterOperators]="filterOperators"
       trackBy="id"
       (sortChange)="sortChange($event)"
       (pageChange)="pageChange($event)"
@@ -290,7 +302,7 @@ Los filtros texto usan \`wi-input\` (\`size="sm"\`, \`type="search"\`). Los \`fi
 **Compacto (automático) y desplegable:**
 
 - Cada columna declara \`showFrom\`: \`'always'\` | \`'sm'\` (640) | \`'md'\` (768) | \`'compact'\` (960, default) | \`'lg'\` (1024). El corte es el **ancho del contenedor**, no el viewport.
-- Las que no cumplen el corte van a una tarjeta con chevron. En esta demo: Última posición y Nombre (\`always\`); EID (\`md\`); Disciplina (omitido = \`compact\`); Empresa (\`lg\`).
+- Las que no cumplen el corte van a una tarjeta con chevron. En esta demo: Actualizado y Nombre (\`always\`); Identificador (\`md\`); Categoría (omitido = \`compact\`); Estado (\`lg\`).
 - El chevron sale solo si hay columnas fuera de la fila; no hace falta \`[compact]="true"\`.
 - \`[compact]\` \`null\` (default) = según el ancho medido. \`true\` = solo \`always\` en la fila; \`false\` = todas en la fila.
 
@@ -353,6 +365,15 @@ Los filtros texto usan \`wi-input\` (\`size="sm"\`, \`type="search"\`). Los \`fi
     filterPlaceholder: { control: 'text' },
     selectPlaceholder: { control: 'text' },
     selectClearLabel: { control: 'text' },
+    filterOperatorAriaLabel: { control: 'text' },
+    columnVisibilityLabel: { control: 'text' },
+    columnVisibilityMenuLabel: { control: 'text' },
+    columnVisibilityAriaLabel: { control: 'text' },
+    resultCountTemplate: { control: 'text' },
+    rowActionsHeader: { control: 'text' },
+    expandColumnHeader: { control: 'text' },
+    expandRowAriaLabel: { control: 'text' },
+    collapseRowAriaLabel: { control: 'text' },
     columns: { control: false },
     data: { control: false },
     totalItems: { control: 'number' },
@@ -396,12 +417,33 @@ Los filtros texto usan \`wi-input\` (\`size="sm"\`, \`type="search"\`). Los \`fi
   args: {
     columns: COLUMNS,
     data: ROWS,
+    totalItems: null,
+    visibleColumnIds: null,
+    sort: null,
+    filters: [],
+    pageIndex: 0,
     pageSize: 5,
     showFilters: true,
     columnVisibility: true,
     showResultCount: false,
     compact: null,
-    filters: [],
+    emptyMessage: '',
+    ariaLabel: '',
+    paginationAriaLabel: '',
+    previousLabel: '',
+    nextLabel: '',
+    filterPlaceholder: '',
+    selectPlaceholder: '',
+    selectClearLabel: '',
+    filterOperatorAriaLabel: '',
+    columnVisibilityLabel: '',
+    columnVisibilityMenuLabel: '',
+    columnVisibilityAriaLabel: '',
+    resultCountTemplate: '',
+    rowActionsHeader: '',
+    expandColumnHeader: '',
+    expandRowAriaLabel: '',
+    collapseRowAriaLabel: '',
     sortChange: fn(),
     pageChange: fn(),
     filtersChange: fn(),
@@ -419,7 +461,7 @@ export const Default: Story = {
     docs: {
       description: {
         story:
-          'Estrecha el canvas: el chevron aparece cuando alguna columna no cumple su `showFrom`. Última posición y Nombre (`always`) se quedan; EID entra desde 768px (`md`); Disciplina desde 960px (default `compact`); Empresa desde 1024px (`lg`). Filtros texto = `wi-input`; filtros select = `wi-select`.',
+          'Estrecha el canvas: el chevron aparece cuando alguna columna no cumple su `showFrom`. Actualizado y Nombre (`always`) se quedan; Identificador entra desde 768px (`md`); Categoría desde 960px (default `compact`); Estado desde 1024px (`lg`). Filtros texto = `wi-input`; filtros select = `wi-select`.',
       },
     },
   },
@@ -437,13 +479,37 @@ export const FilterBySelect: Story = {
     columnVisibility: false,
     pageSize: 8,
     showResultCount: true,
-    filters: [{ columnId: 'discipline', value: 'CIVIL', operator: 'equals' }],
+    filters: [{ columnId: 'categoria', value: 'INFRA', operator: 'equals' }],
   },
   parameters: {
     docs: {
       description: {
         story:
-          'Filtro `filterType: "select"` con `wi-select`. Arranca en Disciplina = Civil (3 filas). Cambia o limpia el select: `(filtersChange)` emite y la tabla filtra en cliente. Layout ancho (`compact=false`) para ver ambos selects (Disciplina y Empresa).',
+          'Filtro `filterType: "select"` con `wi-select`. Arranca en Categoría = Infraestructura (3 filas). Cambia o limpia el select: `(filtersChange)` emite y la tabla filtra en cliente. Layout ancho (`compact=false`) para ver ambos selects (Categoría y Estado).',
+      },
+    },
+  },
+  render: (args) => ({
+    props: args,
+    template: TABLE_TEMPLATE,
+  }),
+};
+
+/** Modo servidor: `totalItems` + página en `data`; la app reacciona a los events. */
+export const ServerMode: Story = {
+  name: 'Server mode',
+  args: {
+    data: ROWS.slice(0, 5),
+    totalItems: ROWS.length,
+    pageSize: 5,
+    pageIndex: 0,
+    showResultCount: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Con `[totalItems]` la tabla no filtra/ordena/pagina en cliente: `data` es solo la página actual. Aquí se muestra la primera página (5 de N). En la app, reacciona a `(filtersChange)` / `(sortChange)` / `(pageChange)` para pedir la página siguiente (ver Actions).',
       },
     },
   },
@@ -489,11 +555,13 @@ export const WithCellTemplate: Story = {
           (sortChange)="sortChange($event)"
           (pageChange)="pageChange($event)"
           (filtersChange)="filtersChange($event)"
+          (pageIndexChange)="pageIndexChange($event)"
+          (visibleColumnIdsChange)="visibleColumnIdsChange($event)"
         >
-          <ng-template [wiTableCell]="'name'" let-row>
-            <span class="font-medium text-on-surface">{{ row.name }}</span>
+          <ng-template [wiTableCell]="'nombre'" let-row>
+            <span class="font-medium text-on-surface">{{ row.nombre }}</span>
           </ng-template>
-          <ng-template [wiTableCell]="'discipline'" let-value="value">
+          <ng-template [wiTableCell]="'categoria'" let-value="value">
             <span class="rounded-control-sm bg-surface-variant px-2 py-0.5 text-xs">{{ value }}</span>
           </ng-template>
         </wi-table>
@@ -551,6 +619,8 @@ export const RecipeResultsToolbar: Story = {
           (sortChange)="sortChange($event)"
           (pageChange)="pageChange($event)"
           (filtersChange)="filtersChange($event)"
+          (pageIndexChange)="pageIndexChange($event)"
+          (visibleColumnIdsChange)="visibleColumnIdsChange($event)"
         >
           <div wiTableActions class="flex flex-wrap gap-2">
             <button wiButton type="button" variant="secondary" size="sm">Descargar Excel</button>
@@ -562,7 +632,7 @@ export const RecipeResultsToolbar: Story = {
               type="button"
               class="inline-flex size-8 items-center justify-center rounded-control text-on-surface outline-none hover:bg-surface-variant focus-visible:ring-2 focus-visible:ring-ring"
               [wiMenuTrigger]="rowMenu"
-              [attr.aria-label]="'Acciones de ' + row.name"
+              [attr.aria-label]="'Acciones de ' + row.nombre"
             >
               <wi-icon name="ellipsis-vertical" />
             </button>
@@ -589,7 +659,7 @@ export const NarrowCompact: Story = {
     docs: {
       description: {
         story:
-          '`[compact]="true"` fuerza solo columnas `always` en la fila (demo a 360px). En la app, Auto usa el ancho del contenedor y `showFrom`. Última posición y Nombre se quedan; el resto va a la tarjeta.',
+          '`[compact]="true"` fuerza solo columnas `always` en la fila (demo a 360px). En la app, Auto usa el ancho del contenedor y `showFrom`. Actualizado y Nombre se quedan; el resto va a la tarjeta.',
       },
     },
   },
@@ -615,15 +685,18 @@ export const NarrowCompact: Story = {
             [columnVisibility]="columnVisibility"
             [compact]="compact"
             trackBy="id"
+            (sortChange)="sortChange($event)"
             (pageChange)="pageChange($event)"
             (filtersChange)="filtersChange($event)"
+            (pageIndexChange)="pageIndexChange($event)"
+            (visibleColumnIdsChange)="visibleColumnIdsChange($event)"
           >
             <ng-template wiTableRowActions let-row>
               <button
                 type="button"
                 class="inline-flex size-8 items-center justify-center rounded-control text-on-surface outline-none hover:bg-surface-variant focus-visible:ring-2 focus-visible:ring-ring"
                 [wiMenuTrigger]="rowMenu"
-                [attr.aria-label]="'Acciones de ' + row.name"
+                [attr.aria-label]="'Acciones de ' + row.nombre"
               >
                 <wi-icon name="ellipsis-vertical" />
               </button>
@@ -649,12 +722,16 @@ export const DarkMode: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Misma API que Default sobre `.wi-dark`. Los `wi-select` de filtro heredan tokens.',
+        story: 'Misma API que Default en tema oscuro. Los `wi-select` de filtro heredan tokens.',
       },
     },
   },
   render: (args) => ({
     props: args,
-    template: TABLE_TEMPLATE,
+    template: `
+      <div class="wi-dark">
+        ${TABLE_TEMPLATE}
+      </div>
+    `,
   }),
 };

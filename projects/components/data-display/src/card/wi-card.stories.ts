@@ -159,23 +159,25 @@ export const DarkMode: Story = {
   },
   render: () => ({
     template: `
-      <wi-card class="w-96">
-        <wi-card-header>
-          <wi-card-title>Tema oscuro</wi-card-title>
-          <wi-card-description>
-            Contraste vía tokens en .wi-dark.
-          </wi-card-description>
-        </wi-card-header>
-        <wi-card-content>
-          <p class="text-on-surface-variant">
-            Superficie, borde y tipografía heredan el tema del documento.
-          </p>
-        </wi-card-content>
-        <wi-card-footer class="justify-end">
-          <button wiButton variant="outline">Cerrar</button>
-          <button wiButton>Continuar</button>
-        </wi-card-footer>
-      </wi-card>
+      <div class="wi-dark rounded-control bg-background p-4 text-on-background">
+        <wi-card class="w-96">
+          <wi-card-header>
+            <wi-card-title>Tema oscuro</wi-card-title>
+            <wi-card-description>
+              Contraste vía tokens en .wi-dark.
+            </wi-card-description>
+          </wi-card-header>
+          <wi-card-content>
+            <p class="text-on-surface-variant">
+              Superficie, borde y tipografía heredan el tema del documento.
+            </p>
+          </wi-card-content>
+          <wi-card-footer class="justify-end">
+            <button wiButton variant="outline">Cerrar</button>
+            <button wiButton>Continuar</button>
+          </wi-card-footer>
+        </wi-card>
+      </div>
     `,
   }),
 };

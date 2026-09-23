@@ -22,12 +22,24 @@ interface StoryArgs {
   invert: boolean;
   expand: boolean;
   visibleToasts: number;
-  offset: string | number | null;
+  offset: string;
   hotKey: string[];
   actionClick: ReturnType<typeof fn>;
 }
 
 const hideFromDocs = { table: { disable: true }, control: false } as const;
+
+/** Convierte el control de texto a `string | number | null` del input `offset`. */
+function resolveToastOffset(value: string): string | number | null {
+  const trimmed = value.trim();
+  if (trimmed === '') {
+    return null;
+  }
+  if (/^\d+(\.\d+)?$/.test(trimmed)) {
+    return Number(trimmed);
+  }
+  return trimmed;
+}
 
 /** Internos de `WiToastComponent` que autodocs extrae como Properties / Methods. */
 const hiddenToastInternals: Record<string, typeof hideFromDocs> = {
@@ -92,9 +104,11 @@ const toastDecorator = (
   }
 
   const story = storyFn();
+  const storyProps = story.props ?? {};
+  const offset = resolveToastOffset(String(storyProps['offset'] ?? ''));
   return {
     ...story,
-    props: story.props,
+    props: { ...storyProps, offset },
     template: `
       <wi-toast
         [position]="position"
@@ -154,19 +168,28 @@ Importar estilos: \`@wldeveloperapps/ui/styles/toast.css\` (o \`styles/index.css
 
 La tabla es la API de \`<wi-toast />\`: solo inputs. El componente no tiene outputs ni métodos públicos.
 
-## \`wiToast\` / \`inject(WiToast)\`
+## \`wiToast\` y \`inject(WiToast)\`
 
-Misma API; el servicio encaja mejor en DI y tests.
+Dos APIs imperativas. Requieren un \`<wi-toast />\` montado una vez.
 
 \`\`\`ts
 import { inject } from '@angular/core';
 import { WiToast, wiToast } from '@wldeveloperapps/ui/overlays';
 
-wiToast.success('Guardado', { description: 'El registro se actualizó' });
+// Función + métodos tipados (callable; no tiene \`.show\`)
+wiToast('Guardado');
+wiToast.message('Guardado', { description: 'El registro se actualizó' });
+wiToast.success('Listo');
+wiToast.error('Error', { important: true });
+
+// Servicio (DI / tests): incluye \`show\`
+inject(WiToast).show('Guardado');
 inject(WiToast).error('Error', { important: true });
 \`\`\`
 
-Métodos: \`show\` / \`message\`, \`success\`, \`info\`, \`warning\`, \`error\`, \`loading\`, \`promise\`, \`dismiss\`.
+- \`wiToast\`: callable + \`message\`, \`success\`, \`info\`, \`warning\`, \`error\`, \`loading\`, \`promise\`, \`dismiss\`.
+- \`WiToast\` (servicio): \`show\`, \`message\`, \`success\`, \`info\`, \`warning\`, \`error\`, \`loading\`, \`promise\`, \`dismiss\`.
+
 Opciones por toast (\`WiToastOptions\`): \`description\`, \`duration\`, \`action\`, \`cancel\`, \`important\`, \`position\`, …
 
 ## i18n
@@ -229,8 +252,9 @@ Las demos interactivas están en **Canvas** (el preview de Docs no ancla el over
       description: 'Máximo de toasts visibles a la vez (el resto queda en cola).',
     },
     offset: {
-      control: false,
-      description: 'Offset desde el borde del viewport.',
+      control: 'text',
+      description:
+        'Offset desde el borde del viewport (px numérico o longitud CSS, p. ej. `16` o `1rem`). Vacío = default.',
     },
     hotKey: {
       control: false,
@@ -248,7 +272,7 @@ Las demos interactivas están en **Canvas** (el preview de Docs no ancla el over
     invert: false,
     expand: true,
     visibleToasts: 5,
-    offset: null,
+    offset: '',
     hotKey: ['altKey', 'KeyT'],
     actionClick: fn(),
   },
@@ -370,12 +394,12 @@ export const Positions: Story = {
       },
       template: canvasShell(`
         <div class="grid max-w-md grid-cols-2 gap-2 sm:grid-cols-3">
-          <button wiButton type="button" size="sm" variant="secondary" (click)="show('top-left')">Top left</button>
-          <button wiButton type="button" size="sm" variant="secondary" (click)="show('top-center')">Top center</button>
-          <button wiButton type="button" size="sm" variant="secondary" (click)="show('top-right')">Top right</button>
-          <button wiButton type="button" size="sm" variant="secondary" (click)="show('bottom-left')">Bottom left</button>
-          <button wiButton type="button" size="sm" variant="secondary" (click)="show('bottom-center')">Bottom center</button>
-          <button wiButton type="button" size="sm" variant="secondary" (click)="show('bottom-right')">Bottom right</button>
+          <button wiButton type="button" size="sm" variant="secondary" (click)="show('top-left')">Arriba izquierda</button>
+          <button wiButton type="button" size="sm" variant="secondary" (click)="show('top-center')">Arriba centro</button>
+          <button wiButton type="button" size="sm" variant="secondary" (click)="show('top-right')">Arriba derecha</button>
+          <button wiButton type="button" size="sm" variant="secondary" (click)="show('bottom-left')">Abajo izquierda</button>
+          <button wiButton type="button" size="sm" variant="secondary" (click)="show('bottom-center')">Abajo centro</button>
+          <button wiButton type="button" size="sm" variant="secondary" (click)="show('bottom-right')">Abajo derecha</button>
         </div>
       `),
     };
@@ -432,30 +456,6 @@ export const PromiseToast: Story = {
   },
 };
 
-/** Solo Canvas: fija toolbar Light. */
-export const LightMode: Story = {
-  name: 'Light mode',
-  tags: ['!autodocs'],
-  globals: { theme: 'light' },
-  args: { theme: 'auto', richColors: true },
-  render: (args, { globals }) => {
-    const copy = toastCopy(globals);
-    return {
-      props: {
-        ...args,
-        lightButton: copy.lightButton,
-        show: () =>
-          wiToast.success(copy.lightTitle, {
-            description: copy.lightDescription,
-          }),
-      },
-      template: canvasShell(`
-        <button wiButton type="button" (click)="show()">{{ lightButton }}</button>
-      `),
-    };
-  },
-};
-
 /** Solo Canvas: fija toolbar Dark. */
 export const DarkMode: Story = {
   name: 'Dark mode',
@@ -473,9 +473,11 @@ export const DarkMode: Story = {
             description: copy.darkDescription,
           }),
       },
-      template: canvasShell(`
+      template: `
+        <div class="wi-dark flex min-h-dvh flex-col items-center justify-center gap-4 bg-background p-6 text-on-surface">
         <button wiButton type="button" (click)="show()">{{ darkButton }}</button>
-      `),
+      </div>
+      `,
     };
   },
 };

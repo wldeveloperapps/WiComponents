@@ -107,7 +107,7 @@ const meta: Meta<WiSelectStoryArgs> = {
     docs: {
       description: {
         component:
-          'Select single/multi sin búsqueda. En `multiple`, los valores se muestran como chips con aspa para quitarlos. Icono de trigger con input `icon` (nombre en `provideWiIcons`). Textos (`placeholder`, `emptyText`, `clearLabel`, `removeChipLabel`, `ariaLabel`) los provee la app — ver Documentation/I18n. Requiere CSS de overlays CDK/Spartan. Events: `valueChange`, `touch`.',
+          'Select single/multi sin búsqueda. En `multiple`, los valores se muestran como chips con aspa para quitarlos. Icono de trigger con input `icon` (nombre en `provideWiIcons`). Textos (`placeholder`, `emptyText`, `clearLabel`, `removeChipLabel`, `ariaLabel`) los provee la app — ver Documentation/I18n. Requiere CSS de overlays CDK. Events: `valueChange`, `touch`.',
       },
     },
   },
@@ -150,7 +150,10 @@ const meta: Meta<WiSelectStoryArgs> = {
       description:
         'Nombre de cualquier icono registrado con provideWiIcons (p. ej. funnel, clock, calendar)',
     },
-    options: { control: 'object' },
+    options: {
+      control: false,
+      description: 'Opciones del select (array). Se fijan en cada story; no editable en Controls.',
+    },
     value: { control: false },
     compareWith: { control: false },
     itemTemplate: { control: false },
@@ -278,29 +281,6 @@ export const Objects: Story = {
           ariaLabel="Sitio"
           clearable
           clearLabel="Limpiar"
-        />
-      </div>
-    `,
-  }),
-};
-
-export const Clearable: Story = {
-  render: (args) => ({
-    props: {
-      ...args,
-      options: fruitOptions,
-      value: 'Banana',
-    },
-    template: `
-      <div style="width:20rem;">
-        <wi-select
-          [value]="value"
-          (valueChange)="value = $event; valueChange($event)"
-          (touch)="touch()"
-          [options]="options"
-          clearable
-          clearLabel="Limpiar selección"
-          ariaLabel="Fruta"
         />
       </div>
     `,
@@ -453,7 +433,7 @@ export const DarkMode: Story = {
       value: 'Grapes',
     },
     template: `
-      <div style="width:20rem;padding:1.5rem;">
+      <div class="wi-dark bg-background text-on-background" style="width:20rem;padding:1.5rem;">
         <wi-select
           [value]="value"
           (valueChange)="value = $event; valueChange($event)"

@@ -44,6 +44,9 @@ const meta: Meta<WiPopoverStoryArgs> = {
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
+    controls: {
+      include: ['size', 'align', 'sideOffset', 'ariaLabel'],
+    },
     docs: {
       description: {
         component: `
@@ -190,48 +193,6 @@ export const Sizes: Story = {
           </ng-template>
         </wi-popover>
       </div>
-    `,
-  }),
-};
-
-export const AlignStart: Story = {
-  args: {
-    align: 'start',
-  },
-  render: (args) => ({
-    props: args,
-    template: `
-      <wi-popover
-        [size]="size"
-        [align]="align"
-        [sideOffset]="sideOffset"
-        (closed)="closed($event)"
-        (stateChanged)="stateChanged($event)"
-      >
-        <button wiButton type="button" wiPopoverTrigger>Align start</button>
-        ${popoverBody}
-      </wi-popover>
-    `,
-  }),
-};
-
-export const AlignEnd: Story = {
-  args: {
-    align: 'end',
-  },
-  render: (args) => ({
-    props: args,
-    template: `
-      <wi-popover
-        [size]="size"
-        [align]="align"
-        [sideOffset]="sideOffset"
-        (closed)="closed($event)"
-        (stateChanged)="stateChanged($event)"
-      >
-        <button wiButton type="button" wiPopoverTrigger>Align end</button>
-        ${popoverBody}
-      </wi-popover>
     `,
   }),
 };
@@ -396,7 +357,7 @@ export const DarkMode: Story = {
   render: (args) => ({
     props: args,
     template: `
-      <div class="p-8">
+      <div class="wi-dark p-8 bg-background text-on-background">
         <wi-popover
           [size]="size"
           (closed)="closed($event)"

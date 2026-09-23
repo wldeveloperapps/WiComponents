@@ -17,6 +17,26 @@ const meta: Meta<WiFileUploadStoryArgs> = {
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
+    controls: {
+      include: [
+        'size',
+        'accept',
+        'maxFileSize',
+        'chooseLabel',
+        'emptyLabel',
+        'uploadLabel',
+        'multiple',
+        'disabled',
+        'invalid',
+        'required',
+        'showUpload',
+        'uploadLoading',
+        'ariaLabel',
+        'ariaDescribedBy',
+        'id',
+        'name',
+      ],
+    },
     docs: {
       description: {
         component:
@@ -46,6 +66,9 @@ const meta: Meta<WiFileUploadStoryArgs> = {
     showUpload: { control: 'boolean' },
     uploadLoading: { control: 'boolean' },
     ariaLabel: { control: 'text' },
+    ariaDescribedBy: { control: 'text' },
+    id: { control: 'text' },
+    name: { control: 'text' },
     filesChange: {
       action: 'filesChange',
       description: 'Se emite al cambiar los archivos seleccionados (solo válidos)',
@@ -85,6 +108,9 @@ const meta: Meta<WiFileUploadStoryArgs> = {
     showUpload: true,
     uploadLoading: false,
     ariaLabel: 'Archivo',
+    ariaDescribedBy: '',
+    id: '',
+    name: '',
     filesChange: fn(),
     upload: fn(),
     touch: fn(),
@@ -109,6 +135,9 @@ const BINDINGS = `
   [showUpload]="showUpload"
   [uploadLoading]="uploadLoading"
   [ariaLabel]="ariaLabel"
+  [ariaDescribedBy]="ariaDescribedBy"
+  [id]="id"
+  [name]="name"
   (filesChange)="filesChange($event)"
   (upload)="upload($event)"
   (touch)="touch()"
@@ -178,7 +207,7 @@ export const Sizes: Story = {
           chooseLabel="Elegir archivo"
           emptyLabel="Ningún archivo seleccionado"
           uploadLabel="Subir"
-          ariaLabel="Small"
+          ariaLabel="Pequeño"
           (filesChange)="filesChange($event)"
           (upload)="upload($event)"
           (touch)="touch()"
@@ -189,7 +218,7 @@ export const Sizes: Story = {
           chooseLabel="Elegir archivo"
           emptyLabel="Ningún archivo seleccionado"
           uploadLabel="Subir"
-          ariaLabel="Medium"
+          ariaLabel="Mediano"
           (filesChange)="filesChange($event)"
           (upload)="upload($event)"
           (touch)="touch()"
@@ -200,7 +229,7 @@ export const Sizes: Story = {
           chooseLabel="Elegir archivo"
           emptyLabel="Ningún archivo seleccionado"
           uploadLabel="Subir"
-          ariaLabel="Large"
+          ariaLabel="Grande"
           (filesChange)="filesChange($event)"
           (upload)="upload($event)"
           (touch)="touch()"
@@ -279,7 +308,7 @@ export const DarkMode: Story = {
   render: (args) => ({
     props: args,
     template: `
-      <div class="flex w-full min-w-0 max-w-xl flex-col gap-4 p-6">
+      <div class="wi-dark flex w-full min-w-0 max-w-xl flex-col gap-4 p-6 bg-background text-on-background">
         <wi-file-upload ${BINDINGS} />
         <wi-file-upload
           disabled

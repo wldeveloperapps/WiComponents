@@ -33,6 +33,27 @@ const meta: Meta<WiListboxStoryArgs> = {
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
+    controls: {
+      include: [
+        'value',
+        'multiple',
+        'options',
+        'optionLabel',
+        'optionValue',
+        'size',
+        'emptyText',
+        'id',
+        'name',
+        'ariaLabel',
+        'ariaLabelledBy',
+        'ariaDescribedBy',
+        'compareWith',
+        'itemTemplate',
+        'disabled',
+        'invalid',
+        'required',
+      ],
+    },
     docs: {
       description: {
         component:
@@ -55,7 +76,18 @@ const meta: Meta<WiListboxStoryArgs> = {
     invalid: { control: 'boolean' },
     required: { control: 'boolean' },
     emptyText: { control: 'text' },
+    optionLabel: { control: 'text' },
+    optionValue: { control: 'text' },
+    id: { control: 'text' },
+    name: { control: 'text' },
     ariaLabel: { control: 'text' },
+    ariaLabelledBy: { control: 'text' },
+    ariaDescribedBy: { control: 'text' },
+    compareWith: { control: false },
+    itemTemplate: { control: false },
+    cvaDisabled: { table: { disable: true }, control: false },
+    onChange: { table: { disable: true }, control: false },
+    onTouched: { table: { disable: true }, control: false },
     valueChange: {
       action: 'valueChange',
       description: 'Se emite al cambiar el valor',
@@ -76,7 +108,13 @@ const meta: Meta<WiListboxStoryArgs> = {
     invalid: false,
     required: false,
     emptyText: 'Sin opciones',
+    optionLabel: '',
+    optionValue: '',
+    id: '',
+    name: '',
     ariaLabel: 'Fruta',
+    ariaLabelledBy: '',
+    ariaDescribedBy: '',
     valueChange: fn(),
     touch: fn(),
   },
@@ -99,13 +137,19 @@ export const Default: Story = {
           (valueChange)="value = $event; valueChange($event)"
           (touch)="touch()"
           [options]="options"
+          [optionLabel]="optionLabel || undefined"
+          [optionValue]="optionValue || undefined"
           [size]="size"
           [multiple]="multiple"
           [disabled]="disabled"
           [invalid]="invalid"
           [required]="required"
           [emptyText]="emptyText"
+          [id]="id"
+          [name]="name"
           [ariaLabel]="ariaLabel"
+          [ariaLabelledBy]="ariaLabelledBy"
+          [ariaDescribedBy]="ariaDescribedBy"
         />
         <p class="mt-2 text-xs text-on-surface-variant">Valor: {{ value | json }}</p>
       </div>
@@ -321,6 +365,7 @@ export const ReactiveForms: Story = {
             optionLabel="name"
             optionValue="id"
             ariaLabel="Reactive"
+            (valueChange)="valueChange($event)"
             (touch)="touch()"
           />
           <p class="mt-2 text-xs text-on-surface-variant">Control: {{ control.value | json }}</p>
@@ -331,6 +376,9 @@ export const ReactiveForms: Story = {
 };
 
 export const DarkMode: Story = {
+  globals: {
+    theme: 'dark',
+  },
   render: (args) => ({
     props: {
       ...args,

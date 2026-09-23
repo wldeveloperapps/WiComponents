@@ -10,12 +10,45 @@ type WiSwitchStoryArgs = WiSwitchComponent & {
   touch: ReturnType<typeof fn>;
 };
 
+const hideFromDocs = { table: { disable: true }, control: false } as const;
+
+const hiddenSwitchInternals: Record<string, typeof hideFromDocs> = {
+  cvaDisabled: hideFromDocs,
+  onChange: hideFromDocs,
+  onTouched: hideFromDocs,
+  generatedId: hideFromDocs,
+  resolvedId: hideFromDocs,
+  isDisabled: hideFromDocs,
+  controlClasses: hideFromDocs,
+  thumbClasses: hideFromDocs,
+  writeValue: hideFromDocs,
+  registerOnChange: hideFromDocs,
+  registerOnTouched: hideFromDocs,
+  setDisabledState: hideFromDocs,
+  onCheckedChange: hideFromDocs,
+  onBrainTouched: hideFromDocs,
+};
+
 const meta: Meta<WiSwitchStoryArgs> = {
   title: 'Forms/WiSwitch',
   component: WiSwitchComponent,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
+    controls: {
+      include: [
+        'value',
+        'size',
+        'id',
+        'name',
+        'disabled',
+        'invalid',
+        'required',
+        'ariaLabel',
+        'ariaLabelledBy',
+        'ariaDescribedBy',
+      ],
+    },
     docs: {
       description: {
         component:
@@ -29,6 +62,7 @@ const meta: Meta<WiSwitchStoryArgs> = {
     }),
   ],
   argTypes: {
+    value: { control: 'boolean' },
     size: {
       control: 'select',
       options: ['sm', 'md', 'lg'],
@@ -36,7 +70,11 @@ const meta: Meta<WiSwitchStoryArgs> = {
     disabled: { control: 'boolean' },
     invalid: { control: 'boolean' },
     required: { control: 'boolean' },
+    id: { control: 'text' },
+    name: { control: 'text' },
     ariaLabel: { control: 'text' },
+    ariaLabelledBy: { control: 'text' },
+    ariaDescribedBy: { control: 'text' },
     valueChange: {
       action: 'valueChange',
       description: 'Se emite al cambiar el valor',
@@ -49,13 +87,19 @@ const meta: Meta<WiSwitchStoryArgs> = {
       table: { category: 'Events' },
       control: false,
     },
+    ...hiddenSwitchInternals,
   },
   args: {
+    value: false,
     size: 'md',
     disabled: false,
     invalid: false,
     required: false,
+    id: '',
+    name: '',
     ariaLabel: 'Modo avión',
+    ariaLabelledBy: '',
+    ariaDescribedBy: '',
     valueChange: fn(),
     touch: fn(),
   },
@@ -66,10 +110,7 @@ type Story = StoryObj<WiSwitchStoryArgs>;
 
 export const Default: Story = {
   render: (args) => ({
-    props: {
-      ...args,
-      value: false,
-    },
+    props: args,
     template: `
       <label class="flex min-w-0 max-w-xs items-center justify-between gap-3 text-sm text-on-surface">
         <span class="min-w-0">Modo avión</span>
@@ -78,10 +119,14 @@ export const Default: Story = {
           (valueChange)="value = $event; valueChange($event)"
           (touch)="touch()"
           [size]="size"
+          [id]="id || undefined"
+          [name]="name"
           [disabled]="disabled"
           [invalid]="invalid"
           [required]="required"
-          [ariaLabel]="ariaLabel"
+          [ariaLabel]="ariaLabel || null"
+          [ariaLabelledBy]="ariaLabelledBy || null"
+          [ariaDescribedBy]="ariaDescribedBy || null"
         />
       </label>
     `,
@@ -94,38 +139,18 @@ export const Sizes: Story = {
     template: `
       <div class="flex min-w-0 max-w-xs flex-col gap-3">
         <label class="flex items-center justify-between gap-3 text-sm text-on-surface">
-          <span>Small</span>
-          <wi-switch size="sm" ariaLabel="Small" (valueChange)="valueChange($event)" (touch)="touch()" />
+          <span>Pequeño</span>
+          <wi-switch size="sm" ariaLabel="Pequeño" (valueChange)="valueChange($event)" (touch)="touch()" />
         </label>
         <label class="flex items-center justify-between gap-3 text-sm text-on-surface">
-          <span>Medium</span>
-          <wi-switch size="md" ariaLabel="Medium" (valueChange)="valueChange($event)" (touch)="touch()" />
+          <span>Mediano</span>
+          <wi-switch size="md" ariaLabel="Mediano" (valueChange)="valueChange($event)" (touch)="touch()" />
         </label>
         <label class="flex items-center justify-between gap-3 text-sm text-on-surface">
-          <span>Large</span>
-          <wi-switch size="lg" ariaLabel="Large" (valueChange)="valueChange($event)" (touch)="touch()" />
+          <span>Grande</span>
+          <wi-switch size="lg" ariaLabel="Grande" (valueChange)="valueChange($event)" (touch)="touch()" />
         </label>
       </div>
-    `,
-  }),
-};
-
-export const Checked: Story = {
-  render: (args) => ({
-    props: {
-      ...args,
-      value: true,
-    },
-    template: `
-      <label class="flex min-w-0 max-w-xs items-center justify-between gap-3 text-sm text-on-surface">
-        <span>Notificaciones</span>
-        <wi-switch
-          [value]="value"
-          (valueChange)="value = $event; valueChange($event)"
-          (touch)="touch()"
-          ariaLabel="Notificaciones"
-        />
-      </label>
     `,
   }),
 };
@@ -281,7 +306,7 @@ export const DarkMode: Story = {
   render: (args) => ({
     props: args,
     template: `
-      <div class="flex min-w-0 max-w-xs flex-col gap-3 p-6">
+      <div class="wi-dark flex min-w-0 max-w-xs flex-col gap-3 p-6 bg-background text-on-background">
         <label class="flex items-center justify-between gap-3 text-sm text-on-surface">
           <span>Default</span>
           <wi-switch ariaLabel="Default" (valueChange)="valueChange($event)" (touch)="touch()" />

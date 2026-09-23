@@ -205,7 +205,7 @@ export const Default: Story = {
 };
 
 export const Horizontal: Story = {
-  args: { orientation: 'horizontal', linear: false },
+  args: { orientation: 'horizontal' },
   render: (args, { globals }) => ({
     props: demoProps(args, globals),
     template: `
@@ -315,10 +315,13 @@ export const LongLabels: Story = {
 };
 
 export const DarkMode: Story = {
+  globals: {
+    theme: 'dark',
+  },
   render: (args, { globals }) => ({
     props: demoProps(args, globals),
     template: `
-      <div class="wi-dark w-full min-w-0 rounded-control bg-background p-4 sm:p-6">
+      <div class="wi-dark w-full min-w-0 rounded-control bg-background p-4 sm:p-6 text-on-background">
         <wi-stepper-demo
           [steps]="steps"
           [bodies]="bodies"

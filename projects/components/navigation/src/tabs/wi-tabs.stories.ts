@@ -2,7 +2,12 @@ import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { moduleMetadata } from '@storybook/angular-vite';
 import { fn } from 'storybook/test';
 
-import type { WiTabsListVariant, WiTabsOrientation, WiTabsSize } from './wi-tabs.types';
+import type {
+  WiTabsActivationMode,
+  WiTabsListVariant,
+  WiTabsOrientation,
+  WiTabsSize,
+} from './wi-tabs.types';
 import {
   WiTabsContentDirective,
   WiTabsContentLazyDirective,
@@ -16,6 +21,7 @@ interface WiTabsStoryArgs {
   orientation: WiTabsOrientation;
   variant: WiTabsListVariant;
   size: WiTabsSize;
+  activationMode: WiTabsActivationMode;
   tabActivated: ReturnType<typeof fn>;
   valueChange: ReturnType<typeof fn>;
 }
@@ -35,10 +41,13 @@ const meta: Meta<WiTabsStoryArgs> = {
     // `padded` da ancho definido al canvas; con `centered` el padre shrink-wrapea
     // y el overflow se escapa del viewport (scrollbar nativa exterior).
     layout: 'padded',
+    controls: {
+      include: ['value', 'orientation', 'variant', 'size', 'activationMode'],
+    },
     docs: {
       description: {
         component:
-          'Pestañas accesibles (Brain). Variante `segmented` (default) / `line`. Títulos y paneles: copy de la app (proyección en `wiTabsTrigger` / `wiTabsContent`; ver Documentation/I18n). `wi-tabs` / lista a ancho del padre; track compacto + scroll y scrollbar de tokens en `.wi-tabs__viewport`. Tipografía densa bajo 40rem de viewport. Events: `tabActivated`, `valueChange`.',
+          'Pestañas accesibles. Variante `segmented` (default) / `line`. Títulos y paneles: copy de la app (proyección en `wiTabsTrigger` / `wiTabsContent`; ver Documentation/I18n). `wi-tabs` / lista a ancho del padre; track compacto + scroll y scrollbar de tokens en `.wi-tabs__viewport`. Tipografía densa bajo 40rem de viewport. Events: `tabActivated`, `valueChange`.',
       },
     },
   },
@@ -50,7 +59,7 @@ const meta: Meta<WiTabsStoryArgs> = {
   argTypes: {
     value: {
       control: 'select',
-      options: ['unmanaged', 'managed'],
+      options: ['primera', 'segunda'],
     },
     orientation: {
       control: 'select',
@@ -63,6 +72,11 @@ const meta: Meta<WiTabsStoryArgs> = {
     size: {
       control: 'select',
       options: ['sm', 'md'],
+    },
+    activationMode: {
+      control: 'select',
+      options: ['automatic', 'manual'],
+      description: 'automatic: activa al enfocar; manual: solo con clic / Enter / Space',
     },
     tabActivated: {
       action: 'tabActivated',
@@ -78,10 +92,11 @@ const meta: Meta<WiTabsStoryArgs> = {
     },
   },
   args: {
-    value: 'unmanaged',
+    value: 'primera',
     orientation: 'horizontal',
     variant: 'segmented',
     size: 'md',
+    activationMode: 'automatic',
     tabActivated: fn(),
     valueChange: fn(),
   },
@@ -91,7 +106,7 @@ export default meta;
 type Story = StoryObj<WiTabsStoryArgs>;
 
 export const Default: Story = {
-  name: 'Alertas (segmented)',
+  name: 'Por defecto (segmented)',
   render: (args) => ({
     props: {
       ...args,
@@ -103,24 +118,25 @@ export const Default: Story = {
           class="w-full"
           [value]="active"
           [orientation]="orientation"
+          [activationMode]="activationMode"
           (valueChange)="active = $event; valueChange($event)"
           (tabActivated)="tabActivated($event)"
         >
         <wi-tabs-list [variant]="variant" [size]="size">
-          <button type="button" wiTabsTrigger="unmanaged">Alertas No Gestionadas</button>
-          <button type="button" wiTabsTrigger="managed">Alertas Gestionadas</button>
+          <button type="button" wiTabsTrigger="primera">Primera</button>
+          <button type="button" wiTabsTrigger="segunda">Segunda</button>
         </wi-tabs-list>
         <div
-          wiTabsContent="unmanaged"
+          wiTabsContent="primera"
           class="box-border min-h-28 w-full flex-1 basis-0 rounded-control border border-outline-variant p-3"
         >
-          Lista de alertas no gestionadas
+          Contenido de la primera pestaña
         </div>
         <div
-          wiTabsContent="managed"
+          wiTabsContent="segunda"
           class="box-border min-h-28 w-full flex-1 basis-0 rounded-control border border-outline-variant p-3"
         >
-          Lista de alertas gestionadas
+          Contenido de la segunda pestaña
         </div>
         </wi-tabs>
       </div>
@@ -129,20 +145,21 @@ export const Default: Story = {
 };
 
 export const Variants: Story = {
+  name: 'Variantes',
   render: (args) => ({
     props: args,
     template: `
       <div class="flex min-w-0 max-w-lg flex-col gap-6">
         <wi-tabs value="a" (tabActivated)="tabActivated($event)" (valueChange)="valueChange($event)">
           <wi-tabs-list variant="segmented" [size]="size">
-            <button type="button" wiTabsTrigger="a">Segmented A</button>
-            <button type="button" wiTabsTrigger="b">Segmented B</button>
+            <button type="button" wiTabsTrigger="a">Segmentada A</button>
+            <button type="button" wiTabsTrigger="b">Segmentada B</button>
           </wi-tabs-list>
         </wi-tabs>
         <wi-tabs value="a" (tabActivated)="tabActivated($event)" (valueChange)="valueChange($event)">
           <wi-tabs-list variant="line" [size]="size">
-            <button type="button" wiTabsTrigger="a">Line A</button>
-            <button type="button" wiTabsTrigger="b">Line B</button>
+            <button type="button" wiTabsTrigger="a">Línea A</button>
+            <button type="button" wiTabsTrigger="b">Línea B</button>
           </wi-tabs-list>
         </wi-tabs>
       </div>
@@ -151,20 +168,21 @@ export const Variants: Story = {
 };
 
 export const Sizes: Story = {
+  name: 'Tamaños',
   render: (args) => ({
     props: args,
     template: `
       <div class="flex min-w-0 max-w-md flex-col gap-4">
         <wi-tabs value="a" (tabActivated)="tabActivated($event)" (valueChange)="valueChange($event)">
           <wi-tabs-list size="sm">
-            <button type="button" wiTabsTrigger="a">Small</button>
-            <button type="button" wiTabsTrigger="b">Tabs</button>
+            <button type="button" wiTabsTrigger="a">Pequeña</button>
+            <button type="button" wiTabsTrigger="b">Pestaña</button>
           </wi-tabs-list>
         </wi-tabs>
         <wi-tabs value="a" (tabActivated)="tabActivated($event)" (valueChange)="valueChange($event)">
           <wi-tabs-list size="md">
-            <button type="button" wiTabsTrigger="a">Medium</button>
-            <button type="button" wiTabsTrigger="b">Tabs</button>
+            <button type="button" wiTabsTrigger="a">Mediana</button>
+            <button type="button" wiTabsTrigger="b">Pestaña</button>
           </wi-tabs-list>
         </wi-tabs>
       </div>
@@ -259,6 +277,9 @@ export const LazyContent: Story = {
 };
 
 export const DarkMode: Story = {
+  globals: {
+    theme: 'dark',
+  },
   parameters: {
     docs: {
       description: {
@@ -270,19 +291,19 @@ export const DarkMode: Story = {
   render: (args) => ({
     props: {
       ...args,
-      active: 'unmanaged',
+      active: 'primera',
     },
     template: `
-      <div class="wi-dark w-full max-w-sm min-w-0 rounded-control bg-background p-6">
+      <div class="wi-dark w-full max-w-sm min-w-0 rounded-control bg-background p-6 text-on-background">
         <wi-tabs
           [value]="active"
           (valueChange)="active = $event; valueChange($event)"
           (tabActivated)="tabActivated($event)"
         >
           <wi-tabs-list>
-            <button type="button" wiTabsTrigger="unmanaged">Alertas No Gestionadas</button>
-            <button type="button" wiTabsTrigger="managed">Alertas Gestionadas</button>
-            <button type="button" wiTabsTrigger="archived">Alertas Archivadas</button>
+            <button type="button" wiTabsTrigger="primera">Primera</button>
+            <button type="button" wiTabsTrigger="segunda">Segunda</button>
+            <button type="button" wiTabsTrigger="tercera">Tercera</button>
           </wi-tabs-list>
         </wi-tabs>
       </div>
@@ -303,7 +324,7 @@ export const Responsive: Story = {
   render: (args) => ({
     props: {
       ...args,
-      active: 'unmanaged',
+      active: 'primera',
     },
     template: `
       <div class="w-[280px] max-w-full rounded-control border border-outline-variant p-3">
@@ -313,9 +334,9 @@ export const Responsive: Story = {
           (tabActivated)="tabActivated($event)"
         >
           <wi-tabs-list>
-            <button type="button" wiTabsTrigger="unmanaged">Alertas No Gestionadas</button>
-            <button type="button" wiTabsTrigger="managed">Alertas Gestionadas</button>
-            <button type="button" wiTabsTrigger="archived">Alertas Archivadas</button>
+            <button type="button" wiTabsTrigger="primera">Primera</button>
+            <button type="button" wiTabsTrigger="segunda">Segunda</button>
+            <button type="button" wiTabsTrigger="tercera">Tercera</button>
           </wi-tabs-list>
         </wi-tabs>
       </div>
