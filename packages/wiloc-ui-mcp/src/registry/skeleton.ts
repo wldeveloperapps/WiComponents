@@ -46,6 +46,12 @@ export const wiSkeletonRegistryEntry = {
   keyboard: [],
   a11yNotes:
     'Presentacional con aria-hidden="true". En layouts de carga, poner aria-busy (y opcionalmente aria-label) en el contenedor padre que agrupa los skeletons.',
+  limits: [
+    'Es una marca de carga visual (aria-hidden). No envuelve al componente que carga: va en su lugar mientras la app no pinta el dato.',
+    'No indica progreso ni porcentaje.',
+    'No anuncia la espera. Si hace falta un nombre accesible de carga, usa wi-spinner.',
+  ],
+  requires: ['Ningún provider ni CSS extra.'],
   example: {
     import: `import { WiSkeletonComponent } from '@wldeveloperapps/ui/data-display';`,
     template: `<div aria-busy="true" aria-label="Cargando">

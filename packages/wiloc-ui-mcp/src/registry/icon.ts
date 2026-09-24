@@ -26,7 +26,7 @@ export const wiIconRegistryEntry = {
       type: 'WiIconName | null',
       default: null,
       description:
-        'Nombre registrado con provideWiIcons (oficial o custom de la app). Opcional si usas src. Sin registro → no renderiza (warning en dev). Exactamente uno de name o src',
+        'Nombre registrado con provideWiIcons. Sin ese name no pinta nada. El glifo (WiIconGlyph) es { viewBox, nodes, preserveColors? }. Cada nodo (WiSvgNode) es { tag, attrs, children? }; tag solo path, circle, rect, line, polyline, polygon o g (g puede anidar esa lista). Exactamente uno de name o src: si vienen los dos, se usa name',
     },
     {
       name: 'src',
@@ -68,6 +68,16 @@ export const wiIconRegistryEntry = {
   keyboard: [],
   a11yNotes:
     'Sin label es decorativo (aria-hidden). Con label: role=img + aria-label. Igual por name o por src. Botón solo-icono: aria-label en el botón, no solo en wi-icon. No uses PrimeIcons ni <i class="pi-*">. Catálogo oficial: importar glifos de @wldeveloperapps/ui/icon/heroicons y registrar con provideWiIcons (no uses WI_HEROICONS_CURATED en apps). Custom tipado: WiIconGlyph + provideWiIcons. SVG suelto: input src + provideHttpClient(), sin <img> ni innerHTML.',
+  limits: [
+    'Un icono de UI es solo name registrado. No uses PrimeIcons, <i class="pi-*"> ni <img>.',
+    'Sin provideWiIcons para ese name no pinta nada.',
+    'src no sustituye a un icono de UI: es una ruta de la app o una URL http(s) de un fichero SVG, no un path SVG inline ni un PNG. Hace falta provideHttpClient(). Si vienen name y src, se usa name.',
+    'preserveColors es un input y solo aplica a src. En un glifo propio el mismo flag es WiIconGlyph.preserveColors, no un input del name.',
+  ],
+  requires: [
+    'provideWiIcons con el glifo importado de @wldeveloperapps/ui/icon/heroicons, o un WiIconGlyph propio (viewBox + nodes).',
+    'Si usas src, provideHttpClient() además del registro de iconos de UI.',
+  ],
   example: {
     import: `import { provideHttpClient } from '@angular/common/http';
 import { provideWiIcons, WiIconComponent, type WiIconGlyph } from '@wldeveloperapps/ui/icon';

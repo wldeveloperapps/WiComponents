@@ -34,6 +34,8 @@ export interface WiRegistryEntry {
   readonly i18n?: unknown;
   readonly keyboard: readonly string[];
   readonly a11yNotes: string;
+  readonly limits: readonly string[];
+  readonly requires: readonly string[];
   readonly example: WiRegistryExample;
 }
 

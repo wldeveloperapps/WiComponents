@@ -84,6 +84,15 @@ export const wiDialogRegistryEntry = {
   ],
   a11yNotes:
     'role=dialog + aria-modal. Título vía wi-dialog-title. El botón X es icon-only: provideWiOverlaysI18n.dialogCloseLabel o closeLabel. Registrar provideWiIcons({ "x-mark": … }) si showCloseButton. Overlays portaled heredan .wi-dark del documento.',
+  limits: [
+    'Se abre con wiDialogTrigger (o state / open()), no con un servicio. El panel va dentro de ng-template[wiDialogPortal]; fuera del portal no se muestra.',
+    'No confirma una decisión (accept/reject). Para eso está wi-confirm-dialog, no este dialog de contenido libre.',
+    'Título y cuerpo no son inputs de texto: se proyectan en el portal.',
+  ],
+  requires: [
+    'provideWiIcons con el glifo x-mark si showCloseButton sigue en true.',
+    'provideWiOverlaysI18n para dialogCloseLabel, o closeLabel en esa instancia.',
+  ],
   example: {
     import: `import {
   WiDialogCloseDirective,

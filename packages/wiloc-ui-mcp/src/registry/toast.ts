@@ -128,6 +128,16 @@ export const wiToastRegistryEntry = {
   ],
   a11yNotes:
     'Cada toast: role=status, aria-atomic, aria-live polite (assertive si important). Viewport vía CDK Overlay en document.body. theme=auto sigue .wi-dark. Copy de producto vía wiToast (app i18n). Chrome a11y: provideWiOverlaysI18n.toastCloseLabel / toastRegionLabel (Brain hardcodea inglés; wi-toast lo sustituye). Importar @wldeveloperapps/ui/styles/toast.css (o styles/index.css).',
+  limits: [
+    'No se lanza poniendo el mensaje en <wi-toast>. Se lanza con wiToast() o inject(WiToast).',
+    '<wi-toast> es solo el viewport, una vez en el root. No acepta título ni descripción.',
+    'No decide cuándo avisar: la app llama a wiToast en su flujo.',
+  ],
+  requires: [
+    '<wi-toast /> montado una vez en el root.',
+    "@import '@wldeveloperapps/ui/styles/toast.css' en el CSS global.",
+    'provideWiOverlaysI18n si quieres toastCloseLabel y toastRegionLabel en el idioma de la app.',
+  ],
   example: {
     import: `import {
   WiToastComponent,

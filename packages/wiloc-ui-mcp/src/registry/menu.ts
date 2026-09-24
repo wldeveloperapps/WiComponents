@@ -108,6 +108,12 @@ export const wiMenuRegistryEntry = {
   ],
   a11yNotes:
     'role=menu en el panel; menuitem / menuitemradio en ítems. El trigger debe tener nombre accesible (texto o aria-label), sobre todo si es icon-only. Overlays portaled heredan .wi-dark del documento. Al scroll fuera del panel (overflow interno o ventana) el menú se cierra; no hace falta cdkScrollable en la app. z-index 1000 (no top-layer): queda bajo el sidebar (1100), encima del header/migas (10) y de cards sin z-index.',
+  limits: [
+    'wi-menu va dentro del ng-template que recibe [wiMenuTrigger]. Fuera de esa plantilla el panel no abre.',
+    'No es un popover de contenido libre ni un confirm. Es una lista de acciones.',
+    'triggered no navega ni ejecuta la acción: la app hace el resto.',
+  ],
+  requires: ['Ningún provider ni CSS extra.'],
   example: {
     import: `import {
   WiMenuComponent,

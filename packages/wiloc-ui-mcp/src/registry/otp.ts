@@ -122,6 +122,12 @@ export const wiOtpRegistryEntry = {
   keyboard: ['Tab', 'character input', 'Backspace', 'paste'],
   a11yNotes:
     'Un único input nativo (autocomplete one-time-code) con casillas visuales. Asociar label vía id o ariaLabel. Errores/hints vía ariaDescribedBy (texto de la app). En numeric/tel se aceptan solo dígitos; el pegado recorta espacios y guiones. invalid expone aria-invalid. En contenedor estrecho las casillas hacen wrap.',
+  limits: [
+    'value es el texto parcial, también a medio escribir. No es un wi-input: el número de casillas es length, no maxLength.',
+    'completed se emite solo cuando el texto alcanza length (los N dígitos). No envía el código: el POST lo hace la app.',
+    'El label no es un input del control. Va en un <label for> o en ariaLabel.',
+  ],
+  requires: ['Ningún provider ni CSS extra.'],
   example: {
     import: `import { WiOtpComponent } from '@wldeveloperapps/ui/forms';`,
     template: `<!-- i18n: strings desde la app -->

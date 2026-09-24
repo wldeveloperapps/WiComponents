@@ -126,12 +126,14 @@ export function createServer(): McpServer {
     'wi_docs',
     {
       description:
-        'Temas transversales de @wldeveloperapps/ui: instalación, tokens, dark-mode, icons, ssr, i18n, forms. Sin name lista los temas.',
+        'Temas transversales de @wldeveloperapps/ui: installation, tokens, dark-mode, icons, ssr, i18n, overlays, forms, agent. Sin name lista los temas.',
       inputSchema: z.object({
         topic: z
           .string()
           .optional()
-          .describe('id del tema (installation, tokens, dark-mode, icons, ssr, i18n, forms)'),
+          .describe(
+            'id del tema (installation, tokens, dark-mode, icons, ssr, i18n, overlays, forms, agent)',
+          ),
       }),
     },
     async ({ topic }) => {

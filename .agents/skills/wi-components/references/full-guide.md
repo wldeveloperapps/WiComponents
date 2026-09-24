@@ -983,6 +983,7 @@ Antes de entregar código, comprobar:
 - [ ] Está exportado desde el entry point correcto.
 - [ ] Si hay entry/subpath nuevo o import cruzado: `exports` + Storybook alias + `tsconfig` paths.
 - [ ] Está registrado o actualizado en el MCP (`@wldeveloperapps/ui-mcp`).
+- [ ] La ficha MCP tiene limits y requires, cada uno con al menos una frase.
 
 - [ ] El MCP documenta solo API pública (sin Spartan ni rutas internas).
 - [ ] No introduce breaking changes accidentales.

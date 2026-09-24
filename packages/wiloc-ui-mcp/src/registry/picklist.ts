@@ -20,7 +20,7 @@ export const wiPicklistRegistryEntry = {
       type: 'unknown[] (model)',
       default: '[]',
       description:
-        'Valores asignados (lista destino). Compatible con Signal Forms ([formField]) y two-way binding',
+        'Valores asignados (lista destino), no el ítem resaltado. Compatible con Signal Forms ([formField]) y two-way binding',
     },
     {
       name: 'options',
@@ -190,6 +190,12 @@ export const wiPicklistRegistryEntry = {
   ],
   a11yNotes:
     'Grupo con dos listbox (origen y destino) y botones icon-only. Cada botón exige aria-label (moveToTargetLabel, etc.). Los headers visibles etiquetan las listas vía aria-labelledby. En contenedor estrecho (~320px, container query) el layout se apila y las flechas rotan. Textos i18n los provee la app. Sin filtro, drag-and-drop ni reorder en este MVP.',
+  limits: [
+    'value es la lista destino (los asignados), no el ítem resaltado. El origen es options menos value, en local.',
+    'No filtra, no reordena y no hace drag-and-drop.',
+    'Los aria-label de los botones (moveToTargetLabel y el resto) los pasa la app: por defecto van vacíos.',
+  ],
+  requires: ['Ningún provider ni CSS extra.'],
   example: {
     import: `import { WiPicklistComponent, WiPicklistItemDirective } from '@wldeveloperapps/ui/forms';`,
     template: `<!-- i18n + tarjeta de ítem: el componente lo define la app -->

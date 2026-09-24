@@ -55,7 +55,7 @@ export const wiTableRegistryEntry = {
       type: 'readonly WiColumnDef[]',
       default: 'required',
       description:
-        'Definición declarativa (la app adapta metadatos). Campos: id, header, field?, sortable?, filterable?, filterType? (text → wi-input | select → wi-select), filterOptions?, filterPlaceholder?, visible?, showFrom? (always|sm|md|compact|lg; omitido = compact / 960px de contenedor). Agnóstica a producto',
+        'Definición de columnas. Cada WiColumnDef es { id, header, field?, sortable?, filterable?, filterType? (text | select), filterOptions? ({ label, value }[]), filterPlaceholder?, visible?, showFrom? (always | sm | md | compact | lg; omitido = compact / 960px) }. Sin field hace falta ng-template[wiTableCell]. La app adapta sus metadatos; la librería no conoce el producto',
     },
     {
       name: 'data',
@@ -389,6 +389,14 @@ export const wiTableRegistryEntry = {
   ],
   a11yNotes:
     'Host role=region + aria-label (ariaLabel / tableAriaLabel). Tabla semántica con aria-sort. Filtros con aria-label por columna vía filterAriaLabel(header). filterType text usa wi-input (size sm, type search, autocomplete off: el nativo se despega en overflow interno); select usa wi-select (size sm, clearable). Chevron cuando hay columnas fuera de la fila (showFrom vs ancho del contenedor) con expandRowAriaLabel / collapseRowAriaLabel. Visibilidad vía wi-menu, oculta en compacto. Los desplegables (filtro select, operador, columnas) se cierran al scroll fuera del panel. Labels de chrome: provideWiDataDisplayI18n (sin copy hardcodeado ES). Cabeceras y datos: solo la app.',
+  limits: [
+    'Con totalItems no filtra, no ordena ni pagina en local: data es la página actual. La app reacciona a filtersChange, sortChange y pageChange.',
+    'La celda por defecto lee column.field. Una celda custom es ng-template[wiTableCell]="id", no un componente hijo suelto.',
+    'No trae columnas ni filas y no hace la petición HTTP.',
+  ],
+  requires: [
+    'provideWiDataDisplayI18n para el chrome (vacío, paginación, filtros, columnas). Sin él, esos textos salen en inglés.',
+  ],
   example: {
     import: `import {
   WiTableComponent,

@@ -28,6 +28,12 @@ export const wiSpinnerRegistryEntry = {
   keyboard: [],
   a11yNotes:
     'role="status" + aria-label. Color vía currentColor (hereda del padre). Animación con motion-safe: (respeta prefers-reduced-motion). En layouts de carga, se puede complementar con aria-busy en el contenedor.',
+  limits: [
+    'Si omites ariaLabel el anunciado es "Cargando" (role=status): no queda decorativo.',
+    'No sustituye el estado vacío de otra pantalla ni es un skeleton.',
+    'No acepta valor ni porcentaje. El color hereda currentColor.',
+  ],
+  requires: ['Ningún provider ni CSS extra.'],
   example: {
     import: `import { WiSpinnerComponent } from '@wldeveloperapps/ui/data-display';`,
     template: `<div class="text-primary" aria-busy="true">

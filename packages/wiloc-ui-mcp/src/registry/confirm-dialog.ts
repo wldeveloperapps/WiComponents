@@ -133,6 +133,15 @@ export const wiConfirmDialogRegistryEntry = {
   ],
   a11yNotes:
     'role=alertdialog + aria-modal. Título vía title / confirm({ title }) (aria-labelledby). Descripción opcional (aria-describedby). Sin botón X: la decisión es confirmar o cancelar. Overlays portaled heredan .wi-dark del documento.',
+  limits: [
+    'Dos formas de abrirlo. En plantilla: button[wiConfirmDialogTrigger] y title/confirmLabel en el host. Por servicio: <wi-confirm-dialog /> montado y WiConfirmationService.confirm() sin target.',
+    'confirm({ target }) no abre este dialog: abre wi-confirm-popup, anclado a ese elemento.',
+    'No se ancla al botón. Escape y el backdrop no cierran por defecto (disableClose).',
+  ],
+  requires: [
+    '<wi-confirm-dialog /> montado una vez (o uno por key).',
+    'provideWiOverlaysI18n si quieres confirmCancelLabel en el idioma de la app.',
+  ],
   example: {
     import: `import { inject } from '@angular/core';
 import {
@@ -154,6 +163,12 @@ deleteItem(): void {
     accept: () => this.delete(),
   });
 }`,
-    template: `<wi-confirm-dialog />`,
+    template: `<!-- 1) Trigger en plantilla -->
+<wi-confirm-dialog title="Eliminar sitio" confirmLabel="Eliminar" confirmVariant="danger">
+  <button wiButton type="button" wiConfirmDialogTrigger>Eliminar</button>
+</wi-confirm-dialog>
+
+<!-- 2) Servicio: host una vez; confirm() sin target -->
+<wi-confirm-dialog />`,
   },
 } as const;

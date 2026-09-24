@@ -81,6 +81,12 @@ export const wiSwitchRegistryEntry = {
   keyboard: ['Tab', 'Space', 'Enter'],
   a11yNotes:
     'Rol switch con aria-checked true|false. Asociar label vía wrapping <label>, for/id, o ariaLabel. Errores/hints vía ariaDescribedBy (texto de la app). invalid aplica estado visual de error. Copy i18n desde la app.',
+  limits: [
+    'No hay input label. El texto va al lado, asociado por id (label for) o por un <label> que envuelve al control.',
+    'No es un checkbox: no tiene indeterminate. Úsalo para un on/off inmediato; el acuerdo o el indeterminado es wi-checkbox.',
+    'No trae texto de error ni de producto.',
+  ],
+  requires: ['Ningún provider ni CSS extra.'],
   example: {
     import: `import { WiSwitchComponent } from '@wldeveloperapps/ui/forms';`,
     template: `<!-- i18n: strings desde la app -->

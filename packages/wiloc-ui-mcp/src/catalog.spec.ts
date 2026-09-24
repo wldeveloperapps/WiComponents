@@ -11,6 +11,32 @@ import {
 import { getDocTopic, listDocTopics } from './docs.js';
 
 describe('@wldeveloperapps/ui-mcp catalog', () => {
+  it('requires limits and requires on every catalog entry', () => {
+    const incomplete = WI_CATALOG.filter(
+      (item) => item.limits.length < 1 || item.requires.length < 1,
+    ).map((item) => item.name);
+    expect(incomplete).toEqual([]);
+  });
+
+  it('documents the nine agent rules', () => {
+    const agent = getDocTopic('agent');
+    const body = agent?.body ?? '';
+    expect(body).toContain('Importa solo desde `@wldeveloperapps/ui/...`');
+    expect(body).toContain('No inventes inputs');
+    expect(body).toContain('La librería no trae diccionario');
+    expect(body).toContain('<wi-icon name="...">');
+    expect(body).toContain('provideWiIcons');
+    expect(body).toContain('Label, error y hint no van dentro del control');
+    expect(body).toContain('trigger y la plantilla de la ficha');
+    expect(body).toContain('toast.css');
+    expect(body).toContain('tabs.css');
+    expect(body).toContain('tokens.css');
+    expect(body).toContain('text-error');
+    expect(body).toContain('No uses hex');
+    expect(body).toContain('usa el que indique la ficha');
+    expect(body).not.toMatch(/@spartan-ng\/helm/);
+  });
+
   it('includes icon and the alpha surface', () => {
     const names = WI_CATALOG.map((item) => item.name);
     expect(names).toContain('icon');
@@ -241,6 +267,8 @@ describe('@wldeveloperapps/ui-mcp catalog', () => {
         'ssr',
         'i18n',
         'overlays',
+        'forms',
+        'agent',
       ]),
     );
   });

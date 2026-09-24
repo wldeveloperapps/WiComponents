@@ -50,6 +50,12 @@ export const wiCardRegistryEntry = {
   keyboard: [],
   a11yNotes:
     'Contenedor presentacional. No es interactivo por sí mismo. El nombre accesible de acciones va en los controles hijos (botones, enlaces). Preferir headings semánticos dentro de wi-card-title cuando el card sea una sección. overflow-hidden no va por defecto (recorta menús); en header tintado a borde, añadir overflow-hidden en el card para el radio.',
+  limits: [
+    'Ninguna parte es obligatoria. Header, title, content y footer se proyectan solo si la app los pone.',
+    'size="none" quita el padding del host y de las partes: el padding lo pone la app.',
+    'No es clicable ni acepta click, href o datos de negocio.',
+  ],
+  requires: ['Ningún provider ni CSS extra.'],
   example: {
     import: `import {
   WiCardActionComponent,

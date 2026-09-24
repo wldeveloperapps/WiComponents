@@ -59,9 +59,22 @@ export const wiButtonRegistryEntry = {
   keyboard: ['Tab', 'Enter', 'Space (solo button nativo)'],
   a11yNotes:
     'Directiva sobre el nativo: button para acciones, a[href]/routerLink para navegación. No poner role=button en el enlace. iconOnly: ariaLabel. loading: aria-busy. En <a> disabled no es nativo: aria-disabled + tabindex=-1 + preventDefault.',
+  limits: [
+    'No es un componente con contenido propio: es la directiva wiButton sobre <button> o <a>.',
+    'No tiene input icon. El icono es un <wi-icon name="…"> hijo. iconOnly exige ariaLabel en el botón.',
+    'No navega: en <a> el href o routerLink lo pone la app.',
+  ],
+  requires: ['Ningún provider ni CSS extra.'],
   example: {
-    import: `import { WiButtonDirective } from '@wldeveloperapps/ui/button';`,
+    import: `import { WiButtonDirective } from '@wldeveloperapps/ui/button';
+import { provideWiIcons, WiIconComponent } from '@wldeveloperapps/ui/icon';
+import { trashOutline } from '@wldeveloperapps/ui/icon/heroicons';
+
+provideWiIcons({ trash: { outline: trashOutline } });`,
     template: `<button wiButton type="button" variant="primary">Guardar</button>
+<button wiButton type="button" iconOnly ariaLabel="Eliminar">
+  <wi-icon name="trash" />
+</button>
 <a wiButton variant="outline" href="/settings">Ajustes</a>`,
   },
 } as const;

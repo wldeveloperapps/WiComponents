@@ -118,6 +118,12 @@ export const wiInputRegistryEntry = {
   keyboard: ['Tab', 'character input', 'Enter/Space on password toggle'],
   a11yNotes:
     'Input nativo. Asociar label vía id, o ariaLabel. Errores/hints vía ariaDescribedBy (texto de la app). invalid expone aria-invalid. Con type=password el botón de revelar usa showPasswordLabel/hidePasswordLabel, aria-pressed y aria-controls. placeholder/ariaLabel/labels del toggle son i18n de la app; @wldeveloperapps/ui no incluye diccionarios.',
+  limits: [
+    'No hay wi-form-field ni input label. Label, hint y error los pone la app (label for + ariaDescribedBy).',
+    'No valida el formato. invalid solo pinta el estado que marca la app.',
+    'No es un código de casillas: eso es wi-otp (length, no maxLength).',
+  ],
+  requires: ['Ningún provider ni CSS extra.'],
   example: {
     import: `import { WiInputComponent } from '@wldeveloperapps/ui/forms';`,
     template: `<!-- i18n: strings desde la app -->

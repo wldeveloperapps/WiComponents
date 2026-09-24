@@ -147,6 +147,12 @@ export const wiFileUploadRegistryEntry = {
   keyboard: ['Tab', 'Enter', 'Space'],
   a11yNotes:
     'Grupo con botón Elegir (abre el diálogo nativo) y botón Subir. El input file está oculto (sr-only) y fuera de tab. Asociar label vía id o ariaLabel. emptyLabel se anuncia con aria-live. chooseLabel/emptyLabel/uploadLabel/ariaLabel son i18n de la app. Errores de tipo/tamaño: escuchar reject y pintar mensaje propio (no hay copy en la librería).',
+  limits: [
+    '(upload) no hace el POST. Emite los File y el HTTP lo hace la app.',
+    'No traduce el rechazo. reject emite reason "type" o "size"; el mensaje lo escribe la app.',
+    'chooseLabel, emptyLabel y uploadLabel salen vacíos si la app no los pasa.',
+  ],
+  requires: ['Ningún provider ni CSS extra.'],
   example: {
     import: `import { WiFileUploadComponent, type WiFileUploadRejection } from '@wldeveloperapps/ui/forms';`,
     template: `<!-- i18n + HTTP en la app -->

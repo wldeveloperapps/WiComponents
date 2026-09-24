@@ -161,6 +161,15 @@ export const wiConfirmPopupRegistryEntry = {
   ],
   a11yNotes:
     'role=alertdialog en el pane (sin backdrop / aria-modal=false). Título vía title / confirm({ title }) (aria-labelledby). Descripción opcional (aria-describedby). Anclado al trigger o a confirm({ target }); sin modal a pantalla completa. Un overlay CDK anidado no cierra el popup. Overlays portaled heredan .wi-dark del documento.',
+  limits: [
+    'Dos formas de abrirlo. En plantilla: button[wiConfirmPopupTrigger], anclado a ese botón. Por servicio: <wi-confirm-popup /> montado y WiConfirmationService.confirm({ target }).',
+    'confirm() sin target no abre este popup: abre wi-confirm-dialog, centrado.',
+    'Escape y el clic fuera cierran, pero no emiten cancelled.',
+  ],
+  requires: [
+    '<wi-confirm-popup /> montado (con key si confirm() usa esa key).',
+    'provideWiOverlaysI18n si quieres confirmCancelLabel en el idioma de la app.',
+  ],
   example: {
     import: `import { inject } from '@angular/core';
 import {
@@ -184,6 +193,12 @@ deleteRow(event: Event): void {
     accept: () => this.delete(),
   });
 }`,
-    template: `<wi-confirm-popup key="row-delete" />`,
+    template: `<!-- 1) Trigger en plantilla, anclado al botón -->
+<wi-confirm-popup title="Eliminar fila" confirmLabel="Eliminar" confirmVariant="danger">
+  <button wiButton type="button" wiConfirmPopupTrigger>Eliminar</button>
+</wi-confirm-popup>
+
+<!-- 2) Servicio: host con key; confirm({ target }) -->
+<wi-confirm-popup key="row-delete" />`,
   },
 } as const;

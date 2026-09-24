@@ -88,6 +88,12 @@ export const wiCheckboxRegistryEntry = {
   keyboard: ['Tab', 'Space', 'Enter'],
   a11yNotes:
     'Rol checkbox con aria-checked true|false|mixed. Asociar label vía wrapping <label>, for/id, o ariaLabel. Errores/hints vía ariaDescribedBy (texto de la app). invalid aplica estado visual de error. Copy i18n desde la app.',
+  limits: [
+    'No hay input label. El texto va al lado, asociado por id (label for) o por un <label> que envuelve al control.',
+    'No trae texto de error ni de producto. Hint y error los compone la app con ariaDescribedBy.',
+    'indeterminate no se queda: al interactuar pasa a checked.',
+  ],
+  requires: ['Ningún provider ni CSS extra.'],
   example: {
     import: `import { WiCheckboxComponent } from '@wldeveloperapps/ui/forms';`,
     template: `<!-- i18n: strings desde la app -->

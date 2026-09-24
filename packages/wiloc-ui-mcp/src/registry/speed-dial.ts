@@ -14,7 +14,7 @@ export const wiSpeedDialRegistryEntry = {
       type: 'readonly WiSpeedDialItem[]',
       default: '[]',
       description:
-        'Acciones al abrir — las define la app: id, icon (provideWiIcons), label accesible, disabled opcional. Distinto set por instancia/fila.',
+        'Acciones al abrir. Cada WiSpeedDialItem es { id, icon, label, disabled? }. icon es un name registrado con provideWiIcons, no una clase CSS. Distinto set por instancia.',
     },
     {
       name: 'direction',
@@ -62,7 +62,7 @@ export const wiSpeedDialRegistryEntry = {
       name: 'triggerIcon',
       type: 'string',
       default: 'ellipsis-vertical',
-      description: 'Icono del trigger cerrado (registrado con provideWiIcons)',
+      description: 'Icono del trigger cerrado: un name registrado con provideWiIcons, no una clase CSS',
     },
   ],
   outputs: [
@@ -94,6 +94,15 @@ export const wiSpeedDialRegistryEntry = {
   ],
   a11yNotes:
     'Trigger con aria-expanded + aria-haspopup. Abierto: botón X (closeLabel / dialogCloseLabel) + acciones. Cada acción es botón con aria-label (item.label). Tooltip complementario vía wiTooltip (no sustituye aria-label). Cierre por X, Escape, clic fuera y scroll fuera del host. Iconos decorativos vía wi-icon sin label.',
+  limits: [
+    'items[].icon y triggerIcon son names registrados con provideWiIcons, no clases CSS ni PrimeIcons.',
+    'itemClick no ejecuta la acción: emite el WiSpeedDialItem y la app continúa.',
+    'No es un wi-menu ni un grupo de botones sueltos.',
+  ],
+  requires: [
+    'provideWiIcons con triggerIcon (ellipsis-vertical por defecto) y el icon de cada item.',
+    'provideWiOverlaysI18n para el cierre (dialogCloseLabel), o closeLabel en la instancia.',
+  ],
   example: {
     import: `import { WiSpeedDialComponent, type WiSpeedDialItem } from '@wldeveloperapps/ui/overlays';
 import { provideWiIcons } from '@wldeveloperapps/ui/icon';`,

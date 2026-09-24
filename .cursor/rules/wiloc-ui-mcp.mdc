@@ -18,6 +18,7 @@ Cada componente **público** debe quedar reflejado en el servidor MCP (`@wldevel
 3. Incluir el import canónico (`@wldeveloperapps/ui/...`), nunca rutas `src/lib/...` ni paquetes Spartan.
 4. Si cambia un input/output/selector/entry point: actualizar registry y marcar breaking change si aplica.
 5. No dar por cerrado el componente sin actualizar el MCP (o dejar explícito que el registry queda pendiente).
+6. Al tocar la API pública, actualiza limits y requires en la misma ficha. No los dejes para después.
 
 ## Metadatos mínimos por componente
 
@@ -31,6 +32,8 @@ outputs       # name, type, description
 variants      # si aplica
 keyboard      # teclas relevantes
 a11yNotes     # nombre accesible, ARIA, foco
+limits        # qué no acepta; mínimo 1 frase
+requires      # providers, CSS e iconos previos; si no hay, una frase que lo diga
 example       # snippet mínimo válido
 status        # stable | experimental | deprecated
 ```

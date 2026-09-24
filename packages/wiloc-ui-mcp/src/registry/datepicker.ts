@@ -41,7 +41,8 @@ export const wiDatepickerRegistryEntry = {
       name: 'value',
       type: 'Date | null (model)',
       default: 'null',
-      description: 'Valor del control. Compatible con Signal Forms ([formField]) y two-way binding',
+      description:
+        'Valor del control: un Date naive, no un ISO. Compatible con Signal Forms ([formField]) y two-way binding. provideWiTimeZone no reinterpreta este Date',
     },
     {
       name: 'showTime',
@@ -209,6 +210,16 @@ export const wiDatepickerRegistryEntry = {
     'Icono calendar debe registrarse con provideWiIcons',
     'Overlays: la app debe incluir CSS de CDK Overlay / Spartan popover. El calendario anclado sigue al trigger en scroll anidado; no hace falta cdkScrollable',
     'El control captura componentes de fecha/hora; no adivina TZ. provideWiTimeZone + helpers toLocalDateString / datepickerValueToUtcIso. Ver docs/datepicker-international.md',
+  ],
+  limits: [
+    'El valor es un Date naive, no un ISO. displayFormat solo pinta el texto del trigger.',
+    'provideWiTimeZone no reinterpreta ese Date. La app serializa con datepickerValueToUtcIso.',
+    'No es un rango: un solo Date. El rango (start y end) es wi-date-range. El label no es un input.',
+  ],
+  requires: [
+    'provideWiIcons con el glifo calendar.',
+    'provideWiCalendarI18n (meses, días, anterior/siguiente).',
+    'Con hora, provideWiTimeZone y datepickerValueToUtcIso en la app. El control no aplica la TZ solo.',
   ],
   example: {
     import: `import {

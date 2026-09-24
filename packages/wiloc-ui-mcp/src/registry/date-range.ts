@@ -30,13 +30,13 @@ export const wiDateRangeRegistryEntry = {
       name: 'start',
       type: 'Date | null (model)',
       default: 'null',
-      description: 'Fecha de inicio del rango (two-way / Signal Forms)',
+      description: 'Fecha de inicio del rango: un Date naive, no un ISO (two-way / Signal Forms)',
     },
     {
       name: 'end',
       type: 'Date | null (model)',
       default: 'null',
-      description: 'Fecha de fin del rango (two-way / Signal Forms)',
+      description: 'Fecha de fin del rango: un Date naive, no un ISO (two-way / Signal Forms)',
     },
     {
       name: 'showTime',
@@ -212,6 +212,16 @@ export const wiDateRangeRegistryEntry = {
     'Models start/end independientes; validar start ≤ end en la app/back',
     'displayFormat solo UI; civil → toLocalDateString; con hora → datepickerValueToUtcIso + provideWiTimeZone / timeZoneId',
     'Ver docs/datepicker-international.md y componente relacionado datepicker',
+  ],
+  limits: [
+    'start y end son Date naive, no ISO ni dos datepickers. Un único input. Para un solo Date usa wi-datepicker.',
+    'provideWiTimeZone no reinterpreta esos Date. displayFormat solo pinta el trigger. La app serializa con datepickerValueToUtcIso.',
+    'No valida start ≤ end. El label no es un input del control.',
+  ],
+  requires: [
+    'provideWiIcons con el glifo calendar.',
+    'provideWiCalendarI18n (meses, días, anterior/siguiente).',
+    'Con hora, provideWiTimeZone y datepickerValueToUtcIso en la app. El control no aplica la TZ solo.',
   ],
   example: {
     import: `import {

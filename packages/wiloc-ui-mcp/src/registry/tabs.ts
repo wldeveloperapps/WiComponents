@@ -111,6 +111,12 @@ export const wiTabsRegistryEntry = {
   ],
   a11yNotes:
     'role=tablist / tab / tabpanel. Copy de títulos/paneles: solo la app (proyección). `wi-tabs` / lista a ancho del padre; scroll/scrollbar de tokens en `.wi-tabs__viewport`.',
+  limits: [
+    'No hay input de pestañas ni de labels. Títulos y paneles se proyectan (button[wiTabsTrigger] y [wiTabsContent]).',
+    'El panel lazy es ng-template[wiTabsContentLazy] dentro del panel, no un @if de la app.',
+    'No carga rutas ni trae copy de producto.',
+  ],
+  requires: ["@import '@wldeveloperapps/ui/styles/tabs.css' en el CSS global."],
   example: {
     import: `import {
   WiTabsContentDirective,

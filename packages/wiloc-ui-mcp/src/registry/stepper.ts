@@ -20,14 +20,14 @@ export const wiStepperRegistryEntry = {
       type: 'readonly WiStepperStep[]',
       default: '[]',
       description:
-        'Pasos de la nav — los define la app: id, label (i18n), icon (provideWiIcons), disabled opcional. La librería no hardcodea textos ni iconos.',
+        'Pasos de la nav. Cada WiStepperStep es { id, label, icon, disabled? }. icon es un name registrado con provideWiIcons. El contenido del paso no va en el step.',
     },
     {
       name: 'value',
       type: 'string (model)',
       default: "''",
       description:
-        'Id del paso activo (two-way). Si no coincide con ningún paso, se muestra el primero.',
+        'Id del paso activo (two-way), el mismo id de WiStepperStep y de [wiStepperPanel]. No es un índice. Si no coincide con ningún paso, se muestra el primero.',
     },
     {
       name: 'orientation',
@@ -89,6 +89,14 @@ export const wiStepperRegistryEntry = {
   ],
   a11yNotes:
     'nav con aria-label de la app. Cada trigger es button; el actual tiene aria-current=step. Iconos decorativos (wi-icon sin label). Paneles role=region + aria-labelledby al label del paso. En linear, los futuros tienen aria-disabled (mismo estilo muted que los completados, sin opacity de disabled nativo). Back/Next/submit: la app, no la librería.',
+  limits: [
+    'value es el id del paso, no un índice ni el label.',
+    'El contenido es un panel proyectado [wiStepperPanel]="id", no un string del step.',
+    'No trae Anterior, Siguiente ni submit. La app llama selectNext y selectPrevious. linear no limita selectNext.',
+  ],
+  requires: [
+    'Si algún paso lleva icon, provideWiIcons con ese name. Sin iconos, ningún provider ni CSS extra.',
+  ],
   example: {
     import: `import { WiStepperComponent, WiStepperPanelDirective, type WiStepperStep } from '@wldeveloperapps/ui/navigation';
 import { provideWiIcons } from '@wldeveloperapps/ui/icon';`,

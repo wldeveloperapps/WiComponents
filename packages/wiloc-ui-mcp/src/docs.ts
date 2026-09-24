@@ -287,6 +287,29 @@ No hay \`wi-form-field\` en 0.1.0-alpha.6: label, descripción y error los compo
 Password: usa \`<wi-input type="password">\` (botón de revelar/ocultar por defecto; apagar con \`[passwordToggle]="false"\`). No hay componente aparte.
 Select múltiple: \`<wi-select [multiple]="true">\`.`,
   },
+  {
+    id: 'agent',
+    title: 'Reglas para agentes',
+    body: `Antes de escribir markup, llama a wi_view. limits dice lo que no hace. requires dice el provider, el CSS o el icono que tiene que existir antes.
+
+1. Importa solo desde \`@wldeveloperapps/ui/...\`. Nada de Spartan, PrimeNG, PrimeIcons ni Heroicons sueltos.
+
+2. No inventes inputs. Si no está en la ficha, no existe.
+
+3. Los textos visibles los pone la app. La librería no trae diccionario.
+
+4. Un icono de UI es \`<wi-icon name="...">\` y el name tiene que estar en \`provideWiIcons\`. No hay src, ni clase \`pi-\`, ni \`<img>\`.
+
+5. Label, error y hint no van dentro del control, salvo que la ficha tenga una parte para eso.
+
+6. Confirmación, menú, popover y diálogo se abren con el trigger y la plantilla de la ficha, o con el servicio si la ficha lo exporta.
+
+7. Toast y tabs necesitan \`toast.css\` y \`tabs.css\` además de \`tokens.css\`.
+
+8. El color es una clase de token (\`text-error\`, \`bg-primary\`). No uses hex.
+
+9. Si hay dos componentes parecidos, usa el que indique la ficha.`,
+  },
 ];
 
 export function listDocTopics(): readonly { id: string; title: string }[] {

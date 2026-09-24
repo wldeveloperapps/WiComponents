@@ -49,7 +49,7 @@ No exponer Spartan. No wrappers sin valor. No lógica de negocio de producto. Lo
 - [ ] Stories + actions + Controls solo API pública (skill `storybook`)
 - [ ] Responsive ~320px en layouts/recipes
 - [ ] Export entry + `exports`/aliases si entry nuevo
-- [ ] MCP registry (solo API pública)
+- [ ] MCP registry: API pública, limits y requires (regla wiloc-ui-mcp)
 - [ ] Inventario actualizado; sin breaking accidentales
 
 ## Detalle

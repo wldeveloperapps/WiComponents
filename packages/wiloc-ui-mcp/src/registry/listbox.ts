@@ -131,6 +131,12 @@ export const wiListboxRegistryEntry = {
   keyboard: ['Tab', 'ArrowUp/ArrowDown', 'Home/End', 'Space/Enter (seleccionar)', 'typeahead'],
   a11yNotes:
     'role=listbox + option. Asociar label vía id, ariaLabel o ariaLabelledBy. Lista siempre visible con scroll interno (max-h). Textos i18n (emptyText, ariaLabel) los provee la app; @wldeveloperapps/ui no incluye diccionarios. Sin filtro ni virtual scroll en este MVP.',
+  limits: [
+    'La lista está siempre visible: no es un desplegable. Úsalo cuando las opciones deben verse sin abrir un panel; si el panel se abre desde un trigger, usa wi-select.',
+    'No hay input label. El texto va al lado, asociado por id.',
+    'Sin filtro, sin virtual scroll y sin paginación.',
+  ],
+  requires: ['Ningún provider ni CSS extra.'],
   example: {
     import: `import { WiListboxComponent } from '@wldeveloperapps/ui/forms';`,
     template: `<!-- i18n: strings desde la app -->

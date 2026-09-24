@@ -14,7 +14,7 @@ export const wiBreadcrumbRegistryEntry = {
       type: 'readonly WiBreadcrumbItem[]',
       default: '[]',
       description:
-        'Segmentos — los define la app: id, label (i18n), href opcional, icon (provideWiIcons), iconOnly. El último es la página actual. La librería no hardcodea textos, rutas ni el icono de inicio.',
+        'Segmentos que pone la app. Cada WiBreadcrumbItem es { id, label, href?, icon?, iconOnly? }. icon es un name registrado con provideWiIcons, no una clase CSS. El último es la página actual: no lleva href y no navega.',
     },
     {
       name: 'ariaLabel',
@@ -50,6 +50,14 @@ export const wiBreadcrumbRegistryEntry = {
   keyboard: ['Tab', 'Enter (enlace nativo)'],
   a11yNotes:
     'nav con aria-label de la app. Lista ol. El último ítem es span con aria-current=page (no es enlace). iconOnly usa label como aria-label del enlace. Separadores decorativos (aria-hidden). Iconos wi-icon sin label (decorativos). El z-index lo pone la app en el header sticky (10), no en este componente: el overlay 1000 pinta encima de las migas y bajo el sidebar (1100).',
+  limits: [
+    'items[].icon es un name registrado con provideWiIcons, no una clase CSS. Sin iconos no hace falta provideWiIcons.',
+    'El último ítem es la página actual y no navega: se pinta como texto, no como enlace.',
+    'No lee el Router ni inventa segmentos. itemClick no navega: la app usa su Router.',
+  ],
+  requires: [
+    'Si algún item lleva icon, provideWiIcons con ese name. Sin iconos, ningún provider ni CSS extra.',
+  ],
   example: {
     import: `import { WiBreadcrumbComponent, type WiBreadcrumbItem } from '@wldeveloperapps/ui/navigation';
 import { provideWiIcons } from '@wldeveloperapps/ui/icon';

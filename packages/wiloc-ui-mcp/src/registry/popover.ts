@@ -114,6 +114,12 @@ export const wiPopoverRegistryEntry = {
   ],
   a11yNotes:
     'role=dialog en el pane (sin backdrop / aria-modal=false). Título vía wi-popover-title (aria-labelledby) o ariaLabel. Descripción opcional (aria-describedby). Anclado al trigger; no sustituye a wi-menu ni a wi-confirm-popup. Un overlay CDK anidado (p. ej. wi-select en el panel) no cierra el popover. El panel sigue al trigger en scroll anidado (overflow interno). Overlays portaled heredan .wi-dark del documento.',
+  limits: [
+    'Hace falta wiPopoverTrigger y ng-template[wiPopoverPortal]. Sin eso el panel no se ancla.',
+    'No es un menú de acciones (wi-menu) ni una confirmación (wi-confirm-popup).',
+    'El contenido no es un string: se proyecta en el portal.',
+  ],
+  requires: ['Ningún provider ni CSS extra.'],
   example: {
     import: `import {
   WiPopoverCloseDirective,

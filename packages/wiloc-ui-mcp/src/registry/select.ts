@@ -42,7 +42,8 @@ export const wiSelectRegistryEntry = {
       name: 'optionLabel',
       type: 'string | undefined',
       default: undefined,
-      description: 'Clave de objeto para el texto visible; omitir si la opción es primitiva',
+      description:
+        'Clave de objeto para el texto visible. Si options son objetos y omites optionLabel, el texto sale vacío. En primitivos no hace falta',
     },
     {
       name: 'optionValue',
@@ -175,6 +176,14 @@ export const wiSelectRegistryEntry = {
   ],
   a11yNotes:
     'Requiere CSS de overlays CDK/Spartan en la app. Al scroll fuera del panel (overflow interno o ventana) el select se cierra; el scroll dentro de la lista no. No hace falta cdkScrollable en la app.',
+  limits: [
+    'Un objeto en options sin optionLabel no tiene texto usable. En primitivos no hace falta optionLabel.',
+    'multiple cambia el valor de T|null a T[]. Trátalo como estático.',
+    'icon es un name ya registrado con provideWiIcons, no una clase CSS. No es una lista siempre visible: para eso está wi-listbox.',
+  ],
+  requires: [
+    'Ningún provider ni CSS extra. Si sustituyes el chevron con icon, provideWiIcons para ese name.',
+  ],
   example: {
     import: `import { WiSelectComponent } from '@wldeveloperapps/ui/forms';
 import { provideWiIcons } from '@wldeveloperapps/ui/icon';

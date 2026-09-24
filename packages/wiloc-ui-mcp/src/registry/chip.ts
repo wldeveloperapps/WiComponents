@@ -83,6 +83,12 @@ export const wiChipRegistryEntry = {
   keyboard: ['Tab', 'Enter', 'Space'],
   a11yNotes:
     'Presentacional salvo clickable o removable. clickable: role=button + aria-pressed; Enter/Space. El aspa es un button nativo con removeLabel; el clic del aspa no emite clicked. Iconos proyectados son decorativos si no llevan label. Texto largo se trunca. No hardcodear copy de producto.',
+  limits: [
+    'selected solo cambia el aspecto. El clic no alterna el valor: clicked emite y la app actualiza selected.',
+    'removed no quita el chip de ninguna lista. La app actualiza sus datos.',
+    'El texto no es un input: va en el contenido proyectado.',
+  ],
+  requires: ['Ningún provider ni CSS extra.'],
   example: {
     import: `import { WiChipComponent } from '@wldeveloperapps/ui/data-display';`,
     template: `<wi-chip>User</wi-chip>
