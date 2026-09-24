@@ -254,8 +254,9 @@ Las apps no importan Heroicons; importan `@wldeveloperapps/ui/icon`.
 
 ### Qué incluye este MVP
 
-- `<wi-icon name variant size label />`
+- `<wi-icon>` por `name` (registrado) o por `src` (SVG de la app / URL http(s))
 - `provideWiIcons` (solo los iconos que importes)
+- `provideHttpClient()` si usas `src`
 - ~79 glifos Heroicons generados (`@wldeveloperapps/ui/icon/heroicons`) — Storybook **Icon → Catalog**
 - Iconos custom con la misma API
 - Warning en desarrollo si el nombre no está registrado
@@ -265,7 +266,7 @@ Las apps no importan Heroicons; importan `@wldeveloperapps/ui/icon`.
 ### Qué no es (aún)
 
 - Los ~miles de iconos de Heroicons (solo el subconjunto de la app)
-- Servicio de iconos, CDN o carga HTTP
+- PNG, marcadores de mapa o un modo watermark. `src` es solo SVG
 - Sustitutos custom para `pi-file-excel`, `pi-save`, `pi-spinner`, etc. (ver doc de migración)
 
 ### Uso
@@ -311,7 +312,28 @@ provideWiIcons({
 <wi-icon name="worker" variant="solid" />
 ```
 
-Ver también la rule `.cursor/rules/wi-icons.mdc` y Storybook **Custom Icon**.
+### SVG por `src`
+
+No lo registres en `provideWiIcons`. La app aporta la ruta o la URL; hace falta `provideHttpClient()`. El resultado es el mismo SVG inline que un icono por nombre (`currentColor`, `size`, misma accesibilidad). Hasta que llega el fichero no se pinta. Si la descarga falla, tampoco.
+
+```ts
+import { provideHttpClient } from '@angular/common/http';
+
+provideHttpClient();
+```
+
+```html
+<wi-icon src="assets/images/gate-open.svg" class="text-success" />
+<wi-icon [src]="asset.urlIcon" size="sm" />
+<wi-icon src="assets/images/logo.svg" [preserveColors]="true" />
+```
+
+- Exactamente uno de `name` o `src`. Si faltan los dos, no pinta (warning en desarrollo). Si vienen los dos, usa `name` e ignora `src` (warning en desarrollo).
+- `variant` solo aplica a `name`. `preserveColors` solo aplica a `src` (equivale a `WiIconGlyph.preserveColors`).
+- Se conserva el `viewBox` del fichero. Si no hay, `0 0 24 24`. El tamaño en pantalla lo marca `size`, no el `width`/`height` del SVG.
+- Por defecto un fill o stroke de color pasa a `currentColor`. `fill="none"` se queda. Con `preserveColors` se respetan los del fichero.
+
+Ver también la rule `.cursor/rules/wi-icons.mdc` y Storybook **Custom Icon** / **From Src**.
 
 ### Ampliar el catálogo oficial
 

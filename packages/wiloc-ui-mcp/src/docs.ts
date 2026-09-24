@@ -127,8 +127,8 @@ Toast: \`<wi-toast theme="auto" />\` sigue \`.wi-dark\`.`,
     title: 'Iconos',
     body: `## Contrato
 
-- Render: \`<wi-icon>\` desde \`@wldeveloperapps/ui/icon\`.
-- Registro: \`provideWiIcons({ … })\` (varias llamadas se combinan; multi).
+- Render: \`<wi-icon>\` desde \`@wldeveloperapps/ui/icon\`. Exactamente uno de \`name\` o \`src\`.
+- Registro: \`provideWiIcons({ … })\` (varias llamadas se combinan; multi). \`src\` no usa el registro.
 - Glifos oficiales: \`@wldeveloperapps/ui/icon/heroicons\` (~80 nombres kebab-case, outline + solid).
 - Catálogo visual: Storybook → **Icon → WiIcon → Catalog**.
 - \`WI_HEROICONS_CURATED\` es **solo** Storybook/demos. En apps importa glifos individuales.
@@ -174,7 +174,32 @@ provideWiIcons({
 <wi-icon name="brand-mark" variant="solid" label="Marca" />
 \`\`\`
 
-Misma API que los oficiales. Tags SVG permitidos: path, circle, rect, line, polyline, polygon, g.
+Misma API que los oficiales. Tags SVG permitidos: path, circle, rect, line, polyline, polygon, g (los \`g\` pueden anidar esa allowlist).
+
+## 3) SVG por URL (\`src\`)
+
+Un fichero SVG de la app o una URL \`http\`/\`https\`. No lo registres en \`provideWiIcons\`. \`src\` es solo SVG (no PNG ni marcadores de mapa).
+
+Hace falta \`provideHttpClient()\`. La misma URL se descarga una vez (caché en memoria, también en vuelo). Hasta que llega, no se pinta. Si falla, no se pinta (warning en dev).
+
+El texto se traduce a \`WiIconGlyph\` (\`viewBox\` + \`nodes\`) sin \`DOMParser\`, \`document\`, \`innerHTML\` ni \`<img>\`. Se queda el \`viewBox\` del fichero; si no hay, \`0 0 24 24\`. \`width\`/\`height\` del SVG no marcan el tamaño en pantalla: lo marca \`size\`.
+
+\`\`\`ts
+import { provideHttpClient } from '@angular/common/http';
+
+provideHttpClient();
+\`\`\`
+
+\`\`\`html
+<wi-icon src="assets/images/gate-open.svg" class="text-success" />
+<wi-icon [src]="asset.urlIcon" size="sm" />
+<wi-icon src="assets/images/logo.svg" [preserveColors]="true" />
+\`\`\`
+
+- Exactamente uno de \`name\` o \`src\`. Si faltan los dos, no pinta (warning en dev). Si vienen los dos, usa \`name\` e ignora \`src\` (warning en dev).
+- \`variant\` solo aplica a \`name\`. Con \`src\` se ignora.
+- \`preserveColors\` solo aplica a \`src\`. \`false\` (defecto): un fill/stroke distinto de \`none\`, \`transparent\` y \`currentColor\` pasa a \`currentColor\`. \`fill="none"\` se queda. No se pone \`fill="currentColor"\` en el \`<svg>\` raíz. \`true\` equivale a \`WiIconGlyph.preserveColors\`.
+- \`size\` y \`label\` se comportan igual que con \`name\`.
 
 ## Accesibilidad y estilo
 
@@ -187,6 +212,7 @@ Misma API que los oficiales. Tags SVG permitidos: path, circle, rect, line, poly
 
 - No \`import … from 'heroicons'\` / \`@heroicons/…\` / PrimeIcons (\`pi-*\`).
 - No registrar todo el catálogo de golpe en la app.
+- No pintar un SVG externo con \`<img>\`, \`innerHTML\` ni \`bypassSecurityTrustHtml\`. \`src\` lo deja inline.
 - Mapa Prime → Wi: \`docs/icons-prime-migration.md\` del repo de la librería.
 - Detalle de componente: \`wi_view("icon")\` / \`wi_usage("icon")\`.`,
   },
@@ -196,7 +222,7 @@ Misma API que los oficiales. Tags SVG permitidos: path, circle, rect, line, poly
     body: `Los componentes son standalone, signals y compatibles con zoneless.
 No accedas a \`window\` / \`document\` en constructores. Overlays usan portal a body en el cliente.
 
-Iconos: glifos tipados (no innerHTML). Toasts y diálogos se portan a \`document.body\`.
+Iconos: glifos tipados (no innerHTML). \`src\` descarga el SVG con HttpClient y lo parsea a \`WiSvgNode\` sin DOMParser. Toasts y diálogos se portan a \`document.body\`.
 
 La librería no llama a \`NgZone\`. La app debe usar APIs de plataforma si hidrata en SSR.`,
   },

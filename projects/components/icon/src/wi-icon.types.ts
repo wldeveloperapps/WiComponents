@@ -31,13 +31,14 @@ export interface WiSvgNode {
 /**
  * Representación tipada de un glifo SVG.
  * Preferible a strings HTML: sin innerHTML y compatible con SSR.
+ * Un `src` SVG se traduce a este mismo formato (`viewBox` + `nodes`).
  */
 export interface WiIconGlyph {
   readonly viewBox: string;
   readonly nodes: readonly WiSvgNode[];
   /**
-   * Si es `true`, no se aplican defaults de `currentColor`
-   * (útil para logos multicolor).
+   * Si es `true`, no se sustituyen fill/stroke por `currentColor`
+   * (logos multicolor). En `src`, el input `preserveColors` equivale a este flag.
    */
   readonly preserveColors?: boolean;
 }

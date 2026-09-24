@@ -23,7 +23,10 @@ export const WI_ENTRY_POINTS: readonly WiEntryPointInfo[] = [
     entryPoint: '@wldeveloperapps/ui/data-display',
     description: 'Table, card, chip, skeleton, spinner',
   },
-  { entryPoint: '@wldeveloperapps/ui/icon', description: 'wi-icon + provideWiIcons' },
+  {
+    entryPoint: '@wldeveloperapps/ui/icon',
+    description: 'wi-icon (name registrado o src SVG) + provideWiIcons',
+  },
   {
     entryPoint: '@wldeveloperapps/ui/icon/heroicons',
     description:

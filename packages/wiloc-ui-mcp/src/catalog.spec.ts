@@ -207,6 +207,18 @@ describe('@wldeveloperapps/ui-mcp catalog', () => {
     expect(icons?.body).toContain('WI_HEROICONS_CURATED');
     expect(icons?.body).toContain('tree shaking');
     expect(icons?.body).toContain("No `import … from 'heroicons'`");
+    expect(icons?.body).toContain('provideHttpClient');
+    expect(icons?.body).toContain('preserveColors');
+    expect(icons?.body).toContain('assets/images/gate-open.svg');
+    expect(icons?.body).toContain('currentColor');
+
+    const icon = getCatalogItem('icon');
+    expect(icon?.inputs.map((field) => field.name)).toEqual(
+      expect.arrayContaining(['name', 'src', 'variant', 'size', 'label', 'preserveColors']),
+    );
+    expect(icon?.example.template).toContain('src="assets/images/gate-open.svg"');
+    expect(icon?.example.import).toContain('provideHttpClient');
+    expect(icon?.exports).toEqual(expect.arrayContaining(['WiIconGlyph', 'WiSvgNode']));
   });
 
   it('documents installation without Spartan UI imports', () => {

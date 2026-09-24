@@ -23,16 +23,24 @@ export const wiIconRegistryEntry = {
   inputs: [
     {
       name: 'name',
-      type: 'string',
-      default: 'required',
+      type: 'WiIconName | null',
+      default: null,
       description:
-        'Nombre registrado con provideWiIcons (oficial o custom de la app). Sin registro → no renderiza (warning en dev)',
+        'Nombre registrado con provideWiIcons (oficial o custom de la app). Opcional si usas src. Sin registro → no renderiza (warning en dev). Exactamente uno de name o src',
+    },
+    {
+      name: 'src',
+      type: 'string | null',
+      default: null,
+      description:
+        'Ruta de la app (assets/images/gate-open.svg) o URL http(s) de un SVG. No se registra en provideWiIcons. Requiere provideHttpClient(). Solo SVG',
     },
     {
       name: 'variant',
       type: "WiIconVariant ('outline' | 'solid')",
       default: 'outline',
-      description: 'Si la variante pedida no existe, usa la otra (warning en desarrollo)',
+      description:
+        'Solo aplica a name. Si la variante pedida no existe, usa la otra (warning en desarrollo). Con src se ignora',
     },
     {
       name: 'size',
@@ -45,17 +53,27 @@ export const wiIconRegistryEntry = {
       type: 'string | null',
       default: null,
       description:
-        'null → decorativo (aria-hidden). Con texto → role=img + aria-label. Color vía currentColor / class en el host',
+        'null → decorativo (aria-hidden). Con texto → role=img + aria-label. Igual con name y con src. Color vía currentColor / class en el host',
+    },
+    {
+      name: 'preserveColors',
+      type: 'boolean',
+      default: false,
+      description:
+        'Solo src. false: fill/stroke de color pasan a currentColor (fill=none se conserva; no se pone fill=currentColor en el svg raíz). true: equivale a WiIconGlyph.preserveColors',
     },
   ],
   outputs: [],
   variants: ['outline', 'solid'],
   keyboard: [],
   a11yNotes:
-    'Sin label es decorativo. Con label expone nombre accesible. Botón solo-icono: aria-label en el botón, no solo en wi-icon. No uses PrimeIcons ni <i class="pi-*">. Catálogo oficial: importar glifos de @wldeveloperapps/ui/icon/heroicons y registrar con provideWiIcons (no uses WI_HEROICONS_CURATED en apps). Custom: define WiIconGlyph en la app + provideWiIcons.',
+    'Sin label es decorativo (aria-hidden). Con label: role=img + aria-label. Igual por name o por src. Botón solo-icono: aria-label en el botón, no solo en wi-icon. No uses PrimeIcons ni <i class="pi-*">. Catálogo oficial: importar glifos de @wldeveloperapps/ui/icon/heroicons y registrar con provideWiIcons (no uses WI_HEROICONS_CURATED en apps). Custom tipado: WiIconGlyph + provideWiIcons. SVG suelto: input src + provideHttpClient(), sin <img> ni innerHTML.',
   example: {
-    import: `import { provideWiIcons, WiIconComponent, type WiIconGlyph } from '@wldeveloperapps/ui/icon';
+    import: `import { provideHttpClient } from '@angular/common/http';
+import { provideWiIcons, WiIconComponent, type WiIconGlyph } from '@wldeveloperapps/ui/icon';
 import { homeOutline, trashOutline, trashSolid } from '@wldeveloperapps/ui/icon/heroicons';
+
+provideHttpClient();
 
 // 1) Oficiales: importa SOLO los glifos que uses (tree shaking)
 provideWiIcons({
@@ -76,6 +94,9 @@ provideWiIcons({
 <wi-icon name="trash" variant="solid" class="text-error" />
 <wi-icon name="exclamation-triangle" label="Advertencia" />
 <wi-icon name="brand-mark" variant="solid" label="Marca" />
+<wi-icon src="assets/images/gate-open.svg" class="text-success" />
+<wi-icon [src]="asset.urlIcon" size="sm" />
+<wi-icon src="assets/images/logo.svg" [preserveColors]="true" />
 
 <button type="button" aria-label="Eliminar" wiButton iconOnly>
   <wi-icon name="trash" />

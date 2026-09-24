@@ -1,9 +1,12 @@
+import { provideHttpClient } from '@angular/common/http';
 import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { applicationConfig, moduleMetadata } from '@storybook/angular-vite';
 
 import { provideWiIcons, WiIconComponent, type WiIconGlyph } from './public-api';
 import { WI_HEROICONS_CURATED } from '../heroicons/src/curated';
 import { homeOutline } from '../heroicons/src/home';
+import gateOpenUrl from './fixtures/gate-open.svg?url';
+import logoUrl from './fixtures/logo.svg?url';
 
 /**
  * Ejemplo de icono custom de app (derivado de workericon.svg).
@@ -32,16 +35,20 @@ const meta: Meta<WiIconComponent> = {
         component: `
 ### Cómo usarlo en la app
 
-1. **Registrar** glifos con \`provideWiIcons\` en \`app.config\` (o providers del feature).
-2. **Renderizar** \`<wi-icon name="…">\` — el \`name\` debe coincidir con la clave registrada.
-3. Oficiales: importa de \`@wldeveloperapps/ui/icon/heroicons\` **solo** los que uses.
-4. Custom: define un \`WiIconGlyph\` en la app y regístralo igual (ver story **Custom Icon**).
+Exactamente uno de \`name\` o \`src\`. Los dos pintan un SVG inline (\`currentColor\`, \`size\`, misma accesibilidad).
+
+1. **Por nombre:** registra glifos con \`provideWiIcons\`. El \`name\` debe coincidir con la clave.
+2. Oficiales: importa de \`@wldeveloperapps/ui/icon/heroicons\` **solo** los que uses.
+3. Custom tipado: define un \`WiIconGlyph\` en la app y regístralo igual (ver story **Custom Icon**).
+4. **Por archivo:** \`src\` es una ruta de la app o una URL \`http\`/\`https\` de un SVG. No lo registres en \`provideWiIcons\`. Hace falta \`provideHttpClient()\`.
 5. Catálogo completo: story **Catalog** ({{COUNT}} nombres oficiales).
 
 \`\`\`ts
+import { provideHttpClient } from '@angular/common/http';
 import { provideWiIcons, WiIconComponent } from '@wldeveloperapps/ui/icon';
 import { trashOutline, trashSolid } from '@wldeveloperapps/ui/icon/heroicons';
 
+provideHttpClient();
 provideWiIcons({
   trash: { outline: trashOutline, solid: trashSolid },
 });
@@ -50,20 +57,26 @@ provideWiIcons({
 \`\`\`html
 <wi-icon name="trash" />
 <wi-icon name="trash" variant="solid" class="text-error" />
+<wi-icon src="assets/images/gate-open.svg" class="text-success" />
+<wi-icon src="assets/images/logo.svg" class="text-success" />
+<wi-icon src="assets/images/logo.svg" [preserveColors]="true" />
 \`\`\`
 
+\`variant\` solo aplica a \`name\`. \`preserveColors\` solo aplica a \`src\`: por defecto (\`false\`) el icono hereda el color del texto; con \`true\` conserva los colores del fichero (un logo).
 **No** uses \`WI_HEROICONS_CURATED\` en apps (es para Storybook). **No** importes el paquete npm \`heroicons\`.
+**No** uses \`<img>\` ni \`innerHTML\` para el SVG de \`src\`.
 Color: \`currentColor\` / clases en el host. A11y: sin \`label\` → decorativo; con \`label\` → nombre accesible; botón solo-icono → \`aria-label\` en el botón.
         `.replace('{{COUNT}}', String(Object.keys(WI_HEROICONS_CURATED).length)),
       },
     },
     controls: {
-      include: ['name', 'variant', 'size', 'label'],
+      include: ['name', 'src', 'variant', 'size', 'label', 'preserveColors'],
     },
   },
   decorators: [
     applicationConfig({
       providers: [
+        provideHttpClient(),
         provideWiIcons(WI_HEROICONS_CURATED),
         provideWiIcons({
           worker: { solid: workerIcon },
@@ -77,7 +90,16 @@ Color: \`currentColor\` / clases en el host. A11y: sin \`label\` → decorativo;
   argTypes: {
     name: {
       control: 'text',
-      description: 'Clave registrada con provideWiIcons (oficial o custom)',
+      description: 'Clave registrada con provideWiIcons. Vacío si usas src',
+    },
+    src: {
+      control: 'text',
+      description: 'Ruta de la app o URL http(s) de un SVG. No se registra en provideWiIcons',
+    },
+    preserveColors: {
+      control: 'boolean',
+      description:
+        'Solo con src. false: el icono hereda el color del texto. true: conserva fill y stroke del fichero (logo). Con name se ignora.',
     },
     variant: {
       control: 'select',
@@ -94,9 +116,11 @@ Color: \`currentColor\` / clases en el host. A11y: sin \`label\` → decorativo;
   },
   args: {
     name: 'home',
+    src: '',
     variant: 'outline',
     size: 'lg',
     label: '',
+    preserveColors: false,
   },
 };
 
@@ -108,8 +132,15 @@ export const Default: Story = {
     props: args,
     template: `
       <div style="display:flex;align-items:center;gap:12px;font:16px/1.4 system-ui;color:#111;">
-        <wi-icon [name]="name" [variant]="variant" [size]="size" [label]="label" />
-        <span>{{ name }} ({{ variant }})</span>
+        <wi-icon
+          [name]="name || null"
+          [src]="src || null"
+          [variant]="variant"
+          [size]="size"
+          [label]="label"
+          [preserveColors]="preserveColors"
+        />
+        <span>{{ name || src }} ({{ variant }})</span>
       </div>
     `,
   }),
@@ -172,7 +203,8 @@ export const AccessibleLabel: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Con `label`: el SVG expone `role="img"` + `aria-label` (icono con significado propio).',
+        story:
+          'Con `label`: el SVG expone `role="img"` + `aria-label` (icono con significado propio).',
       },
     },
   },
@@ -217,6 +249,56 @@ export const IconOnlyButton: Story = {
       <button type="button" aria-label="Eliminar usuario" style="display:inline-flex;padding:0.5rem;">
         <wi-icon name="trash" />
       </button>
+    `,
+  }),
+};
+
+export const FromSrc: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: `
+SVG de la app o URL \`http\`/\`https\`, sin registrarlo en \`provideWiIcons\`.
+Hace falta \`provideHttpClient()\`. Hasta que llega el fichero no se pinta nada.
+
+El \`viewBox\` del fichero se conserva (si falta, \`0 0 24 24\`). \`width\`/\`height\` del SVG (p. ej. 800) no marcan el tamaño: lo marca \`size\`.
+\`variant\` no aplica.
+
+**Color.** Con \`src\`, \`preserveColors\` vale \`false\` por defecto: los fill y stroke de color del fichero pasan a \`currentColor\`, así que el icono hereda el color del texto (\`class="text-success"\`). \`fill="none"\` se mantiene, para que un icono de trazo no se rellene. Con \`true\` se respetan los colores del fichero; una clase de color del host no los cambia. Sirve para un logo. Con \`name\` el input se ignora.
+
+En el canvas, los dos logos llevan \`text-success\`. El primero sale de ese color. El segundo conserva el azul del fichero.
+
+\`\`\`html
+<wi-icon src="assets/images/gate-open.svg" class="text-success" />
+<wi-icon [src]="asset.urlIcon" size="sm" />
+<wi-icon src="assets/images/logo.svg" class="text-success" />
+<wi-icon src="assets/images/logo.svg" [preserveColors]="true" class="text-success" />
+\`\`\`
+        `,
+      },
+    },
+  },
+  render: () => ({
+    props: { gateOpenUrl, logoUrl },
+    template: `
+      <div style="display:flex;align-items:flex-end;gap:2rem;font:14px/1.4 system-ui;color:#111;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;max-width:8rem;text-align:center;">
+          <wi-icon [src]="gateOpenUrl" class="text-success" />
+          <span>trazo, color del texto</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;max-width:8rem;text-align:center;">
+          <wi-icon [src]="gateOpenUrl" size="sm" />
+          <span>tamaño sm</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;max-width:8rem;text-align:center;">
+          <wi-icon [src]="logoUrl" class="text-success" size="xl" />
+          <span>logo, color del texto</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;max-width:8rem;text-align:center;">
+          <wi-icon [src]="logoUrl" [preserveColors]="true" class="text-success" size="xl" label="Marca" />
+          <span>logo, colores del fichero</span>
+        </div>
+      </div>
     `,
   }),
 };

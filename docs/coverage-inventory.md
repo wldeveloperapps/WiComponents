@@ -76,14 +76,14 @@ Checklist de **demanda** extraído del uso real de PrimeNG en la app consumidora
 
 ## Infraestructura (no clonar)
 
-| Capacidad / tema      | Origen Prime (referencia)            | Cubo         | Estado       | Notas                                                                                               |
-| --------------------- | ------------------------------------ | ------------ | ------------ | --------------------------------------------------------------------------------------------------- |
-| Tokens + dark mode    | `providePrimeNG`, Aura, `data-theme` | base         | in-progress  | Tokens `--wi-color-*` + `@wldeveloperapps/ui/core`; app aplica `class="wi-dark"`; Storybook toolbar |
-| PassThrough `[pt]`    | PrimeNG PT                           | out-of-scope | out-of-scope | Sustituir por composición + variantes + tokens                                                      |
-| Ripple                | `ripple`                             | out-of-scope | out-of-scope | No requerido en el design system                                                                    |
-| Tipos/servicios Prime | `api` (`MenuItem`, etc.)             | out-of-scope | out-of-scope | Tipos Wi propios; adapters solo en la app si hace falta                                             |
-| Tailwind Prime plugin | `tailwindcss-primeui`                | out-of-scope | out-of-scope | La lib no depende de clases `.p-*`                                                                  |
-| PrimeIcons            | `primeicons`                         | base         | in-progress  | MVP + catálogo Heroicons (~79); mapa en `docs/icons-prime-migration.md`; Storybook Catalog          |
+| Capacidad / tema      | Origen Prime (referencia)            | Cubo         | Estado       | Notas                                                                                                         |
+| --------------------- | ------------------------------------ | ------------ | ------------ | ------------------------------------------------------------------------------------------------------------- |
+| Tokens + dark mode    | `providePrimeNG`, Aura, `data-theme` | base         | in-progress  | Tokens `--wi-color-*` + `@wldeveloperapps/ui/core`; app aplica `class="wi-dark"`; Storybook toolbar           |
+| PassThrough `[pt]`    | PrimeNG PT                           | out-of-scope | out-of-scope | Sustituir por composición + variantes + tokens                                                                |
+| Ripple                | `ripple`                             | out-of-scope | out-of-scope | No requerido en el design system                                                                              |
+| Tipos/servicios Prime | `api` (`MenuItem`, etc.)             | out-of-scope | out-of-scope | Tipos Wi propios; adapters solo en la app si hace falta                                                       |
+| Tailwind Prime plugin | `tailwindcss-primeui`                | out-of-scope | out-of-scope | La lib no depende de clases `.p-*`                                                                            |
+| PrimeIcons            | `primeicons`                         | base         | in-progress  | MVP + catálogo Heroicons (~79) + `src` SVG inline; mapa en `docs/icons-prime-migration.md`; Storybook Catalog |
 
 ---
 

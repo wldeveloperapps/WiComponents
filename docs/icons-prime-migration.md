@@ -108,6 +108,17 @@ Resolver en la **app** (custom `WiIconGlyph`) o con otro componente:
 | `pi-chart-line`                           | Aprox. `chart-bar` o custom            |
 | `pi-stopwatch`                            | Aprox. `clock` o custom                |
 
+## SVG de la app (`src`)
+
+Un asset que ya es SVG (no PNG) puede pintarse sin `WiIconGlyph` ni `provideWiIcons`:
+
+```html
+<wi-icon src="assets/images/gate-open.svg" class="text-success" />
+<wi-icon src="assets/images/logo.svg" [preserveColors]="true" />
+```
+
+Hace falta `provideHttpClient()`. Logos PNG y marcadores de mapa no entran por `src`.
+
 ## Uso en la app
 
 ```ts
