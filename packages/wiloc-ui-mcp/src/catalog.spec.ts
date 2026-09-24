@@ -26,6 +26,8 @@ describe('@wldeveloperapps/ui-mcp catalog', () => {
     expect(body).toContain('La librería no trae diccionario');
     expect(body).toContain('<wi-icon name="...">');
     expect(body).toContain('provideWiIcons');
+    expect(body).toContain('`src` es solo un fichero SVG');
+    expect(body).not.toContain('No hay src');
     expect(body).toContain('Label, error y hint no van dentro del control');
     expect(body).toContain('trigger y la plantilla de la ficha');
     expect(body).toContain('toast.css');

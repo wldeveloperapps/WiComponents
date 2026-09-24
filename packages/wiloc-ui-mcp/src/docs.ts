@@ -298,7 +298,7 @@ Select múltiple: \`<wi-select [multiple]="true">\`.`,
 
 3. Los textos visibles los pone la app. La librería no trae diccionario.
 
-4. Un icono de UI es \`<wi-icon name="...">\` y el name tiene que estar en \`provideWiIcons\`. No hay src, ni clase \`pi-\`, ni \`<img>\`.
+4. Un icono de interfaz es \`<wi-icon name="...">\` y el name tiene que estar en \`provideWiIcons\`. \`src\` es solo un fichero SVG de la app o una URL http(s), con \`provideHttpClient()\`; no es un PNG, ni un path SVG escrito a mano, ni una clase \`pi-\`, ni \`<img>\`. Si vienen \`name\` y \`src\`, se usa \`name\`.
 
 5. Label, error y hint no van dentro del control, salvo que la ficha tenga una parte para eso.
 
