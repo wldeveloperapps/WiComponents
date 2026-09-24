@@ -8,7 +8,7 @@ import { trashOutline } from '../../../icon/heroicons/src/trash';
 import { provideWiIcons, WiIconComponent } from '../../../icon/src/public-api';
 import { provideWiTooltipGroup, WiTooltipDirective } from '../public-api';
 
-type TooltipStoryArgs = {
+interface TooltipStoryArgs {
   wiTooltip: string;
   position: 'top' | 'bottom' | 'left' | 'right';
   showDelay: number;
@@ -16,7 +16,7 @@ type TooltipStoryArgs = {
   tooltipDisabled: boolean;
   show: ReturnType<typeof fn>;
   hide: ReturnType<typeof fn>;
-};
+}
 
 const meta: Meta<TooltipStoryArgs> = {
   title: 'Overlays/WiTooltip',
