@@ -67,14 +67,7 @@ function polyfillPopoverApi(): void {
       selector: string,
     ): Element | null {
       if (selector === ':popover-open' || selector === 'dialog:modal') {
-        let current: Element | null = this;
-        while (current) {
-          if (current.matches(selector)) {
-            return current;
-          }
-          current = current.parentElement;
-        }
-        return null;
+        return closestMatchingAncestor(this, selector);
       }
       return nativeClosest.call(this, selector);
     };
@@ -114,6 +107,17 @@ function polyfillPopoverApi(): void {
       modalDialogs.add(this);
     };
   }
+}
+
+function closestMatchingAncestor(element: Element, selector: string): Element | null {
+  let current: Element | null = element;
+  while (current) {
+    if (current.matches(selector)) {
+      return current;
+    }
+    current = current.parentElement;
+  }
+  return null;
 }
 
 function safeNativeMatches(
