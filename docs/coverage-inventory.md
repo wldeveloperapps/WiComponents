@@ -89,7 +89,7 @@ Checklist de **demanda** extraído del uso real de PrimeNG en la app consumidora
 
 ## Requisitos transversales (siempre)
 
-- Overlays: portal a body, focus trap, escape, dismiss; select/menú/tooltip/filtros cierran al scroll fuera del panel; datepicker/date-range/popover/confirm-popup reposicionan en scroll anidado (`overflow: auto|scroll`) sin `cdkScrollable` en la app; no usan top-layer (`z-index: 1000`, por encima de cards / overflow / header-migas a `10` y **por debajo** del sidebar a `1100`). Diálogos / toast / confirm modal sí pueden ir al top-layer.
+- Overlays: portal a body, focus trap, escape, dismiss; select/menú/tooltip/filtros cierran al scroll fuera del panel; datepicker/date-range/popover/confirm-popup reposicionan en scroll anidado (`overflow: auto|scroll`) sin `cdkScrollable` en la app. En página el panel anclado sigue en `z-index: 1000` (encima del header / migas a `10` y de cards / overflow, **por debajo** del sidebar a `1100`, fuera del top layer). Si el trigger está dentro de un diálogo, confirm modal o toast, el panel entra en el top layer y se pinta encima de ese modal. El z-index global no cambia.
 - Forms: Reactive Forms / CVA cuando el control lo sea; labels y errores accesibles.
 - i18n: textos desde la app (p. ej. Transloco); la librería no hardcodea copy.
 - A11y: teclado y nombre accesible en cada control interactivo.

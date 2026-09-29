@@ -263,15 +263,15 @@ Política de scroll:
 - **Cierran** al scroll fuera del panel: \`wi-select\`, \`wi-menu\`, filtros/visibilidad de \`wi-table\`, \`[wiTooltip]\`, \`wi-speed-dial\`. Scroll **dentro** de la lista del panel no cierra.
 - **Siguen** al trigger (reposicionan): \`wi-datepicker\` / \`wi-date-range\`, \`wi-popover\`, \`wi-confirm-popup\`.
 
-No usan el top-layer de Popover API. Stacking fijo de la librería:
+En página, el panel anclado sigue en **z-index 1000** (encima del header, debajo del sidebar, fuera del top layer). Si el trigger está dentro de un diálogo, confirm modal o toast, el panel entra en el top layer y se pinta encima de ese modal. El z-index global no cambia.
 
 - Contenido de página (card, \`overflow: auto\`): z-index auto. El panel anclado se pinta **encima** para no quedar tapado.
 - Header / migas: la app pone **z-index < 1000** (Wiloc: **10**). El desplegable **sí** se pinta encima.
-- Overlay anclado (menú, select, datepicker, filtros): portal CDK **z-index 1000**.
+- Overlay anclado en página (menú, select, datepicker, filtros): portal CDK **z-index 1000**, fuera del top layer.
 - Sidebar: la app pone **z-index > 1000** (Wiloc: **1100**). El menú **no** debe salir por encima del sidebar.
-- Dialog, confirm modal y toast: sí pueden ir a top-layer (por encima de cualquier z-index).
+- Dialog, confirm modal y toast: top layer (por encima de cualquier z-index). Un panel anclado cuyo trigger está dentro se apila después y se pinta encima de ese modal.
 
-No subas el z-index global del overlay por encima del sidebar. No pongas el header / las migas a 1100. No hace falta \`cdkScrollable\` ni parchear \`Overlay.prototype\`. Scroll de ventana sigue funcionando.
+No subas el z-index global del overlay por encima del sidebar. No pongas el header / las migas a 1100. No hace falta \`cdkScrollable\` ni parchear \`Overlay.prototype\`. Scroll de ventana sigue funcionando. La política de scroll (cerrar o reposicionar) se resuelve desde el origen también cuando el panel entra en el top layer.
 
 Storybook: **Documentation → Z-index** (contrato) y **Overlays → Nested scroll** (demo: contenedor 300px overflow auto + sidebar 1100 + header 10). El canvas hace scroll de ventana (CDK sí lo oye); el recuadro reproduce el shell de producto.`,
   },

@@ -127,14 +127,46 @@ function ensureOverlayStackingStyles(): void {
   document.head.appendChild(style);
 }
 
+function closestOrNull(origin: HTMLElement, selector: string): Element | null {
+  try {
+    return origin.closest(selector);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * El origen (o un ancestro) ya está en el top layer: popover abierto o `<dialog>` modal.
+ * `closest` incluye el propio elemento.
+ */
+function originIsInsideOpenTopLayer(origin: HTMLElement): boolean {
+  return (
+    closestOrNull(origin, ':popover-open') !== null ||
+    closestOrNull(origin, 'dialog:modal') !== null
+  );
+}
+
+function connectedOverlayKeepsPopover(strategy: FlexibleConnectedPositionStrategy): boolean {
+  const origin = originElementFromStrategy(strategy);
+  return !!origin && originIsInsideOpenTopLayer(origin);
+}
+
 function withConnectedOverlayDefaults(config?: OverlayConfig): OverlayConfig | undefined {
   if (!config || !isFlexibleConnectedPositionStrategy(config.positionStrategy)) {
+    return config;
+  }
+  if (connectedOverlayKeepsPopover(config.positionStrategy)) {
     return config;
   }
   return { ...config, usePopover: false };
 }
 
 function disablePopoverLayer(overlayRef: OverlayRef): void {
+  const strategy = overlayRef.getConfig().positionStrategy;
+  if (isFlexibleConnectedPositionStrategy(strategy) && connectedOverlayKeepsPopover(strategy)) {
+    return;
+  }
+
   const config = overlayRef.getConfig();
   config.usePopover = false;
 
@@ -257,6 +289,8 @@ function softDetach(overlayRef: OverlayRef): void {
 /**
  * Enlace post-attach: política close (select/menu/tooltip) o reposition (calendarios, popover…).
  * Close: scroll de ancestors/ventana fuera del pane → softDetach; wheel interno no cierra.
+ * La política y los ancestros salen del origen, no del padre DOM del pane: en top layer
+ * el pane vive en el overlay container, fuera del modal.
  */
 function bindConnectedOverlayAfterAttach(overlayRef: OverlayRef): void {
   boundOverlays.get(overlayRef)?.();
@@ -361,7 +395,8 @@ function bindConnectedOverlayAfterAttach(overlayRef: OverlayRef): void {
 }
 
 /**
- * Pre-attach: solo quita top-layer Popover API. El scroll se enlaza tras attach
+ * Pre-attach: quita el top-layer salvo que el origen ya esté dentro de uno abierto
+ * (dialog, confirm modal, toast). El scroll se enlaza tras attach
  * (cuando el pane ya tiene clases Wi para la política close/reposition).
  */
 function prepareConnectedOverlay(overlayRef: OverlayRef): void {
@@ -374,8 +409,11 @@ function prepareConnectedOverlay(overlayRef: OverlayRef): void {
 
 /**
  * Intercepta overlays CDK anclados a un origen:
- * - `usePopover: false` (el panel no salta al top-layer; stacking CDK z-index 1000:
+ * - En página, `usePopover: false` (el panel no salta al top-layer; stacking CDK z-index 1000:
  *   encima de header/migas a 10, debajo del sidebar a 1100).
+ * - Si el origen ya está dentro de un top layer (`:popover-open` o `dialog:modal`),
+ *   no se fuerza `usePopover: false`: CDK hace `showPopover()` y el panel se pinta
+ *   encima de ese modal. El z-index global sigue en 1000.
  * - Select / menú / tooltip: cierran al scroll fuera del pane (overflow anidado o ventana).
  * - Datepicker / date-range / popover / confirm-popup: reposicionan en overflow anidado.
  *

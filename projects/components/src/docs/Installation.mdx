@@ -175,15 +175,15 @@ Overlays portaled a `body` heredan el tema si la clase está en `<html>`.
 
 ## 5. Z-index de overlays
 
-Los paneles **anclados al trigger** (select, datepicker, menú, filtros de tabla, popover, tooltip, confirm-popup) **no** van al top-layer del Popover API. Así el sidebar puede taparlos y el header / las migas **no** los tapan.
+En página, el panel anclado (select, datepicker, menú, filtros de tabla, popover, tooltip, confirm-popup) sigue en z-index `1000` (encima del header, debajo del sidebar, fuera del top layer). Así el sidebar puede taparlo y el header / las migas **no** lo tapan. Si el trigger está dentro de un diálogo, confirm modal o toast, el panel entra en el top layer y se pinta encima de ese modal. El z-index global no cambia.
 
 | Capa | z-index | Qué entra |
 | ---- | ------- | --------- |
 | Contenido de página | `auto` | card, tabla, `overflow: auto` |
 | Header / migas | **`< 1000`** (Wiloc: **`10`**) | topbar sticky, breadcrumbs |
-| Overlay anclado | **`1000`** (portal CDK) | menú, select, datepicker, filtros |
+| Overlay anclado en página | **`1000`** (portal CDK) | menú, select, datepicker, filtros |
 | Sidebar | **`> 1000`** (Wiloc: **`1100`**) | menú lateral `position: fixed` |
-| Top-layer (Popover API) | por encima de cualquier z-index | dialog, confirm modal, toast |
+| Top-layer (Popover API) | por encima de cualquier z-index | dialog, confirm modal, toast; panel anclado abierto desde dentro |
 
 Contrato para la app:
 
@@ -269,4 +269,4 @@ Para que Cursor use la API pública (no Spartan). Pasos, tools y diagnóstico: p
 - Importar `heroicons` / PrimeIcons; el catálogo es `@wldeveloperapps/ui/icon/heroicons`.
 - Esperar diccionarios ES/EN dentro de la librería.
 - Hardcodear datos de producto en los componentes: la app los aporta por inputs / proyección.
-- Poner menús anclados en top-layer ni subir su z-index por encima del sidebar (`1100`).
+- Subir el z-index global del overlay por encima del sidebar (`1100`). En página el panel anclado sigue fuera del top layer.
