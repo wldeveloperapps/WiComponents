@@ -806,41 +806,22 @@ No se deben incluir varias copias de Angular dentro de la aplicación consumidor
 
 ## Publicación
 
-El paquete se publicará con scope:
+El paquete se publica con scope `@wldeveloperapps/ui` en **GitHub Packages** (`https://npm.pkg.github.com`).
 
-```text
-@wldeveloperapps/ui
-```
+El trabajo del día a día va en una rama y entra en `main` por pull request. Eso ejecuta la CI (`/.github/workflows/ci.yml`: lint, tests y build) y no publica. El cambio de versión entra por el mismo camino, hasta quedar en `main`. Un commit en `main` tampoco publica.
 
-Durante el desarrollo se utilizarán versiones prerelease:
+Publica el push de un tag `v{version}` puesto en un commit que ya está en `main`. `/.github/workflows/publish.yml` rechaza el tag si ese commit no pertenece a `main`. **Run workflow** solo funciona desde `main`. El tag tiene que coincidir con la versión de los paquetes (`v1.0.0` con `1.0.0`). Publica `@wldeveloperapps/ui` y `@wldeveloperapps/ui-mcp` con dist-tag `alpha`, `beta`, `rc` o `latest`.
 
-```text
-0.1.0-alpha.1
-0.1.0-alpha.2
-0.1.0-alpha.3
-0.1.0-alpha.4
-0.1.0-alpha.5
-0.1.0-alpha.6
-0.1.0-alpha.7
-0.1.0-beta.1
-```
-
-Primera versión estable:
-
-```text
-1.0.0
-```
-
-Registry: **GitHub Packages** (`https://npm.pkg.github.com`), scope `@wldeveloperapps`.
-
-CI (`/.github/workflows/ci.yml`) corre lint, tests y build en `main` y PRs.
-
-Publicación (`/.github/workflows/publish.yml`): al empujar un tag `v*` (debe coincidir con la versión, p. ej. `v0.1.0-alpha.7`) o con **Run workflow**. Publica `@wldeveloperapps/ui` y `@wldeveloperapps/ui-mcp` con dist-tag `alpha` / `beta` / `latest`.
+Cuando la versión ya está en `main`:
 
 ```bash
-git tag v0.1.0-alpha.7
-git push origin v0.1.0-alpha.7
+git checkout main
+git pull
+git tag v1.0.0
+git push origin v1.0.0
 ```
+
+Durante el desarrollo se utilizan versiones prerelease (`0.1.0-alpha.N`, `0.1.0-beta.N`). La primera versión estable es `1.0.0`. El corte actual es `0.1.0-alpha.7`.
 
 Las apps consumidoras:
 

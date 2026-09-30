@@ -892,7 +892,7 @@ pnpm pack
 
 Verificar el `.tgz` generado en la aplicación `e2e-consumer`.
 
-La publicación a GitHub Packages la hace CI (`publish.yml`) con `pnpm publish:github` al empujar `v{version}`. No publicar a mano salvo emergencia.
+La publicación a GitHub Packages la hace CI (`publish.yml`) con `pnpm publish:github` al empujar un tag `v{version}` de un commit que ya está en `main`. Un commit en `main` no publica. El procedimiento está en la skill `wi-release`. No publicar a mano.
 
 Comprobar:
 

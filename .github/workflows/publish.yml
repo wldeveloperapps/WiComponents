@@ -22,6 +22,27 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      # Un commit en main no publica. Publica el tag v*, y solo si ese commit
+      # ya está en main. Run workflow queda limitado a la rama main.
+      - name: Run workflow solo desde main
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          if [ "$GITHUB_REF" != "refs/heads/main" ]; then
+            echo "Run workflow solo está permitido desde main (ref actual: $GITHUB_REF)."
+            exit 1
+          fi
+
+      - name: Exigir que el commit esté en main
+        run: |
+          git fetch origin main
+          if ! git merge-base --is-ancestor HEAD origin/main; then
+            echo "El commit $(git rev-parse --short HEAD) no está en main. El tag se crea cuando el cambio de versión ya entró en main."
+            exit 1
+          fi
+
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v5
         with:

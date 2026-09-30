@@ -27,6 +27,7 @@ Librería Angular (`projects/components`), paquete `@wldeveloperapps/ui`. Sparta
 | Stories / actions | `storybook` |
 | Angular moderno | `angular-developer` |
 | Spartan Brain/Helm | `spartan` |
+| Versión, tag y publicación | `wi-release` |
 
 Rules por archivo (no always-on): `naming-conventions`, `theming-dark-mode`, `responsive`, `component-unit-tests`, `wi-icons`, `angular-library-structure`, `code-quality`, `coverage-inventory`, `wiloc-ui-mcp`.
 
