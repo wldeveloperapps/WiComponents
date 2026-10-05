@@ -6,7 +6,7 @@ export const wiButtonRegistryEntry = {
   name: 'button',
   selector: 'button[wiButton], a[wiButton]',
   entryPoint: '@wldeveloperapps/ui/button',
-  status: 'experimental' as const,
+  status: 'stable' as const,
   exports: ['WiButtonDirective', 'WiButtonVariant', 'WiButtonSize', 'WiButtonType'],
   inputs: [
     {

@@ -6,7 +6,7 @@ export const wiIconRegistryEntry = {
   name: 'icon',
   selector: 'wi-icon',
   entryPoint: '@wldeveloperapps/ui/icon',
-  status: 'experimental' as const,
+  status: 'stable' as const,
   exports: [
     'WiIconComponent',
     'provideWiIcons',

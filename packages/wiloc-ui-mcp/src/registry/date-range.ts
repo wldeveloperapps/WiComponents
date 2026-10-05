@@ -6,7 +6,7 @@ export const wiDateRangeRegistryEntry = {
   name: 'date-range',
   selector: 'wi-date-range',
   entryPoint: '@wldeveloperapps/ui/forms',
-  status: 'experimental' as const,
+  status: 'stable' as const,
   exports: [
     'WiDateRangeComponent',
     'WiDatepickerSize',

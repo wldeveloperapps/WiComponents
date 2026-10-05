@@ -6,7 +6,7 @@ export const wiPopoverRegistryEntry = {
   name: 'popover',
   selector: 'wi-popover',
   entryPoint: '@wldeveloperapps/ui/overlays',
-  status: 'experimental' as const,
+  status: 'stable' as const,
   exports: [
     'WiPopoverComponent',
     'WiPopoverTriggerDirective',

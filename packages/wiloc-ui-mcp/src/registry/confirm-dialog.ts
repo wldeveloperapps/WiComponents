@@ -6,7 +6,7 @@ export const wiConfirmDialogRegistryEntry = {
   name: 'confirm-dialog',
   selector: 'wi-confirm-dialog',
   entryPoint: '@wldeveloperapps/ui/overlays',
-  status: 'experimental' as const,
+  status: 'stable' as const,
   exports: [
     'WiConfirmDialogComponent',
     'WiConfirmDialogTriggerDirective',

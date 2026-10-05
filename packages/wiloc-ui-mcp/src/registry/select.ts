@@ -6,7 +6,7 @@ export const wiSelectRegistryEntry = {
   name: 'select',
   selector: 'wi-select',
   entryPoint: '@wldeveloperapps/ui/forms',
-  status: 'experimental' as const,
+  status: 'stable' as const,
   exports: [
     'WiSelectComponent',
     'WiSelectItemDirective',

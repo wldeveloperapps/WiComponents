@@ -6,7 +6,7 @@ export const wiTableRegistryEntry = {
   name: 'table',
   selector: 'wi-table',
   entryPoint: '@wldeveloperapps/ui/data-display',
-  status: 'experimental' as const,
+  status: 'stable' as const,
   exports: [
     'WiTableComponent',
     'WiTableCellDirective',

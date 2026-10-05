@@ -6,7 +6,7 @@ export const wiConfirmPopupRegistryEntry = {
   name: 'confirm-popup',
   selector: 'wi-confirm-popup',
   entryPoint: '@wldeveloperapps/ui/overlays',
-  status: 'experimental' as const,
+  status: 'stable' as const,
   exports: [
     'WiConfirmPopupComponent',
     'WiConfirmPopupTriggerDirective',
@@ -114,8 +114,7 @@ export const wiConfirmPopupRegistryEntry = {
       name: 'closeOnOutsidePointerEvents',
       type: 'boolean',
       default: 'true',
-      description:
-        'Cierra al clic fuera del panel. Un overlay CDK anidado no cuenta como fuera.',
+      description: 'Cierra al clic fuera del panel. Un overlay CDK anidado no cuenta como fuera.',
     },
   ],
   outputs: [

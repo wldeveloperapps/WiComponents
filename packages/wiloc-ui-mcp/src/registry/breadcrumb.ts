@@ -6,7 +6,7 @@ export const wiBreadcrumbRegistryEntry = {
   name: 'breadcrumb',
   selector: 'wi-breadcrumb',
   entryPoint: '@wldeveloperapps/ui/navigation',
-  status: 'experimental' as const,
+  status: 'stable' as const,
   exports: ['WiBreadcrumbComponent', 'WiBreadcrumbItem'],
   inputs: [
     {

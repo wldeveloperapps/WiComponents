@@ -157,12 +157,12 @@ Las aplicaciones Wiloc deben consumir `@wldeveloperapps/ui`, no Spartan. El serv
 ### Estado
 
 ```text
-Estado: usable en 0.1.0-alpha.7
+Estado: usable en 1.0.0
 Paquete: @wldeveloperapps/ui-mcp
 Ubicación: packages/wiloc-ui-mcp/
 ```
 
-Alinear la versión del MCP con la de `@wldeveloperapps/ui`. En este corte ambas son `0.1.0-alpha.7`.
+Alinear la versión del MCP con la de `@wldeveloperapps/ui`. En este corte ambas son `1.0.0`.
 
 ### Tools
 
@@ -394,7 +394,7 @@ Composiciones orientadas a casos de uso frecuentes:
 
 ## Componentes iniciales
 
-La demanda viva y el estado de cada capacidad están en [`docs/coverage-inventory.md`](docs/coverage-inventory.md). El corte actual es `0.1.0-alpha.7` (API experimental).
+La demanda viva y el estado de cada capacidad están en [`docs/coverage-inventory.md`](docs/coverage-inventory.md). El corte actual es `1.0.0`.
 
 ### Fase 1 (histórico / roadmap)
 
@@ -821,7 +821,7 @@ git tag v1.0.0
 git push origin v1.0.0
 ```
 
-Durante el desarrollo se utilizan versiones prerelease (`0.1.0-alpha.N`, `0.1.0-beta.N`). La primera versión estable es `1.0.0`. El corte actual es `0.1.0-alpha.7`.
+Los cortes previos a la estable fueron prerelease (`0.1.0-alpha.N`, `0.1.0-beta.N`, `0.1.0-rc.N`). El corte actual es `1.0.0` (dist-tag `latest`).
 
 Las apps consumidoras:
 
@@ -831,7 +831,7 @@ Las apps consumidoras:
 ```
 
 ```bash
-pnpm add @wldeveloperapps/ui@0.1.0-alpha.7
+pnpm add @wldeveloperapps/ui@1.0.0
 ```
 
 ---
@@ -1041,11 +1041,11 @@ Cuando se adapte código procedente de Spartan u otras librerías:
 
 ## Estado del proyecto
 
-Corte interno `0.1.0-alpha.7`. La API es experimental y puede cambiar sin semver estable.
+Corte `1.0.0`. La API pública sigue Semantic Versioning.
 
 ```text
-Versión actual: 0.1.0-alpha.7
-Estado: experimental / alpha
+Versión actual: 1.0.0
+Estado: estable
 ```
 
 Ver [`CHANGELOG.md`](CHANGELOG.md).

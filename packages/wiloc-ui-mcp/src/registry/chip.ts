@@ -6,7 +6,7 @@ export const wiChipRegistryEntry = {
   name: 'chip',
   selector: 'wi-chip',
   entryPoint: '@wldeveloperapps/ui/data-display',
-  status: 'experimental' as const,
+  status: 'stable' as const,
   exports: ['WiChipComponent', 'WiChipVariant', 'WiChipSize', 'WiChipRadius'],
   inputs: [
     {

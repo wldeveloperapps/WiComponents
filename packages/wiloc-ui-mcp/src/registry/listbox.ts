@@ -6,7 +6,7 @@ export const wiListboxRegistryEntry = {
   name: 'listbox',
   selector: 'wi-listbox',
   entryPoint: '@wldeveloperapps/ui/forms',
-  status: 'experimental' as const,
+  status: 'stable' as const,
   exports: [
     'WiListboxComponent',
     'WiListboxItemDirective',

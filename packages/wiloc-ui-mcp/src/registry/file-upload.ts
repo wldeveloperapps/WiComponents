@@ -6,7 +6,7 @@ export const wiFileUploadRegistryEntry = {
   name: 'file-upload',
   selector: 'wi-file-upload',
   entryPoint: '@wldeveloperapps/ui/forms',
-  status: 'experimental' as const,
+  status: 'stable' as const,
   exports: [
     'WiFileUploadComponent',
     'WiFileUploadSize',

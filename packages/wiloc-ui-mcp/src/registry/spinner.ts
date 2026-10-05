@@ -6,7 +6,7 @@ export const wiSpinnerRegistryEntry = {
   name: 'spinner',
   selector: 'wi-spinner',
   entryPoint: '@wldeveloperapps/ui/data-display',
-  status: 'experimental' as const,
+  status: 'stable' as const,
   exports: ['WiSpinnerComponent', 'WiSpinnerSize'],
   inputs: [
     {

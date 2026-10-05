@@ -6,7 +6,7 @@ export const wiMenuRegistryEntry = {
   name: 'menu',
   selector: 'wi-menu',
   entryPoint: '@wldeveloperapps/ui/overlays',
-  status: 'experimental' as const,
+  status: 'stable' as const,
   exports: [
     'WiMenuComponent',
     'WiMenuTriggerDirective',
