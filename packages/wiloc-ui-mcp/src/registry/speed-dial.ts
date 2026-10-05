@@ -6,7 +6,7 @@ export const wiSpeedDialRegistryEntry = {
   name: 'speed-dial',
   selector: 'wi-speed-dial',
   entryPoint: '@wldeveloperapps/ui/overlays',
-  status: 'experimental' as const,
+  status: 'stable' as const,
   exports: ['WiSpeedDialComponent', 'WiSpeedDialItem', 'WiSpeedDialDirection'],
   inputs: [
     {
@@ -62,7 +62,8 @@ export const wiSpeedDialRegistryEntry = {
       name: 'triggerIcon',
       type: 'string',
       default: 'ellipsis-vertical',
-      description: 'Icono del trigger cerrado: un name registrado con provideWiIcons, no una clase CSS',
+      description:
+        'Icono del trigger cerrado: un name registrado con provideWiIcons, no una clase CSS',
     },
   ],
   outputs: [
@@ -80,7 +81,10 @@ export const wiSpeedDialRegistryEntry = {
   variants: [],
   parts: [
     { selector: 'button[aria-expanded="false"]', description: 'Trigger cerrado (icon-only)' },
-    { selector: 'button[data-speed-dial-close]', description: 'Botón X para cerrar el dial abierto' },
+    {
+      selector: 'button[data-speed-dial-close]',
+      description: 'Botón X para cerrar el dial abierto',
+    },
     { selector: '[role=toolbar]', description: 'Barra de acciones abierta (X + items)' },
   ],
   keyboard: [

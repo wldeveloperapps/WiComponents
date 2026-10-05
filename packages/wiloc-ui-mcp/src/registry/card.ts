@@ -6,7 +6,7 @@ export const wiCardRegistryEntry = {
   name: 'card',
   selector: 'wi-card',
   entryPoint: '@wldeveloperapps/ui/data-display',
-  status: 'experimental' as const,
+  status: 'stable' as const,
   exports: [
     'WiCardComponent',
     'WiCardHeaderComponent',

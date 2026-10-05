@@ -6,7 +6,7 @@ export const wiPicklistRegistryEntry = {
   name: 'picklist',
   selector: 'wi-picklist',
   entryPoint: '@wldeveloperapps/ui/forms',
-  status: 'experimental' as const,
+  status: 'stable' as const,
   exports: [
     'WiPicklistComponent',
     'WiPicklistItemDirective',

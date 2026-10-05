@@ -6,7 +6,7 @@ export const wiStepperRegistryEntry = {
   name: 'stepper',
   selector: 'wi-stepper',
   entryPoint: '@wldeveloperapps/ui/navigation',
-  status: 'experimental' as const,
+  status: 'stable' as const,
   exports: [
     'WiStepperComponent',
     'WiStepperPanelDirective',

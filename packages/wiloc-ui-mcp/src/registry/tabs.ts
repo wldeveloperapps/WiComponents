@@ -6,7 +6,7 @@ export const wiTabsRegistryEntry = {
   name: 'tabs',
   selector: 'wi-tabs',
   entryPoint: '@wldeveloperapps/ui/navigation',
-  status: 'experimental' as const,
+  status: 'stable' as const,
   exports: [
     'WiTabsComponent',
     'WiTabsListComponent',

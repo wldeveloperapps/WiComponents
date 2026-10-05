@@ -6,7 +6,7 @@ export const wiSkeletonRegistryEntry = {
   name: 'skeleton',
   selector: 'wi-skeleton',
   entryPoint: '@wldeveloperapps/ui/data-display',
-  status: 'experimental' as const,
+  status: 'stable' as const,
   exports: ['WiSkeletonComponent', 'WiSkeletonShape'],
   inputs: [
     {

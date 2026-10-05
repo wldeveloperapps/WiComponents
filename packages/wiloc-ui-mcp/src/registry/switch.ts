@@ -6,7 +6,7 @@ export const wiSwitchRegistryEntry = {
   name: 'switch',
   selector: 'wi-switch',
   entryPoint: '@wldeveloperapps/ui/forms',
-  status: 'experimental' as const,
+  status: 'stable' as const,
   exports: ['WiSwitchComponent', 'WiSwitchSize'],
   inputs: [
     {

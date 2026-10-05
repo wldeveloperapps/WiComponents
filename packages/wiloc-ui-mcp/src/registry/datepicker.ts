@@ -6,7 +6,7 @@ export const wiDatepickerRegistryEntry = {
   name: 'datepicker',
   selector: 'wi-datepicker',
   entryPoint: '@wldeveloperapps/ui/forms',
-  status: 'experimental' as const,
+  status: 'stable' as const,
   exports: [
     'WiDatepickerComponent',
     'WiDateRangeComponent',

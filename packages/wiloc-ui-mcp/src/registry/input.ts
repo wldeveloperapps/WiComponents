@@ -6,7 +6,7 @@ export const wiInputRegistryEntry = {
   name: 'input',
   selector: 'wi-input',
   entryPoint: '@wldeveloperapps/ui/forms',
-  status: 'experimental' as const,
+  status: 'stable' as const,
   exports: ['WiInputComponent', 'WiInputSize', 'WiInputType'],
   inputs: [
     {

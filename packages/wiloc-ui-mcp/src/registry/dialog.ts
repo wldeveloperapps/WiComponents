@@ -6,7 +6,7 @@ export const wiDialogRegistryEntry = {
   name: 'dialog',
   selector: 'wi-dialog',
   entryPoint: '@wldeveloperapps/ui/overlays',
-  status: 'experimental' as const,
+  status: 'stable' as const,
   exports: [
     'WiDialogComponent',
     'WiDialogTriggerDirective',

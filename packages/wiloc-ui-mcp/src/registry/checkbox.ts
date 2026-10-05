@@ -6,7 +6,7 @@ export const wiCheckboxRegistryEntry = {
   name: 'checkbox',
   selector: 'wi-checkbox',
   entryPoint: '@wldeveloperapps/ui/forms',
-  status: 'experimental' as const,
+  status: 'stable' as const,
   exports: ['WiCheckboxComponent', 'WiCheckboxSize'],
   inputs: [
     {

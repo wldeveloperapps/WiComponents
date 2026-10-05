@@ -6,7 +6,7 @@ export const wiTooltipRegistryEntry = {
   name: 'tooltip',
   selector: '[wiTooltip]',
   entryPoint: '@wldeveloperapps/ui/overlays',
-  status: 'experimental' as const,
+  status: 'stable' as const,
   exports: [
     'WiTooltipDirective',
     'WiTooltipPosition',

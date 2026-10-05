@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.0.0
+
+Primera versión estable de `@wldeveloperapps/ui` y `@wldeveloperapps/ui-mcp`. La API pública queda cubierta por Semantic Versioning.
+
+### Changed
+
+- Promoción del corte `0.1.0-alpha.7` a estable. No cambia ningún selector, input, output, tipo ni entry point respecto a ese alpha.
+- Catálogo MCP: los componentes publicados pasan de `experimental` a `stable`.
+
+### Known limitations
+
+- Sin Form Field; labels y errores los arma la app
+- `wi_audit` no está implementado
+- Iconos: subconjunto Heroicons (ver `docs/icons-prime-migration.md`)
+
 ## 0.1.0-alpha.7
 
 Séptimo corte interno de `@wldeveloperapps/ui` y `@wldeveloperapps/ui-mcp`. API experimental: puede cambiar en el siguiente alpha.

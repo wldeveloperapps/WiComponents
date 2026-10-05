@@ -6,7 +6,7 @@ export const wiOtpRegistryEntry = {
   name: 'otp',
   selector: 'wi-otp',
   entryPoint: '@wldeveloperapps/ui/forms',
-  status: 'experimental' as const,
+  status: 'stable' as const,
   exports: ['WiOtpComponent', 'WiOtpSize', 'WiOtpInputMode', 'WiOtpAutocomplete'],
   inputs: [
     {
