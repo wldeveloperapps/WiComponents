@@ -1,6 +1,6 @@
 {
   "name": "@wldeveloperapps/ui",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "peerDependencies": {
     "@angular/aria": "^22.1.0",
     "@angular/cdk": "^22.1.0",

@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.1
+
+### Fixed
+
+- `wi-select`: `aria-invalid` del trigger sigue el estado de validación del control (touched o submit). Un required sin tocar ya no se anuncia como inválido.
+
 ## 1.0.0
 
 Primera versión estable de `@wldeveloperapps/ui` y `@wldeveloperapps/ui-mcp`. La API pública queda cubierta por Semantic Versioning.

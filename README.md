@@ -157,12 +157,12 @@ Las aplicaciones Wiloc deben consumir `@wldeveloperapps/ui`, no Spartan. El serv
 ### Estado
 
 ```text
-Estado: usable en 1.0.0
+Estado: usable en 1.0.1
 Paquete: @wldeveloperapps/ui-mcp
 Ubicación: packages/wiloc-ui-mcp/
 ```
 
-Alinear la versión del MCP con la de `@wldeveloperapps/ui`. En este corte ambas son `1.0.0`.
+Alinear la versión del MCP con la de `@wldeveloperapps/ui`. En este corte ambas son `1.0.1`.
 
 ### Tools
 
@@ -394,7 +394,7 @@ Composiciones orientadas a casos de uso frecuentes:
 
 ## Componentes iniciales
 
-La demanda viva y el estado de cada capacidad están en [`docs/coverage-inventory.md`](docs/coverage-inventory.md). El corte actual es `1.0.0`.
+La demanda viva y el estado de cada capacidad están en [`docs/coverage-inventory.md`](docs/coverage-inventory.md). El corte actual es `1.0.1`.
 
 ### Fase 1 (histórico / roadmap)
 
@@ -806,22 +806,67 @@ No se deben incluir varias copias de Angular dentro de la aplicación consumidor
 
 ## Publicación
 
-El paquete se publica con scope `@wldeveloperapps/ui` en **GitHub Packages** (`https://npm.pkg.github.com`).
+El paquete se publica con scope `@wldeveloperapps` en **GitHub Packages** (`https://npm.pkg.github.com`). Un commit no publica. La CI (`/.github/workflows/ci.yml`) corre en pull requests y en pushes a `main` (lint, tests y build) y no publica. Publica solo el push de un tag `v{version}`, o **Run workflow** de `/.github/workflows/publish.yml` lanzado desde `main`.
 
-El trabajo del día a día va en una rama y entra en `main` por pull request. Eso ejecuta la CI (`/.github/workflows/ci.yml`: lint, tests y build) y no publica. El cambio de versión entra por el mismo camino, hasta quedar en `main`. Un commit en `main` tampoco publica.
+Corte actual: **`1.0.1`**. Tag: **`v1.0.1`**. Dist-tag: **`latest`**. Una prerelease (`-alpha.N`, `-beta.N`, `-rc.N`) usa el dist-tag `alpha`, `beta` o `rc`.
 
-Publica el push de un tag `v{version}` puesto en un commit que ya está en `main`. `/.github/workflows/publish.yml` rechaza el tag si ese commit no pertenece a `main`. **Run workflow** solo funciona desde `main`. El tag tiene que coincidir con la versión de los paquetes (`v1.0.0` con `1.0.0`). Publica `@wldeveloperapps/ui` y `@wldeveloperapps/ui-mcp` con dist-tag `alpha`, `beta`, `rc` o `latest`.
+No ejecutar `pnpm publish` a mano. Lo hace `pnpm publish:github` dentro del workflow.
 
-Cuando la versión ya está en `main`:
+### 1. Alinear la versión
+
+La misma cadena en:
+
+- `projects/components/package.json` (`version`)
+- `packages/wiloc-ui-mcp/package.json` (`version`)
+- `packages/wiloc-ui-mcp/src/catalog.ts` (`WI_PACKAGE_VERSION`)
+- textos de instalación en `packages/wiloc-ui-mcp/src/docs.ts` y `packages/wiloc-ui-mcp/src/catalog.spec.ts`
+- corte actual en este `README.md` y en `projects/components/README.md`
+- cabecera nueva en `CHANGELOG.md`
+
+`apps/e2e-consumer/package.json` lo reescribe `pnpm e2e-consumer:sync` después de `pnpm pack:lib`. No editar esa ruta a mano.
+
+Clasificación: arreglo compatible → patch (`1.0.1`); funcionalidad compatible → minor (`1.1.0`); breaking de API pública → major (`2.0.0`).
+
+### 2. Entrar en `main`
+
+El cambio de versión va en una rama y entra por pull request. Ahí no se crea el tag. Si el pull request entra por squash, el commit de la rama no queda en `main`: el tag va en el commit que `main` tiene después del merge.
+
+### 3. Revisar antes del tag
+
+Parar si falla cualquiera:
+
+- Las versiones de la lista anterior coinciden con `1.0.1` y con el tag `v1.0.1`.
+- `CHANGELOG.md` tiene la entrada de `1.0.1` y la clasificación cuadra con el diff público.
+- El commit que se va a etiquetar ya está en `main`.
+- Pasan `pnpm lint`, `pnpm test`, `pnpm test:mcp`, `pnpm build:lib`, `pnpm build:mcp` y `pnpm pack:lib`. El `.tgz` se prueba en `apps/e2e-consumer`.
+
+### 4. Crear el tag
+
+Solo cuando el commit de la versión ya está en `main`:
 
 ```bash
 git checkout main
 git pull
-git tag v1.0.0
-git push origin v1.0.0
+git tag v1.0.1
+git push origin v1.0.1
 ```
 
-Los cortes previos a la estable fueron prerelease (`0.1.0-alpha.N`, `0.1.0-beta.N`, `0.1.0-rc.N`). El corte actual es `1.0.0` (dist-tag `latest`).
+El nombre del tag es `v` más la versión de los paquetes. `scripts/publish-github.mjs` rechaza el tag si no coincide (`v1.0.1` con `1.0.1`).
+
+### 5. Qué ejecuta el workflow
+
+`publish.yml` hace, en este orden:
+
+1. Checkout con historial completo.
+2. Si es **Run workflow**, sale con error cuando la rama no es `main`.
+3. Comprueba que el commit es ancestro de `origin/main`. Si el tag apunta a un commit que no está en `main`, falla.
+4. `pnpm install --frozen-lockfile`
+5. `pnpm build:lib` y `pnpm build:mcp`
+6. `pnpm publish:github`, que publica `@wldeveloperapps/ui` y `@wldeveloperapps/ui-mcp` con el dist-tag de la versión.
+
+Los cortes previos a la estable fueron prerelease (`0.1.0-alpha.N`, `0.1.0-beta.N`, `0.1.0-rc.N`).
+
+### Instalar el corte en la app
 
 Las apps consumidoras instalan el paquete desde GitHub Packages. Hace falta permiso de lectura en la organización `wldeveloperapps`. Cada persona configura el acceso en su máquina; el token no se commitea.
 
@@ -834,7 +879,7 @@ En el `.npmrc` de la app:
 
 pnpm lee el token de `NODE_AUTH_TOKEN`. En Windows se deja así:
 
-### 1. Instalar GitHub CLI
+#### 1. Instalar GitHub CLI
 
 Instala la interfaz de línea de comandos de GitHub con winget.
 
@@ -842,7 +887,7 @@ Instala la interfaz de línea de comandos de GitHub con winget.
 winget install --id GitHub.cli
 ```
 
-### 2. Añadir GitHub CLI al PATH
+#### 2. Añadir GitHub CLI al PATH
 
 Registra la ruta de instalación para que la terminal reconozca `gh`. La primera línea lo deja permanente en el usuario. La segunda lo aplica en la sesión actual, sin reiniciar la consola.
 
@@ -851,7 +896,7 @@ Registra la ruta de instalación para que la terminal reconozca `gh`. La primera
 $env:Path += ";C:\Program Files\GitHub CLI\"
 ```
 
-### 3. Autenticarse en GitHub
+#### 3. Autenticarse en GitHub
 
 Inicia sesión en el navegador (`-w`). `-s read:packages` pide permiso para descargar paquetes privados de GitHub Packages.
 
@@ -859,7 +904,7 @@ Inicia sesión en el navegador (`-w`). `-s read:packages` pide permiso para desc
 gh auth login -s read:packages -w
 ```
 
-### 4. Configurar el token para pnpm
+#### 4. Configurar el token para pnpm
 
 Copia el token de GitHub CLI a `NODE_AUTH_TOKEN`. pnpm lo usa al descargar el paquete. El valor vale solo en esa terminal; en una sesión nueva hay que volver a asignarlo.
 
@@ -870,7 +915,7 @@ $env:NODE_AUTH_TOKEN = gh auth token
 Después:
 
 ```powershell
-pnpm add @wldeveloperapps/ui@1.0.0
+pnpm add @wldeveloperapps/ui@1.0.1
 ```
 
 ---
@@ -1080,10 +1125,10 @@ Cuando se adapte código procedente de Spartan u otras librerías:
 
 ## Estado del proyecto
 
-Corte `1.0.0`. La API pública sigue Semantic Versioning.
+Corte `1.0.1`. La API pública sigue Semantic Versioning.
 
 ```text
-Versión actual: 1.0.0
+Versión actual: 1.0.1
 Estado: estable
 ```
 

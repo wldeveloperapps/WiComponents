@@ -4,13 +4,13 @@ export const WI_DOCS_TOPICS: readonly WiDocsTopic[] = [
   {
     id: 'installation',
     title: 'Instalación de @wldeveloperapps/ui',
-    body: `Instala el paquete alineado con esta versión del MCP (1.0.0).
+    body: `Instala el paquete alineado con esta versión del MCP (1.0.1).
 
 \`\`\`bash
 # .npmrc: @wldeveloperapps:registry=https://npm.pkg.github.com
-pnpm add @wldeveloperapps/ui@1.0.0
+pnpm add @wldeveloperapps/ui@1.0.1
 # o desde el artefacto local:
-pnpm add ./wldeveloperapps-ui-1.0.0.tgz
+pnpm add ./wldeveloperapps-ui-1.0.1.tgz
 \`\`\`
 
 Peers: Angular 22, @angular/aria, @angular/cdk, @angular/forms, @spartan-ng/brain, rxjs, clsx.

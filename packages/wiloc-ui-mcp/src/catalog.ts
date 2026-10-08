@@ -6,7 +6,7 @@ const PATTERN_NAMES = new Set(['picklist', 'file-upload', 'stepper']);
 
 const SPARTAN_LEAK = /@spartan-ng|\bBrn[A-Z]|\bHlm[A-Z]/;
 
-export const WI_PACKAGE_VERSION = '1.0.0';
+export const WI_PACKAGE_VERSION = '1.0.1';
 
 export const WI_ENTRY_POINTS: readonly WiEntryPointInfo[] = [
   {

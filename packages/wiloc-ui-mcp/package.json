@@ -1,6 +1,6 @@
 {
   "name": "@wldeveloperapps/ui-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Servidor MCP del catálogo público de @wldeveloperapps/ui (API Wi, no Spartan).",
   "type": "module",
   "bin": {
