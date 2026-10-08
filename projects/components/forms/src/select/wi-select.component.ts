@@ -246,6 +246,31 @@ export class WiSelectTriggerIconDirective {
 }
 
 /**
+ * `BrnSelectTrigger` enlaza `aria-invalid` a `control.invalid` en crudo y pisa el
+ * binding del template. Este directive va después en los imports para que su host
+ * binding gane: error solo con `forceInvalid` o con `spartanInvalid` (touched / submit).
+ */
+@Directive({
+  selector: '[wiSelectTrigger]',
+  host: {
+    '[attr.aria-invalid]': 'ariaInvalid() ? "true" : null',
+  },
+})
+class WiSelectTriggerInvalidDirective {
+  private readonly trigger = inject(BrnSelectTrigger);
+  private readonly select = inject(BrnSelect, { optional: true });
+  private readonly selectMultiple = inject(BrnSelectMultiple, { optional: true });
+
+  protected readonly ariaInvalid = computed(() => {
+    if (this.trigger.forceInvalid()) {
+      return true;
+    }
+    const state = this.select?.controlState?.() ?? this.selectMultiple?.controlState?.();
+    return state?.spartanInvalid === true;
+  });
+}
+
+/**
  * Select del design system (`wi-select`).
  *
  * - Single o multi vía `multiple` (estático; no cambiar en runtime).
@@ -263,6 +288,8 @@ export class WiSelectTriggerIconDirective {
     BrnSelect,
     BrnSelectMultiple,
     BrnSelectTrigger,
+    // Después de BrnSelectTrigger: este host binding de aria-invalid tiene que ganar.
+    WiSelectTriggerInvalidDirective,
     BrnSelectContent,
     BrnSelectList,
     BrnSelectItem,
@@ -300,6 +327,7 @@ export class WiSelectTriggerIconDirective {
         <div class="relative w-full">
           <button
             brnSelectTrigger
+            wiSelectTrigger
             #selectTrigger
             [id]="resolvedId()"
             [forceInvalid]="invalid()"
@@ -307,7 +335,6 @@ export class WiSelectTriggerIconDirective {
             [attr.aria-label]="ariaLabel()"
             [attr.aria-describedby]="ariaDescribedBy()"
             [attr.aria-required]="required() || null"
-            [attr.aria-invalid]="invalid() || null"
             [attr.name]="name() || null"
           >
             <span class="min-w-0 flex-1 truncate text-left">
@@ -432,6 +459,7 @@ export class WiSelectTriggerIconDirective {
         <div class="relative w-full">
           <button
             brnSelectTrigger
+            wiSelectTrigger
             #selectTrigger
             [id]="resolvedId()"
             [forceInvalid]="invalid()"
@@ -439,7 +467,6 @@ export class WiSelectTriggerIconDirective {
             [attr.aria-label]="ariaLabel()"
             [attr.aria-describedby]="ariaDescribedBy()"
             [attr.aria-required]="required() || null"
-            [attr.aria-invalid]="invalid() || null"
             [attr.name]="name() || null"
           >
             <div

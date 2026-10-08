@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import { provideWiIcons } from '../../icon/src/public-api';
@@ -62,12 +62,31 @@ class ReactiveHostComponent {
   clearable = false;
 }
 
+@Component({
+  imports: [WiSelectComponent, ReactiveFormsModule],
+  template: `
+    <wi-select
+      [formControl]="control"
+      [options]="options"
+      [multiple]="multiple()"
+      [invalid]="forceInvalid()"
+      ariaLabel="Site"
+    />
+  `,
+})
+class RequiredSelectHostComponent {
+  readonly multiple = signal(false);
+  readonly forceInvalid = signal(false);
+  readonly options = ['One', 'Two'];
+  readonly control = new FormControl<string | string[] | null>(null, Validators.required);
+}
+
 describe('WiSelectComponent', () => {
   let fixture: ComponentFixture<WiSelectComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WiSelectComponent, ReactiveHostComponent],
+      imports: [WiSelectComponent, ReactiveHostComponent, RequiredSelectHostComponent],
       providers: [
         provideWiIcons({
           funnel: { outline: funnelOutline },
@@ -149,7 +168,50 @@ describe('WiSelectComponent', () => {
     const button = trigger();
     expect(button.getAttribute('aria-invalid')).toBe('true');
     expect(button.getAttribute('aria-required')).toBe('true');
+    expect(button.className).toContain('aria-invalid:border-error');
   });
+
+  it.each([
+    { multiple: false, empty: null as string | string[] | null },
+    { multiple: true, empty: [] as string[] },
+  ])(
+    'keeps a required empty control neutral until touched or forced invalid (multiple=$multiple)',
+    async ({ multiple, empty }) => {
+      const hostFixture = TestBed.createComponent(RequiredSelectHostComponent);
+      const host = hostFixture.componentInstance;
+      host.multiple.set(multiple);
+      host.control.setValue(empty);
+      await hostFixture.whenStable();
+
+      const button = hostFixture.nativeElement.querySelector(
+        'button[brnSelectTrigger]',
+      ) as HTMLButtonElement;
+
+      expect(host.control.invalid).toBe(true);
+      expect(host.control.touched).toBe(false);
+      expect(button.getAttribute('aria-invalid')).toBeNull();
+      expect(button.className).toContain('border-outline-variant');
+      expect(button.className).toContain('aria-invalid:border-error');
+
+      host.control.markAsTouched();
+      await hostFixture.whenStable();
+
+      expect(button.getAttribute('aria-invalid')).toBe('true');
+      expect(button.className).toContain('aria-invalid:border-error');
+
+      host.control.markAsUntouched();
+      host.forceInvalid.set(false);
+      await hostFixture.whenStable();
+      expect(button.getAttribute('aria-invalid')).toBeNull();
+
+      host.forceInvalid.set(true);
+      await hostFixture.whenStable();
+
+      expect(host.control.touched).toBe(false);
+      expect(button.getAttribute('aria-invalid')).toBe('true');
+      expect(button.className).toContain('aria-invalid:border-error');
+    },
+  );
 
   it('updates value on single selection', async () => {
     await openAndSelectFirst();
