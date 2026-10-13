@@ -49,6 +49,8 @@ status        # stable | experimental | deprecated
 | `wi_usage` | Snippet canónico de import y template |
 | `wi_audit` | Detectar uso de Spartan donde debería usarse `@wldeveloperapps/ui` (no implementado) |
 
+Toda tool del catálogo es de solo lectura: `annotations.readOnlyHint: true` (y `openWorldHint: false`). Sin `readOnlyHint`, Cursor la oculta en modo Ask.
+
 ## Prohibido en el MCP
 
 - Exponer tipos o APIs de Spartan.

@@ -26,6 +26,14 @@ function textError(message: string) {
   };
 }
 
+/** Cursor, en modo Ask, solo llama tools con readOnlyHint. */
+const READ_ONLY = {
+  readOnlyHint: true,
+  destructiveHint: false,
+  idempotentHint: true,
+  openWorldHint: false,
+} as const;
+
 export function createServer(): McpServer {
   const server = new McpServer({
     name: 'wiloc-ui',
@@ -43,6 +51,7 @@ export function createServer(): McpServer {
           .default('all')
           .describe('Qué listar'),
       }),
+      annotations: READ_ONLY,
     },
     async ({ kind }) => {
       if (kind === 'entry-points') {
@@ -69,6 +78,7 @@ export function createServer(): McpServer {
         query: z.string().min(1).describe('Texto a buscar, p. ej. table, toast, confirmación'),
         limit: z.number().int().min(1).max(25).default(10),
       }),
+      annotations: READ_ONLY,
     },
     async ({ query, limit }) => {
       const hits = searchCatalog(query, limit);
@@ -87,6 +97,7 @@ export function createServer(): McpServer {
       inputSchema: z.object({
         name: z.string().min(1).describe('Nombre o selector, p. ej. button o wi-table'),
       }),
+      annotations: READ_ONLY,
     },
     async ({ name }) => {
       const item = getCatalogItem(name);
@@ -106,6 +117,7 @@ export function createServer(): McpServer {
       inputSchema: z.object({
         name: z.string().min(1).describe('Nombre o selector, p. ej. select o wi-dialog'),
       }),
+      annotations: READ_ONLY,
     },
     async ({ name }) => {
       const item = getCatalogItem(name);
@@ -135,6 +147,7 @@ export function createServer(): McpServer {
             'id del tema (installation, tokens, dark-mode, icons, ssr, i18n, overlays, forms, agent)',
           ),
       }),
+      annotations: READ_ONLY,
     },
     async ({ topic }) => {
       if (!topic) {
