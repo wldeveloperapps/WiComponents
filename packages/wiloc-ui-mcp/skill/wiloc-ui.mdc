@@ -1,0 +1,18 @@
+---
+description: UI de producto con @wldeveloperapps/ui. Consultar el MCP wiloc-ui antes de escribir plantillas.
+globs:
+  - "**/*.html"
+  - "**/*.component.ts"
+alwaysApply: false
+---
+
+# @wldeveloperapps/ui
+
+Antes de crear o modificar UI, carga el skill `wiloc-ui` y consulta el MCP `wiloc-ui`:
+
+- `wi_search` / `wi_list` para descubrir
+- `wi_view` para la API (`limits`, `requires`)
+- `wi_usage` para el import y la plantilla
+- `wi_docs` si falta instalación, tokens, iconos, forms, i18n o z-index
+
+Importa solo desde `@wldeveloperapps/ui/...`. No uses Spartan, Helm ni PrimeNG cuando exista equivalente Wi. No inventes inputs. Los textos los pone la app.

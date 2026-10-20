@@ -232,6 +232,7 @@ Durante el desarrollo local del monorepo, puede apuntarse al binario del workspa
 - No configurar el MCP de Spartan como fuente de UI en esas apps (o usarlo solo si se trabaja en la propia librería `wi-components`).
 - Mantener la versión del MCP alineada con la de `@wldeveloperapps/ui` instalada.
 - Preferir rules/skills de producto + MCP de catálogo: las rules enseñan criterios; el MCP aporta la verdad del API.
+- Copiar `skill/SKILL.md` y `skill/wiloc-ui.mdc` del paquete `@wldeveloperapps/ui-mcp` a la app. El texto para copiar está en Storybook, **Documentation → Agente**.
 
 ### Checklist al publicar un componente
 

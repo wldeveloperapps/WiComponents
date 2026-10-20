@@ -1,0 +1,36 @@
+---
+name: wiloc-ui
+description: >-
+  Implementa UI de producto con @wldeveloperapps/ui. Consulta el MCP wiloc-ui
+  (wi_search, wi_view, wi_usage, wi_docs) antes de escribir plantillas.
+  Usar al crear o modificar pantallas, formularios, diálogos, tablas, iconos
+  o estilos en una app Angular que consume la librería.
+---
+
+# @wldeveloperapps/ui en la app
+
+La API la dice el MCP `wiloc-ui`. Esta skill fija el orden y lo que no se puede hacer.
+
+## Antes de escribir UI
+
+1. `wi_search` con el nombre de la pieza (dialog, table, select…).
+2. `wi_view` del resultado. Lee `limits` y `requires`.
+3. `wi_usage` para el import y la plantilla.
+4. Si falta setup (CSS, iconos, i18n, formularios, z-index): `wi_docs` con `installation`, `tokens`, `icons`, `forms`, `i18n`, `overlays` o `agent`.
+
+Si el MCP no está conectado, no inventes la API. Para y pide configurar `@wldeveloperapps/ui-mcp`.
+
+## Invariantes
+
+1. Imports solo desde `@wldeveloperapps/ui/...`. Nada de `@spartan-ng/brain`, `@spartan-ng/helm`, PrimeNG, PrimeIcons ni Heroicons sueltos.
+2. No inventes inputs, outputs ni variantes. Si no está en `wi_view`, no existe.
+3. Textos, rutas, permisos y datos los pone la app. La librería no trae diccionario.
+4. Icono de interfaz: `<wi-icon name="...">` con ese name en `provideWiIcons`. `src` solo para un SVG de la app o una URL http(s), con `provideHttpClient()`.
+5. Label, error y hint los compone la app (`<label>`, `role="alert"`, `aria-describedby`), salvo que la ficha tenga una parte para eso.
+6. Confirmación, menú, popover y diálogo se abren como dice la ficha (trigger + plantilla, o el servicio si lo exporta).
+7. Color con tokens (`bg-primary`, `text-error`). Sin hex y sin clases Tailwind armadas (`bg-${x}`).
+8. Toast y tabs necesitan sus CSS además de `tokens.css` (`requires` de la ficha).
+
+## Si hay dos piezas parecidas
+
+Usa la que indique `wi_view`. No compongas un diálogo con un popover ni un select con un listbox si la ficha distingue los casos.
