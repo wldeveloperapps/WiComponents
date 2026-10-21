@@ -279,6 +279,18 @@ Demo en vivo (mismo id, tokens de la librería frente al CSS de la app, en claro
 
 ---
 
+## Color libre
+
+`wi-color-picker` guarda un hex opaco (`#rrggbb`) elegido en un plano de saturación, un tono y un campo hexadecimal. Es un dato de la app: no sigue `.wi-dark` y no sale de `--wi-color-*`.
+
+No sustituye al acento. Si el color tiene que verse distinto en claro y en oscuro, el valor sigue siendo un id de `wi-accent-picker`.
+
+No admite alfa. El placeholder y `labels` (diálogo, plano, tono, hex, vacío, cuentagotas) los pone la app.
+
+El cuentagotas es la API `EyeDropper` del navegador. El botón solo aparece en Chromium (Chrome, Edge) con `https` o `localhost`, y solo después de un click. En Firefox y Safari no se pinta. Tampoco corre en el servidor. Cancelar con Escape no cambia el color.
+
+---
+
 ## Qué no hacer
 
 - Importar `@wldeveloperapps/ui/styles/index.css` (apunta a fuentes del monorepo / Storybook).

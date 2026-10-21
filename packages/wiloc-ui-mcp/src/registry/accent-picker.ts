@@ -112,7 +112,7 @@ export const wiAccentPickerRegistryEntry = {
   a11yNotes:
     'role=radiogroup. Cada muestra es un radio con nombre accesible (accentLabels o el id). El grupo necesita ariaLabel o ariaLabelledBy. El anillo de foco y de selección usa el token ring, o error si invalid. El color de la muestra es el token del acento, distinto en claro y en oscuro. No es un color picker libre.',
   limits: [
-    'No acepta un color libre (hex, rgb, input type=color). El valor es un id de WiAccent.',
+    'No acepta un color libre (hex, rgb, input type=color). El valor es un id de WiAccent. Para un #rrggbb usa wi-color-picker.',
     'No recibe pares light/dark. El tema lo resuelven --wi-color-accent-* en :root y .wi-dark.',
     'No usa error, warning ni success. Esos tokens son estado, no identidad de entidad.',
     'No trae textos de producto. El nombre de cada muestra sale de accentLabels (la app) o del id.',

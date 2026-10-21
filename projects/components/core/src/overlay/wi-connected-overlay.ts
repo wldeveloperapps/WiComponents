@@ -13,7 +13,7 @@ const STACKING_STYLE_ID = 'wi-connected-overlay-stacking';
 
 /**
  * Selectores Wi de paneles transitorios: al scroll fuera del pane se cierran.
- * Datepicker / date-range / popover / confirm-popup siguen reposicionando.
+ * Datepicker / date-range / color-picker / popover / confirm-popup siguen reposicionando.
  */
 const CLOSE_ON_SCROLL_SELECTORS = ['.wi-select__panel', '.wi-menu', '.wi-tooltip'] as const;
 
@@ -415,7 +415,7 @@ function prepareConnectedOverlay(overlayRef: OverlayRef): void {
  *   no se fuerza `usePopover: false`: CDK hace `showPopover()` y el panel se pinta
  *   encima de ese modal. El z-index global sigue en 1000.
  * - Select / menú / tooltip: cierran al scroll fuera del pane (overflow anidado o ventana).
- * - Datepicker / date-range / popover / confirm-popup: reposicionan en overflow anidado.
+ * - Datepicker / date-range / color-picker / popover / confirm-popup: reposicionan en overflow anidado.
  *
  * Lo invocan los componentes Wi de overlay; las apps no tienen que parchear Overlay ni
  * poner `cdkScrollable` en cada contenedor.

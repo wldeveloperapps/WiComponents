@@ -29,6 +29,10 @@ export {
 export { WiAccentDirective } from './accent-picker/wi-accent.directive';
 export { WiAccentPickerComponent } from './accent-picker/wi-accent-picker.component';
 
+export type { WiColorPickerLabels, WiColorPickerSize } from './color-picker/wi-color.types';
+export { isWiColor, normalizeWiColor } from './color-picker/wi-color';
+export { WiColorPickerComponent } from './color-picker/wi-color-picker.component';
+
 export type {
   WiSelectCompareWith,
   WiSelectItemContext,

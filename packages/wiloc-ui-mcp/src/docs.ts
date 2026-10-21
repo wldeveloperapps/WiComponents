@@ -103,7 +103,9 @@ Prohibido: \`bg-\${color}\`, colores hex sueltos en componentes Wi, clases \`.p-
 
 Roles: primary, on-primary, primary-container, secondary, background, on-background, surface, on-surface, surface-container, surface-container-high, surface-variant, inverse-surface, outline, error, warning, warning-container, success, success-container.
 
-Acentos de entidad (paleta cerrada, no son estado): \`accent-{blue|teal|green|amber|orange|red|purple|pink|slate}\`, \`on-accent-*\`, \`accent-*-container\`, \`on-accent-*-container\`. El valor que guarda la app es el id (\`WiAccent\`), no un hex ni un par light/dark. \`wi-accent-picker\` elige el id; \`[wiAccent]\` lo pinta (tono \`icon\`, \`container\` o \`solid\`). Claro y oscuro salen de los mismos tokens en \`:root\` y \`.wi-dark\`. Otra app puede redefinir \`--wi-color-accent-*\` en su CSS global (\`src/styles.css\`, después de \`tokens.css\`): cuatro variables por id (\`accent\`, \`on-accent\`, \`accent-container\`, \`on-accent-container\`) en \`:root\` y en \`.wi-dark\`. No hace falta mapearlos en \`@theme\`. Ver \`wi_view("accent-picker")\`. Storybook: Forms / WiAccentPicker / CSS de la app.
+Acentos de entidad (paleta cerrada, no son estado): \`accent-{blue|teal|green|amber|orange|red|purple|pink|slate}\`, \`on-accent-*\`, \`accent-*-container\`, \`on-accent-*-container\`. El valor que guarda la app es el id (\`WiAccent\`), no un hex ni un par light/dark. \`wi-accent-picker\` elige el id; \`[wiAccent]\` lo pinta (tono \`icon\`, \`container\` o \`solid\`). Claro y oscuro salen de los mismos tokens en \`:root\` y \`.wi-dark\`. Otra app puede redefinir \`--wi-color-accent-*\` en su CSS global (\`src/styles.css\`, después de \`tokens.css\`): cuatro variables por id (\`accent\`, \`on-accent\`, \`accent-container\`, \`on-accent-container\`) en \`:root\` y \`.wi-dark\`. No hace falta mapearlos en \`@theme\`. Ver \`wi_view("accent-picker")\`. Storybook: Forms / WiAccentPicker / CSS de la app.
+
+Color libre (dato, no token): \`wi-color-picker\` guarda \`#rrggbb\` y no cambia con \`.wi-dark\`. No admite alfa ni un id de acento. El cuentagotas es EyeDropper (solo Chromium, https o localhost); si el navegador no lo tiene, el botón no se pinta. Ver \`wi_view("color-picker")\`.
 
 La librería no muta el DOM. La app aplica tema (\`WI_DARK_CLASS\` en \`<html>\`) y tokens vía CSS importado.
 Otra app = otros valores de \`--wi-color-*\` en su CSS; los componentes no cambian. Storybook: toolbar Paleta (\`data-wi-palette\`) para previsualizar paletas.
@@ -264,7 +266,7 @@ Ver \`wi_view\` de toast, datepicker y table para campos concretos.`,
 Política de scroll:
 
 - **Cierran** al scroll fuera del panel: \`wi-select\`, \`wi-menu\`, filtros/visibilidad de \`wi-table\`, \`[wiTooltip]\`, \`wi-speed-dial\`. Scroll **dentro** de la lista del panel no cierra.
-- **Siguen** al trigger (reposicionan): \`wi-datepicker\` / \`wi-date-range\`, \`wi-popover\`, \`wi-confirm-popup\`.
+- **Siguen** al trigger (reposicionan): \`wi-datepicker\` / \`wi-date-range\`, \`wi-color-picker\`, \`wi-popover\`, \`wi-confirm-popup\`.
 
 En página, el panel anclado sigue en **z-index 1000** (encima del header, debajo del sidebar, fuera del top layer). Si el trigger está dentro de un diálogo, confirm modal o toast, el panel entra en el top layer y se pinta encima de ese modal. El z-index global no cambia.
 
@@ -281,9 +283,11 @@ Storybook: **Documentation → Z-index** (contrato) y **Overlays → Nested scro
   {
     id: 'forms',
     title: 'Formularios',
-    body: `Controles reales (input, checkbox, switch, accent-picker, select, listbox, otp, datepicker, picklist) implementan CVA / FormValueControl.
+    body: `Controles reales (input, checkbox, switch, accent-picker, color-picker, select, listbox, otp, datepicker, picklist) implementan CVA / FormValueControl.
 
 \`wi-accent-picker\` guarda un id de paleta (\`WiAccent\`), no un color. \`[wiAccent]\` pinta el icono o la pastilla y sigue \`.wi-dark\`. Nombres de las muestras: \`accentLabels\` (i18n de la app). Ver \`wi_view("accent-picker")\`.
+
+\`wi-color-picker\` guarda un hex opaco (\`#rrggbb\`). No sigue \`.wi-dark\` y no sustituye al acento. Nombres del panel: \`labels\` (incluye \`eyedropper\`). El cuentagotas usa EyeDropper: solo Chromium, en https o localhost, tras un click. Firefox y Safari no muestran el botón. Cancelar no cambia el valor. Ver \`wi_view("color-picker")\`.
 
 \`wi-date-range\` es un único input con calendario de rango (\`start\`/\`end\` models). \`displayFormat\` (tokens YYYY/MM/DD…) o \`formatDate\` controlan el texto del trigger (solo UI). TZ del site: \`provideWiTimeZone\`. Ver \`wi_view\` / \`wi_usage\` de \`date-range\`.
 
@@ -311,7 +315,7 @@ Select múltiple: \`<wi-select [multiple]="true">\`.`,
 
 7. Toast y tabs necesitan \`toast.css\` y \`tabs.css\` además de \`tokens.css\`.
 
-8. El color es una clase de token (\`text-error\`, \`bg-primary\`). No uses hex. Color de entidad: \`wi-accent-picker\` y \`[wiAccent]\` (id de paleta). No pases un hex ni un par light/dark.
+8. El color de interfaz es una clase de token (\`text-error\`, \`bg-primary\`). No uses hex en la UI ni clases Tailwind armadas. Color de entidad: \`wi-accent-picker\` y \`[wiAccent]\` (id de paleta, sigue claro y oscuro). Un color libre que la app guarda es \`wi-color-picker\` (\`#rrggbb\`).
 
 9. Si hay dos componentes parecidos, usa el que indique la ficha.`,
   },
