@@ -60,6 +60,56 @@
   --wi-color-success-container: #d1fae5;
   --wi-color-on-success-container: #065f46;
 
+  /*
+   * Acentos de entidad (paleta cerrada). No son estados: error / warning / success
+   * siguen significando feedback. Cada id tiene color, texto sobre el color,
+   * contenedor tintado y texto sobre el contenedor. Contraste AA en ambos temas.
+   */
+  --wi-color-accent-blue: #1b4f82;
+  --wi-color-on-accent-blue: #ffffff;
+  --wi-color-accent-blue-container: #c5d9ee;
+  --wi-color-on-accent-blue-container: #0e3358;
+
+  --wi-color-accent-teal: #0f5f5c;
+  --wi-color-on-accent-teal: #ffffff;
+  --wi-color-accent-teal-container: #bfe4e1;
+  --wi-color-on-accent-teal-container: #083634;
+
+  --wi-color-accent-green: #1b6b3a;
+  --wi-color-on-accent-green: #ffffff;
+  --wi-color-accent-green-container: #c3e6d0;
+  --wi-color-on-accent-green-container: #0c3d1e;
+
+  --wi-color-accent-amber: #8a5800;
+  --wi-color-on-accent-amber: #ffffff;
+  --wi-color-accent-amber-container: #f0d7a4;
+  --wi-color-on-accent-amber-container: #4a2e00;
+
+  --wi-color-accent-orange: #8f3b0c;
+  --wi-color-on-accent-orange: #ffffff;
+  --wi-color-accent-orange-container: #f0cdbb;
+  --wi-color-on-accent-orange-container: #4e1c04;
+
+  --wi-color-accent-red: #8e2438;
+  --wi-color-on-accent-red: #ffffff;
+  --wi-color-accent-red-container: #f0c4ce;
+  --wi-color-on-accent-red-container: #5c1020;
+
+  --wi-color-accent-purple: #5c3d8a;
+  --wi-color-on-accent-purple: #ffffff;
+  --wi-color-accent-purple-container: #d9ccee;
+  --wi-color-on-accent-purple-container: #321e56;
+
+  --wi-color-accent-pink: #8a2e58;
+  --wi-color-on-accent-pink: #ffffff;
+  --wi-color-accent-pink-container: #f0c4d8;
+  --wi-color-on-accent-pink-container: #541433;
+
+  --wi-color-accent-slate: #3e4a5a;
+  --wi-color-on-accent-slate: #ffffff;
+  --wi-color-accent-slate-container: #d3dae3;
+  --wi-color-on-accent-slate-container: #1e2833;
+
   --wi-color-ring: #32628d;
 
   /* —— Forma / controles —— */
@@ -149,6 +199,51 @@
   --wi-color-on-success: #ffffff;
   --wi-color-success-container: #24302a;
   --wi-color-on-success-container: #9ebca2;
+
+  --wi-color-accent-blue: #a9cff5;
+  --wi-color-on-accent-blue: #0b2744;
+  --wi-color-accent-blue-container: #1a334c;
+  --wi-color-on-accent-blue-container: #d5e8fa;
+
+  --wi-color-accent-teal: #8ed4d0;
+  --wi-color-on-accent-teal: #06302e;
+  --wi-color-accent-teal-container: #143e3c;
+  --wi-color-on-accent-teal-container: #c9f3f0;
+
+  --wi-color-accent-green: #9ad4ae;
+  --wi-color-on-accent-green: #0c3320;
+  --wi-color-accent-green-container: #1a3d2a;
+  --wi-color-on-accent-green-container: #c8f0d6;
+
+  --wi-color-accent-amber: #e7c27a;
+  --wi-color-on-accent-amber: #3a2800;
+  --wi-color-accent-amber-container: #3d3018;
+  --wi-color-on-accent-amber-container: #f6e4be;
+
+  --wi-color-accent-orange: #f0b48a;
+  --wi-color-on-accent-orange: #3e1a04;
+  --wi-color-accent-orange-container: #3e281c;
+  --wi-color-on-accent-orange-container: #f8dcc8;
+
+  --wi-color-accent-red: #f0a8b6;
+  --wi-color-on-accent-red: #3e101c;
+  --wi-color-accent-red-container: #3e222a;
+  --wi-color-on-accent-red-container: #f8d4dc;
+
+  --wi-color-accent-purple: #cdb8f0;
+  --wi-color-on-accent-purple: #2a1844;
+  --wi-color-accent-purple-container: #2e2444;
+  --wi-color-on-accent-purple-container: #e6dcf8;
+
+  --wi-color-accent-pink: #f0b0cc;
+  --wi-color-on-accent-pink: #3e1428;
+  --wi-color-accent-pink-container: #3e2432;
+  --wi-color-on-accent-pink-container: #f8d6e6;
+
+  --wi-color-accent-slate: #c5ceda;
+  --wi-color-on-accent-slate: #1a222c;
+  --wi-color-accent-slate-container: #2a3340;
+  --wi-color-on-accent-slate-container: #e2e8f0;
 
   --wi-color-ring: #48586c;
 }

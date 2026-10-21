@@ -25,15 +25,15 @@ La librería **no** toca `document.documentElement`. La app importa CSS y aplica
 
 ## Dónde va cada cosa
 
-| Qué                          | Dónde                                                                | No                                                     |
-| ---------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------ |
-| Tokens + Tailwind + `@theme` | El CSS global de la app (`src/styles.css` o `src/styles.scss`)       | No `@wldeveloperapps/ui/styles/index.css` (Storybook / monorepo) |
-| Registro de ese archivo      | `angular.json` → `architect.build.options.styles`                    | No un CSS suelto sin registrar                         |
-| PostCSS Tailwind v4          | `postcss.config.json` en la **raíz de la app Angular**               | No hace falta `tailwind.config.js`                     |
-| Tabs                         | `@import '@wldeveloperapps/ui/styles/tabs.css'` en el CSS global               | Solo si usas `wi-tabs`                                 |
-| Toast                        | `@import '@wldeveloperapps/ui/styles/toast.css'` + `<wi-toast />` en el root | Solo si usas toast                                     |
-| Overlay stacking             | En página, anclados: `1000`. Header/migas: `10`. Sidebar: `1100`.    | Detalle: **Z-index**. Dentro de un diálogo, el panel entra en el top layer |
-| Dark mode                    | Clase `wi-dark` en `<html>` (`WI_DARK_CLASS`)                        | No `.dark` ni `data-theme`                             |
+| Qué                          | Dónde                                                                        | No                                                                         |
+| ---------------------------- | ---------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Tokens + Tailwind + `@theme` | El CSS global de la app (`src/styles.css` o `src/styles.scss`)               | No `@wldeveloperapps/ui/styles/index.css` (Storybook / monorepo)           |
+| Registro de ese archivo      | `angular.json` → `architect.build.options.styles`                            | No un CSS suelto sin registrar                                             |
+| PostCSS Tailwind v4          | `postcss.config.json` en la **raíz de la app Angular**                       | No hace falta `tailwind.config.js`                                         |
+| Tabs                         | `@import '@wldeveloperapps/ui/styles/tabs.css'` en el CSS global             | Solo si usas `wi-tabs`                                                     |
+| Toast                        | `@import '@wldeveloperapps/ui/styles/toast.css'` + `<wi-toast />` en el root | Solo si usas toast                                                         |
+| Overlay stacking             | En página, anclados: `1000`. Header/migas: `10`. Sidebar: `1100`.            | Detalle: **Z-index**. Dentro de un diálogo, el panel entra en el top layer |
+| Dark mode                    | Clase `wi-dark` en `<html>` (`WI_DARK_CLASS`)                                | No `.dark` ni `data-theme`                                                 |
 
 Si la app **ya tiene** hoja global (PrimeNG, etc.): **añade** los `@import` de Wiloc ahí. No sustituyas el tema de Prime de golpe ni dupliques `@import 'tailwindcss/...'` si ya está.
 
@@ -145,11 +145,11 @@ Opcional (solo los componentes que uses):
 
 ## Quién hace qué
 
-| Quién       | Responsabilidad                                     |
-| ----------- | --------------------------------------------------- |
+| Quién                 | Responsabilidad                                     |
+| --------------------- | --------------------------------------------------- |
 | `@wldeveloperapps/ui` | Publica `--wi-color-*` en `:root` y `.wi-dark`      |
-| Componentes | Clases semánticas; ciegos al tema                   |
-| App         | Posee `<html>`, importa CSS, aplica/quita `wi-dark` |
+| Componentes           | Clases semánticas; ciegos al tema                   |
+| App                   | Posee `<html>`, importa CSS, aplica/quita `wi-dark` |
 
 ---
 
@@ -208,6 +208,74 @@ Prefijo CSS: `--wi-color-*`. Constante: `WI_COLOR_TOKEN_PREFIX` (`@wldeveloperap
 | `error` / `on-error` / `error-container` / `on-error-container`                                                                     | Error                                                                               |
 | `warning` / `on-warning` / `warning-container` / `on-warning-container`                                                             | Aviso                                                                               |
 | `success` / `on-success` / `success-container` / `on-success-container`                                                             | Éxito                                                                               |
+| `accent-{id}` / `on-accent-{id}` / `accent-{id}-container` / `on-accent-{id}-container`                                             | Identidad de entidad (paleta cerrada). No es estado                                 |
+
+`{id}` es uno de: `blue`, `teal`, `green`, `amber`, `orange`, `red`, `purple`, `pink`, `slate`.
+
+---
+
+## Acentos de entidad
+
+Sirven para distinguir entidades (un icono por tipo), no para decir si algo ha ido bien o mal. `error`, `warning` y `success` siguen siendo feedback.
+
+La app guarda un **id**, no un color:
+
+```ts
+import type { WiAccent } from '@wldeveloperapps/ui/forms';
+
+accent: WiAccent | null; // 'teal'
+```
+
+`wi-accent-picker` emite ese id. `[wiAccent]` lo pinta. Los dos leen `--wi-color-accent-*`. Con `class="wi-dark"` en `<html>` el mismo id se ve en oscuro, sin que el componente sepa el tema y sin guardar dos hex.
+
+```html
+<span id="entity-color-label">Color</span>
+<wi-accent-picker
+  [(value)]="accent"
+  ariaLabelledBy="entity-color-label"
+  [accentLabels]="accentLabels"
+/>
+
+<span
+  class="inline-flex size-10 items-center justify-center rounded-full"
+  [wiAccent]="accent"
+  wiAccentTone="container"
+>
+  <wi-icon name="cube" />
+</span>
+```
+
+| `wiAccentTone`   | Qué pinta                                                           |
+| ---------------- | ------------------------------------------------------------------- |
+| `icon` (defecto) | El glifo, con el color del acento                                   |
+| `container`      | Fondo tintado y glifo con contraste. Tamaño y radio los pone la app |
+| `solid`          | Fondo del acento y contenido `on-accent`                            |
+
+`accentLabels` es i18n de la app (el nombre accesible de cada muestra). El grupo necesita `ariaLabel` o `ariaLabelledBy`.
+
+Otra app puede cambiar los matices en su CSS global (`src/styles.css`, después de `tokens.css`), una vez por id, en claro y en oscuro. El selector no recibe esos hex. Si no pisa un id, se queda el de la librería.
+
+Por cada id hay cuatro variables: `--wi-color-accent-{id}`, `--wi-color-on-accent-{id}`, `--wi-color-accent-{id}-container`, `--wi-color-on-accent-{id}-container`.
+
+```css
+:root {
+  --wi-color-accent-teal: #6d28d9;
+  --wi-color-on-accent-teal: #ffffff;
+  --wi-color-accent-teal-container: #ede9fe;
+  --wi-color-on-accent-teal-container: #3b0764;
+}
+
+.wi-dark {
+  --wi-color-accent-teal: #ddd6fe;
+  --wi-color-on-accent-teal: #2e1065;
+  --wi-color-accent-teal-container: #3b0764;
+  --wi-color-on-accent-teal-container: #ede9fe;
+}
+```
+
+No hace falta enlazarlos en `@theme`. No uses `bg-${color}` ni `<input type="color">`.
+
+Demo en vivo (mismo id, tokens de la librería frente al CSS de la app, en claro y en oscuro): **Forms → WiAccentPicker → CSS de la app**. Catálogo de tokens: **Foundation → Tokens**.
 
 ---
 

@@ -9,6 +9,7 @@ export { wiOtpRegistryEntry } from './otp.js';
 export { wiFileUploadRegistryEntry } from './file-upload.js';
 export { wiCheckboxRegistryEntry } from './checkbox.js';
 export { wiSwitchRegistryEntry } from './switch.js';
+export { wiAccentPickerRegistryEntry } from './accent-picker.js';
 export { wiSelectRegistryEntry } from './select.js';
 export { wiDatepickerRegistryEntry } from './datepicker.js';
 export { wiDateRangeRegistryEntry } from './date-range.js';

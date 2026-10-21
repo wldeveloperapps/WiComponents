@@ -18,6 +18,17 @@ export { WiCheckboxComponent } from './checkbox/wi-checkbox.component';
 export type { WiSwitchSize } from './switch/wi-switch.types';
 export { WiSwitchComponent } from './switch/wi-switch.component';
 
+export {
+  WI_ACCENTS,
+  isWiAccent,
+  type WiAccent,
+  type WiAccentLabels,
+  type WiAccentPickerSize,
+  type WiAccentTone,
+} from './accent-picker/wi-accent.types';
+export { WiAccentDirective } from './accent-picker/wi-accent.directive';
+export { WiAccentPickerComponent } from './accent-picker/wi-accent-picker.component';
+
 export type {
   WiSelectCompareWith,
   WiSelectItemContext,

@@ -17,7 +17,7 @@ export const WI_ENTRY_POINTS: readonly WiEntryPointInfo[] = [
   {
     entryPoint: '@wldeveloperapps/ui/forms',
     description:
-      'Input, otp, checkbox, switch, select, listbox, picklist, datepicker, date-range, file-upload',
+      'Input, otp, checkbox, switch, accent-picker, select, listbox, picklist, datepicker, date-range, file-upload',
   },
   {
     entryPoint: '@wldeveloperapps/ui/data-display',

@@ -28,7 +28,7 @@ Si el MCP no está conectado, no inventes la API. Para y pide configurar `@wldev
 4. Icono de interfaz: `<wi-icon name="...">` con ese name en `provideWiIcons`. `src` solo para un SVG de la app o una URL http(s), con `provideHttpClient()`.
 5. Label, error y hint los compone la app (`<label>`, `role="alert"`, `aria-describedby`), salvo que la ficha tenga una parte para eso.
 6. Confirmación, menú, popover y diálogo se abren como dice la ficha (trigger + plantilla, o el servicio si lo exporta).
-7. Color con tokens (`bg-primary`, `text-error`). Sin hex y sin clases Tailwind armadas (`bg-${x}`).
+7. Color con tokens (`bg-primary`, `text-error`). Color de entidad: `wi-accent-picker` y `[wiAccent]` (id de paleta). Sin hex y sin clases Tailwind armadas (`bg-${x}`).
 8. Toast y tabs necesitan sus CSS además de `tokens.css` (`requires` de la ficha).
 
 ## Si hay dos piezas parecidas

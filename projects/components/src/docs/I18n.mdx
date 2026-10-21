@@ -36,10 +36,10 @@ Hay **dos canales**. Ambos los rellena la app con su motor i18n (Transloco, ngx-
 └─────────────────────────────────────────────────────────────┘
 ```
 
-| Canal | Qué | Dónde se configura | Ejemplo |
-| ----- | --- | ------------------ | ------- |
+| Canal        | Qué                                                                 | Dónde se configura                                                                               | Ejemplo                                                                                                                        |
+| ------------ | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
 | **Provider** | Labels de chrome reutilizados por todos los componentes del dominio | `app.config.ts` → `provideWiCalendarI18n` / `provideWiDataDisplayI18n` / `provideWiOverlaysI18n` | Meses, “Mes anterior”, “Cerrar” (dialog), “Cerrar notificación” / “Notificaciones” (toast), “Anterior/Siguiente” de paginación |
-| **Input** | Copy de **esta** instancia en pantalla | Template / binding | `placeholder`, `clearLabel`, `ariaLabel`, cabeceras de columna, título del dialog |
+| **Input**    | Copy de **esta** instancia en pantalla                              | Template / binding                                                                               | `placeholder`, `clearLabel`, `ariaLabel`, cabeceras de columna, título del dialog                                              |
 
 **Regla práctica**
 
@@ -57,11 +57,11 @@ Las apps Wiloc ya usan Transloco. **No dupliques** ES/EN en TypeScript: el chrom
 
 ### Dónde va cada cosa
 
-| Qué | Dónde | No |
-| --- | ----- | -- |
-| Claves `wi.calendar` / `wi.table` / `wi.overlays` | `src/assets/i18n/es.json` y `en.json` (los JSON que ya carga Transloco) | No crear una carpeta aparte ni meter `.ts` ahí |
-| Factories `create*I18n` + `provideAppWiI18n()` | `src/app/locale.ts` (o similar) | No pongas este archivo en `assets/i18n/` |
-| Copy de pantalla (placeholder, título de dialog, cabeceras) | Template: `{{ 'clave' \| transloco }}` | No va en `provideWi*I18n` |
+| Qué                                                         | Dónde                                                                   | No                                             |
+| ----------------------------------------------------------- | ----------------------------------------------------------------------- | ---------------------------------------------- |
+| Claves `wi.calendar` / `wi.table` / `wi.overlays`           | `src/assets/i18n/es.json` y `en.json` (los JSON que ya carga Transloco) | No crear una carpeta aparte ni meter `.ts` ahí |
+| Factories `create*I18n` + `provideAppWiI18n()`              | `src/app/locale.ts` (o similar)                                         | No pongas este archivo en `assets/i18n/`       |
+| Copy de pantalla (placeholder, título de dialog, cabeceras) | Template: `{{ 'clave' \| transloco }}`                                  | No va en `provideWi*I18n`                      |
 
 `assets/i18n` solo sirve JSON. Transloco no ejecuta TypeScript.
 
@@ -75,7 +75,20 @@ Añade este árbol a los JSON existentes (no sustituyas el resto del diccionario
 {
   "wi": {
     "calendar": {
-      "months": ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+      "months": [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre"
+      ],
       "weekdaysShort": ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sá"],
       "weekdaysLong": ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
       "previous": "Mes anterior",
@@ -131,10 +144,7 @@ El import de Transloco es el de la app (`@jsverse/transloco` o `@ngneat/transloc
 ```ts
 import { ENVIRONMENT_INITIALIZER, inject, type Provider } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
-import {
-  provideWiDataDisplayI18n,
-  type WiDataDisplayI18n,
-} from '@wldeveloperapps/ui/data-display';
+import { provideWiDataDisplayI18n, type WiDataDisplayI18n } from '@wldeveloperapps/ui/data-display';
 import {
   provideWiCalendarI18n,
   type WiCalendarI18n,
@@ -239,10 +249,7 @@ function createOverlaysI18n(): Partial<WiOverlaysI18n> {
 import { provideAppWiI18n } from './locale';
 
 export const appConfig: ApplicationConfig = {
-  providers: [
-    provideTransloco({ /* config existente de la app */ }),
-    provideAppWiI18n(),
-  ],
+  providers: [provideTransloco({/* config existente de la app */}), provideAppWiI18n()],
 };
 ```
 
@@ -307,7 +314,8 @@ export function createCalendarI18n(): Partial<WiCalendarI18n> {
     labelWeekday: (i) =>
       (appLocale() === 'es'
         ? ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
-        : ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'])[i % 7] ?? '',
+        : ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'])[i % 7] ??
+      '',
     labelPrevious: () => (appLocale() === 'es' ? 'Mes anterior' : 'Previous month'),
     labelNext: () => (appLocale() === 'es' ? 'Mes siguiente' : 'Next month'),
     hourPlaceholder: () => 'HH',
@@ -380,22 +388,23 @@ Con hora:
 
 ### Solo inputs / proyección (sin provider propio)
 
-| Componente | Labels vía input / contenido |
-| ---------- | ---------------------------- |
-| `wi-input` | `placeholder`, `ariaLabel`, hint/error + `ariaDescribedBy` |
-| `wi-select` | `placeholder`, `emptyText`, `clearLabel`, `removeChipLabel`, `ariaLabel` |
-| `wi-listbox` | `emptyText`, `ariaLabel` / `ariaLabelledBy` |
-| `wi-checkbox` / `wi-switch` | `ariaLabel` / label wrapping |
-| `button[wiButton]` | proyección; icon-only → `ariaLabel` |
-| `wi-tabs` | texto dentro de `button[wiTabsTrigger]` y del panel |
-| `wi-breadcrumb` | `items[].label`, `ariaLabel` |
+| Componente                  | Labels vía input / contenido                                             |
+| --------------------------- | ------------------------------------------------------------------------ |
+| `wi-input`                  | `placeholder`, `ariaLabel`, hint/error + `ariaDescribedBy`               |
+| `wi-select`                 | `placeholder`, `emptyText`, `clearLabel`, `removeChipLabel`, `ariaLabel` |
+| `wi-listbox`                | `emptyText`, `ariaLabel` / `ariaLabelledBy`                              |
+| `wi-checkbox` / `wi-switch` | `ariaLabel` / label wrapping                                             |
+| `wi-accent-picker`          | `ariaLabel` / `ariaLabelledBy`; `accentLabels` (nombre de cada muestra)  |
+| `button[wiButton]`          | proyección; icon-only → `ariaLabel`                                      |
+| `wi-tabs`                   | texto dentro de `button[wiTabsTrigger]` y del panel                      |
+| `wi-breadcrumb`             | `items[].label`, `ariaLabel`                                             |
 
 ### `wi-datepicker` / `wi-date-range`
 
-| Qué | Canal |
-| --- | ----- |
-| Placeholder, clear, abrir calendario, `timeLabel`, aria | **Inputs** |
-| Meses, días, prev/next, placeholders HH/MM | **`provideWiCalendarI18n`** |
+| Qué                                                     | Canal                       |
+| ------------------------------------------------------- | --------------------------- |
+| Placeholder, clear, abrir calendario, `timeLabel`, aria | **Inputs**                  |
+| Meses, días, prev/next, placeholders HH/MM              | **`provideWiCalendarI18n`** |
 
 `wi-date-range` añade `startPlaceholder` / `endPlaceholder` / `startAriaLabel` / `endAriaLabel` (también inputs).
 
@@ -403,41 +412,37 @@ Demo: **Forms → WiDatepicker** + toolbar **Locale**.
 
 ### `wi-table` / paginación / columnas
 
-| Qué | Canal |
-| --- | ----- |
-| Vacío, paginación, filtros, operadores, “Columnas”, expand compacto | **`provideWiDataDisplayI18n`** |
-| Override puntual | inputs opcionales (`emptyMessage`, `previousLabel`, …) |
-| Cabeceras y options de filtro | `WiColumnDef` (app) |
+| Qué                                                                 | Canal                                                  |
+| ------------------------------------------------------------------- | ------------------------------------------------------ |
+| Vacío, paginación, filtros, operadores, “Columnas”, expand compacto | **`provideWiDataDisplayI18n`**                         |
+| Override puntual                                                    | inputs opcionales (`emptyMessage`, `previousLabel`, …) |
+| Cabeceras y options de filtro                                       | `WiColumnDef` (app)                                    |
 
 ### `wi-dialog`
 
-| Qué | Canal |
-| --- | ----- |
-| Título, descripción, acciones | **Proyección** (`wi-dialog-title`, …) |
-| Aria del botón X | **`provideWiOverlaysI18n`** (`dialogCloseLabel`) o input `closeLabel` |
+| Qué                           | Canal                                                                 |
+| ----------------------------- | --------------------------------------------------------------------- |
+| Título, descripción, acciones | **Proyección** (`wi-dialog-title`, …)                                 |
+| Aria del botón X              | **`provideWiOverlaysI18n`** (`dialogCloseLabel`) o input `closeLabel` |
 
 ### `wi-toast`
 
-| Qué | Canal |
-| --- | ----- |
-| Título, descripción, action/cancel, promise | **API** (`wiToast` / `WiToast` — la app) |
-| Aria botón cerrar / región | **`provideWiOverlaysI18n`** (`toastCloseLabel`, `toastRegionLabel`) |
+| Qué                                         | Canal                                                               |
+| ------------------------------------------- | ------------------------------------------------------------------- |
+| Título, descripción, action/cancel, promise | **API** (`wiToast` / `WiToast` — la app)                            |
+| Aria botón cerrar / región                  | **`provideWiOverlaysI18n`** (`toastCloseLabel`, `toastRegionLabel`) |
 
 Demo: **Overlays → WiToast** (Canvas) + toolbar **Locale**.
 
 ### `wi-breadcrumb`
 
-| Qué | Canal |
-| --- | ----- |
+| Qué                   | Canal                                   |
+| --------------------- | --------------------------------------- |
 | Labels, rutas, iconos | **`items`** (`label`, `href?`, `icon?`) |
-| Nombre del landmark | **Input** `ariaLabel` |
+| Nombre del landmark   | **Input** `ariaLabel`                   |
 
 ```html
-<wi-breadcrumb
-  [items]="crumbs"
-  [ariaLabel]="t('breadcrumb.aria')"
-  (itemClick)="onCrumb($event)"
-/>
+<wi-breadcrumb [items]="crumbs" [ariaLabel]="t('breadcrumb.aria')" (itemClick)="onCrumb($event)" />
 ```
 
 `crumbs[].label` y `ariaLabel` salen del i18n de la app; la librería no impone copy.
@@ -455,8 +460,18 @@ import { provideWiCalendarI18n } from '@wldeveloperapps/ui/forms';
 import type { WiMonthLabels } from '@wldeveloperapps/ui/forms';
 
 const MONTHS_ES: WiMonthLabels = [
-  'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-  'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre',
+  'Enero',
+  'Febrero',
+  'Marzo',
+  'Abril',
+  'Mayo',
+  'Junio',
+  'Julio',
+  'Agosto',
+  'Septiembre',
+  'Octubre',
+  'Noviembre',
+  'Diciembre',
 ];
 
 provideWiCalendarI18n({
@@ -537,11 +552,11 @@ Campos opcionales (`Partial<WiOverlaysI18n>`): `dialogCloseLabel`, `confirmCance
 <wi-tabs [(value)]="activeTabId">
   <wi-tabs-list>
     @for (tab of tabs; track tab.id) {
-      <button type="button" [wiTabsTrigger]="tab.id">{{ tab.label }}</button>
+    <button type="button" [wiTabsTrigger]="tab.id">{{ tab.label }}</button>
     }
   </wi-tabs-list>
   @for (tab of tabs; track tab.id) {
-    <div [wiTabsContent]="tab.id">{{ tab.body }}</div>
+  <div [wiTabsContent]="tab.id">{{ tab.body }}</div>
   }
 </wi-tabs>
 ```

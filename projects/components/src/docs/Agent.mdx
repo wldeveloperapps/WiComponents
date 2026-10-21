@@ -19,10 +19,10 @@ El MCP tiene el catálogo. Estas dos piezas obligan al agente a consultarlo ante
 
 Los ficheros canónicos viven en `packages/wiloc-ui-mcp/skill/` y se publican dentro de `@wldeveloperapps/ui-mcp` (carpeta `skill/`). Cópialos a la app; no los reescribas.
 
-| Origen en el paquete | Destino en la app |
-| --- | --- |
-| `skill/SKILL.md` | `.agents/skills/wiloc-ui/SKILL.md` |
-| `skill/wiloc-ui.mdc` | `.cursor/rules/wiloc-ui.mdc` |
+| Origen en el paquete | Destino en la app                  |
+| -------------------- | ---------------------------------- |
+| `skill/SKILL.md`     | `.agents/skills/wiloc-ui/SKILL.md` |
+| `skill/wiloc-ui.mdc` | `.cursor/rules/wiloc-ui.mdc`       |
 
 La rule salta al tocar una plantilla o un componente. El skill se carga cuando el chat pide una pantalla, un formulario, un diálogo, una tabla o estilos.
 
@@ -61,7 +61,7 @@ Si el MCP no está conectado, no inventes la API. Para y pide configurar `@wldev
 4. Icono de interfaz: `<wi-icon name="...">` con ese name en `provideWiIcons`. `src` solo para un SVG de la app o una URL http(s), con `provideHttpClient()`.
 5. Label, error y hint los compone la app (`<label>`, `role="alert"`, `aria-describedby`), salvo que la ficha tenga una parte para eso.
 6. Confirmación, menú, popover y diálogo se abren como dice la ficha (trigger + plantilla, o el servicio si lo exporta).
-7. Color con tokens (`bg-primary`, `text-error`). Sin hex y sin clases Tailwind armadas (`bg-${x}`).
+7. Color con tokens (`bg-primary`, `text-error`). Color de entidad: `wi-accent-picker` y `[wiAccent]` (id de paleta). Sin hex y sin clases Tailwind armadas (`bg-${x}`).
 8. Toast y tabs necesitan sus CSS además de `tokens.css` (`requires` de la ficha).
 
 ## Si hay dos piezas parecidas
