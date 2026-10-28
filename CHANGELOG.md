@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.0
+
+### Added
+
+- `wi-accent-picker` y `[wiAccent]` en `@wldeveloperapps/ui/forms`. El valor es un id de paleta (`WiAccent`: blue, teal, green, amber, orange, red, purple, pink, slate), no un hex. Tokens `--wi-color-accent-*` (color, on-accent, container, on-accent-container) en `:root` y `.wi-dark`. La app puede redefinirlos en su CSS.
+- `wi-color-picker` en `@wldeveloperapps/ui/forms`. Guarda un hex opaco `#rrggbb` (`isWiColor`, `normalizeWiColor`). No sigue `.wi-dark` y no sustituye al acento. El panel reposiciona al hacer scroll, igual que el datepicker. El cuentagotas usa EyeDropper (Chromium, https o localhost); si el navegador no lo tiene, el botón no se pinta.
+- Catálogo MCP: fichas `accent-picker` y `color-picker`. Las tools del catálogo declaran `readOnlyHint`, así Cursor las ve en modo Ask. El paquete incluye la skill de agente `wiloc-ui`.
+
 ## 1.0.1
 
 ### Fixed

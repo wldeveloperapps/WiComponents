@@ -2,7 +2,7 @@
 
 Librería de componentes UI Angular (Wiloc). API pública `Wi`; Spartan es interno.
 
-Corte actual: **`1.0.1`**.
+Corte actual: **`1.1.0`**.
 
 ## Instalación
 
@@ -53,7 +53,7 @@ $env:NODE_AUTH_TOKEN = gh auth token
 Después:
 
 ```powershell
-pnpm add @wldeveloperapps/ui@1.0.1
+pnpm add @wldeveloperapps/ui@1.1.0
 ```
 
 Docs: [Instalación](https://github.com/wldeveloperapps/WiComponents) · entry points `@wldeveloperapps/ui/button`, `/forms`, `/data-display`, `/navigation`, `/overlays`, `/icon`, `/core`.

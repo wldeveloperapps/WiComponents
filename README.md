@@ -157,12 +157,12 @@ Las aplicaciones Wiloc deben consumir `@wldeveloperapps/ui`, no Spartan. El serv
 ### Estado
 
 ```text
-Estado: usable en 1.0.1
+Estado: usable en 1.1.0
 Paquete: @wldeveloperapps/ui-mcp
 Ubicación: packages/wiloc-ui-mcp/
 ```
 
-Alinear la versión del MCP con la de `@wldeveloperapps/ui`. En este corte ambas son `1.0.1`.
+Alinear la versión del MCP con la de `@wldeveloperapps/ui`. En este corte ambas son `1.1.0`.
 
 ### Tools
 
@@ -395,7 +395,7 @@ Composiciones orientadas a casos de uso frecuentes:
 
 ## Componentes iniciales
 
-La demanda viva y el estado de cada capacidad están en [`docs/coverage-inventory.md`](docs/coverage-inventory.md). El corte actual es `1.0.1`.
+La demanda viva y el estado de cada capacidad están en [`docs/coverage-inventory.md`](docs/coverage-inventory.md). El corte actual es `1.1.0`.
 
 ### Fase 1 (histórico / roadmap)
 
@@ -809,7 +809,7 @@ No se deben incluir varias copias de Angular dentro de la aplicación consumidor
 
 El paquete se publica con scope `@wldeveloperapps` en **GitHub Packages** (`https://npm.pkg.github.com`). Un commit no publica. La CI (`/.github/workflows/ci.yml`) corre en pull requests y en pushes a `main` (lint, tests y build) y no publica. Publica solo el push de un tag `v{version}`, o **Run workflow** de `/.github/workflows/publish.yml` lanzado desde `main`.
 
-Corte actual: **`1.0.1`**. Tag: **`v1.0.1`**. Dist-tag: **`latest`**. Una prerelease (`-alpha.N`, `-beta.N`, `-rc.N`) usa el dist-tag `alpha`, `beta` o `rc`.
+Corte actual: **`1.1.0`**. Tag: **`v1.1.0`**. Dist-tag: **`latest`**. Una prerelease (`-alpha.N`, `-beta.N`, `-rc.N`) usa el dist-tag `alpha`, `beta` o `rc`.
 
 No ejecutar `pnpm publish` a mano. Lo hace `pnpm publish:github` dentro del workflow.
 
@@ -836,8 +836,8 @@ El cambio de versión va en una rama y entra por pull request. Ahí no se crea e
 
 Parar si falla cualquiera:
 
-- Las versiones de la lista anterior coinciden con `1.0.1` y con el tag `v1.0.1`.
-- `CHANGELOG.md` tiene la entrada de `1.0.1` y la clasificación cuadra con el diff público.
+- Las versiones de la lista anterior coinciden con `1.1.0` y con el tag `v1.1.0`.
+- `CHANGELOG.md` tiene la entrada de `1.1.0` y la clasificación cuadra con el diff público.
 - El commit que se va a etiquetar ya está en `main`.
 - Pasan `pnpm lint`, `pnpm test`, `pnpm test:mcp`, `pnpm build:lib`, `pnpm build:mcp` y `pnpm pack:lib`. El `.tgz` se prueba en `apps/e2e-consumer`.
 
@@ -848,11 +848,11 @@ Solo cuando el commit de la versión ya está en `main`:
 ```bash
 git checkout main
 git pull
-git tag v1.0.1
-git push origin v1.0.1
+git tag v1.1.0
+git push origin v1.1.0
 ```
 
-El nombre del tag es `v` más la versión de los paquetes. `scripts/publish-github.mjs` rechaza el tag si no coincide (`v1.0.1` con `1.0.1`).
+El nombre del tag es `v` más la versión de los paquetes. `scripts/publish-github.mjs` rechaza el tag si no coincide (`v1.1.0` con `1.1.0`).
 
 ### 5. Qué ejecuta el workflow
 
@@ -916,7 +916,7 @@ $env:NODE_AUTH_TOKEN = gh auth token
 Después:
 
 ```powershell
-pnpm add @wldeveloperapps/ui@1.0.1
+pnpm add @wldeveloperapps/ui@1.1.0
 ```
 
 ---
@@ -1126,10 +1126,10 @@ Cuando se adapte código procedente de Spartan u otras librerías:
 
 ## Estado del proyecto
 
-Corte `1.0.1`. La API pública sigue Semantic Versioning.
+Corte `1.1.0`. La API pública sigue Semantic Versioning.
 
 ```text
-Versión actual: 1.0.1
+Versión actual: 1.1.0
 Estado: estable
 ```
 
